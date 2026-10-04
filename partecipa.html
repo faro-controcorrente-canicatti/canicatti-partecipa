@@ -1,7 +1,173 @@
-<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Partecipa</title><link rel="stylesheet" href="style.css"></head><body><header class="top"><div class="topin"><img class="mini" src="assets/logo-faro.jpg"><b>Partecipa</b><a class="back" href="index.html">Home</a></div></header><main class="wrap">
-<div class="notice"><strong>Prima adotti, poi documenti.</strong>La piattaforma non nasce per raccogliere segnalazioni anonime occasionali: la partecipazione è legata alla cura continuativa di una via o di un quartiere.</div>
-<form id="f" class="card"><label>Come vuoi partecipare?</label><select required><option value="">Scegli</option><option>Adotto una via</option><option>Adotto un quartiere</option></select>
-<label>Via o quartiere</label><input required placeholder="Es. Via Roma / Borgalino"><label>Nome e cognome</label><input required placeholder="Nome e cognome"><label>Email</label><input type="email" required placeholder="nome@email.it"><label>Telefono</label><input type="tel" placeholder="Facoltativo">
-<label>Prima osservazione</label><textarea placeholder="Descrivi in modo breve e concreto ciò che hai osservato."></textarea><label>Foto</label><input type="file" accept="image/*" multiple><div class="help">Nella versione collegata a Supabase le foto verranno archiviate insieme alla pratica.</div>
-<div class="check"><input id="c" type="checkbox" required><label for="c" style="margin:0;font-weight:500">Ho capito che il Faro di Canicattì raccoglie, verifica e può trasmettere la documentazione, ma non è l'ente responsabile della soluzione né può garantirla.</label></div>
-<button class="btn" type="submit">Invia richiesta di partecipazione</button></form><div id="msg"></div></main><footer><img src="assets/logo-faro.jpg">Un progetto di cittadinanza attiva del Faro di Canicattì<br><span class="legal">La piattaforma documenta e inoltra: gli interventi restano di competenza degli enti responsabili.</span></footer><script>document.getElementById('f').addEventListener('submit',e=>{e.preventDefault();document.getElementById('msg').innerHTML='<div class="notice"><strong>Demo pronta.</strong>Il modulo funziona. Nel passaggio Supabase collegheremo salvataggio, foto e pannello di verifica senza cambiare questa schermata.</div>';window.scrollTo(0,document.body.scrollHeight)})</script></body></html>
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Fai una segnalazione | Canicattì Partecipa</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<section class="hero">
+  <div class="hero-in">
+    <img class="brand" src="assets/logo-faro.jpg" alt="Faro di Canicattì">
+    <h1>Fai una segnalazione</h1>
+    <p>Aiutaci a documentare un problema della città.</p>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <a class="btn alt" href="index.html">← Torna alla pagina principale</a>
+
+  <section class="notice">
+    <strong>La segnalazione è aperta a tutti.</strong>
+    Non devi adottare una via e non devi aderire al progetto.
+    Inserisci informazioni precise e, quando possibile, allega fotografie.
+  </section>
+
+  <section class="card">
+
+    <h2>📍 Dove si trova il problema?</h2>
+
+    <form>
+
+      <label for="zona"><strong>Via, piazza o zona *</strong></label>
+      <input
+        type="text"
+        id="zona"
+        name="zona"
+        placeholder="Es. Via Pirandello, Piazza Roma..."
+        required
+      >
+
+      <label for="civico"><strong>Numero civico o riferimento</strong></label>
+      <input
+        type="text"
+        id="civico"
+        name="civico"
+        placeholder="Es. davanti al civico 25, vicino alla scuola..."
+      >
+
+      <label for="categoria"><strong>Tipo di problema *</strong></label>
+      <select id="categoria" name="categoria" required>
+        <option value="">Seleziona una categoria</option>
+        <option>Perdita d'acqua</option>
+        <option>Strada o marciapiede</option>
+        <option>Rifiuti e sporcizia</option>
+        <option>Illuminazione pubblica</option>
+        <option>Verde pubblico</option>
+        <option>Segnaletica stradale</option>
+        <option>Barriere architettoniche</option>
+        <option>Fognature e tombini</option>
+        <option>Degrado urbano</option>
+        <option>Altro</option>
+      </select>
+
+      <label for="descrizione"><strong>Descrivi il problema *</strong></label>
+      <textarea
+        id="descrizione"
+        name="descrizione"
+        rows="6"
+        placeholder="Descrivi in modo semplice cosa hai riscontrato..."
+        required
+      ></textarea>
+
+      <label for="data"><strong>Da quando hai notato il problema?</strong></label>
+      <input type="date" id="data" name="data">
+
+      <label for="foto"><strong>Foto del problema</strong></label>
+      <input
+        type="file"
+        id="foto"
+        name="foto"
+        accept="image/*"
+        multiple
+      >
+
+      <p class="legal">
+        Se possibile, allega una o più fotografie che permettano
+        di comprendere chiaramente il problema. Evita di fotografare
+        persone riconoscibili quando non è necessario.
+      </p>
+
+      <hr>
+
+      <h2>👤 I tuoi dati</h2>
+
+      <p>
+        I dati di contatto servono per poter chiedere eventuali
+        chiarimenti sulla segnalazione e non saranno pubblicati.
+      </p>
+
+      <label for="nome"><strong>Nome e cognome *</strong></label>
+      <input
+        type="text"
+        id="nome"
+        name="nome"
+        required
+      >
+
+      <label for="telefono"><strong>Telefono</strong></label>
+      <input
+        type="tel"
+        id="telefono"
+        name="telefono"
+        placeholder="Numero di telefono"
+      >
+
+      <label for="email"><strong>Email *</strong></label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="nome@email.it"
+        required
+      >
+
+      <label>
+        <input type="checkbox" required>
+        Confermo che le informazioni inserite corrispondono,
+        per quanto a mia conoscenza, a quanto riscontrato.
+      </label>
+
+      <br><br>
+
+      <label>
+        <input type="checkbox" required>
+        Acconsento al trattamento dei dati forniti esclusivamente
+        per la gestione della segnalazione.
+      </label>
+
+      <br><br>
+
+      <button class="btn blue" type="submit">
+        Invia la segnalazione
+      </button>
+
+    </form>
+
+  </section>
+
+  <section class="notice">
+    <strong>Cosa succede dopo?</strong>
+    La segnalazione viene ricevuta, verificata e classificata.
+    Quando necessario potrà essere trasmessa all'ente competente.
+    Il fatto che una segnalazione venga raccolta
+    <b>non garantisce la risoluzione del problema</b>.
+  </section>
+
+</main>
+
+<footer>
+  <img src="assets/logo-faro.jpg" alt="Faro di Canicattì">
+  Canicattì Partecipa — Faro di Canicattì
+  <br>
+  <span class="legal">
+    Uno strumento di cittadinanza attiva al servizio della città.
+  </span>
+</footer>
+
+</body>
+</html>
