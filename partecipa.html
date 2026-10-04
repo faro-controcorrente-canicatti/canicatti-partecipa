@@ -33,7 +33,6 @@
     </p>
   </section>
 
-
   <section class="card">
 
     <h2>📍 Dove si trova il problema?</h2>
@@ -43,7 +42,9 @@
       nel modo più preciso possibile.
     </p>
 
-    <label for="luogo"><strong>Via / Piazza / Zona *</strong></label>
+    <label for="luogo">
+      <strong>Via / Piazza / Zona *</strong>
+    </label>
 
     <input
       type="text"
@@ -55,12 +56,13 @@
 
   </section>
 
-
   <section class="card">
 
     <h2>⚠️ Che tipo di problema vuoi segnalare?</h2>
 
-    <label for="categoria"><strong>Categoria *</strong></label>
+    <label for="categoria">
+      <strong>Categoria *</strong>
+    </label>
 
     <select id="categoria" name="categoria" required>
 
@@ -102,7 +104,6 @@
 
   </section>
 
-
   <section class="card">
 
     <h2>✏️ Descrivi il problema</h2>
@@ -126,7 +127,6 @@
     ></textarea>
 
   </section>
-
 
   <section class="card">
 
@@ -153,7 +153,6 @@
     </p>
 
   </section>
-
 
   <section class="card">
 
@@ -205,7 +204,6 @@
 
   </section>
 
-
   <section class="notice">
 
     <strong>Prima di inviare</strong>
@@ -221,7 +219,6 @@
     </p>
 
   </section>
-
 
   <section class="card">
 
@@ -243,7 +240,6 @@
 
   </section>
 
-
   <section class="card">
 
     <h2>Vuoi partecipare attivamente?</h2>
@@ -260,13 +256,11 @@
 
   </section>
 
-
   <a class="btn blue" href="index.html">
     Torna alla pagina principale
   </a>
 
 </main>
-
 
 <footer>
 
@@ -283,7 +277,6 @@
 
 </footer>
 
-
 <script>
 
 const SUPABASE_URL =
@@ -292,11 +285,9 @@ const SUPABASE_URL =
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inprd3d4eG1iaWt4cHplZGNtanh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NDM5NTAsImV4cCI6MjEwNjUxOTk1MH0.HzTRtLCAf87qicBM1TD06Wb_l7pK66azttTuGKFezmo";
 
-
 document
   .getElementById("inviaSegnalazione")
   .addEventListener("click", inviaSegnalazione);
-
 
 async function inviaSegnalazione() {
 
@@ -325,10 +316,6 @@ async function inviaSegnalazione() {
     document.getElementById("inviaSegnalazione");
 
 
-  /*
-   * CONTROLLO CAMPI OBBLIGATORI
-   */
-
   if (
     !luogo ||
     !categoria ||
@@ -344,10 +331,6 @@ async function inviaSegnalazione() {
   }
 
 
-  /*
-   * CONTROLLO EMAIL
-   */
-
   const emailValida =
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -360,35 +343,12 @@ async function inviaSegnalazione() {
   }
 
 
-  /*
-   * BLOCCO TEMPORANEO DEL PULSANTE
-   */
-
   pulsante.disabled = true;
   pulsante.textContent = "Invio in corso...";
 
   messaggio.innerHTML =
     "⏳ Invio della segnalazione in corso...";
 
-
-  /*
-   * DATI DA INVIARE A SUPABASE
-   *
-   * La tabella utilizza:
-   *
-   * tipo
-   * indirizzo
-   * descrizione
-   * nome
-   * contatto
-   * foto_url
-   * stato
-   * categoria
-   * telefono
-   * email
-   *
-   * id e data_invio vengono creati automaticamente.
-   */
 
   const dati = {
 
@@ -444,28 +404,27 @@ async function inviaSegnalazione() {
     );
 
 
-    /*
-     * ERRORE RESTITUITO DA SUPABASE
-     */
-
     if (!risposta.ok) {
 
       let dettaglioErrore = "";
 
       try {
 
-        const errore =
-          await risposta.json();
+        const errore = await risposta.json();
 
         dettaglioErrore =
           errore.message ||
           errore.details ||
+          errore.hint ||
           JSON.stringify(errore);
 
       } catch (e) {
 
-        dettaglioErrore =
-          await risposta.text();
+        try {
+          dettaglioErrore = await risposta.text();
+        } catch (e2) {
+          dettaglioErrore = "Dettaglio non disponibile";
+        }
 
       }
 
@@ -478,52 +437,37 @@ async function inviaSegnalazione() {
 
 
       messaggio.innerHTML =
-        "❌ <strong>Non è stato possibile inviare la segnalazione.</strong><br>" +
-        "Errore " +
-        risposta.status +
-        ". Riprova tra qualche momento.";
+        "❌ <strong>Non è stato possibile inviare la segnalazione.</strong><br><br>" +
+        "<strong>Errore " + risposta.status + "</strong><br>" +
+        "<small>" + dettaglioErrore + "</small>";
 
       return;
 
     }
 
 
-    /*
-     * INVIO RIUSCITO
-     */
-
     messaggio.innerHTML =
-      "✅ <strong>Segnalazione inviata correttamente!</strong><br>" +
+      "✅ <strong>Segnalazione inviata correttamente!</strong><br><br>" +
       "Grazie per la collaborazione. " +
       "La segnalazione sarà verificata prima dell'eventuale inoltro all'ente competente.";
 
 
-    /*
-     * PULIZIA DEI CAMPI
-     */
-
     document.getElementById("luogo").value = "";
-
     document.getElementById("categoria").value = "";
-
     document.getElementById("descrizione").value = "";
-
     document.getElementById("nome").value = "";
-
     document.getElementById("telefono").value = "";
-
     document.getElementById("email").value = "";
-
     document.getElementById("foto").value = "";
 
+  }
 
-  } catch (errore) {
+  catch (errore) {
 
     console.error(
       "Errore di connessione:",
       errore
     );
-
 
     messaggio.innerHTML =
       "❌ <strong>Problema di connessione.</strong><br>" +
