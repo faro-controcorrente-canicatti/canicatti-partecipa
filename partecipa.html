@@ -42,9 +42,7 @@
       nel modo più preciso possibile.
     </p>
 
-    <label for="luogo">
-      <strong>Via / Piazza / Zona *</strong>
-    </label>
+    <label for="luogo"><strong>Via / Piazza / Zona *</strong></label>
 
     <input
       type="text"
@@ -60,46 +58,18 @@
 
     <h2>⚠️ Che tipo di problema vuoi segnalare?</h2>
 
-    <label for="categoria">
-      <strong>Categoria *</strong>
-    </label>
+    <label for="categoria"><strong>Categoria *</strong></label>
 
     <select id="categoria" name="categoria" required>
-
       <option value="">Seleziona una categoria</option>
-
-      <option value="strade">
-        Buche, strade e marciapiedi
-      </option>
-
-      <option value="acqua">
-        Perdite d'acqua e problemi idrici
-      </option>
-
-      <option value="rifiuti">
-        Rifiuti e pulizia
-      </option>
-
-      <option value="illuminazione">
-        Illuminazione pubblica
-      </option>
-
-      <option value="verde">
-        Verde pubblico
-      </option>
-
-      <option value="segnaletica">
-        Segnaletica e sicurezza stradale
-      </option>
-
-      <option value="degrado">
-        Degrado urbano
-      </option>
-
-      <option value="altro">
-        Altro
-      </option>
-
+      <option value="strade">Buche, strade e marciapiedi</option>
+      <option value="acqua">Perdite d'acqua e problemi idrici</option>
+      <option value="rifiuti">Rifiuti e pulizia</option>
+      <option value="illuminazione">Illuminazione pubblica</option>
+      <option value="verde">Verde pubblico</option>
+      <option value="segnaletica">Segnaletica e sicurezza stradale</option>
+      <option value="degrado">Degrado urbano</option>
+      <option value="altro">Altro</option>
     </select>
 
   </section>
@@ -114,9 +84,7 @@
       servono informazioni utili per verificare la segnalazione.
     </p>
 
-    <label for="descrizione">
-      <strong>Descrizione *</strong>
-    </label>
+    <label for="descrizione"><strong>Descrizione *</strong></label>
 
     <textarea
       id="descrizione"
@@ -137,9 +105,7 @@
       Evita di fotografare persone riconoscibili quando non è necessario.
     </p>
 
-    <label for="foto">
-      <strong>Allega una foto</strong>
-    </label>
+    <label for="foto"><strong>Allega una foto</strong></label>
 
     <input
       type="file"
@@ -147,10 +113,6 @@
       name="foto"
       accept="image/*"
     >
-
-    <p style="font-size:0.9em; margin-top:12px;">
-      Il caricamento delle fotografie sarà attivato nella prossima fase.
-    </p>
 
   </section>
 
@@ -163,9 +125,7 @@
       di chiarimenti sulla segnalazione.
     </p>
 
-    <label for="nome">
-      <strong>Nome e cognome *</strong>
-    </label>
+    <label for="nome"><strong>Nome e cognome *</strong></label>
 
     <input
       type="text"
@@ -177,9 +137,7 @@
 
     <br><br>
 
-    <label for="telefono">
-      <strong>Telefono</strong>
-    </label>
+    <label for="telefono"><strong>Telefono</strong></label>
 
     <input
       type="tel"
@@ -190,9 +148,7 @@
 
     <br><br>
 
-    <label for="email">
-      <strong>Email *</strong>
-    </label>
+    <label for="email"><strong>Email *</strong></label>
 
     <input
       type="email"
@@ -228,11 +184,7 @@
       Controlla che luogo, descrizione e dati inseriti siano corretti.
     </p>
 
-    <button
-      class="btn"
-      type="button"
-      id="inviaSegnalazione"
-    >
+    <button class="btn" type="button" id="inviaSegnalazione">
       Invia segnalazione
     </button>
 
@@ -316,6 +268,8 @@ async function inviaSegnalazione() {
     document.getElementById("inviaSegnalazione");
 
 
+  /* CONTROLLO CAMPI OBBLIGATORI */
+
   if (
     !luogo ||
     !categoria ||
@@ -325,11 +279,13 @@ async function inviaSegnalazione() {
   ) {
 
     messaggio.innerHTML =
-      "⚠️ <strong>Compila tutti i campi obbligatori prima di procedere.</strong>";
+      "⚠️ <strong>Compila tutti i campi obbligatori prima di inviare.</strong>";
 
     return;
   }
 
+
+  /* CONTROLLO EMAIL */
 
   const emailValida =
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -343,6 +299,8 @@ async function inviaSegnalazione() {
   }
 
 
+  /* PREPARAZIONE INVIO */
+
   pulsante.disabled = true;
   pulsante.textContent = "Invio in corso...";
 
@@ -352,7 +310,7 @@ async function inviaSegnalazione() {
 
   const dati = {
 
-    tipo: "permanente",
+    tipo: "segnalazione",
 
     indirizzo: luogo,
 
@@ -360,7 +318,8 @@ async function inviaSegnalazione() {
 
     nome: nome,
 
-    contatto: telefono || email,
+    contatto:
+      telefono || email,
 
     foto_url: null,
 
@@ -368,7 +327,8 @@ async function inviaSegnalazione() {
 
     categoria: categoria,
 
-    telefono: telefono || null,
+    telefono:
+      telefono || null,
 
     email: email
 
@@ -378,17 +338,20 @@ async function inviaSegnalazione() {
   try {
 
     const risposta = await fetch(
-      SUPABASE_URL + "/rest/v1/segnalazioni_cittadini",
+      SUPABASE_URL +
+      "/rest/v1/segnalazioni_cittadini",
       {
 
         method: "POST",
 
         headers: {
 
-          "apikey": SUPABASE_ANON_KEY,
+          "apikey":
+            SUPABASE_ANON_KEY,
 
           "Authorization":
-            "Bearer " + SUPABASE_ANON_KEY,
+            "Bearer " +
+            SUPABASE_ANON_KEY,
 
           "Content-Type":
             "application/json",
@@ -398,7 +361,8 @@ async function inviaSegnalazione() {
 
         },
 
-        body: JSON.stringify(dati)
+        body:
+          JSON.stringify(dati)
 
       }
     );
@@ -406,45 +370,20 @@ async function inviaSegnalazione() {
 
     if (!risposta.ok) {
 
-      let dettaglioErrore = "";
+      const testoErrore =
+        await risposta.text();
 
-      try {
-
-        const errore = await risposta.json();
-
-        dettaglioErrore =
-          errore.message ||
-          errore.details ||
-          errore.hint ||
-          JSON.stringify(errore);
-
-      } catch (e) {
-
-        try {
-          dettaglioErrore = await risposta.text();
-        } catch (e2) {
-          dettaglioErrore = "Dettaglio non disponibile";
-        }
-
-      }
-
-
-      console.error(
-        "Errore Supabase:",
-        risposta.status,
-        dettaglioErrore
+      throw new Error(
+        "Errore " +
+        risposta.status +
+        ": " +
+        testoErrore
       );
-
-
-      messaggio.innerHTML =
-        "❌ <strong>Non è stato possibile inviare la segnalazione.</strong><br><br>" +
-        "<strong>Errore " + risposta.status + "</strong><br>" +
-        "<small>" + dettaglioErrore + "</small>";
-
-      return;
 
     }
 
+
+    /* INVIO RIUSCITO */
 
     messaggio.innerHTML =
       "✅ <strong>Segnalazione inviata correttamente!</strong><br><br>" +
@@ -452,30 +391,32 @@ async function inviaSegnalazione() {
       "La segnalazione sarà verificata prima dell'eventuale inoltro all'ente competente.";
 
 
+    /* SVUOTA I CAMPI */
+
     document.getElementById("luogo").value = "";
+
     document.getElementById("categoria").value = "";
+
     document.getElementById("descrizione").value = "";
+
     document.getElementById("nome").value = "";
+
     document.getElementById("telefono").value = "";
+
     document.getElementById("email").value = "";
+
     document.getElementById("foto").value = "";
 
-  }
 
-  catch (errore) {
+  } catch (errore) {
 
-    console.error(
-      "Errore di connessione:",
-      errore
-    );
+    console.error(errore);
 
     messaggio.innerHTML =
-      "❌ <strong>Problema di connessione.</strong><br>" +
-      "Controlla la connessione Internet e riprova.";
+      "❌ <strong>Non è stato possibile inviare la segnalazione.</strong><br><br>" +
+      errore.message;
 
-  }
-
-  finally {
+  } finally {
 
     pulsante.disabled = false;
 
