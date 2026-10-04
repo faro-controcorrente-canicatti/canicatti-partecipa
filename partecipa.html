@@ -111,12 +111,8 @@
       type="file"
       id="foto"
       name="foto"
-      accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
+      accept="image/*"
     >
-
-    <p style="font-size:0.9em; margin-top:10px;">
-      Formati immagine comuni supportati. Dimensione massima: 10 MB.
-    </p>
 
   </section>
 
@@ -241,144 +237,12 @@ const SUPABASE_URL =
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inprd3d4eG1iaWt4cHplZGNtanh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NDM5NTAsImV4cCI6MjEwNjUxOTk1MH0.HzTRtLCAf87qicBM1TD06Wb_l7pK66azttTuGKFezmo";
 
-const STORAGE_BUCKET = "segnalazioni-foto";
+const BUCKET_FOTO = "segnalazioni-foto";
+
 
 document
   .getElementById("inviaSegnalazione")
   .addEventListener("click", inviaSegnalazione);
-
-
-function creaNomeFile(file) {
-
-  let estensione = "";
-
-  if (file.name && file.name.includes(".")) {
-    estensione =
-      "." +
-      file.name
-        .split(".")
-        .pop()
-        .toLowerCase()
-        .replace(/[^a-z0-9]/g, "");
-  }
-
-  if (!estensione) {
-
-    const tipi = {
-      "image/jpeg": ".jpg",
-      "image/png": ".png",
-      "image/webp": ".webp",
-      "image/heic": ".heic",
-      "image/heif": ".heif"
-    };
-
-    estensione = tipi[file.type] || ".jpg";
-  }
-
-  const casuale =
-    Math.random()
-      .toString(36)
-      .substring(2, 10);
-
-  return (
-    Date.now() +
-    "-" +
-    casuale +
-    estensione
-  );
-}
-
-
-async function caricaFoto(file) {
-
-  if (!file) {
-    return null;
-  }
-
-  const dimensioneMassima =
-    10 * 1024 * 1024;
-
-  if (file.size > dimensioneMassima) {
-    throw new Error(
-      "La fotografia supera la dimensione massima di 10 MB."
-    );
-  }
-
-  if (
-    file.type &&
-    !file.type.startsWith("image/")
-  ) {
-    throw new Error(
-      "Il file selezionato non è un'immagine valida."
-    );
-  }
-
-  const nomeFile =
-    creaNomeFile(file);
-
-  const percorso =
-    "segnalazioni/" +
-    nomeFile;
-
-  const risposta =
-    await fetch(
-      SUPABASE_URL +
-      "/storage/v1/object/" +
-      STORAGE_BUCKET +
-      "/" +
-      percorso,
-      {
-        method: "POST",
-
-        headers: {
-
-          "apikey":
-            SUPABASE_ANON_KEY,
-
-          "Authorization":
-            "Bearer " +
-            SUPABASE_ANON_KEY,
-
-          "Content-Type":
-            file.type ||
-            "application/octet-stream",
-
-          "x-upsert":
-            "false"
-
-        },
-
-        body: file
-      }
-    );
-
-
-  if (!risposta.ok) {
-
-    const testoErrore =
-      await risposta.text();
-
-    throw new Error(
-      "Non è stato possibile caricare la fotografia. " +
-      "Errore " +
-      risposta.status +
-      ": " +
-      testoErrore
-    );
-  }
-
-
-  /*
-    Salviamo nel database il percorso dell'oggetto,
-    non un URL pubblico.
-
-    Il bucket può quindi rimanere privato.
-    Il pannello amministratore potrà successivamente
-    utilizzare questo percorso per visualizzare la foto.
-  */
-
-  return percorso;
-}
 
 
 async function inviaSegnalazione() {
@@ -447,66 +311,137 @@ async function inviaSegnalazione() {
   }
 
 
-  /* CONTROLLO FOTO */
+  /* CONTROLLO DIMENSIONE FOTO */
 
-  if (
-    foto &&
-    foto.size > 10 * 1024 * 1024
-  ) {
+  if (foto && foto.size > 10 * 1024 * 1024) {
 
     messaggio.innerHTML =
-      "⚠️ <strong>La fotografia è troppo grande.</strong><br><br>" +
-      "La dimensione massima consentita è 10 MB.";
+      "⚠️ <strong>La fotografia è troppo grande.</strong><br>" +
+      "Utilizza un'immagine inferiore a 10 MB.";
 
     return;
   }
 
 
-  /* PREPARAZIONE INVIO */
-
   pulsante.disabled = true;
-
-  pulsante.textContent =
-    "Invio in corso...";
+  pulsante.textContent = "Invio in corso...";
 
   messaggio.innerHTML =
-    foto
-      ? "⏳ Caricamento fotografia e invio della segnalazione..."
-      : "⏳ Invio della segnalazione in corso...";
+    "⏳ Invio della segnalazione in corso...";
+
+
+  let fotoUrl = null;
 
 
   try {
 
     /*
-      1. CARICAMENTO FOTO
+      ============================================
+      1. CARICAMENTO DELLA FOTO SU SUPABASE STORAGE
+      ============================================
     */
-
-    let fotoUrl = null;
 
     if (foto) {
 
-      fotoUrl =
-        await caricaFoto(foto);
+      messaggio.innerHTML =
+        "⏳ Caricamento della fotografia...";
+
+      const nomeOriginale =
+        foto.name || "foto.jpg";
+
+      const estensione =
+        nomeOriginale.includes(".")
+          ? nomeOriginale.split(".").pop().toLowerCase()
+          : "jpg";
+
+      const nomeFile =
+        "segnalazioni/" +
+        Date.now() +
+        "_" +
+        Math.random().toString(36).substring(2, 10) +
+        "." +
+        estensione;
+
+
+      const rispostaFoto = await fetch(
+        SUPABASE_URL +
+        "/storage/v1/object/" +
+        BUCKET_FOTO +
+        "/" +
+        nomeFile,
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "apikey":
+              SUPABASE_ANON_KEY,
+
+            "Authorization":
+              "Bearer " +
+              SUPABASE_ANON_KEY,
+
+            "Content-Type":
+              foto.type || "application/octet-stream",
+
+            "x-upsert":
+              "false"
+
+          },
+
+          body: foto
+
+        }
+      );
+
+
+      if (!rispostaFoto.ok) {
+
+        const erroreFoto =
+          await rispostaFoto.text();
+
+        throw new Error(
+          "Errore caricamento fotografia (" +
+          rispostaFoto.status +
+          "): " +
+          erroreFoto
+        );
+
+      }
+
+
+      /*
+        Salviamo nel database il percorso interno
+        del file nel bucket.
+
+        Non rendiamo pubblicamente leggibile il bucket.
+      */
+
+      fotoUrl = nomeFile;
+
     }
 
 
     /*
-      2. PREPARAZIONE DATI
+      ============================================
+      2. REGISTRAZIONE DELLA SEGNALAZIONE
+      ============================================
     */
+
+    messaggio.innerHTML =
+      "⏳ Registrazione della segnalazione...";
+
 
     const dati = {
 
-      tipo:
-        "segnalazione",
+      tipo: "segnalazione",
 
-      indirizzo:
-        luogo,
+      indirizzo: luogo,
 
-      descrizione:
-        descrizione,
+      descrizione: descrizione,
 
-      nome:
-        nome,
+      nome: nome,
 
       contatto:
         telefono || email,
@@ -529,40 +464,35 @@ async function inviaSegnalazione() {
     };
 
 
-    /*
-      3. REGISTRAZIONE SEGNALAZIONE
-    */
+    const risposta = await fetch(
+      SUPABASE_URL +
+      "/rest/v1/segnalazioni_cittadini",
+      {
 
-    const risposta =
-      await fetch(
-        SUPABASE_URL +
-        "/rest/v1/segnalazioni_cittadini",
-        {
+        method: "POST",
 
-          method: "POST",
+        headers: {
 
-          headers: {
+          "apikey":
+            SUPABASE_ANON_KEY,
 
-            "apikey":
-              SUPABASE_ANON_KEY,
+          "Authorization":
+            "Bearer " +
+            SUPABASE_ANON_KEY,
 
-            "Authorization":
-              "Bearer " +
-              SUPABASE_ANON_KEY,
+          "Content-Type":
+            "application/json",
 
-            "Content-Type":
-              "application/json",
+          "Prefer":
+            "return=minimal"
 
-            "Prefer":
-              "return=minimal"
+        },
 
-          },
+        body:
+          JSON.stringify(dati)
 
-          body:
-            JSON.stringify(dati)
-
-        }
-      );
+      }
+    );
 
 
     if (!risposta.ok) {
@@ -571,16 +501,19 @@ async function inviaSegnalazione() {
         await risposta.text();
 
       throw new Error(
-        "Errore " +
+        "Errore registrazione (" +
         risposta.status +
-        ": " +
+        "): " +
         testoErrore
       );
+
     }
 
 
     /*
-      4. INVIO RIUSCITO
+      ============================================
+      3. INVIO RIUSCITO
+      ============================================
     */
 
     messaggio.innerHTML =
@@ -589,30 +522,21 @@ async function inviaSegnalazione() {
       "La segnalazione sarà verificata prima dell'eventuale inoltro all'ente competente.";
 
 
-    /*
-      5. SVUOTA I CAMPI
-    */
+    /* SVUOTA I CAMPI */
 
-    document.getElementById("luogo").value =
-      "";
+    document.getElementById("luogo").value = "";
 
-    document.getElementById("categoria").value =
-      "";
+    document.getElementById("categoria").value = "";
 
-    document.getElementById("descrizione").value =
-      "";
+    document.getElementById("descrizione").value = "";
 
-    document.getElementById("nome").value =
-      "";
+    document.getElementById("nome").value = "";
 
-    document.getElementById("telefono").value =
-      "";
+    document.getElementById("telefono").value = "";
 
-    document.getElementById("email").value =
-      "";
+    document.getElementById("email").value = "";
 
-    document.getElementById("foto").value =
-      "";
+    document.getElementById("foto").value = "";
 
 
   } catch (errore) {
@@ -625,8 +549,7 @@ async function inviaSegnalazione() {
 
   } finally {
 
-    pulsante.disabled =
-      false;
+    pulsante.disabled = false;
 
     pulsante.textContent =
       "Invia segnalazione";
