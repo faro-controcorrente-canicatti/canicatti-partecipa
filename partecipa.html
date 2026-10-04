@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Fai una segnalazione | Canicattì Partecipa</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -11,7 +11,7 @@
 
 <section class="hero">
   <div class="hero-in">
-    <img class="brand" src="assets/logo-faro.jpg" alt="Faro di Canicattì">
+    <img class="brand" src="logo-faro.jpg" alt="Faro di Canicattì">
     <h1>Fai una segnalazione</h1>
     <p>Aiutaci a documentare un problema della città.</p>
   </div>
@@ -19,155 +19,245 @@
 
 <main class="wrap">
 
-  <a class="btn alt" href="index.html">← Torna alla pagina principale</a>
-
   <section class="notice">
-    <strong>La segnalazione è aperta a tutti.</strong>
-    Non devi adottare una via e non devi aderire al progetto.
-    Inserisci informazioni precise e, quando possibile, allega fotografie.
+    <h2>Puoi segnalare anche senza aderire al progetto.</h2>
+
+    <p>
+      Questa pagina è aperta a tutti i cittadini.
+      Non è necessario adottare una via o un quartiere.
+    </p>
+
+    <p>
+      Invia informazioni semplici, precise e verificabili.
+      Se possibile, allega una fotografia del problema.
+    </p>
   </section>
+
 
   <section class="card">
 
     <h2>📍 Dove si trova il problema?</h2>
 
-    <form>
+    <p>
+      Indica la via, la piazza o la zona di Canicattì
+      nel modo più preciso possibile.
+    </p>
 
-      <label for="zona"><strong>Via, piazza o zona *</strong></label>
-      <input
-        type="text"
-        id="zona"
-        name="zona"
-        placeholder="Es. Via Pirandello, Piazza Roma..."
-        required
-      >
-
-      <label for="civico"><strong>Numero civico o riferimento</strong></label>
-      <input
-        type="text"
-        id="civico"
-        name="civico"
-        placeholder="Es. davanti al civico 25, vicino alla scuola..."
-      >
-
-      <label for="categoria"><strong>Tipo di problema *</strong></label>
-      <select id="categoria" name="categoria" required>
-        <option value="">Seleziona una categoria</option>
-        <option>Perdita d'acqua</option>
-        <option>Strada o marciapiede</option>
-        <option>Rifiuti e sporcizia</option>
-        <option>Illuminazione pubblica</option>
-        <option>Verde pubblico</option>
-        <option>Segnaletica stradale</option>
-        <option>Barriere architettoniche</option>
-        <option>Fognature e tombini</option>
-        <option>Degrado urbano</option>
-        <option>Altro</option>
-      </select>
-
-      <label for="descrizione"><strong>Descrivi il problema *</strong></label>
-      <textarea
-        id="descrizione"
-        name="descrizione"
-        rows="6"
-        placeholder="Descrivi in modo semplice cosa hai riscontrato..."
-        required
-      ></textarea>
-
-      <label for="data"><strong>Da quando hai notato il problema?</strong></label>
-      <input type="date" id="data" name="data">
-
-      <label for="foto"><strong>Foto del problema</strong></label>
-      <input
-        type="file"
-        id="foto"
-        name="foto"
-        accept="image/*"
-        multiple
-      >
-
-      <p class="legal">
-        Se possibile, allega una o più fotografie che permettano
-        di comprendere chiaramente il problema. Evita di fotografare
-        persone riconoscibili quando non è necessario.
-      </p>
-
-      <hr>
-
-      <h2>👤 I tuoi dati</h2>
-
-      <p>
-        I dati di contatto servono per poter chiedere eventuali
-        chiarimenti sulla segnalazione e non saranno pubblicati.
-      </p>
-
-      <label for="nome"><strong>Nome e cognome *</strong></label>
-      <input
-        type="text"
-        id="nome"
-        name="nome"
-        required
-      >
-
-      <label for="telefono"><strong>Telefono</strong></label>
-      <input
-        type="tel"
-        id="telefono"
-        name="telefono"
-        placeholder="Numero di telefono"
-      >
-
-      <label for="email"><strong>Email *</strong></label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        placeholder="nome@email.it"
-        required
-      >
-
-      <label>
-        <input type="checkbox" required>
-        Confermo che le informazioni inserite corrispondono,
-        per quanto a mia conoscenza, a quanto riscontrato.
-      </label>
-
-      <br><br>
-
-      <label>
-        <input type="checkbox" required>
-        Acconsento al trattamento dei dati forniti esclusivamente
-        per la gestione della segnalazione.
-      </label>
-
-      <br><br>
-
-      <button class="btn blue" type="submit">
-        Invia la segnalazione
-      </button>
-
-    </form>
+    <label for="luogo"><strong>Via / Piazza / Zona *</strong></label>
+    <input
+      type="text"
+      id="luogo"
+      name="luogo"
+      placeholder="Es. Via Roma, Piazza Dante..."
+      required
+    >
 
   </section>
+
+
+  <section class="card">
+
+    <h2>⚠️ Che tipo di problema vuoi segnalare?</h2>
+
+    <label for="categoria"><strong>Categoria *</strong></label>
+
+    <select id="categoria" name="categoria" required>
+      <option value="">Seleziona una categoria</option>
+      <option value="strade">Buche, strade e marciapiedi</option>
+      <option value="acqua">Perdite d'acqua e problemi idrici</option>
+      <option value="rifiuti">Rifiuti e pulizia</option>
+      <option value="illuminazione">Illuminazione pubblica</option>
+      <option value="verde">Verde pubblico</option>
+      <option value="segnaletica">Segnaletica e sicurezza stradale</option>
+      <option value="degrado">Degrado urbano</option>
+      <option value="altro">Altro</option>
+    </select>
+
+  </section>
+
+
+  <section class="card">
+
+    <h2>✏️ Descrivi il problema</h2>
+
+    <p>
+      Spiega brevemente cosa hai visto.
+      Evita sfoghi o giudizi personali:
+      servono informazioni utili per verificare la segnalazione.
+    </p>
+
+    <label for="descrizione"><strong>Descrizione *</strong></label>
+
+    <textarea
+      id="descrizione"
+      name="descrizione"
+      rows="7"
+      placeholder="Descrivi qui il problema..."
+      required
+    ></textarea>
+
+  </section>
+
+
+  <section class="card">
+
+    <h2>📷 Fotografia</h2>
+
+    <p>
+      Se puoi, documenta il problema con una fotografia chiara.
+      Evita di fotografare persone riconoscibili quando non è necessario.
+    </p>
+
+    <label for="foto"><strong>Allega una foto</strong></label>
+
+    <input
+      type="file"
+      id="foto"
+      name="foto"
+      accept="image/*"
+    >
+
+  </section>
+
+
+  <section class="card">
+
+    <h2>👤 I tuoi dati</h2>
+
+    <p>
+      Ci servono per poterti contattare se abbiamo bisogno
+      di chiarimenti sulla segnalazione.
+    </p>
+
+    <label for="nome"><strong>Nome e cognome *</strong></label>
+    <input
+      type="text"
+      id="nome"
+      name="nome"
+      placeholder="Nome e cognome"
+      required
+    >
+
+    <br><br>
+
+    <label for="telefono"><strong>Telefono</strong></label>
+    <input
+      type="tel"
+      id="telefono"
+      name="telefono"
+      placeholder="Numero di telefono"
+    >
+
+    <br><br>
+
+    <label for="email"><strong>Email *</strong></label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      placeholder="La tua email"
+      required
+    >
+
+  </section>
+
 
   <section class="notice">
-    <strong>Cosa succede dopo?</strong>
-    La segnalazione viene ricevuta, verificata e classificata.
-    Quando necessario potrà essere trasmessa all'ente competente.
-    Il fatto che una segnalazione venga raccolta
-    <b>non garantisce la risoluzione del problema</b>.
+
+    <strong>Prima di inviare</strong>
+
+    <p>
+      La segnalazione sarà verificata prima di essere eventualmente
+      trasmessa all'ente competente.
+    </p>
+
+    <p>
+      L'invio non garantisce la risoluzione del problema:
+      gli interventi restano di competenza degli enti responsabili.
+    </p>
+
   </section>
+
+
+  <section class="card">
+
+    <h2>Invia la segnalazione</h2>
+
+    <p>
+      Controlla che luogo, descrizione e dati inseriti siano corretti.
+    </p>
+
+    <button class="btn" type="button" id="inviaSegnalazione">
+      Invia segnalazione
+    </button>
+
+    <p id="messaggioInvio"></p>
+
+  </section>
+
+
+  <section class="card">
+
+    <h2>Vuoi partecipare attivamente?</h2>
+
+    <p>
+      Se invece vuoi seguire nel tempo una strada o una zona della città,
+      puoi aderire al progetto <strong>Adotta una via / Adotta un quartiere</strong>.
+    </p>
+
+    <a class="btn alt" href="adozione.html">
+      Scopri il progetto
+    </a>
+
+  </section>
+
+
+  <a class="btn blue" href="index.html">
+    Torna alla pagina principale
+  </a>
 
 </main>
 
+
 <footer>
-  <img src="assets/logo-faro.jpg" alt="Faro di Canicattì">
-  Canicattì Partecipa — Faro di Canicattì
-  <br>
+
+  <img src="logo-faro.jpg" alt="Faro di Canicattì">
+
+  <div>
+    Un progetto di cittadinanza attiva del Faro di Canicattì
+  </div>
+
   <span class="legal">
-    Uno strumento di cittadinanza attiva al servizio della città.
+    La piattaforma documenta e inoltra le segnalazioni.
+    Gli interventi restano di competenza degli enti responsabili.
   </span>
+
 </footer>
+
+
+<script>
+document.getElementById("inviaSegnalazione").addEventListener("click", function () {
+
+  const luogo = document.getElementById("luogo").value.trim();
+  const categoria = document.getElementById("categoria").value;
+  const descrizione = document.getElementById("descrizione").value.trim();
+  const nome = document.getElementById("nome").value.trim();
+  const email = document.getElementById("email").value.trim();
+
+  const messaggio = document.getElementById("messaggioInvio");
+
+  if (!luogo || !categoria || !descrizione || !nome || !email) {
+    messaggio.innerHTML =
+      "<strong>Compila tutti i campi obbligatori prima di procedere.</strong>";
+    return;
+  }
+
+  messaggio.innerHTML =
+    "<strong>Dati compilati correttamente.</strong><br>" +
+    "Il sistema di invio definitivo della segnalazione sarà collegato nella fase successiva.";
+
+});
+</script>
 
 </body>
 </html>
