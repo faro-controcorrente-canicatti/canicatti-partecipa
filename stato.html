@@ -1,4 +1,1070 @@
-<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Percorso pratiche</title><link rel="stylesheet" href="style.css"></head><body><header class="top"><div class="topin"><img class="mini" src="assets/logo-faro.jpg"><b>Percorso delle pratiche</b><a class="back" href="index.html">Home</a></div></header><main class="wrap">
-<div class="notice"><strong>Misuriamo il lavoro fatto, non promettiamo il risultato.</strong>Lo stato distingue chiaramente le attività del progetto dalle decisioni dell'ente competente.</div>
-<div class="card"><h2>Esempio di percorso</h2><div class="status ok"><b>✓ Documentazione verificata</b>Il materiale ricevuto è stato controllato.</div><div class="status sent"><b>→ Trasmissione all'ente</b>La pratica è stata inviata all'ufficio/ente competente con data e riferimento.</div><div class="status wait"><b>⌛ In attesa dell'ente competente</b>Il progetto ha completato il proprio passaggio. L'eventuale intervento non dipende dal Faro.</div></div>
-<div class="card"><h2>La futura vista pubblica</h2><p>Non mostrerà una distesa di puntini rossi con “problemi irrisolti”. Mostrerà invece dati aggregati: vie adottate, pratiche documentate, atti trasmessi, risposte ricevute e interventi eventualmente comunicati dagli enti.</p><span class="badge">ANTI “MAPPA DELLE LAMENTELE”</span></div></main><footer><img src="assets/logo-faro.jpg">Un progetto di cittadinanza attiva del Faro di Canicattì<br><span class="legal">La piattaforma documenta e inoltra: gli interventi restano di competenza degli enti responsabili.</span></footer></body></html>
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Stato della pratica - Canicattì Partecipa</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f6f8;
+  color:#222;
+}
+
+/* HEADER */
+
+header{
+  background:linear-gradient(135deg,#1565c0,#0d47a1);
+  color:white;
+  padding:18px 15px;
+}
+
+.header-inner{
+  max-width:850px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.logo{
+  width:78px;
+  height:78px;
+  object-fit:contain;
+  background:white;
+  border-radius:50%;
+  padding:3px;
+}
+
+.header-title{
+  flex:1;
+}
+
+.header-title h1{
+  font-size:23px;
+  margin:0 0 4px;
+}
+
+.header-title div{
+  opacity:.9;
+  font-size:15px;
+}
+
+.home{
+  background:white;
+  color:#0d47a1;
+  text-decoration:none;
+  padding:10px 13px;
+  border-radius:9px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+/* CONTENUTO */
+
+.wrap{
+  max-width:850px;
+  margin:auto;
+  padding:18px 15px 40px;
+}
+
+.card{
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+h2{
+  margin-top:0;
+}
+
+.intro{
+  line-height:1.55;
+  color:#555;
+}
+
+/* FORM */
+
+label{
+  display:block;
+  font-weight:bold;
+  margin:16px 0 7px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border:1px solid #ccc;
+  border-radius:9px;
+  font-size:17px;
+}
+
+button{
+  width:100%;
+  margin-top:18px;
+  padding:14px;
+  border:0;
+  border-radius:9px;
+  background:#1565c0;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:disabled{
+  opacity:.6;
+}
+
+#messaggio{
+  margin-top:16px;
+  font-weight:bold;
+}
+
+.errore{
+  color:#b00020;
+}
+
+.successo{
+  color:#198754;
+}
+
+/* PRATICA */
+
+.hidden{
+  display:none;
+}
+
+.numero{
+  color:#666;
+  margin-bottom:16px;
+}
+
+/* STATO GRANDE */
+
+.stato{
+  padding:16px;
+  border-radius:12px;
+  font-size:18px;
+  font-weight:bold;
+  margin:15px 0 22px;
+  border-left:7px solid;
+}
+
+/* COLORI STATI */
+
+.stato-in_attesa{
+  background:#fdeaea;
+  border-color:#dc3545;
+  color:#a61e2b;
+}
+
+.stato-verificata{
+  background:#e7f1ff;
+  border-color:#0d6efd;
+  color:#084298;
+}
+
+.stato-inoltrata{
+  background:#f1e8ff;
+  border-color:#6f42c1;
+  color:#59359a;
+}
+
+.stato-attesa_ente{
+  background:#fff3cd;
+  border-color:#ff9800;
+  color:#805b00;
+}
+
+.stato-risolta{
+  background:#dff3e6;
+  border-color:#198754;
+  color:#146c43;
+}
+
+.stato-chiusa{
+  background:#e9ecef;
+  border-color:#6c757d;
+  color:#495057;
+}
+
+.stato-rifiutata{
+  background:#f8d7da;
+  border-color:#842029;
+  color:#842029;
+}
+
+/* DATI */
+
+.riga{
+  padding:13px 0;
+  border-bottom:1px solid #eee;
+}
+
+.riga:last-child{
+  border-bottom:0;
+}
+
+.etichetta{
+  display:block;
+  color:#666;
+  font-size:14px;
+  margin-bottom:4px;
+}
+
+.valore{
+  font-size:17px;
+  font-weight:bold;
+  word-break:break-word;
+}
+
+/* PERCORSO */
+
+.timeline{
+  margin-top:20px;
+}
+
+.step{
+  position:relative;
+  padding:0 0 24px 38px;
+  color:#888;
+}
+
+.step:before{
+  content:"";
+  position:absolute;
+  left:7px;
+  top:6px;
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background:#ccc;
+}
+
+.step:after{
+  content:"";
+  position:absolute;
+  left:14px;
+  top:22px;
+  width:2px;
+  height:calc(100% - 15px);
+  background:#ddd;
+}
+
+.step:last-child:after{
+  display:none;
+}
+
+.step.attivo{
+  color:#222;
+}
+
+.step.attivo:before{
+  background:#198754;
+}
+
+.step b{
+  display:block;
+  margin-bottom:4px;
+}
+
+/* AVVISO */
+
+.notice{
+  background:#eef5ff;
+  border-left:5px solid #1565c0;
+  padding:15px;
+  border-radius:10px;
+  line-height:1.5;
+}
+
+/* FOOTER */
+
+footer{
+  text-align:center;
+  padding:25px 15px 35px;
+  color:#666;
+  font-size:14px;
+}
+
+footer img{
+  width:100px;
+  display:block;
+  margin:0 auto 10px;
+}
+
+@media(max-width:600px){
+
+  .logo{
+    width:64px;
+    height:64px;
+  }
+
+  .header-title h1{
+    font-size:19px;
+  }
+
+  .home{
+    padding:9px 10px;
+    font-size:14px;
+  }
+
+  .card{
+    padding:18px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="header-inner">
+
+    <!--
+    Cambieremo questo nome con quello definitivo
+    del nuovo logo ad alta qualità.
+    -->
+    <img
+      class="logo"
+      src="logo-faro.jpg"
+      alt="Faro di Canicattì">
+
+    <div class="header-title">
+      <h1>Stato della pratica</h1>
+      <div>Canicattì Partecipa</div>
+    </div>
+
+    <a class="home" href="index.html">
+      🏠 Home
+    </a>
+
+  </div>
+
+</header>
+
+
+<main class="wrap">
+
+  <div class="card">
+
+    <h2>🔎 Cerca la tua pratica</h2>
+
+    <p class="intro">
+      Inserisci il numero della pratica ricevuto al momento
+      della segnalazione e l'indirizzo e-mail utilizzato
+      per inviarla.
+    </p>
+
+    <label for="numero">
+      Numero pratica
+    </label>
+
+    <input
+      id="numero"
+      type="number"
+      inputmode="numeric"
+      placeholder="Es. 14">
+
+    <label for="email">
+      E-mail
+    </label>
+
+    <input
+      id="email"
+      type="email"
+      autocomplete="email"
+      placeholder="La tua e-mail">
+
+    <button id="cercaBtn" onclick="cercaPratica()">
+      🔎 Cerca pratica
+    </button>
+
+    <div id="messaggio"></div>
+
+  </div>
+
+
+  <div id="risultato" class="hidden">
+
+    <div class="card">
+
+      <h2>La tua segnalazione</h2>
+
+      <div
+        id="numeroPratica"
+        class="numero">
+      </div>
+
+      <div
+        id="statoPratica"
+        class="stato">
+      </div>
+
+      <div id="datiPratica"></div>
+
+    </div>
+
+
+    <div class="card">
+
+      <h2>📍 Percorso della pratica</h2>
+
+      <div id="timeline" class="timeline"></div>
+
+    </div>
+
+
+    <div class="notice">
+
+      <strong>
+        Cosa significa lo stato della pratica?
+      </strong>
+
+      <br><br>
+
+      Canicattì Partecipa documenta, verifica e,
+      quando previsto, trasmette le segnalazioni agli
+      uffici o agli enti competenti.
+
+      <br><br>
+
+      L'eventuale intervento e i relativi tempi
+      dipendono dall'ente responsabile.
+
+    </div>
+
+  </div>
+
+</main>
+
+
+<footer>
+
+  <img
+    src="logo-faro.jpg"
+    alt="Faro di Canicattì">
+
+  <strong>
+    Un progetto di cittadinanza attiva del Faro di Canicattì
+  </strong>
+
+  <br><br>
+
+  La piattaforma documenta e inoltra le segnalazioni.
+  Gli interventi restano di competenza degli enti responsabili.
+
+</footer>
+
+
+<script>
+
+const SUPABASE_URL =
+"https://zkwwxxmbikxpzedcmjxx.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_5usTyC1lIfP6ykIY456Glw_iJdy6NvP";
+
+
+async function cercaPratica(){
+
+  const numero =
+    document.getElementById("numero").value.trim();
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const messaggio =
+    document.getElementById("messaggio");
+
+  const risultato =
+    document.getElementById("risultato");
+
+  const bottone =
+    document.getElementById("cercaBtn");
+
+
+  risultato.classList.add("hidden");
+
+  messaggio.className = "";
+  messaggio.textContent = "";
+
+
+  if(!numero || !email){
+
+    messaggio.className = "errore";
+
+    messaggio.textContent =
+      "Inserisci il numero della pratica e l'indirizzo e-mail.";
+
+    return;
+  }
+
+
+  bottone.disabled = true;
+
+  bottone.textContent =
+    "Ricerca in corso...";
+
+
+  try{
+
+    const r = await fetch(
+
+      SUPABASE_URL +
+      "/rest/v1/rpc/cerca_pratica_cittadino",
+
+      {
+        method:"POST",
+
+        headers:{
+          "apikey":SUPABASE_KEY,
+          "Authorization":
+            "Bearer " + SUPABASE_KEY,
+          "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+
+          p_id:Number(numero),
+
+          p_email:email
+
+        })
+
+      }
+
+    );
+
+
+    const testo =
+      await r.text();
+
+
+    if(!r.ok){
+
+      throw new Error(testo);
+
+    }
+
+
+    let dati = [];
+
+    if(testo){
+
+      dati = JSON.parse(testo);
+
+    }
+
+
+    if(!Array.isArray(dati)){
+
+      dati =
+        dati ? [dati] : [];
+
+    }
+
+
+    if(dati.length === 0){
+
+      messaggio.className = "errore";
+
+      messaggio.textContent =
+        "Nessuna pratica trovata. Controlla il numero della pratica e l'indirizzo e-mail.";
+
+      return;
+
+    }
+
+
+    mostraPratica(dati[0]);
+
+
+    messaggio.className = "successo";
+
+    messaggio.textContent =
+      "✓ Pratica trovata.";
+
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    messaggio.className = "errore";
+
+    messaggio.textContent =
+      "Non è stato possibile cercare la pratica. Riprova tra qualche minuto.";
+
+  }
+  finally{
+
+    bottone.disabled = false;
+
+    bottone.textContent =
+      "🔎 Cerca pratica";
+
+  }
+
+}
+
+
+
+function mostraPratica(p){
+
+  document
+    .getElementById("numeroPratica")
+    .textContent =
+      "Pratica n. " + p.id;
+
+
+  const stato =
+    p.stato || "in_attesa";
+
+
+  const statoBox =
+    document.getElementById("statoPratica");
+
+
+  statoBox.className =
+    "stato stato-" + stato;
+
+
+  statoBox.textContent =
+    iconaStato(stato) +
+    " " +
+    nomeStato(stato);
+
+
+  let html = "";
+
+
+  if(p.indirizzo){
+
+    html += riga(
+      "Indirizzo della segnalazione",
+      p.indirizzo
+    );
+
+  }
+
+
+  if(p.categoria){
+
+    html += riga(
+      "Categoria",
+      nomeCategoria(p.categoria)
+    );
+
+  }
+
+
+  if(p.data_invio){
+
+    html += riga(
+      "Segnalazione ricevuta",
+      formattaData(p.data_invio)
+    );
+
+  }
+
+
+  if(p.ente_destinatario){
+
+    html += riga(
+      "Ente / ufficio destinatario",
+      p.ente_destinatario
+    );
+
+  }
+
+
+  if(p.data_inoltro){
+
+    html += riga(
+      "Data di inoltro",
+      formattaData(p.data_inoltro)
+    );
+
+  }
+
+
+  if(p.protocollo){
+
+    html += riga(
+      "Protocollo / riferimento",
+      p.protocollo
+    );
+
+  }
+
+
+  if(p.data_risposta_ente){
+
+    html += riga(
+      "Data della risposta",
+      formattaData(p.data_risposta_ente)
+    );
+
+  }
+
+
+  if(p.risposta_ente){
+
+    html += riga(
+      "Risposta / esito comunicato",
+      p.risposta_ente
+    );
+
+  }
+
+
+  document
+    .getElementById("datiPratica")
+    .innerHTML = html;
+
+
+  creaTimeline(stato);
+
+
+  document
+    .getElementById("risultato")
+    .classList.remove("hidden");
+
+
+  setTimeout(()=>{
+
+    document
+      .getElementById("risultato")
+      .scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+
+  },100);
+
+}
+
+
+
+function creaTimeline(stato){
+
+  const ordine = [
+    "in_attesa",
+    "verificata",
+    "inoltrata",
+    "attesa_ente",
+    "risolta"
+  ];
+
+
+  const testi = {
+
+    in_attesa:[
+      "Segnalazione ricevuta",
+      "La pratica è stata registrata ed è in attesa di verifica."
+    ],
+
+    verificata:[
+      "Documentazione verificata",
+      "Il materiale ricevuto è stato controllato."
+    ],
+
+    inoltrata:[
+      "Trasmissione all'ente",
+      "La pratica è stata trasmessa all'ufficio o ente competente."
+    ],
+
+    attesa_ente:[
+      "In attesa dell'ente competente",
+      "Il nostro passaggio è stato completato. Attendiamo eventuali comunicazioni dall'ente."
+    ],
+
+    risolta:[
+      "Pratica risolta",
+      "È stato comunicato un intervento o un esito positivo della pratica."
+    ]
+
+  };
+
+
+  let html = "";
+
+
+  if(stato === "rifiutata"){
+
+    html = `
+
+      <div class="step attivo">
+
+        <b>Segnalazione ricevuta</b>
+
+        La pratica è stata registrata.
+
+      </div>
+
+
+      <div class="step attivo">
+
+        <b>Segnalazione non accolta</b>
+
+        La segnalazione non è stata inserita nel percorso operativo.
+
+      </div>
+
+    `;
+
+  }
+
+  else if(stato === "chiusa"){
+
+    ordine.forEach((s,index)=>{
+
+      if(index < 4){
+
+        html += stepHTML(
+          testi[s][0],
+          testi[s][1],
+          true
+        );
+
+      }
+
+    });
+
+
+    html += stepHTML(
+      "Pratica chiusa",
+      "Il percorso della pratica è stato concluso.",
+      true
+    );
+
+  }
+
+  else{
+
+    let posizione =
+      ordine.indexOf(stato);
+
+
+    if(posizione < 0){
+
+      posizione = 0;
+
+    }
+
+
+    ordine.forEach((s,index)=>{
+
+      html += stepHTML(
+        testi[s][0],
+        testi[s][1],
+        index <= posizione
+      );
+
+    });
+
+  }
+
+
+  document
+    .getElementById("timeline")
+    .innerHTML = html;
+
+}
+
+
+
+function stepHTML(titolo,testo,attivo){
+
+  return `
+
+    <div class="step ${attivo ? "attivo" : ""}">
+
+      <b>${esc(titolo)}</b>
+
+      ${esc(testo)}
+
+    </div>
+
+  `;
+
+}
+
+
+
+function riga(etichetta,valore){
+
+  return `
+
+    <div class="riga">
+
+      <span class="etichetta">
+        ${esc(etichetta)}
+      </span>
+
+      <span class="valore">
+        ${esc(valore)}
+      </span>
+
+    </div>
+
+  `;
+
+}
+
+
+
+function nomeStato(stato){
+
+  const nomi = {
+
+    in_attesa:
+      "In attesa di verifica",
+
+    verificata:
+      "Documentazione verificata",
+
+    inoltrata:
+      "Inoltrata all'ente competente",
+
+    attesa_ente:
+      "In attesa dell'ente competente",
+
+    risolta:
+      "Risolta",
+
+    chiusa:
+      "Chiusa",
+
+    rifiutata:
+      "Segnalazione non accolta"
+
+  };
+
+
+  return nomi[stato] ||
+         "Stato della pratica";
+
+}
+
+
+
+function iconaStato(stato){
+
+  const icone = {
+
+    in_attesa:"🔴",
+
+    verificata:"🔵",
+
+    inoltrata:"🟣",
+
+    attesa_ente:"🟠",
+
+    risolta:"🟢",
+
+    chiusa:"⚫",
+
+    rifiutata:"⛔"
+
+  };
+
+
+  return icone[stato] || "📋";
+
+}
+
+
+
+function nomeCategoria(categoria){
+
+  const nomi = {
+
+    strade:
+      "Buche, strade e marciapiedi",
+
+    acqua:
+      "Perdite d'acqua e problemi idrici",
+
+    rifiuti:
+      "Rifiuti e pulizia",
+
+    illuminazione:
+      "Illuminazione pubblica",
+
+    verde:
+      "Verde pubblico",
+
+    segnaletica:
+      "Segnaletica e sicurezza stradale",
+
+    degrado:
+      "Degrado urbano",
+
+    altro:
+      "Altro"
+
+  };
+
+
+  return nomi[categoria] ||
+         categoria;
+
+}
+
+
+
+function formattaData(data){
+
+  try{
+
+    return new Date(data)
+      .toLocaleString(
+        "it-IT",
+        {
+          dateStyle:"long",
+          timeStyle:"short"
+        }
+      );
+
+  }
+  catch{
+
+    return data;
+
+  }
+
+}
+
+
+
+function esc(v){
+
+  return String(v ?? "")
+
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
