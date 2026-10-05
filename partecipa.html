@@ -262,6 +262,29 @@ document
   .addEventListener("click", inviaSegnalazione);
 
 
+function generaNumeroPratica() {
+
+  const adesso = new Date();
+
+  const anno =
+    String(adesso.getFullYear()).slice(-2);
+
+  const mese =
+    String(adesso.getMonth() + 1).padStart(2, "0");
+
+  const giorno =
+    String(adesso.getDate()).padStart(2, "0");
+
+  const casuale =
+    Math.random()
+      .toString(36)
+      .substring(2, 7)
+      .toUpperCase();
+
+  return "CP-" + anno + mese + giorno + "-" + casuale;
+}
+
+
 async function inviaSegnalazione() {
 
   const luogo =
@@ -297,9 +320,7 @@ async function inviaSegnalazione() {
     document.getElementById("inviaSegnalazione");
 
 
-  /* ============================================
-     CONTROLLO CAMPI OBBLIGATORI
-     ============================================ */
+  /* CONTROLLO CAMPI OBBLIGATORI */
 
   if (
     !luogo ||
@@ -316,9 +337,7 @@ async function inviaSegnalazione() {
   }
 
 
-  /* ============================================
-     CONTROLLO EMAIL
-     ============================================ */
+  /* CONTROLLO EMAIL */
 
   const emailValida =
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -332,9 +351,7 @@ async function inviaSegnalazione() {
   }
 
 
-  /* ============================================
-     CONTROLLO DIMENSIONE FOTO
-     ============================================ */
+  /* CONTROLLO DIMENSIONE FOTO */
 
   if (foto && foto.size > 10 * 1024 * 1024) {
 
@@ -347,13 +364,18 @@ async function inviaSegnalazione() {
 
 
   pulsante.disabled = true;
-  pulsante.textContent = "Invio in corso...";
+
+  pulsante.textContent =
+    "Invio in corso...";
 
   messaggio.innerHTML =
     "⏳ Invio della segnalazione in corso...";
 
 
   let fotoUrl = null;
+
+  const numeroPratica =
+    generaNumeroPratica();
 
 
   try {
@@ -447,13 +469,17 @@ async function inviaSegnalazione() {
 
     const dati = {
 
-      tipo: "segnalazione",
+      tipo:
+        "segnalazione",
 
-      indirizzo: luogo,
+      indirizzo:
+        luogo,
 
-      descrizione: descrizione,
+      descrizione:
+        descrizione,
 
-      nome: nome,
+      nome:
+        nome,
 
       contatto:
         telefono || email,
@@ -495,8 +521,16 @@ async function inviaSegnalazione() {
           "Content-Type":
             "application/json",
 
+          /*
+           * IMPORTANTE:
+           * non chiediamo a Supabase di restituire
+           * il record appena inserito.
+           *
+           * In questo modo evitiamo la SELECT
+           * bloccata dalle policy RLS.
+           */
           "Prefer":
-            "return=representation"
+            "return=minimal"
 
         },
 
@@ -522,42 +556,8 @@ async function inviaSegnalazione() {
     }
 
 
-    const recordCreati =
-      await risposta.json();
-
-    const pratica =
-      Array.isArray(recordCreati)
-        ? recordCreati[0]
-        : recordCreati;
-
-
-    if (!pratica) {
-
-      throw new Error(
-        "La segnalazione è stata registrata, ma non è stato possibile recuperare il numero pratica."
-      );
-
-    }
-
-
     /* ============================================
-       3. NUMERO PRATICA
-       ============================================ */
-
-    const idPratica =
-      pratica.id !== undefined &&
-      pratica.id !== null
-        ? String(pratica.id)
-        : String(Date.now());
-
-
-    const numeroPratica =
-      "CP-" +
-      idPratica.padStart(6, "0");
-
-
-    /* ============================================
-       4. INVIO EMAIL DI CONFERMA
+       3. INVIO EMAIL DI CONFERMA
        ============================================ */
 
     messaggio.innerHTML =
@@ -640,7 +640,7 @@ async function inviaSegnalazione() {
 
 
     /* ============================================
-       5. CONFERMA AL CITTADINO
+       4. CONFERMA AL CITTADINO
        ============================================ */
 
     let testoConferma =
@@ -651,7 +651,7 @@ async function inviaSegnalazione() {
       numeroPratica +
       "</strong><br><br>" +
 
-      "Conserva questo numero per identificare la tua segnalazione.<br><br>";
+      "Conserva questo numero come riferimento della tua segnalazione.<br><br>";
 
 
     if (emailInviata) {
@@ -680,7 +680,7 @@ async function inviaSegnalazione() {
 
 
     /* ============================================
-       6. SVUOTA I CAMPI
+       5. SVUOTA I CAMPI
        ============================================ */
 
     document.getElementById("luogo").value = "";
