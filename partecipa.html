@@ -29,7 +29,7 @@
 
     <p>
       Invia informazioni semplici, precise e verificabili.
-      Se possibile, allega una fotografia del problema.
+      Se possibile, allega una o più fotografie del problema.
     </p>
   </section>
 
@@ -98,21 +98,32 @@
 
   <section class="card">
 
-    <h2>📷 Fotografia</h2>
+    <h2>📷 Fotografie</h2>
 
     <p>
-      Se puoi, documenta il problema con una fotografia chiara.
-      Evita di fotografare persone riconoscibili quando non è necessario.
+      Puoi allegare fino a <strong>5 fotografie</strong> del problema.
+      Cerca di includere immagini chiare e, quando utile,
+      sia una panoramica della zona sia un'immagine più ravvicinata.
     </p>
 
-    <label for="foto"><strong>Allega una foto</strong></label>
+    <p>
+      Evita di fotografare persone riconoscibili quando non è necessario.
+      Ogni fotografia può avere una dimensione massima di 10 MB.
+    </p>
+
+    <label for="foto">
+      <strong>Allega le fotografie</strong>
+    </label>
 
     <input
       type="file"
       id="foto"
       name="foto"
       accept="image/*"
+      multiple
     >
+
+    <p id="infoFoto" style="font-size:14px;color:#666;"></p>
 
   </section>
 
@@ -256,10 +267,51 @@ const BUCKET_FOTO = "segnalazioni-foto";
 const EMAIL_FUNCTION_URL =
   SUPABASE_URL + "/functions/v1/invia-email";
 
+const MAX_FOTO = 5;
+const MAX_DIMENSIONE_FOTO = 10 * 1024 * 1024;
+
 
 document
   .getElementById("inviaSegnalazione")
   .addEventListener("click", inviaSegnalazione);
+
+
+document
+  .getElementById("foto")
+  .addEventListener("change", function() {
+
+    const numeroFoto = this.files.length;
+
+    const info =
+      document.getElementById("infoFoto");
+
+    if (numeroFoto === 0) {
+
+      info.textContent = "";
+
+    } else if (numeroFoto > MAX_FOTO) {
+
+      info.innerHTML =
+        "⚠️ Hai selezionato " +
+        numeroFoto +
+        " fotografie. Puoi allegarne al massimo " +
+        MAX_FOTO +
+        ".";
+
+    } else {
+
+      info.innerHTML =
+        "📷 " +
+        numeroFoto +
+        (
+          numeroFoto === 1
+            ? " fotografia selezionata."
+            : " fotografie selezionate."
+        );
+
+    }
+
+  });
 
 
 function generaNumeroPratica() {
@@ -282,6 +334,77 @@ function generaNumeroPratica() {
       .toUpperCase();
 
   return "CP-" + anno + mese + giorno + "-" + casuale;
+}
+
+
+async function caricaFoto(foto) {
+
+  const nomeOriginale =
+    foto.name || "foto.jpg";
+
+  const estensione =
+    nomeOriginale.includes(".")
+      ? nomeOriginale.split(".").pop().toLowerCase()
+      : "jpg";
+
+  const nomeFile =
+    "segnalazioni/" +
+    Date.now() +
+    "_" +
+    Math.random().toString(36).substring(2, 12) +
+    "." +
+    estensione;
+
+
+  const rispostaFoto = await fetch(
+    SUPABASE_URL +
+    "/storage/v1/object/" +
+    BUCKET_FOTO +
+    "/" +
+    nomeFile,
+    {
+
+      method: "POST",
+
+      headers: {
+
+        "apikey":
+          SUPABASE_ANON_KEY,
+
+        "Authorization":
+          "Bearer " +
+          SUPABASE_ANON_KEY,
+
+        "Content-Type":
+          foto.type || "application/octet-stream",
+
+        "x-upsert":
+          "false"
+
+      },
+
+      body: foto
+
+    }
+  );
+
+
+  if (!rispostaFoto.ok) {
+
+    const erroreFoto =
+      await rispostaFoto.text();
+
+    throw new Error(
+      "Errore nel caricamento di una fotografia (" +
+      rispostaFoto.status +
+      "): " +
+      erroreFoto
+    );
+
+  }
+
+
+  return nomeFile;
 }
 
 
@@ -308,10 +431,8 @@ async function inviaSegnalazione() {
   const inputFoto =
     document.getElementById("foto");
 
-  const foto =
-    inputFoto.files.length > 0
-      ? inputFoto.files[0]
-      : null;
+  const fotoSelezionate =
+    Array.from(inputFoto.files);
 
   const messaggio =
     document.getElementById("messaggioInvio");
@@ -320,7 +441,7 @@ async function inviaSegnalazione() {
     document.getElementById("inviaSegnalazione");
 
 
-  /* CONTROLLO CAMPI OBBLIGATORI */
+  /* CAMPI OBBLIGATORI */
 
   if (
     !luogo ||
@@ -337,7 +458,7 @@ async function inviaSegnalazione() {
   }
 
 
-  /* CONTROLLO EMAIL */
+  /* EMAIL */
 
   const emailValida =
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -351,15 +472,46 @@ async function inviaSegnalazione() {
   }
 
 
-  /* CONTROLLO DIMENSIONE FOTO */
+  /* NUMERO MASSIMO FOTO */
 
-  if (foto && foto.size > 10 * 1024 * 1024) {
+  if (fotoSelezionate.length > MAX_FOTO) {
 
     messaggio.innerHTML =
-      "⚠️ <strong>La fotografia è troppo grande.</strong><br>" +
-      "Utilizza un'immagine inferiore a 10 MB.";
+      "⚠️ <strong>Puoi allegare al massimo " +
+      MAX_FOTO +
+      " fotografie.</strong><br>" +
+      "Hai selezionato " +
+      fotoSelezionate.length +
+      " immagini.";
 
     return;
+  }
+
+
+  /* DIMENSIONE E TIPO FOTO */
+
+  for (const foto of fotoSelezionate) {
+
+    if (foto.size > MAX_DIMENSIONE_FOTO) {
+
+      messaggio.innerHTML =
+        "⚠️ <strong>Una delle fotografie supera i 10 MB.</strong><br>" +
+        "Riduci la dimensione dell'immagine e riprova.";
+
+      return;
+    }
+
+    if (
+      foto.type &&
+      !foto.type.startsWith("image/")
+    ) {
+
+      messaggio.innerHTML =
+        "⚠️ <strong>Puoi allegare solamente immagini.</strong>";
+
+      return;
+    }
+
   }
 
 
@@ -372,89 +524,37 @@ async function inviaSegnalazione() {
     "⏳ Invio della segnalazione in corso...";
 
 
-  let fotoUrl = null;
-
   const numeroPratica =
     generaNumeroPratica();
+
+  const fotoUrls = [];
 
 
   try {
 
     /* ============================================
-       1. CARICAMENTO FOTO
+       1. CARICAMENTO DI TUTTE LE FOTO
        ============================================ */
 
-    if (foto) {
+    for (
+      let i = 0;
+      i < fotoSelezionate.length;
+      i++
+    ) {
 
       messaggio.innerHTML =
-        "⏳ Caricamento della fotografia...";
+        "⏳ Caricamento fotografia " +
+        (i + 1) +
+        " di " +
+        fotoSelezionate.length +
+        "...";
 
-      const nomeOriginale =
-        foto.name || "foto.jpg";
-
-      const estensione =
-        nomeOriginale.includes(".")
-          ? nomeOriginale.split(".").pop().toLowerCase()
-          : "jpg";
-
-      const nomeFile =
-        "segnalazioni/" +
-        Date.now() +
-        "_" +
-        Math.random().toString(36).substring(2, 10) +
-        "." +
-        estensione;
-
-
-      const rispostaFoto = await fetch(
-        SUPABASE_URL +
-        "/storage/v1/object/" +
-        BUCKET_FOTO +
-        "/" +
-        nomeFile,
-        {
-
-          method: "POST",
-
-          headers: {
-
-            "apikey":
-              SUPABASE_ANON_KEY,
-
-            "Authorization":
-              "Bearer " +
-              SUPABASE_ANON_KEY,
-
-            "Content-Type":
-              foto.type || "application/octet-stream",
-
-            "x-upsert":
-              "false"
-
-          },
-
-          body: foto
-
-        }
-      );
-
-
-      if (!rispostaFoto.ok) {
-
-        const erroreFoto =
-          await rispostaFoto.text();
-
-        throw new Error(
-          "Errore caricamento fotografia (" +
-          rispostaFoto.status +
-          "): " +
-          erroreFoto
+      const percorso =
+        await caricaFoto(
+          fotoSelezionate[i]
         );
 
-      }
-
-
-      fotoUrl = nomeFile;
+      fotoUrls.push(percorso);
 
     }
 
@@ -484,8 +584,22 @@ async function inviaSegnalazione() {
       contatto:
         telefono || email,
 
+      /*
+       * Manteniamo foto_url per compatibilità
+       * con le vecchie funzioni del sito.
+       * Contiene la prima fotografia.
+       */
       foto_url:
-        fotoUrl,
+        fotoUrls.length > 0
+          ? fotoUrls[0]
+          : null,
+
+      /*
+       * Nuovo campo contenente tutte
+       * le fotografie della pratica.
+       */
+      foto_urls:
+        fotoUrls,
 
       stato:
         "in_attesa",
@@ -499,7 +613,6 @@ async function inviaSegnalazione() {
       email:
         email,
 
-      /* SALVA LO STESSO NUMERO PRATICA NEL DATABASE */
       numero_pratica:
         numeroPratica
 
@@ -525,11 +638,6 @@ async function inviaSegnalazione() {
           "Content-Type":
             "application/json",
 
-          /*
-           * Non chiediamo a Supabase di restituire
-           * il record appena inserito.
-           * Evitiamo così la SELECT bloccata dalle policy RLS.
-           */
           "Prefer":
             "return=minimal"
 
@@ -558,7 +666,7 @@ async function inviaSegnalazione() {
 
 
     /* ============================================
-       3. INVIO EMAIL DI CONFERMA
+       3. EMAIL DI CONFERMA
        ============================================ */
 
     messaggio.innerHTML =
@@ -577,10 +685,8 @@ async function inviaSegnalazione() {
           method: "POST",
 
           headers: {
-
             "Content-Type":
               "application/json"
-
           },
 
           body:
@@ -641,7 +747,7 @@ async function inviaSegnalazione() {
 
 
     /* ============================================
-       4. CONFERMA AL CITTADINO
+       4. CONFERMA
        ============================================ */
 
     let testoConferma =
@@ -653,6 +759,20 @@ async function inviaSegnalazione() {
       "</strong><br><br>" +
 
       "Conserva questo numero come riferimento della tua segnalazione.<br><br>";
+
+
+    if (fotoUrls.length > 0) {
+
+      testoConferma +=
+        "📷 " +
+        fotoUrls.length +
+        (
+          fotoUrls.length === 1
+            ? " fotografia allegata correttamente.<br><br>"
+            : " fotografie allegate correttamente.<br><br>"
+        );
+
+    }
 
 
     if (emailInviata) {
@@ -681,7 +801,7 @@ async function inviaSegnalazione() {
 
 
     /* ============================================
-       5. SVUOTA I CAMPI
+       5. SVUOTA MODULO
        ============================================ */
 
     document.getElementById("luogo").value = "";
@@ -697,6 +817,8 @@ async function inviaSegnalazione() {
     document.getElementById("email").value = "";
 
     document.getElementById("foto").value = "";
+
+    document.getElementById("infoFoto").textContent = "";
 
 
   } catch (errore) {
