@@ -1,26 +1,766 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fai una segnalazione | Canicattì Partecipa</title>
-  <link rel="stylesheet" href="style.css">
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<title>Fai una segnalazione | Canicattì Partecipa</title>
+
+<meta
+  name="description"
+  content="Invia una segnalazione a Canicattì Partecipa."
+>
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  background: #f4f3ef;
+  color: #202226;
+
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+/* =====================================================
+   TESTATA
+===================================================== */
+
+.page-header {
+  position: relative;
+
+  min-height: 330px;
+
+  overflow: hidden;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.28),
+      rgba(0,0,0,.72)
+    ),
+    url("IMG_8923.webp");
+
+  background-size: cover;
+  background-position: center;
+}
+
+.header-inner {
+  width: calc(100% - 40px);
+  max-width: 900px;
+
+  min-height: 330px;
+
+  margin: 0 auto;
+
+  padding: 25px 0 32px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+/* =====================================================
+   FARO + LOGO
+===================================================== */
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.faro-title {
+  color: white;
+
+  font-size: 34px;
+  line-height: .93;
+
+  font-weight: 900;
+
+  letter-spacing: -1.5px;
+
+  text-transform: uppercase;
+
+  text-shadow:
+    0 3px 12px rgba(0,0,0,.55);
+}
+
+.faro-small {
+  display: block;
+
+  margin-bottom: 3px;
+
+  font-size: .56em;
+
+  font-weight: 700;
+
+  letter-spacing: .7px;
+
+  text-transform: none;
+}
+
+.logo-box {
+  flex: 0 0 105px;
+
+  width: 105px;
+  height: 105px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-box img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+
+/* =====================================================
+   TITOLO PAGINA
+===================================================== */
+
+.page-title {
+  margin-top: 35px;
+}
+
+.page-title .project {
+  margin-bottom: 8px;
+
+  color: #ffc800;
+
+  font-size: 13px;
+
+  font-weight: 850;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+.page-title h1 {
+  margin: 0 0 10px;
+
+  color: white;
+
+  font-size: clamp(37px, 8vw, 55px);
+
+  line-height: 1;
+
+  letter-spacing: -2px;
+
+  text-shadow:
+    0 3px 14px rgba(0,0,0,.45);
+}
+
+.page-title p {
+  margin: 0;
+
+  max-width: 650px;
+
+  color: white;
+
+  font-size: 19px;
+  line-height: 1.35;
+
+  text-shadow:
+    0 2px 8px rgba(0,0,0,.5);
+}
+
+
+/* =====================================================
+   CONTENUTO
+===================================================== */
+
+.wrap {
+  width: calc(100% - 32px);
+  max-width: 760px;
+
+  margin: 0 auto;
+
+  padding: 30px 0 55px;
+}
+
+
+/* =====================================================
+   INTRO
+===================================================== */
+
+.intro {
+  margin-bottom: 20px;
+
+  padding: 24px;
+
+  background: white;
+
+  border-left: 6px solid #ffc800;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 22px rgba(0,0,0,.06);
+}
+
+.intro h2 {
+  margin: 0 0 12px;
+
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.intro p {
+  margin: 9px 0;
+
+  font-size: 16px;
+  line-height: 1.5;
+
+  color: #44464a;
+}
+
+
+/* =====================================================
+   CARD MODULO
+===================================================== */
+
+.form-card {
+  margin-bottom: 18px;
+
+  padding: 24px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 22px rgba(0,0,0,.06);
+}
+
+.form-card h2 {
+  margin: 0 0 10px;
+
+  font-size: 23px;
+  line-height: 1.2;
+}
+
+.form-card p {
+  margin: 8px 0 18px;
+
+  color: #55585c;
+
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+
+/* =====================================================
+   CAMPI
+===================================================== */
+
+label {
+  display: block;
+
+  margin: 18px 0 7px;
+
+  font-size: 16px;
+}
+
+input,
+select,
+textarea {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+
+  margin: 0;
+
+  padding: 15px 14px;
+
+  border: 1px solid #cfd1d4;
+
+  border-radius: 12px;
+
+  background: white;
+
+  color: #202226;
+
+  font-family: inherit;
+
+  font-size: 16px;
+
+  line-height: 1.3;
+
+  outline: none;
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+select {
+  padding-right: 42px;
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, #555 50%),
+    linear-gradient(135deg, #555 50%, transparent 50%);
+
+  background-position:
+    calc(100% - 20px) 50%,
+    calc(100% - 14px) 50%;
+
+  background-size:
+    6px 6px,
+    6px 6px;
+
+  background-repeat: no-repeat;
+}
+
+textarea {
+  min-height: 145px;
+
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #d4aa00;
+
+  box-shadow:
+    0 0 0 3px rgba(255,200,0,.18);
+}
+
+input[type="file"] {
+  padding: 13px;
+
+  background: #f7f7f5;
+
+  appearance: auto;
+  -webkit-appearance: auto;
+}
+
+
+/* =====================================================
+   FOTO
+===================================================== */
+
+.photo-info {
+  margin-top: 12px !important;
+
+  color: #666 !important;
+
+  font-size: 14px !important;
+}
+
+
+/* =====================================================
+   AVVISO
+===================================================== */
+
+.warning {
+  margin-bottom: 18px;
+
+  padding: 22px;
+
+  background: #fff8e1;
+
+  border: 1px solid #f0d275;
+  border-left: 6px solid #ffc800;
+
+  border-radius: 18px;
+}
+
+.warning-title {
+  display: block;
+
+  margin-bottom: 10px;
+
+  font-size: 19px;
+}
+
+.warning p {
+  margin: 9px 0;
+
+  font-size: 15px;
+  line-height: 1.5;
+
+  color: #444;
+}
+
+
+/* =====================================================
+   PULSANTI
+===================================================== */
+
+.button {
+  width: 100%;
+
+  min-height: 58px;
+
+  margin-top: 15px;
+
+  padding: 15px 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 14px;
+
+  font-family: inherit;
+
+  font-size: 17px;
+  font-weight: 800;
+
+  text-align: center;
+
+  cursor: pointer;
+
+  transition:
+    transform .12s ease,
+    opacity .12s ease;
+}
+
+.button:active {
+  transform: scale(.985);
+}
+
+.button:disabled {
+  opacity: .6;
+
+  cursor: not-allowed;
+}
+
+.button-yellow {
+  background: #ffc800;
+  color: #171717;
+}
+
+.button-red {
+  background: #d20719;
+  color: white;
+}
+
+.button-dark {
+  background: #282b30;
+  color: white;
+}
+
+.button-home {
+  margin-top: 4px;
+
+  background: #1769aa;
+  color: white;
+}
+
+
+/* =====================================================
+   MESSAGGIO INVIO
+===================================================== */
+
+#messaggioInvio {
+  margin-top: 18px;
+
+  font-size: 15px;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+  padding:
+    40px
+    20px
+    calc(40px + env(safe-area-inset-bottom));
+
+  background: #202328;
+
+  color: white;
+
+  text-align: center;
+}
+
+footer strong {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 21px;
+}
+
+footer p {
+  max-width: 650px;
+
+  margin: 8px auto;
+
+  color: #d0d0d0;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.footer-links {
+  margin-top: 22px;
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.footer-links a {
+  color: white;
+
+  font-size: 14px;
+
+  text-decoration: underline;
+}
+
+
+/* =====================================================
+   SMARTPHONE
+   Android + iPhone
+===================================================== */
+
+@media (max-width: 600px) {
+
+  .page-header {
+    min-height: 315px;
+  }
+
+  .header-inner {
+    width: calc(100% - 36px);
+
+    min-height: 315px;
+
+    padding-top:
+      max(20px, env(safe-area-inset-top));
+
+    padding-bottom: 27px;
+  }
+
+  .faro-title {
+    max-width: calc(100% - 112px);
+
+    font-size: 30px;
+  }
+
+  .logo-box {
+    flex: 0 0 102px;
+
+    width: 102px;
+    height: 102px;
+  }
+
+  .page-title {
+    margin-top: 25px;
+  }
+
+  .page-title h1 {
+    font-size: clamp(36px, 10vw, 46px);
+  }
+
+  .page-title p {
+    font-size: 18px;
+  }
+
+  .wrap {
+    width: calc(100% - 26px);
+
+    padding-top: 20px;
+  }
+
+  .intro,
+  .form-card,
+  .warning {
+    padding: 21px 18px;
+
+    border-radius: 17px;
+  }
+
+  .intro h2,
+  .form-card h2 {
+    font-size: 22px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+
+    padding: 15px 13px;
+  }
+
+  .button {
+    min-height: 58px;
+
+    font-size: 16px;
+  }
+
+}
+
+
+/* =====================================================
+   SMARTPHONE MOLTO PICCOLI
+===================================================== */
+
+@media (max-width: 370px) {
+
+  .faro-title {
+    font-size: 27px;
+  }
+
+  .logo-box {
+    flex-basis: 90px;
+
+    width: 90px;
+    height: 90px;
+  }
+
+  .page-title h1 {
+    font-size: 35px;
+  }
+
+  .wrap {
+    width: calc(100% - 22px);
+  }
+
+  .intro,
+  .form-card,
+  .warning {
+    padding: 19px 16px;
+  }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
-<section class="hero">
-  <div class="hero-in">
-    <img class="brand" src="logo-faro.jpg" alt="Faro di Canicattì">
-    <h1>Fai una segnalazione</h1>
-    <p>Aiutaci a documentare un problema della città.</p>
+
+<!-- =====================================================
+     TESTATA
+===================================================== -->
+
+<header class="page-header">
+
+  <div class="header-inner">
+
+
+    <div class="brand-row">
+
+      <div class="faro-title">
+
+        <span class="faro-small">
+          Faro di
+        </span>
+
+        Canicattì
+
+      </div>
+
+
+      <div class="logo-box">
+
+        <img
+          src="IMG_8924.png"
+          alt="Controcorrente"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="page-title">
+
+      <div class="project">
+        Canicattì Partecipa
+      </div>
+
+      <h1>
+        Fai una segnalazione
+      </h1>
+
+      <p>
+        Aiutaci a documentare un problema della città.
+      </p>
+
+    </div>
+
+
   </div>
-</section>
+
+</header>
+
+
+
+<!-- =====================================================
+     CONTENUTO
+===================================================== -->
 
 <main class="wrap">
 
-  <section class="notice">
-    <h2>Puoi segnalare anche senza aderire al progetto.</h2>
+
+  <section class="intro">
+
+    <h2>
+      Puoi segnalare anche senza aderire al progetto.
+    </h2>
 
     <p>
       Questa pagina è aperta a tutti i cittadini.
@@ -31,52 +771,108 @@
       Invia informazioni semplici, precise e verificabili.
       Se possibile, allega una o più fotografie del problema.
     </p>
+
   </section>
 
-  <section class="card">
 
-    <h2>📍 Dove si trova il problema?</h2>
+
+  <!-- LUOGO -->
+
+  <section class="form-card">
+
+    <h2>
+      📍 Dove si trova il problema?
+    </h2>
 
     <p>
       Indica la via, la piazza o la zona di Canicattì
       nel modo più preciso possibile.
     </p>
 
-    <label for="luogo"><strong>Via / Piazza / Zona *</strong></label>
+    <label for="luogo">
+      <strong>Via / Piazza / Zona *</strong>
+    </label>
 
     <input
       type="text"
       id="luogo"
       name="luogo"
       placeholder="Es. Via Roma, Piazza Dante..."
+      autocomplete="street-address"
       required
     >
 
   </section>
 
-  <section class="card">
 
-    <h2>⚠️ Che tipo di problema vuoi segnalare?</h2>
 
-    <label for="categoria"><strong>Categoria *</strong></label>
+  <!-- CATEGORIA -->
 
-    <select id="categoria" name="categoria" required>
-      <option value="">Seleziona una categoria</option>
-      <option value="strade">Buche, strade e marciapiedi</option>
-      <option value="acqua">Perdite d'acqua e problemi idrici</option>
-      <option value="rifiuti">Rifiuti e pulizia</option>
-      <option value="illuminazione">Illuminazione pubblica</option>
-      <option value="verde">Verde pubblico</option>
-      <option value="segnaletica">Segnaletica e sicurezza stradale</option>
-      <option value="degrado">Degrado urbano</option>
-      <option value="altro">Altro</option>
+  <section class="form-card">
+
+    <h2>
+      ⚠️ Che tipo di problema vuoi segnalare?
+    </h2>
+
+    <label for="categoria">
+      <strong>Categoria *</strong>
+    </label>
+
+    <select
+      id="categoria"
+      name="categoria"
+      required
+    >
+
+      <option value="">
+        Seleziona una categoria
+      </option>
+
+      <option value="strade">
+        Buche, strade e marciapiedi
+      </option>
+
+      <option value="acqua">
+        Perdite d'acqua e problemi idrici
+      </option>
+
+      <option value="rifiuti">
+        Rifiuti e pulizia
+      </option>
+
+      <option value="illuminazione">
+        Illuminazione pubblica
+      </option>
+
+      <option value="verde">
+        Verde pubblico
+      </option>
+
+      <option value="segnaletica">
+        Segnaletica e sicurezza stradale
+      </option>
+
+      <option value="degrado">
+        Degrado urbano
+      </option>
+
+      <option value="altro">
+        Altro
+      </option>
+
     </select>
 
   </section>
 
-  <section class="card">
 
-    <h2>✏️ Descrivi il problema</h2>
+
+  <!-- DESCRIZIONE -->
+
+  <section class="form-card">
+
+    <h2>
+      ✏️ Descrivi il problema
+    </h2>
 
     <p>
       Spiega brevemente cosa hai visto.
@@ -84,7 +880,9 @@
       servono informazioni utili per verificare la segnalazione.
     </p>
 
-    <label for="descrizione"><strong>Descrizione *</strong></label>
+    <label for="descrizione">
+      <strong>Descrizione *</strong>
+    </label>
 
     <textarea
       id="descrizione"
@@ -96,19 +894,29 @@
 
   </section>
 
-  <section class="card">
 
-    <h2>📷 Fotografie</h2>
+
+  <!-- FOTO -->
+
+  <section class="form-card">
+
+    <h2>
+      📷 Fotografie
+    </h2>
 
     <p>
-      Puoi allegare fino a <strong>5 fotografie</strong> del problema.
-      Cerca di includere immagini chiare e, quando utile,
-      sia una panoramica della zona sia un'immagine più ravvicinata.
+      Puoi allegare fino a <strong>5 fotografie</strong>
+      del problema.
+      Cerca di includere immagini chiare e,
+      quando utile, sia una panoramica della zona
+      sia un'immagine più ravvicinata.
     </p>
 
     <p>
-      Evita di fotografare persone riconoscibili quando non è necessario.
-      Ogni fotografia può avere una dimensione massima di 10 MB.
+      Evita di fotografare persone riconoscibili
+      quando non è necessario.
+      Ogni fotografia può avere una dimensione
+      massima di 10 MB.
     </p>
 
     <label for="foto">
@@ -123,93 +931,132 @@
       multiple
     >
 
-    <p id="infoFoto" style="font-size:14px;color:#666;"></p>
+    <p
+      id="infoFoto"
+      class="photo-info"
+    ></p>
 
   </section>
 
-  <section class="card">
 
-    <h2>👤 I tuoi dati</h2>
+
+  <!-- DATI -->
+
+  <section class="form-card">
+
+    <h2>
+      👤 I tuoi dati
+    </h2>
 
     <p>
-      Ci servono per poterti contattare se abbiamo bisogno
-      di chiarimenti sulla segnalazione.
+      Ci servono per poterti contattare
+      se abbiamo bisogno di chiarimenti
+      sulla segnalazione.
     </p>
 
-    <label for="nome"><strong>Nome e cognome *</strong></label>
+    <label for="nome">
+      <strong>Nome e cognome *</strong>
+    </label>
 
     <input
       type="text"
       id="nome"
       name="nome"
       placeholder="Nome e cognome"
+      autocomplete="name"
       required
     >
 
-    <br><br>
 
-    <label for="telefono"><strong>Telefono</strong></label>
+    <label for="telefono">
+      <strong>Telefono</strong>
+    </label>
 
     <input
       type="tel"
       id="telefono"
       name="telefono"
       placeholder="Numero di telefono"
+      autocomplete="tel"
     >
 
-    <br><br>
 
-    <label for="email"><strong>Email *</strong></label>
+    <label for="email">
+      <strong>Email *</strong>
+    </label>
 
     <input
       type="email"
       id="email"
       name="email"
       placeholder="La tua email"
+      autocomplete="email"
       required
     >
 
   </section>
 
-  <section class="notice">
 
-    <strong>Prima di inviare</strong>
+
+  <!-- AVVISO -->
+
+  <section class="warning">
+
+    <strong class="warning-title">
+      Prima di inviare
+    </strong>
 
     <p>
-      La segnalazione sarà verificata prima di essere eventualmente
-      trasmessa all'ente o all'ufficio competente.
+      La segnalazione sarà verificata prima di essere
+      eventualmente trasmessa all'ente o all'ufficio competente.
     </p>
 
     <p>
-      <strong>Canicattì Partecipa non è un ufficio reclami o un servizio
-      di manutenzione.</strong>
-      L'invio della segnalazione non comporta l'impegno del Faro di
-      Canicattì a risolvere direttamente il problema.
+      <strong>
+        Canicattì Partecipa non è un ufficio reclami
+        o un servizio di manutenzione.
+      </strong>
+
+      L'invio della segnalazione non comporta
+      l'impegno del Faro di Canicattì a risolvere
+      direttamente il problema.
     </p>
 
     <p>
       Il progetto nasce come strumento di collaborazione civica:
-      possiamo documentare la segnalazione, individuare il possibile
-      percorso da seguire e, quando possibile, accompagnarne gli
-      sviluppi insieme al cittadino.
+      possiamo documentare la segnalazione,
+      individuare il possibile percorso da seguire e,
+      quando possibile, accompagnarne gli sviluppi
+      insieme al cittadino.
     </p>
 
     <p>
-      Gli eventuali interventi restano di competenza degli enti
-      e degli uffici responsabili.
+      Gli eventuali interventi restano di competenza
+      degli enti e degli uffici responsabili.
     </p>
 
   </section>
 
-  <section class="card">
 
-    <h2>Invia la segnalazione</h2>
+
+  <!-- INVIO -->
+
+  <section class="form-card">
+
+    <h2>
+      Invia la segnalazione
+    </h2>
 
     <p>
-      Controlla che luogo, descrizione e dati inseriti siano corretti.
+      Controlla che luogo, descrizione
+      e dati inseriti siano corretti.
     </p>
 
-    <button class="btn" type="button" id="inviaSegnalazione">
+    <button
+      class="button button-yellow"
+      type="button"
+      id="inviaSegnalazione"
+    >
       Invia segnalazione
     </button>
 
@@ -217,44 +1064,97 @@
 
   </section>
 
-  <section class="card">
 
-    <h2>Vuoi partecipare attivamente?</h2>
+
+  <!-- ADOZIONE -->
+
+  <section class="form-card">
+
+    <h2>
+      Vuoi partecipare attivamente?
+    </h2>
 
     <p>
-      Se invece vuoi seguire nel tempo una strada o una zona della città,
+      Se invece vuoi seguire nel tempo
+      una strada o una zona della città,
       puoi aderire al progetto
       <strong>Adotta una via / Adotta un quartiere</strong>.
     </p>
 
-    <a class="btn alt" href="adozione.html">
+    <a
+      class="button button-red"
+      href="adozione.html"
+    >
       Scopri il progetto
     </a>
 
   </section>
 
-  <a class="btn blue" href="index.html">
-    Torna alla pagina principale
+
+
+  <a
+    class="button button-home"
+    href="index.html"
+  >
+    ← Torna alla pagina principale
   </a>
+
 
 </main>
 
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
 <footer>
 
-  <img src="logo-faro.jpg" alt="Faro di Canicattì">
+  <strong>
+    Faro di Canicattì
+  </strong>
 
-  <div>
-    Un progetto di cittadinanza attiva del Faro di Canicattì
+  <p>
+    Canicattì Partecipa è un progetto
+    di cittadinanza attiva.
+  </p>
+
+  <p>
+    La piattaforma raccoglie, documenta e,
+    quando necessario, inoltra le segnalazioni.
+    Gli interventi restano di competenza
+    degli enti responsabili.
+  </p>
+
+  <div class="footer-links">
+
+    <a href="privacy.html">
+      Privacy
+    </a>
+
+    <span>•</span>
+
+    <a href="cookie.html">
+      Cookie
+    </a>
+
+    <span>•</span>
+
+    <a href="note-legali.html">
+      Note legali
+    </a>
+
   </div>
-
-  <span class="legal">
-    La piattaforma documenta e inoltra le segnalazioni.
-    Gli interventi restano di competenza degli enti responsabili.
-  </span>
 
 </footer>
 
+
+
 <script>
+
+/* =====================================================
+   CONFIGURAZIONE SUPABASE
+===================================================== */
 
 const SUPABASE_URL =
   "https://zkwwxxmbikxpzedcmjxx.supabase.co";
@@ -262,70 +1162,101 @@ const SUPABASE_URL =
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inprd3d4eG1iaWt4cHplZGNtanh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NDM5NTAsImV4cCI6MjEwNjUxOTk1MH0.HzTRtLCAf87qicBM1TD06Wb_l7pK66azttTuGKFezmo";
 
-const BUCKET_FOTO = "segnalazioni-foto";
+const BUCKET_FOTO =
+  "segnalazioni-foto";
 
 const EMAIL_FUNCTION_URL =
-  SUPABASE_URL + "/functions/v1/invia-email";
+  SUPABASE_URL +
+  "/functions/v1/invia-email";
 
 const MAX_FOTO = 5;
-const MAX_DIMENSIONE_FOTO = 10 * 1024 * 1024;
 
+const MAX_DIMENSIONE_FOTO =
+  10 * 1024 * 1024;
+
+
+/* =====================================================
+   EVENTI
+===================================================== */
 
 document
   .getElementById("inviaSegnalazione")
-  .addEventListener("click", inviaSegnalazione);
+  .addEventListener(
+    "click",
+    inviaSegnalazione
+  );
 
 
 document
   .getElementById("foto")
-  .addEventListener("change", function() {
+  .addEventListener(
+    "change",
+    function() {
 
-    const numeroFoto = this.files.length;
+      const numeroFoto =
+        this.files.length;
 
-    const info =
-      document.getElementById("infoFoto");
-
-    if (numeroFoto === 0) {
-
-      info.textContent = "";
-
-    } else if (numeroFoto > MAX_FOTO) {
-
-      info.innerHTML =
-        "⚠️ Hai selezionato " +
-        numeroFoto +
-        " fotografie. Puoi allegarne al massimo " +
-        MAX_FOTO +
-        ".";
-
-    } else {
-
-      info.innerHTML =
-        "📷 " +
-        numeroFoto +
-        (
-          numeroFoto === 1
-            ? " fotografia selezionata."
-            : " fotografie selezionate."
+      const info =
+        document.getElementById(
+          "infoFoto"
         );
 
+
+      if (numeroFoto === 0) {
+
+        info.textContent = "";
+
+      } else if (
+        numeroFoto > MAX_FOTO
+      ) {
+
+        info.innerHTML =
+          "⚠️ Hai selezionato " +
+          numeroFoto +
+          " fotografie. Puoi allegarne al massimo " +
+          MAX_FOTO +
+          ".";
+
+      } else {
+
+        info.innerHTML =
+          "📷 " +
+          numeroFoto +
+          (
+            numeroFoto === 1
+              ? " fotografia selezionata."
+              : " fotografie selezionate."
+          );
+
+      }
+
     }
+  );
 
-  });
 
+/* =====================================================
+   NUMERO PRATICA
+===================================================== */
 
 function generaNumeroPratica() {
 
-  const adesso = new Date();
+  const adesso =
+    new Date();
 
   const anno =
-    String(adesso.getFullYear()).slice(-2);
+    String(
+      adesso.getFullYear()
+    ).slice(-2);
 
   const mese =
-    String(adesso.getMonth() + 1).padStart(2, "0");
+    String(
+      adesso.getMonth() + 1
+    ).padStart(2, "0");
 
   const giorno =
-    String(adesso.getDate()).padStart(2, "0");
+    String(
+      adesso.getDate()
+    ).padStart(2, "0");
 
   const casuale =
     Math.random()
@@ -333,60 +1264,83 @@ function generaNumeroPratica() {
       .substring(2, 7)
       .toUpperCase();
 
-  return "CP-" + anno + mese + giorno + "-" + casuale;
+  return (
+    "CP-" +
+    anno +
+    mese +
+    giorno +
+    "-" +
+    casuale
+  );
+
 }
 
+
+/* =====================================================
+   CARICAMENTO FOTO
+===================================================== */
 
 async function caricaFoto(foto) {
 
   const nomeOriginale =
-    foto.name || "foto.jpg";
+    foto.name ||
+    "foto.jpg";
 
   const estensione =
     nomeOriginale.includes(".")
-      ? nomeOriginale.split(".").pop().toLowerCase()
+      ? nomeOriginale
+          .split(".")
+          .pop()
+          .toLowerCase()
       : "jpg";
 
   const nomeFile =
     "segnalazioni/" +
     Date.now() +
     "_" +
-    Math.random().toString(36).substring(2, 12) +
+    Math.random()
+      .toString(36)
+      .substring(2, 12) +
     "." +
     estensione;
 
 
-  const rispostaFoto = await fetch(
-    SUPABASE_URL +
-    "/storage/v1/object/" +
-    BUCKET_FOTO +
-    "/" +
-    nomeFile,
-    {
+  const rispostaFoto =
+    await fetch(
 
-      method: "POST",
+      SUPABASE_URL +
+      "/storage/v1/object/" +
+      BUCKET_FOTO +
+      "/" +
+      nomeFile,
 
-      headers: {
+      {
 
-        "apikey":
-          SUPABASE_ANON_KEY,
+        method: "POST",
 
-        "Authorization":
-          "Bearer " +
-          SUPABASE_ANON_KEY,
+        headers: {
 
-        "Content-Type":
-          foto.type || "application/octet-stream",
+          "apikey":
+            SUPABASE_ANON_KEY,
 
-        "x-upsert":
-          "false"
+          "Authorization":
+            "Bearer " +
+            SUPABASE_ANON_KEY,
 
-      },
+          "Content-Type":
+            foto.type ||
+            "application/octet-stream",
 
-      body: foto
+          "x-upsert":
+            "false"
 
-    }
-  );
+        },
+
+        body: foto
+
+      }
+
+    );
 
 
   if (!rispostaFoto.ok) {
@@ -405,40 +1359,71 @@ async function caricaFoto(foto) {
 
 
   return nomeFile;
+
 }
 
+
+/* =====================================================
+   INVIO SEGNALAZIONE
+===================================================== */
 
 async function inviaSegnalazione() {
 
   const luogo =
-    document.getElementById("luogo").value.trim();
+    document
+      .getElementById("luogo")
+      .value
+      .trim();
 
   const categoria =
-    document.getElementById("categoria").value;
+    document
+      .getElementById("categoria")
+      .value;
 
   const descrizione =
-    document.getElementById("descrizione").value.trim();
+    document
+      .getElementById("descrizione")
+      .value
+      .trim();
 
   const nome =
-    document.getElementById("nome").value.trim();
+    document
+      .getElementById("nome")
+      .value
+      .trim();
 
   const telefono =
-    document.getElementById("telefono").value.trim();
+    document
+      .getElementById("telefono")
+      .value
+      .trim();
 
   const email =
-    document.getElementById("email").value.trim();
+    document
+      .getElementById("email")
+      .value
+      .trim();
 
   const inputFoto =
-    document.getElementById("foto");
+    document
+      .getElementById("foto");
 
   const fotoSelezionate =
-    Array.from(inputFoto.files);
+    Array.from(
+      inputFoto.files
+    );
 
   const messaggio =
-    document.getElementById("messaggioInvio");
+    document
+      .getElementById(
+        "messaggioInvio"
+      );
 
   const pulsante =
-    document.getElementById("inviaSegnalazione");
+    document
+      .getElementById(
+        "inviaSegnalazione"
+      );
 
 
   /* CAMPI OBBLIGATORI */
@@ -455,6 +1440,7 @@ async function inviaSegnalazione() {
       "⚠️ <strong>Compila tutti i campi obbligatori prima di inviare.</strong>";
 
     return;
+
   }
 
 
@@ -463,18 +1449,25 @@ async function inviaSegnalazione() {
   const emailValida =
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  if (!emailValida.test(email)) {
+
+  if (
+    !emailValida.test(email)
+  ) {
 
     messaggio.innerHTML =
       "⚠️ <strong>Inserisci un indirizzo email valido.</strong>";
 
     return;
+
   }
 
 
   /* NUMERO MASSIMO FOTO */
 
-  if (fotoSelezionate.length > MAX_FOTO) {
+  if (
+    fotoSelezionate.length >
+    MAX_FOTO
+  ) {
 
     messaggio.innerHTML =
       "⚠️ <strong>Puoi allegare al massimo " +
@@ -485,31 +1478,43 @@ async function inviaSegnalazione() {
       " immagini.";
 
     return;
+
   }
 
 
   /* DIMENSIONE E TIPO FOTO */
 
-  for (const foto of fotoSelezionate) {
+  for (
+    const foto of
+    fotoSelezionate
+  ) {
 
-    if (foto.size > MAX_DIMENSIONE_FOTO) {
+    if (
+      foto.size >
+      MAX_DIMENSIONE_FOTO
+    ) {
 
       messaggio.innerHTML =
         "⚠️ <strong>Una delle fotografie supera i 10 MB.</strong><br>" +
         "Riduci la dimensione dell'immagine e riprova.";
 
       return;
+
     }
+
 
     if (
       foto.type &&
-      !foto.type.startsWith("image/")
+      !foto.type.startsWith(
+        "image/"
+      )
     ) {
 
       messaggio.innerHTML =
         "⚠️ <strong>Puoi allegare solamente immagini.</strong>";
 
       return;
+
     }
 
   }
@@ -532,9 +1537,10 @@ async function inviaSegnalazione() {
 
   try {
 
-    /* ============================================
-       1. CARICAMENTO DI TUTTE LE FOTO
-       ============================================ */
+
+    /* =================================================
+       1. CARICAMENTO FOTO
+    ================================================= */
 
     for (
       let i = 0;
@@ -549,19 +1555,23 @@ async function inviaSegnalazione() {
         fotoSelezionate.length +
         "...";
 
+
       const percorso =
         await caricaFoto(
           fotoSelezionate[i]
         );
 
-      fotoUrls.push(percorso);
+
+      fotoUrls.push(
+        percorso
+      );
 
     }
 
 
-    /* ============================================
-       2. REGISTRAZIONE SEGNALAZIONE
-       ============================================ */
+    /* =================================================
+       2. REGISTRAZIONE
+    ================================================= */
 
     messaggio.innerHTML =
       "⏳ Registrazione della segnalazione...";
@@ -582,22 +1592,14 @@ async function inviaSegnalazione() {
         nome,
 
       contatto:
-        telefono || email,
+        telefono ||
+        email,
 
-      /*
-       * Manteniamo foto_url per compatibilità
-       * con le vecchie funzioni del sito.
-       * Contiene la prima fotografia.
-       */
       foto_url:
         fotoUrls.length > 0
           ? fotoUrls[0]
           : null,
 
-      /*
-       * Nuovo campo contenente tutte
-       * le fotografie della pratica.
-       */
       foto_urls:
         fotoUrls,
 
@@ -608,7 +1610,8 @@ async function inviaSegnalazione() {
         categoria,
 
       telefono:
-        telefono || null,
+        telefono ||
+        null,
 
       email:
         email,
@@ -619,35 +1622,41 @@ async function inviaSegnalazione() {
     };
 
 
-    const risposta = await fetch(
-      SUPABASE_URL +
-      "/rest/v1/segnalazioni_cittadini",
-      {
+    const risposta =
+      await fetch(
 
-        method: "POST",
+        SUPABASE_URL +
+        "/rest/v1/segnalazioni_cittadini",
 
-        headers: {
+        {
 
-          "apikey":
-            SUPABASE_ANON_KEY,
+          method: "POST",
 
-          "Authorization":
-            "Bearer " +
-            SUPABASE_ANON_KEY,
+          headers: {
 
-          "Content-Type":
-            "application/json",
+            "apikey":
+              SUPABASE_ANON_KEY,
 
-          "Prefer":
-            "return=minimal"
+            "Authorization":
+              "Bearer " +
+              SUPABASE_ANON_KEY,
 
-        },
+            "Content-Type":
+              "application/json",
 
-        body:
-          JSON.stringify(dati)
+            "Prefer":
+              "return=minimal"
 
-      }
-    );
+          },
+
+          body:
+            JSON.stringify(
+              dati
+            )
+
+        }
+
+      );
 
 
     if (!risposta.ok) {
@@ -665,64 +1674,76 @@ async function inviaSegnalazione() {
     }
 
 
-    /* ============================================
-       3. EMAIL DI CONFERMA
-       ============================================ */
+    /* =================================================
+       3. EMAIL
+    ================================================= */
 
     messaggio.innerHTML =
       "⏳ Segnalazione registrata. Invio della conferma via email...";
 
 
-    let emailInviata = false;
+    let emailInviata =
+      false;
 
 
     try {
 
-      const rispostaEmail = await fetch(
-        EMAIL_FUNCTION_URL,
-        {
+      const rispostaEmail =
+        await fetch(
 
-          method: "POST",
+          EMAIL_FUNCTION_URL,
 
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
+          {
 
-          body:
-            JSON.stringify({
+            method: "POST",
 
-              email:
-                email,
+            headers: {
 
-              nome:
-                nome,
+              "Content-Type":
+                "application/json"
 
-              numero_pratica:
-                numeroPratica,
+            },
 
-              stato:
-                "Ricevuta",
+            body:
+              JSON.stringify({
 
-              oggetto:
-                categoria + " – " + luogo,
+                email:
+                  email,
 
-              messaggio:
-                descrizione
+                nome:
+                  nome,
 
-            })
+                numero_pratica:
+                  numeroPratica,
 
-        }
-      );
+                stato:
+                  "Ricevuta",
+
+                oggetto:
+                  categoria +
+                  " – " +
+                  luogo,
+
+                messaggio:
+                  descrizione
+
+              })
+
+          }
+
+        );
 
 
-      if (rispostaEmail.ok) {
+      if (
+        rispostaEmail.ok
+      ) {
 
         const risultatoEmail =
           await rispostaEmail.json();
 
         emailInviata =
-          risultatoEmail.success === true;
+          risultatoEmail.success ===
+          true;
 
       } else {
 
@@ -736,7 +1757,9 @@ async function inviaSegnalazione() {
 
       }
 
-    } catch (erroreEmail) {
+    } catch (
+      erroreEmail
+    ) {
 
       console.error(
         "Errore durante l'invio della conferma email:",
@@ -746,14 +1769,16 @@ async function inviaSegnalazione() {
     }
 
 
-    /* ============================================
+    /* =================================================
        4. CONFERMA
-       ============================================ */
+    ================================================= */
 
     let testoConferma =
+
       "✅ <strong>Segnalazione inviata correttamente!</strong><br><br>" +
 
       "Numero pratica: " +
+
       "<strong>" +
       numeroPratica +
       "</strong><br><br>" +
@@ -761,7 +1786,9 @@ async function inviaSegnalazione() {
       "Conserva questo numero come riferimento della tua segnalazione.<br><br>";
 
 
-    if (fotoUrls.length > 0) {
+    if (
+      fotoUrls.length > 0
+    ) {
 
       testoConferma +=
         "📷 " +
@@ -775,7 +1802,9 @@ async function inviaSegnalazione() {
     }
 
 
-    if (emailInviata) {
+    if (
+      emailInviata
+    ) {
 
       testoConferma +=
         "📧 Ti abbiamo inviato anche una conferma all'indirizzo <strong>" +
@@ -800,38 +1829,60 @@ async function inviaSegnalazione() {
       testoConferma;
 
 
-    /* ============================================
+    /* =================================================
        5. SVUOTA MODULO
-       ============================================ */
+    ================================================= */
 
-    document.getElementById("luogo").value = "";
+    document
+      .getElementById("luogo")
+      .value = "";
 
-    document.getElementById("categoria").value = "";
+    document
+      .getElementById("categoria")
+      .value = "";
 
-    document.getElementById("descrizione").value = "";
+    document
+      .getElementById("descrizione")
+      .value = "";
 
-    document.getElementById("nome").value = "";
+    document
+      .getElementById("nome")
+      .value = "";
 
-    document.getElementById("telefono").value = "";
+    document
+      .getElementById("telefono")
+      .value = "";
 
-    document.getElementById("email").value = "";
+    document
+      .getElementById("email")
+      .value = "";
 
-    document.getElementById("foto").value = "";
+    document
+      .getElementById("foto")
+      .value = "";
 
-    document.getElementById("infoFoto").textContent = "";
+    document
+      .getElementById("infoFoto")
+      .textContent = "";
 
 
-  } catch (errore) {
+  } catch (
+    errore
+  ) {
 
-    console.error(errore);
+    console.error(
+      errore
+    );
 
     messaggio.innerHTML =
       "❌ <strong>Non è stato possibile completare l'invio della segnalazione.</strong><br><br>" +
       errore.message;
 
+
   } finally {
 
-    pulsante.disabled = false;
+    pulsante.disabled =
+      false;
 
     pulsante.textContent =
       "Invia segnalazione";
@@ -841,6 +1892,7 @@ async function inviaSegnalazione() {
 }
 
 </script>
+
 
 </body>
 </html>
