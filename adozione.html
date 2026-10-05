@@ -2,113 +2,826 @@
 <html lang="it">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
   <title>Adotta una via o un quartiere | Canicattì Partecipa</title>
+
   <link rel="stylesheet" href="style.css">
+
+  <style>
+
+    /* ==========================================
+       MODULO ADESIONE
+       ========================================== */
+
+    .adesione-form {
+      margin-top: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      box-sizing: border-box;
+
+      width: 100%;
+
+      padding: 15px 16px;
+
+      border: 1px solid #ccc;
+      border-radius: 12px;
+
+      background: #fff;
+      color: #222;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+      font-size: 16px;
+      line-height: 1.4;
+
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .form-group textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: 2px solid #ffc800;
+      outline-offset: 1px;
+      border-color: #ffc800;
+    }
+
+    .form-note {
+      margin-top: 7px;
+
+      color: #666;
+
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .privacy-box {
+      margin: 25px 0;
+
+      padding: 17px;
+
+      background: #f6f6f4;
+
+      border-radius: 12px;
+
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .privacy-box label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .privacy-box input {
+      flex: 0 0 auto;
+
+      width: 20px;
+      height: 20px;
+
+      margin-top: 2px;
+    }
+
+    .privacy-box a {
+      color: inherit;
+      text-decoration: underline;
+    }
+
+    #inviaAdesione {
+      width: 100%;
+
+      min-height: 58px;
+
+      border: 0;
+      border-radius: 13px;
+
+      padding: 15px 18px;
+
+      background: #d20719;
+      color: white;
+
+      font-size: 17px;
+      font-weight: 800;
+
+      cursor: pointer;
+    }
+
+    #inviaAdesione:disabled {
+      opacity: .6;
+      cursor: default;
+    }
+
+    #messaggioAdesione {
+      margin-top: 20px;
+
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .success-box {
+      padding: 18px;
+
+      background: #edf8ef;
+
+      border-left: 5px solid #269443;
+      border-radius: 10px;
+
+      color: #173d21;
+    }
+
+    .error-box {
+      padding: 18px;
+
+      background: #fff0f0;
+
+      border-left: 5px solid #d20719;
+      border-radius: 10px;
+
+      color: #6b1717;
+    }
+
+    @media (max-width: 600px) {
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        font-size: 16px;
+      }
+
+    }
+
+  </style>
 </head>
+
 
 <body>
 
+
 <section class="hero">
+
   <div class="hero-in">
-    <img class="brand" src="assets/logo-faro.jpg">
-    <h1>Adotta una via o un quartiere</h1>
-    <p>Un impegno semplice e concreto per prenderti cura del luogo in cui vivi.</p>
+
+    <img
+      class="brand"
+      src="IMG_8924.png"
+      alt="Faro di Canicattì"
+    >
+
+    <h1>
+      Adotta una via o un quartiere
+    </h1>
+
+    <p>
+      Un impegno semplice e concreto per prenderti cura
+      del luogo in cui vivi.
+    </p>
+
   </div>
+
 </section>
+
 
 <main class="wrap">
 
+
   <section class="notice">
-    <strong>Non devi risolvere i problemi della tua strada.</strong>
-    Adottare una via o un quartiere significa semplicemente aiutarci a osservarlo nel tempo,
-    documentare ciò che accade e contribuire a costruire una fotografia reale della zona.
+
+    <strong>
+      Non devi risolvere i problemi della tua strada.
+    </strong>
+
+    Adottare una via o un quartiere significa semplicemente
+    aiutarci a osservarlo nel tempo, documentare ciò che accade
+    e contribuire a costruire una fotografia reale della zona.
+
   </section>
+
 
   <section class="grid">
 
-    <div class="card">
-      <div class="ico">📍</div>
-      <h2>Adotta una via</h2>
-      <p>
-        Puoi scegliere la strada in cui abiti, lavori o che frequenti abitualmente.
-      </p>
-    </div>
 
     <div class="card">
-      <div class="ico">🏘️</div>
-      <h2>Adotta un quartiere</h2>
+
+      <div class="ico">
+        📍
+      </div>
+
+      <h2>
+        Adotta una via
+      </h2>
+
       <p>
-        Puoi contribuire insieme ad altri cittadini a seguire una zona più ampia della città.
+        Puoi scegliere la strada in cui abiti,
+        lavori o che frequenti abitualmente.
       </p>
+
     </div>
 
-    <div class="card">
-      <div class="ico">📷</div>
-      <h2>Osserva e documenta</h2>
-      <p>
-        Quando noti qualcosa di importante puoi inviare foto, luogo, data e una breve descrizione.
-      </p>
-    </div>
 
     <div class="card">
-      <div class="ico">🤝</div>
-      <h2>Partecipa nel tempo</h2>
+
+      <div class="ico">
+        🏘️
+      </div>
+
+      <h2>
+        Adotta un quartiere
+      </h2>
+
       <p>
-        Non è necessario inviare continuamente segnalazioni. L'obiettivo è avere cittadini
-        che conoscano il territorio e possano aiutarci a seguirne l'evoluzione.
+        Puoi contribuire insieme ad altri cittadini
+        a seguire una zona più ampia della città.
       </p>
+
     </div>
+
+
+    <div class="card">
+
+      <div class="ico">
+        📷
+      </div>
+
+      <h2>
+        Osserva e documenta
+      </h2>
+
+      <p>
+        Quando noti qualcosa di importante puoi inviare
+        foto, luogo, data e una breve descrizione.
+      </p>
+
+    </div>
+
+
+    <div class="card">
+
+      <div class="ico">
+        🤝
+      </div>
+
+      <h2>
+        Partecipa nel tempo
+      </h2>
+
+      <p>
+        Non è necessario inviare continuamente segnalazioni.
+        L'obiettivo è avere cittadini che conoscano il territorio
+        e possano aiutarci a seguirne l'evoluzione.
+      </p>
+
+    </div>
+
 
   </section>
 
+
+  <!-- ==========================================
+       MODULO ADESIONE
+       ========================================== -->
+
   <section class="card">
-    <h2>Vuoi partecipare?</h2>
+
+    <h2>
+      Vuoi partecipare?
+    </h2>
 
     <p>
-      Comunica la tua disponibilità indicando il tuo nome, un recapito e la via
-      o il quartiere che vorresti adottare.
+      Compila il modulo per comunicarci la tua disponibilità.
     </p>
 
     <p>
-      L'adesione è volontaria e non comporta alcun obbligo particolare.
-      Serve a creare una rete di cittadini che vogliono contribuire alla conoscenza
-      e alla cura della città.
+      L'adesione è volontaria e non comporta alcun obbligo
+      particolare. Serve a creare una rete di cittadini
+      che vogliono contribuire alla conoscenza e alla cura
+      della città.
     </p>
 
-    <a class="btn" href="mailto:controcorrentefarocanicatti@gmail.com?subject=Adotta%20una%20via%20-%20Canicatti%20Partecipa">
-      Voglio adottare una via o un quartiere
-    </a>
+
+    <form
+      id="formAdesione"
+      class="adesione-form"
+      novalidate
+    >
+
+
+      <div class="form-group">
+
+        <label for="nome">
+          Nome e cognome *
+        </label>
+
+        <input
+          type="text"
+          id="nome"
+          name="nome"
+          autocomplete="name"
+          placeholder="Nome e cognome"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="telefono">
+          Telefono
+        </label>
+
+        <input
+          type="tel"
+          id="telefono"
+          name="telefono"
+          autocomplete="tel"
+          inputmode="tel"
+          placeholder="Numero di telefono"
+        >
+
+        <div class="form-note">
+          Facoltativo.
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="email">
+          Email *
+        </label>
+
+        <input
+          type="email"
+          id="email"
+          name="email"
+          autocomplete="email"
+          inputmode="email"
+          placeholder="La tua email"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="tipo">
+          Come vuoi partecipare? *
+        </label>
+
+        <select
+          id="tipo"
+          name="tipo"
+          required
+        >
+
+          <option value="">
+            Seleziona
+          </option>
+
+          <option value="Adotta una via">
+            Adotta una via
+          </option>
+
+          <option value="Adotta un quartiere">
+            Adotta un quartiere
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="zona">
+          Via o quartiere *
+        </label>
+
+        <input
+          type="text"
+          id="zona"
+          name="zona"
+          placeholder="Es. Via Roma oppure Borgalino"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="messaggio">
+          Vuoi aggiungere qualcosa?
+        </label>
+
+        <textarea
+          id="messaggio"
+          name="messaggio"
+          placeholder="Puoi aggiungere un breve messaggio..."
+        ></textarea>
+
+        <div class="form-note">
+          Facoltativo.
+        </div>
+
+      </div>
+
+
+      <div class="privacy-box">
+
+        <label>
+
+          <input
+            type="checkbox"
+            id="privacy"
+            required
+          >
+
+          <span>
+            Ho letto l'
+            <a
+              href="privacy.html"
+              target="_blank"
+              rel="noopener"
+            >
+              informativa privacy
+            </a>
+            e acconsento al trattamento dei dati necessari
+            alla gestione della mia adesione. *
+          </span>
+
+        </label>
+
+      </div>
+
+
+      <button
+        type="submit"
+        id="inviaAdesione"
+      >
+        🤝 Invia la mia adesione
+      </button>
+
+
+      <div
+        id="messaggioAdesione"
+        aria-live="polite"
+      ></div>
+
+
+    </form>
+
   </section>
 
+
   <section class="card">
-    <h2>Vuoi soltanto fare una segnalazione?</h2>
+
+    <h2>
+      Vuoi soltanto fare una segnalazione?
+    </h2>
 
     <p>
       Non devi adottare una via e non devi aderire al progetto.
       Qualsiasi cittadino può inviare una segnalazione.
     </p>
 
-    <a class="btn blue" href="partecipa.html">
+    <a
+      class="btn blue"
+      href="partecipa.html"
+    >
       Fai una segnalazione
     </a>
+
   </section>
 
-  <a class="btn alt" href="index.html">
+
+  <a
+    class="btn alt"
+    href="index.html"
+  >
     Torna alla pagina principale
   </a>
 
+
 </main>
 
+
 <footer>
-  <img src="assets/logo-faro.jpg">
-  Un progetto di cittadinanza attiva del Faro di Canicattì
+
+  <img
+    src="IMG_8924.png"
+    alt="Faro di Canicattì"
+  >
+
+  <div>
+    Un progetto di cittadinanza attiva del Faro di Canicattì
+  </div>
+
   <br>
+
   <span class="legal">
     La piattaforma documenta e inoltra le segnalazioni.
     Gli interventi restano di competenza degli enti responsabili.
   </span>
+
 </footer>
+
+
+<script>
+
+const ADESIONI_FUNCTION_URL =
+  "https://zkwwxxmbikxpzedcmjxx.supabase.co/functions/v1/invia-adesioni";
+
+
+const form =
+  document.getElementById("formAdesione");
+
+const pulsante =
+  document.getElementById("inviaAdesione");
+
+const risultato =
+  document.getElementById("messaggioAdesione");
+
+
+form.addEventListener(
+  "submit",
+  async function(event) {
+
+    event.preventDefault();
+
+
+    const nome =
+      document.getElementById("nome").value.trim();
+
+    const telefono =
+      document.getElementById("telefono").value.trim();
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    const tipo =
+      document.getElementById("tipo").value;
+
+    const zona =
+      document.getElementById("zona").value.trim();
+
+    const messaggio =
+      document.getElementById("messaggio").value.trim();
+
+    const privacy =
+      document.getElementById("privacy").checked;
+
+
+    /* ==========================================
+       CONTROLLI
+       ========================================== */
+
+    if (
+      !nome ||
+      !email ||
+      !tipo ||
+      !zona
+    ) {
+
+      risultato.innerHTML =
+        '<div class="error-box">' +
+        '⚠️ <strong>Compila tutti i campi obbligatori.</strong>' +
+        '</div>';
+
+      return;
+    }
+
+
+    const emailValida =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+    if (!emailValida.test(email)) {
+
+      risultato.innerHTML =
+        '<div class="error-box">' +
+        '⚠️ <strong>Inserisci un indirizzo email valido.</strong>' +
+        '</div>';
+
+      return;
+    }
+
+
+    if (!privacy) {
+
+      risultato.innerHTML =
+        '<div class="error-box">' +
+        '⚠️ Devi leggere e accettare l’informativa privacy ' +
+        'prima di inviare l’adesione.' +
+        '</div>';
+
+      return;
+    }
+
+
+    /* ==========================================
+       INVIO
+       ========================================== */
+
+    pulsante.disabled = true;
+
+    pulsante.textContent =
+      "Invio in corso...";
+
+    risultato.innerHTML =
+      "⏳ Stiamo inviando la tua adesione...";
+
+
+    try {
+
+      const risposta =
+        await fetch(
+          ADESIONI_FUNCTION_URL,
+          {
+
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            body:
+              JSON.stringify({
+
+                nome:
+                  nome,
+
+                telefono:
+                  telefono,
+
+                email:
+                  email,
+
+                tipo:
+                  tipo,
+
+                zona:
+                  zona,
+
+                messaggio:
+                  messaggio
+
+              })
+
+          }
+        );
+
+
+      let dati = {};
+
+      try {
+
+        dati =
+          await risposta.json();
+
+      } catch (_) {
+
+        dati = {};
+
+      }
+
+
+      if (
+        !risposta.ok ||
+        dati.success !== true
+      ) {
+
+        throw new Error(
+          dati.error ||
+          "Errore durante l'invio."
+        );
+
+      }
+
+
+      /* ==========================================
+         SUCCESSO
+         ========================================== */
+
+      let confermaEmail = "";
+
+
+      if (
+        dati.conferma_cittadino === true
+      ) {
+
+        confermaEmail =
+          "<br><br>📧 Ti abbiamo inviato anche " +
+          "una conferma all'indirizzo email indicato.";
+
+      } else {
+
+        confermaEmail =
+          "<br><br>La tua adesione è stata ricevuta correttamente. " +
+          "Al momento potrebbe non essere arrivata " +
+          "la conferma automatica via email.";
+
+      }
+
+
+      risultato.innerHTML =
+        '<div class="success-box">' +
+
+        '✅ <strong>Adesione inviata correttamente!</strong>' +
+
+        '<br><br>' +
+
+        'Grazie per aver dato la tua disponibilità ' +
+        'a partecipare al progetto ' +
+        '<strong>Adotta una via o un quartiere</strong>.' +
+
+        confermaEmail +
+
+        '<br><br>' +
+
+        'Quando necessario potremo contattarti ' +
+        'utilizzando i recapiti che hai indicato.' +
+
+        '</div>';
+
+
+      form.reset();
+
+
+      risultato.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+
+    } catch (errore) {
+
+      console.error(errore);
+
+
+      risultato.innerHTML =
+        '<div class="error-box">' +
+
+        '❌ <strong>Non è stato possibile inviare ' +
+        'l’adesione.</strong>' +
+
+        '<br><br>' +
+
+        'Riprova tra qualche momento.' +
+
+        '</div>';
+
+
+    } finally {
+
+      pulsante.disabled = false;
+
+      pulsante.textContent =
+        "🤝 Invia la mia adesione";
+
+    }
+
+  }
+);
+
+</script>
+
 
 </body>
 </html>
