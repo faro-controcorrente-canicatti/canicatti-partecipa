@@ -1,91 +1,83 @@
 <!doctype html>
 <html lang="it">
+
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <meta name="description"
+        content="Canicattì Partecipa - uno strumento di cittadinanza attiva promosso dal Faro di Canicattì. Segnala problemi, idee e proposte per la città.">
+
+  <meta name="theme-color" content="#111111">
 
   <title>Canicattì Partecipa | Faro di Canicattì</title>
-
-  <meta
-    name="description"
-    content="Canicattì Partecipa è il progetto di cittadinanza attiva del Faro di Canicattì."
-  >
 
   <link rel="stylesheet" href="style.css">
 </head>
 
+
 <body>
 
-<!-- =========================================
-     HERO HOME
-     ========================================= -->
+<!-- ========================================
+     HERO
+     ======================================== -->
 
-<header class="home-hero">
+<header class="hero">
 
-  <div class="home-overlay"></div>
+  <div class="hero-overlay"></div>
 
-  <div class="home-hero-content">
+  <div class="hero-content">
 
-    <!-- FARO + LOGO -->
+    <div class="faro-header">
 
-    <div class="home-brand-row">
-
-      <div class="home-faro">
-        <span class="home-faro-small">
-          Un progetto del
-        </span>
-
-        <strong>
-          Faro di Canicattì
-        </strong>
+      <div class="faro-name">
+        Faro di Canicattì
       </div>
 
-      <div class="home-logo-box">
-        <img
-          src="logo-faro.jpg"
-          alt="Controcorrente - Faro di Canicattì"
-          class="home-logo"
-        >
-      </div>
+      <img
+        class="hero-logo"
+        src="IMG_8924.png"
+        alt="Controcorrente">
 
     </div>
 
 
-    <!-- TITOLO -->
+    <div class="project-title">
 
-    <div class="home-title">
+      <span class="canicatti">
+        CANICATTÌ
+      </span>
 
-      <span>CANICATTÌ</span>
-
-      <strong>PARTECIPA</strong>
+      <span class="partecipa">
+        PARTECIPA
+      </span>
 
     </div>
 
 
-    <p class="home-slogan">
+    <p class="hero-tagline">
       Segnala. Partecipa.<br>
       Prenditi cura della tua città.
     </p>
 
 
-    <!-- AZIONI PRINCIPALI -->
+    <div class="hero-actions">
 
-    <div class="home-actions">
+      <a class="hero-btn primary"
+         href="partecipa.html">
 
-      <a
-        class="home-action home-action-yellow"
-        href="partecipa.html"
-      >
-        <span>📷</span>
-        Fai una segnalazione
+        📷 Fai una segnalazione
+
       </a>
 
-      <a
-        class="home-action home-action-red"
-        href="adozione.html"
-      >
-        <span>📍</span>
-        Adotta una via o un quartiere
+
+      <a class="hero-btn secondary"
+         href="adozione.html">
+
+        📍 Adotta una via o un quartiere
+
       </a>
 
     </div>
@@ -95,20 +87,20 @@
 </header>
 
 
-<!-- =========================================
+<!-- ========================================
      CONTENUTO
-     ========================================= -->
+     ======================================== -->
 
 <main class="wrap">
 
 
-  <!-- INTRODUZIONE -->
+  <!-- INTRO -->
 
-  <section class="intro-block">
+  <section class="intro">
 
-    <span class="eyebrow">
+    <div class="eyebrow">
       CITTADINANZA ATTIVA
-    </span>
+    </div>
 
     <h1>
       La città è di tutti.<br>
@@ -127,111 +119,193 @@
       e proponendo idee per migliorare la città.
     </p>
 
+    <p class="important">
+      Non promettiamo interventi che non dipendono da noi.
+      Possiamo però raccogliere, verificare e dare voce
+      alle segnalazioni dei cittadini.
+    </p>
+
   </section>
 
 
-  <!-- DUE PERCORSI -->
 
-  <section class="section-heading">
+  <!-- COME PARTECIPARE -->
 
-    <span class="eyebrow">
+  <section class="section">
+
+    <div class="eyebrow">
       COME PARTECIPARE
-    </span>
+    </div>
 
     <h2>
       Scegli come dare il tuo contributo
     </h2>
 
+
+    <div class="grid">
+
+
+      <!-- SEGNALAZIONE -->
+
+      <article class="card">
+
+        <div class="card-icon">
+          📷
+        </div>
+
+        <h3>
+          Fai una segnalazione
+        </h3>
+
+        <p>
+          Hai visto una buca, una perdita d'acqua,
+          rifiuti abbandonati, un problema di illuminazione,
+          degrado o un'altra criticità?
+        </p>
+
+        <p>
+          Invia una segnalazione indicando il luogo,
+          descrivendo il problema e allegando,
+          quando possibile, alcune fotografie.
+        </p>
+
+        <a class="btn yellow"
+           href="partecipa.html">
+
+          Fai una segnalazione
+
+        </a>
+
+      </article>
+
+
+
+      <!-- ADOZIONE -->
+
+      <article class="card">
+
+        <div class="card-icon">
+          📍
+        </div>
+
+        <h3>
+          Adotta una via o un quartiere
+        </h3>
+
+        <p>
+          Vuoi fare qualcosa in più?
+        </p>
+
+        <p>
+          Puoi scegliere una strada, un cortile
+          o una zona della città e contribuire nel tempo
+          a documentarne criticità, necessità
+          e possibili miglioramenti.
+        </p>
+
+        <a class="btn red"
+           href="adozione.html">
+
+          Adotta una via o un quartiere
+
+        </a>
+
+      </article>
+
+
+
+      <!-- COME FUNZIONA -->
+
+      <article class="card">
+
+        <div class="card-icon">
+          🔎
+        </div>
+
+        <h3>
+          Cosa succede dopo?
+        </h3>
+
+        <p>
+          Le segnalazioni ricevute vengono controllate
+          e organizzate.
+        </p>
+
+        <p>
+          Quando ci sono gli elementi necessari,
+          possono essere trasmesse all'ente
+          o all'ufficio competente.
+        </p>
+
+        <a class="btn dark"
+           href="come-funziona.html">
+
+          Scopri come funziona
+
+        </a>
+
+      </article>
+
+
+
+      <!-- STATO -->
+
+      <article class="card">
+
+        <div class="card-icon">
+          📄
+        </div>
+
+        <h3>
+          Segui la tua segnalazione
+        </h3>
+
+        <p>
+          Ogni segnalazione riceve un numero pratica.
+        </p>
+
+        <p>
+          Puoi utilizzarlo per verificare il percorso
+          della tua pratica e gli eventuali aggiornamenti.
+        </p>
+
+        <a class="btn blue"
+           href="stato.html">
+
+          Consulta la tua pratica
+
+        </a>
+
+      </article>
+
+
+    </div>
+
   </section>
 
 
-  <section class="grid">
 
+  <!-- DAL CITTADINO ALL'ATTO -->
 
-    <article class="card feature-card">
+  <section class="process">
 
-      <div class="feature-icon yellow-icon">
-        📷
-      </div>
-
-      <h2>
-        Fai una segnalazione
-      </h2>
-
-      <p>
-        Hai visto una buca, una perdita d'acqua,
-        rifiuti abbandonati, un problema di illuminazione,
-        degrado o un'altra criticità?
-      </p>
-
-      <p>
-        Invia una segnalazione indicando il luogo,
-        descrivendo il problema e allegando,
-        quando possibile, alcune fotografie.
-      </p>
-
-      <a
-        class="btn"
-        href="partecipa.html"
-      >
-        Fai una segnalazione
-      </a>
-
-    </article>
-
-
-    <article class="card feature-card adoption-card">
-
-      <div class="feature-icon red-icon">
-        📍
-      </div>
-
-      <h2>
-        Adotta una via o un quartiere
-      </h2>
-
-      <p>
-        Vuoi fare qualcosa in più?
-      </p>
-
-      <p>
-        Puoi seguire nel tempo una strada,
-        un quartiere o una zona della città,
-        contribuendo a documentarne problemi,
-        necessità e possibili miglioramenti.
-      </p>
-
-      <a
-        class="btn red"
-        href="adozione.html"
-      >
-        Scopri il progetto
-      </a>
-
-    </article>
-
-  </section>
-
-
-  <!-- COME FUNZIONA -->
-
-  <section class="card process-card">
-
-    <span class="eyebrow">
-      DAL CITTADINO ALL'ATTO
-    </span>
+    <div class="eyebrow">
+      COME FUNZIONA
+    </div>
 
     <h2>
-      Cosa succede dopo una segnalazione?
+      Dal cittadino alla segnalazione
     </h2>
 
 
     <div class="step">
 
-      <span class="n">1</span>
+      <span class="number">
+        1
+      </span>
 
       <div>
-        <b>Segnala</b>
+        <strong>Segnala</strong>
 
         <p>
           Raccontaci il problema in modo semplice
@@ -244,14 +318,16 @@
 
     <div class="step">
 
-      <span class="n">2</span>
+      <span class="number">
+        2
+      </span>
 
       <div>
-        <b>Documenta</b>
+        <strong>Documenta</strong>
 
         <p>
           Indica il luogo e allega,
-          quando possibile, delle fotografie.
+          quando possibile, fotografie utili.
         </p>
       </div>
 
@@ -260,10 +336,12 @@
 
     <div class="step">
 
-      <span class="n">3</span>
+      <span class="number">
+        3
+      </span>
 
       <div>
-        <b>Verifichiamo</b>
+        <strong>Verifichiamo</strong>
 
         <p>
           Il materiale ricevuto viene controllato
@@ -276,15 +354,17 @@
 
     <div class="step">
 
-      <span class="n">4</span>
+      <span class="number">
+        4
+      </span>
 
       <div>
-        <b>Trasmettiamo</b>
+        <strong>Trasmettiamo</strong>
 
         <p>
           Quando ci sono gli elementi necessari,
           la segnalazione può essere indirizzata
-          all'ente o all'ufficio competente.
+          all'ente competente.
         </p>
       </div>
 
@@ -293,61 +373,54 @@
 
     <div class="step">
 
-      <span class="n">5</span>
+      <span class="number">
+        5
+      </span>
 
       <div>
-        <b>Seguiamo il percorso</b>
+        <strong>Seguiamo il percorso</strong>
 
         <p>
-          Quando possibile seguiamo gli sviluppi
-          della segnalazione insieme al cittadino.
+          Registriamo gli eventuali aggiornamenti
+          e le risposte ricevute.
         </p>
       </div>
 
     </div>
 
-
-    <a
-      class="btn dark"
-      href="come-funziona.html"
-    >
-      Scopri come funziona
-    </a>
-
   </section>
 
 
-  <!-- PRINCIPIO -->
 
-  <section class="notice">
+  <!-- RISERVATEZZA -->
 
-    <span class="eyebrow">
-      UN PRINCIPIO IMPORTANTE
-    </span>
+  <section class="privacy-note">
 
-    <h2>
-      Partecipare non significa promettere.
-    </h2>
+    <div class="privacy-icon">
+      🔒
+    </div>
 
-    <p>
-      <strong>
-        Canicattì Partecipa non è un ufficio reclami
-        né un servizio di manutenzione.
-      </strong>
-    </p>
+    <div>
 
-    <p>
-      Non promettiamo interventi che non dipendono da noi.
-      Possiamo però raccogliere e documentare una segnalazione,
-      individuare il possibile percorso da seguire e,
-      quando possibile, accompagnarne gli sviluppi
-      insieme al cittadino.
-    </p>
+      <h2>
+        La tua segnalazione non viene pubblicata
+        automaticamente.
+      </h2>
 
-    <p>
-      Gli eventuali interventi restano di competenza
-      degli enti e degli uffici responsabili.
-    </p>
+      <p>
+        Il rapporto relativo alla singola segnalazione
+        rimane tra il cittadino e il Faro di Canicattì,
+        salvo quanto necessario per trasmetterla
+        agli enti o agli uffici competenti.
+      </p>
+
+      <p>
+        Nomi, recapiti e altri dati personali
+        non vengono mostrati pubblicamente attraverso
+        la piattaforma.
+      </p>
+
+    </div>
 
   </section>
 
@@ -355,65 +428,63 @@
 </main>
 
 
-<!-- =========================================
+
+<!-- ========================================
      FOOTER
-     ========================================= -->
+     ======================================== -->
 
 <footer class="site-footer">
 
-  <div class="footer-inner">
-
-    <div class="footer-brand">
-
-      <img
-        src="logo-faro.jpg"
-        alt="Faro di Canicattì"
-      >
-
-      <div>
-        <strong>
-          Faro di Canicattì
-        </strong>
-
-        <span>
-          Canicattì Partecipa
-        </span>
-      </div>
-
-    </div>
+  <img
+    class="footer-logo"
+    src="IMG_8924.png"
+    alt="Controcorrente">
 
 
-    <p class="footer-description">
-      Un progetto di cittadinanza attiva
-      per dare voce alle segnalazioni,
-      alle idee e alla partecipazione dei cittadini.
-    </p>
+  <strong>
+    Faro di Canicattì
+  </strong>
 
 
-    <nav class="footer-links">
-
-      <a href="privacy.html">
-        Privacy
-      </a>
-
-      <a href="cookie.html">
-        Cookie
-      </a>
-
-      <a href="come-funziona.html">
-        Come funziona
-      </a>
-
-    </nav>
+  <p>
+    Canicattì Partecipa
+  </p>
 
 
-    <span class="legal">
-      La piattaforma documenta e inoltra le segnalazioni.
-      Gli interventi restano di competenza
-      degli enti responsabili.
-    </span>
+  <div class="footer-links">
+
+    <a href="privacy.html">
+      Privacy
+    </a>
+
+    <span>•</span>
+
+    <a href="cookie.html">
+      Cookie
+    </a>
+
+    <span>•</span>
+
+    <a href="note-legali.html">
+      Note legali
+    </a>
 
   </div>
+
+
+  <p class="footer-disclaimer">
+
+    Canicattì Partecipa è un'iniziativa civica
+    promossa dal Faro di Canicattì.
+
+    Il Faro di Canicattì non è un ente pubblico
+    e non sostituisce gli uffici o gli enti competenti.
+
+    L'invio di una segnalazione non costituisce
+    una richiesta ufficiale di intervento
+    né garantisce la risoluzione del problema.
+
+  </p>
 
 </footer>
 
