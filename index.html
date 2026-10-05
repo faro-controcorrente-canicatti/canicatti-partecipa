@@ -18,7 +18,7 @@
 <style>
 
 /* =====================================================
-   RESET - SOLO QUESTA HOME
+   RESET
 ===================================================== */
 
 * {
@@ -116,42 +116,56 @@ a {
   align-items: center;
   justify-content: space-between;
 
-  gap: 20px;
+  gap: 18px;
 }
 
+
+/* Scritta Faro di Canicattì */
 
 .faro-title {
   color: white;
 
-  font-size: 36px;
-  line-height: 1.05;
+  font-size: 43px;
+  line-height: .92;
 
-  font-weight: 800;
+  font-weight: 900;
 
-  letter-spacing: -1.2px;
+  letter-spacing: -2px;
+
+  text-transform: uppercase;
 
   text-shadow:
-    0 3px 12px rgba(0,0,0,.45);
+    0 4px 16px rgba(0,0,0,.55);
+}
+
+.faro-title .faro-small {
+  display: block;
+
+  margin-bottom: 4px;
+
+  font-size: .58em;
+  line-height: 1;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  text-transform: none;
 }
 
 
-/*
-IMPORTANTE:
-Il logo NON viene ritagliato.
-object-fit: contain mantiene l'immagine intera.
-*/
+/* Logo Controcorrente */
 
 .logo-box {
-  flex: 0 0 128px;
+  flex: 0 0 150px;
 
-  width: 128px;
-  height: 128px;
+  width: 150px;
+  height: 150px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 
 .logo-box img {
   display: block;
@@ -162,19 +176,17 @@ object-fit: contain mantiene l'immagine intera.
   object-fit: contain;
 
   border: 0;
-
   background: transparent;
 }
 
 
 /* =====================================================
-   TITOLO CENTRALE
+   TITOLO CANICATTÌ PARTECIPA
 ===================================================== */
 
 .hero-main {
   margin-top: auto;
 }
-
 
 .project-name {
   margin: 0;
@@ -192,22 +204,16 @@ object-fit: contain mantiene l'immagine intera.
     0 4px 18px rgba(0,0,0,.40);
 }
 
-
 .project-name span {
   display: block;
 }
-
 
 .project-name .yellow {
   color: #ffc800;
 }
 
-
 .tagline {
-  margin:
-    28px
-    0
-    0;
+  margin: 28px 0 0;
 
   color: white;
 
@@ -236,7 +242,6 @@ object-fit: contain mantiene l'immagine intera.
   gap: 14px;
 }
 
-
 .main-button {
   width: 100%;
 
@@ -263,12 +268,10 @@ object-fit: contain mantiene l'immagine intera.
     0 7px 22px rgba(0,0,0,.22);
 }
 
-
 .yellow-button {
   background: #ffc800;
   color: #171717;
 }
-
 
 .red-button {
   background: #d20719;
@@ -288,14 +291,12 @@ object-fit: contain mantiene l'immagine intera.
   padding: 62px 0;
 }
 
-
 .container {
   width: calc(100% - 40px);
   max-width: 1000px;
 
   margin: 0 auto;
 }
-
 
 .label {
   margin-bottom: 20px;
@@ -308,7 +309,6 @@ object-fit: contain mantiene l'immagine intera.
 
   letter-spacing: 2.8px;
 }
-
 
 .intro h2 {
   margin: 0 0 28px;
@@ -323,7 +323,6 @@ object-fit: contain mantiene l'immagine intera.
   color: #202226;
 }
 
-
 .intro p {
   max-width: 800px;
 
@@ -334,7 +333,6 @@ object-fit: contain mantiene l'immagine intera.
 
   color: #34363a;
 }
-
 
 .notice {
   margin-top: 28px;
@@ -362,7 +360,6 @@ object-fit: contain mantiene l'immagine intera.
   background: white;
 }
 
-
 .options h2 {
   margin: 0 0 30px;
 
@@ -372,7 +369,6 @@ object-fit: contain mantiene l'immagine intera.
   letter-spacing: -1.5px;
 }
 
-
 .cards {
   display: grid;
 
@@ -381,7 +377,6 @@ object-fit: contain mantiene l'immagine intera.
 
   gap: 20px;
 }
-
 
 .card {
   padding: 25px;
@@ -396,13 +391,11 @@ object-fit: contain mantiene l'immagine intera.
     0 7px 22px rgba(0,0,0,.05);
 }
 
-
 .card-icon {
   margin-bottom: 12px;
 
   font-size: 30px;
 }
-
 
 .card h3 {
   margin: 0 0 14px;
@@ -410,7 +403,6 @@ object-fit: contain mantiene l'immagine intera.
   font-size: 25px;
   line-height: 1.15;
 }
-
 
 .card p {
   margin: 0 0 14px;
@@ -420,7 +412,6 @@ object-fit: contain mantiene l'immagine intera.
 
   color: #3d3f42;
 }
-
 
 .card-button {
   width: 100%;
@@ -443,24 +434,20 @@ object-fit: contain mantiene l'immagine intera.
   font-weight: 800;
 }
 
-
 .card-yellow {
   background: #ffc800;
   color: #171717;
 }
-
 
 .card-red {
   background: #d20719;
   color: white;
 }
 
-
 .card-dark {
   background: #282b30;
   color: white;
 }
-
 
 .card-blue {
   background: #1769aa;
@@ -478,7 +465,6 @@ object-fit: contain mantiene l'immagine intera.
   background: #f4f3ef;
 }
 
-
 .process h2 {
   margin: 0 0 32px;
 
@@ -487,7 +473,6 @@ object-fit: contain mantiene l'immagine intera.
 
   letter-spacing: -1.5px;
 }
-
 
 .step {
   max-width: 760px;
@@ -502,7 +487,6 @@ object-fit: contain mantiene l'immagine intera.
 
   border-bottom: 1px solid #d9d8d4;
 }
-
 
 .step-number {
   flex: 0 0 43px;
@@ -523,11 +507,9 @@ object-fit: contain mantiene l'immagine intera.
   font-weight: 900;
 }
 
-
 .step strong {
   font-size: 19px;
 }
-
 
 .step p {
   margin: 4px 0 0;
@@ -556,7 +538,6 @@ footer {
   text-align: center;
 }
 
-
 footer strong {
   display: block;
 
@@ -564,7 +545,6 @@ footer strong {
 
   font-size: 21px;
 }
-
 
 footer p {
   max-width: 700px;
@@ -577,7 +557,6 @@ footer p {
   line-height: 1.5;
 }
 
-
 .footer-links {
   margin-top: 23px;
 
@@ -587,7 +566,6 @@ footer p {
 
   gap: 8px;
 }
-
 
 .footer-links a {
   color: white;
@@ -610,7 +588,6 @@ footer p {
     background-position: center center;
   }
 
-
   .hero-inner {
     width: calc(100% - 38px);
 
@@ -628,24 +605,32 @@ footer p {
   .brand-row {
     align-items: center;
 
-    gap: 12px;
+    gap: 10px;
   }
-
 
   .faro-title {
-    max-width: 60%;
+    max-width: calc(100% - 145px);
 
-    font-size: 30px;
+    font-size: clamp(35px, 9.5vw, 43px);
 
-    line-height: 1.03;
+    line-height: .91;
+
+    letter-spacing: -1.8px;
   }
 
+  .faro-title .faro-small {
+    font-size: .57em;
+
+    letter-spacing: .5px;
+
+    margin-bottom: 4px;
+  }
 
   .logo-box {
-    flex-basis: 108px;
+    flex: 0 0 135px;
 
-    width: 108px;
-    height: 108px;
+    width: 135px;
+    height: 135px;
   }
 
 
@@ -658,7 +643,6 @@ footer p {
 
     letter-spacing: -2.5px;
   }
-
 
   .tagline {
     margin-top: 24px;
@@ -677,7 +661,6 @@ footer p {
     gap: 13px;
   }
 
-
   .main-button {
     min-height: 64px;
 
@@ -695,13 +678,11 @@ footer p {
     width: calc(100% - 38px);
   }
 
-
   .intro,
   .options,
   .process {
     padding: 54px 0;
   }
-
 
   .intro h2 {
     font-size: 39px;
@@ -711,12 +692,10 @@ footer p {
     letter-spacing: -1.5px;
   }
 
-
   .options h2,
   .process h2 {
     font-size: 35px;
   }
-
 
   .cards {
     grid-template-columns: 1fr;
@@ -736,34 +715,30 @@ footer p {
     min-height: 700px;
   }
 
-
   .faro-title {
-    font-size: 27px;
-  }
+    max-width: calc(100% - 123px);
 
+    font-size: 33px;
+  }
 
   .logo-box {
-    flex-basis: 96px;
+    flex: 0 0 116px;
 
-    width: 96px;
-    height: 96px;
+    width: 116px;
+    height: 116px;
   }
-
 
   .project-name {
     font-size: 47px;
   }
 
-
   .tagline {
     font-size: 22px;
   }
 
-
   .main-button {
     font-size: 16px;
   }
-
 
   .intro h2 {
     font-size: 35px;
@@ -792,7 +767,8 @@ footer p {
     <div class="brand-row">
 
       <div class="faro-title">
-        Faro di<br>Canicattì
+        <span class="faro-small">Faro di</span>
+        Canicattì
       </div>
 
       <div class="logo-box">
