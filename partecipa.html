@@ -497,7 +497,11 @@ async function inviaSegnalazione() {
         telefono || null,
 
       email:
-        email
+        email,
+
+      /* SALVA LO STESSO NUMERO PRATICA NEL DATABASE */
+      numero_pratica:
+        numeroPratica
 
     };
 
@@ -522,12 +526,9 @@ async function inviaSegnalazione() {
             "application/json",
 
           /*
-           * IMPORTANTE:
-           * non chiediamo a Supabase di restituire
+           * Non chiediamo a Supabase di restituire
            * il record appena inserito.
-           *
-           * In questo modo evitiamo la SELECT
-           * bloccata dalle policy RLS.
+           * Evitiamo così la SELECT bloccata dalle policy RLS.
            */
           "Prefer":
             "return=minimal"
