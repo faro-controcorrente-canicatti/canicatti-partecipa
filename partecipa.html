@@ -166,12 +166,26 @@
 
     <p>
       La segnalazione sarà verificata prima di essere eventualmente
-      trasmessa all'ente competente.
+      trasmessa all'ente o all'ufficio competente.
     </p>
 
     <p>
-      L'invio non garantisce la risoluzione del problema:
-      gli interventi restano di competenza degli enti responsabili.
+      <strong>Canicattì Partecipa non è un ufficio reclami o un servizio
+      di manutenzione.</strong>
+      L'invio della segnalazione non comporta l'impegno del Faro di
+      Canicattì a risolvere direttamente il problema.
+    </p>
+
+    <p>
+      Il progetto nasce come strumento di collaborazione civica:
+      possiamo documentare la segnalazione, individuare il possibile
+      percorso da seguire e, quando possibile, accompagnarne gli
+      sviluppi insieme al cittadino.
+    </p>
+
+    <p>
+      Gli eventuali interventi restano di competenza degli enti
+      e degli uffici responsabili.
     </p>
 
   </section>
@@ -239,6 +253,9 @@ const SUPABASE_ANON_KEY =
 
 const BUCKET_FOTO = "segnalazioni-foto";
 
+const EMAIL_FUNCTION_URL =
+  SUPABASE_URL + "/functions/v1/invia-email";
+
 
 document
   .getElementById("inviaSegnalazione")
@@ -280,7 +297,9 @@ async function inviaSegnalazione() {
     document.getElementById("inviaSegnalazione");
 
 
-  /* CONTROLLO CAMPI OBBLIGATORI */
+  /* ============================================
+     CONTROLLO CAMPI OBBLIGATORI
+     ============================================ */
 
   if (
     !luogo ||
@@ -297,7 +316,9 @@ async function inviaSegnalazione() {
   }
 
 
-  /* CONTROLLO EMAIL */
+  /* ============================================
+     CONTROLLO EMAIL
+     ============================================ */
 
   const emailValida =
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -311,7 +332,9 @@ async function inviaSegnalazione() {
   }
 
 
-  /* CONTROLLO DIMENSIONE FOTO */
+  /* ============================================
+     CONTROLLO DIMENSIONE FOTO
+     ============================================ */
 
   if (foto && foto.size > 10 * 1024 * 1024) {
 
@@ -335,11 +358,9 @@ async function inviaSegnalazione() {
 
   try {
 
-    /*
-      ============================================
-      1. CARICAMENTO DELLA FOTO SU SUPABASE STORAGE
-      ============================================
-    */
+    /* ============================================
+       1. CARICAMENTO FOTO
+       ============================================ */
 
     if (foto) {
 
@@ -411,23 +432,14 @@ async function inviaSegnalazione() {
       }
 
 
-      /*
-        Salviamo nel database il percorso interno
-        del file nel bucket.
-
-        Non rendiamo pubblicamente leggibile il bucket.
-      */
-
       fotoUrl = nomeFile;
 
     }
 
 
-    /*
-      ============================================
-      2. REGISTRAZIONE DELLA SEGNALAZIONE
-      ============================================
-    */
+    /* ============================================
+       2. REGISTRAZIONE SEGNALAZIONE
+       ============================================ */
 
     messaggio.innerHTML =
       "⏳ Registrazione della segnalazione...";
@@ -484,7 +496,7 @@ async function inviaSegnalazione() {
             "application/json",
 
           "Prefer":
-            "return=minimal"
+            "return=representation"
 
         },
 
@@ -510,19 +522,166 @@ async function inviaSegnalazione() {
     }
 
 
-    /*
-      ============================================
-      3. INVIO RIUSCITO
-      ============================================
-    */
+    const recordCreati =
+      await risposta.json();
+
+    const pratica =
+      Array.isArray(recordCreati)
+        ? recordCreati[0]
+        : recordCreati;
+
+
+    if (!pratica) {
+
+      throw new Error(
+        "La segnalazione è stata registrata, ma non è stato possibile recuperare il numero pratica."
+      );
+
+    }
+
+
+    /* ============================================
+       3. NUMERO PRATICA
+       ============================================ */
+
+    const idPratica =
+      pratica.id !== undefined &&
+      pratica.id !== null
+        ? String(pratica.id)
+        : String(Date.now());
+
+
+    const numeroPratica =
+      "CP-" +
+      idPratica.padStart(6, "0");
+
+
+    /* ============================================
+       4. INVIO EMAIL DI CONFERMA
+       ============================================ */
 
     messaggio.innerHTML =
+      "⏳ Segnalazione registrata. Invio della conferma via email...";
+
+
+    let emailInviata = false;
+
+
+    try {
+
+      const rispostaEmail = await fetch(
+        EMAIL_FUNCTION_URL,
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body:
+            JSON.stringify({
+
+              email:
+                email,
+
+              nome:
+                nome,
+
+              numero_pratica:
+                numeroPratica,
+
+              stato:
+                "Ricevuta",
+
+              oggetto:
+                categoria + " – " + luogo,
+
+              messaggio:
+                descrizione
+
+            })
+
+        }
+      );
+
+
+      if (rispostaEmail.ok) {
+
+        const risultatoEmail =
+          await rispostaEmail.json();
+
+        emailInviata =
+          risultatoEmail.success === true;
+
+      } else {
+
+        const erroreEmail =
+          await rispostaEmail.text();
+
+        console.error(
+          "Errore invio email:",
+          erroreEmail
+        );
+
+      }
+
+    } catch (erroreEmail) {
+
+      console.error(
+        "Errore durante l'invio della conferma email:",
+        erroreEmail
+      );
+
+    }
+
+
+    /* ============================================
+       5. CONFERMA AL CITTADINO
+       ============================================ */
+
+    let testoConferma =
       "✅ <strong>Segnalazione inviata correttamente!</strong><br><br>" +
-      "Grazie per la collaborazione. " +
-      "La segnalazione sarà verificata prima dell'eventuale inoltro all'ente competente.";
+
+      "Numero pratica: " +
+      "<strong>" +
+      numeroPratica +
+      "</strong><br><br>" +
+
+      "Conserva questo numero per identificare la tua segnalazione.<br><br>";
 
 
-    /* SVUOTA I CAMPI */
+    if (emailInviata) {
+
+      testoConferma +=
+        "📧 Ti abbiamo inviato anche una conferma all'indirizzo <strong>" +
+        email +
+        "</strong>.<br><br>";
+
+    } else {
+
+      testoConferma +=
+        "La segnalazione è stata registrata correttamente, " +
+        "ma al momento non è stato possibile inviare la conferma via email.<br><br>";
+
+    }
+
+
+    testoConferma +=
+      "La segnalazione sarà verificata prima dell'eventuale inoltro " +
+      "all'ente o all'ufficio competente.";
+
+
+    messaggio.innerHTML =
+      testoConferma;
+
+
+    /* ============================================
+       6. SVUOTA I CAMPI
+       ============================================ */
 
     document.getElementById("luogo").value = "";
 
@@ -544,7 +703,7 @@ async function inviaSegnalazione() {
     console.error(errore);
 
     messaggio.innerHTML =
-      "❌ <strong>Non è stato possibile inviare la segnalazione.</strong><br><br>" +
+      "❌ <strong>Non è stato possibile completare l'invio della segnalazione.</strong><br><br>" +
       errore.message;
 
   } finally {
