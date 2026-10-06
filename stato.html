@@ -1,516 +1,1264 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Stato della pratica - Canicattì Partecipa</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<title>Consulta la tua pratica | Canicattì Partecipa</title>
+
+<meta
+  name="description"
+  content="Consulta lo stato della tua segnalazione su Canicattì Partecipa."
+>
 
 <style>
 
-*{
-  box-sizing:border-box;
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+  box-sizing: border-box;
 }
 
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f4f6f8;
-  color:#222;
+html {
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: 100%;
 }
 
-/* HEADER */
+body {
+  margin: 0;
+  padding: 0;
 
-header{
-  background:linear-gradient(135deg,#1565c0,#0d47a1);
-  color:white;
-  padding:18px 15px;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  background: #f4f3ef;
+  color: #202226;
+
+  line-height: 1.5;
 }
 
-.header-inner{
-  max-width:850px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  gap:14px;
+a {
+  text-decoration: none;
 }
 
-.logo{
-  width:78px;
-  height:78px;
-  object-fit:contain;
-  background:white;
-  border-radius:50%;
-  padding:3px;
+
+/* =====================================================
+   TESTATA
+===================================================== */
+
+.page-header {
+  position: relative;
+
+  min-height: 330px;
+
+  overflow: hidden;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.28),
+      rgba(0,0,0,.72)
+    ),
+    url("IMG_8923.webp");
+
+  background-size: cover;
+  background-position: center;
 }
 
-.header-title{
-  flex:1;
+.header-inner {
+  width: calc(100% - 40px);
+  max-width: 900px;
+
+  min-height: 330px;
+
+  margin: 0 auto;
+
+  padding: 25px 0 32px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.header-title h1{
-  font-size:23px;
-  margin:0 0 4px;
+
+/* =====================================================
+   FARO + LOGO
+===================================================== */
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
 }
 
-.header-title div{
-  opacity:.9;
-  font-size:15px;
+.faro-title {
+  color: white;
+
+  font-size: 34px;
+  line-height: .93;
+
+  font-weight: 900;
+
+  letter-spacing: -1.5px;
+
+  text-transform: uppercase;
+
+  text-shadow:
+    0 3px 12px rgba(0,0,0,.55);
 }
 
-.home{
-  background:white;
-  color:#0d47a1;
-  text-decoration:none;
-  padding:10px 13px;
-  border-radius:9px;
-  font-weight:bold;
-  white-space:nowrap;
+.faro-small {
+  display: block;
+
+  margin-bottom: 3px;
+
+  font-size: .56em;
+
+  font-weight: 700;
+
+  letter-spacing: .7px;
+
+  text-transform: none;
 }
 
-/* CONTENUTO */
+.logo-box {
+  flex: 0 0 105px;
 
-.wrap{
-  max-width:850px;
-  margin:auto;
-  padding:18px 15px 40px;
+  width: 105px;
+  height: 105px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.card{
-  background:white;
-  border-radius:16px;
-  padding:20px;
-  margin-bottom:18px;
-  box-shadow:0 3px 12px rgba(0,0,0,.08);
+.logo-box img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
 }
 
-h2{
-  margin-top:0;
+
+/* =====================================================
+   TITOLO PAGINA
+===================================================== */
+
+.page-title {
+  margin-top: 35px;
 }
 
-.intro{
-  line-height:1.55;
-  color:#555;
+.page-title .project {
+  margin-bottom: 8px;
+
+  color: #ffc800;
+
+  font-size: 13px;
+
+  font-weight: 850;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
 }
 
-/* FORM */
+.page-title h1 {
+  margin: 0 0 10px;
 
-label{
-  display:block;
-  font-weight:bold;
-  margin:16px 0 7px;
+  color: white;
+
+  font-size: clamp(37px, 8vw, 55px);
+
+  line-height: 1;
+
+  letter-spacing: -2px;
+
+  text-shadow:
+    0 3px 14px rgba(0,0,0,.45);
 }
 
-input{
-  width:100%;
-  padding:14px;
-  border:1px solid #ccc;
-  border-radius:9px;
-  font-size:17px;
+.page-title p {
+  margin: 0;
+
+  max-width: 650px;
+
+  color: white;
+
+  font-size: 19px;
+  line-height: 1.35;
+
+  text-shadow:
+    0 2px 8px rgba(0,0,0,.5);
 }
 
-button{
-  width:100%;
-  margin-top:18px;
-  padding:14px;
-  border:0;
-  border-radius:9px;
-  background:#1565c0;
-  color:white;
-  font-size:17px;
-  font-weight:bold;
-  cursor:pointer;
+
+/* =====================================================
+   CONTENUTO
+===================================================== */
+
+.wrap {
+  width: calc(100% - 32px);
+  max-width: 760px;
+
+  margin: 0 auto;
+
+  padding: 30px 0 55px;
 }
 
-button:disabled{
-  opacity:.6;
+
+/* =====================================================
+   INTRO
+===================================================== */
+
+.intro {
+  margin-bottom: 20px;
+
+  padding: 24px;
+
+  background: white;
+
+  border-left: 6px solid #ffc800;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 22px rgba(0,0,0,.06);
 }
 
-#messaggio{
-  margin-top:16px;
-  font-weight:bold;
+.intro h2 {
+  margin: 0 0 12px;
+
+  font-size: 24px;
+  line-height: 1.15;
 }
 
-.errore{
-  color:#b00020;
+.intro p {
+  margin: 9px 0;
+
+  font-size: 16px;
+  line-height: 1.5;
+
+  color: #44464a;
 }
 
-.successo{
-  color:#198754;
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.card {
+  margin-bottom: 18px;
+
+  padding: 24px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 22px rgba(0,0,0,.06);
 }
 
-/* PRATICA */
+.card h2 {
+  margin: 0 0 10px;
 
-.hidden{
-  display:none;
+  font-size: 23px;
+  line-height: 1.2;
 }
 
-.numero{
-  color:#666;
-  margin-bottom:16px;
+.card p {
+  margin: 8px 0 18px;
+
+  color: #55585c;
+
+  font-size: 16px;
+  line-height: 1.5;
 }
 
-/* STATO GRANDE */
 
-.stato{
-  padding:16px;
-  border-radius:12px;
-  font-size:18px;
-  font-weight:bold;
-  margin:15px 0 22px;
-  border-left:7px solid;
+/* =====================================================
+   CAMPI
+===================================================== */
+
+label {
+  display: block;
+
+  margin: 18px 0 7px;
+
+  font-size: 16px;
 }
 
-/* COLORI STATI */
+input {
+  display: block;
 
-.stato-in_attesa{
-  background:#fdeaea;
-  border-color:#dc3545;
-  color:#a61e2b;
+  width: 100%;
+  max-width: 100%;
+
+  margin: 0;
+
+  padding: 15px 14px;
+
+  border: 1px solid #cfd1d4;
+
+  border-radius: 12px;
+
+  background: white;
+
+  color: #202226;
+
+  font-family: inherit;
+
+  font-size: 16px;
+
+  line-height: 1.3;
+
+  outline: none;
+
+  appearance: none;
+  -webkit-appearance: none;
 }
 
-.stato-verificata{
-  background:#e7f1ff;
-  border-color:#0d6efd;
-  color:#084298;
+input:focus {
+  border-color: #d4aa00;
+
+  box-shadow:
+    0 0 0 3px rgba(255,200,0,.18);
 }
 
-.stato-inoltrata{
-  background:#f1e8ff;
-  border-color:#6f42c1;
-  color:#59359a;
+
+/* =====================================================
+   PULSANTI
+===================================================== */
+
+.button {
+  width: 100%;
+
+  min-height: 58px;
+
+  margin-top: 18px;
+
+  padding: 15px 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 14px;
+
+  font-family: inherit;
+
+  font-size: 17px;
+  font-weight: 800;
+
+  text-align: center;
+
+  cursor: pointer;
+
+  transition:
+    transform .12s ease,
+    opacity .12s ease;
 }
 
-.stato-attesa_ente{
-  background:#fff3cd;
-  border-color:#ff9800;
-  color:#805b00;
+.button:active {
+  transform: scale(.985);
 }
 
-.stato-risolta{
-  background:#dff3e6;
-  border-color:#198754;
-  color:#146c43;
+.button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
 }
 
-.stato-chiusa{
-  background:#e9ecef;
-  border-color:#6c757d;
-  color:#495057;
+.button-yellow {
+  background: #ffc800;
+  color: #171717;
 }
 
-.stato-rifiutata{
-  background:#f8d7da;
-  border-color:#842029;
-  color:#842029;
+.button-home {
+  margin-top: 4px;
+
+  background: #1769aa;
+  color: white;
 }
 
-/* DATI */
 
-.riga{
-  padding:13px 0;
-  border-bottom:1px solid #eee;
+/* =====================================================
+   MESSAGGI
+===================================================== */
+
+#messaggio {
+  margin-top: 18px;
+
+  font-size: 15px;
+  line-height: 1.5;
 }
 
-.riga:last-child{
-  border-bottom:0;
+.errore {
+  padding: 16px;
+
+  background: #fff0f0;
+
+  border-left: 5px solid #d20719;
+  border-radius: 10px;
+
+  color: #6b1717;
 }
 
-.etichetta{
-  display:block;
-  color:#666;
-  font-size:14px;
-  margin-bottom:4px;
+.successo {
+  padding: 16px;
+
+  background: #edf8ef;
+
+  border-left: 5px solid #269443;
+  border-radius: 10px;
+
+  color: #173d21;
 }
 
-.valore{
-  font-size:17px;
-  font-weight:bold;
-  word-break:break-word;
+
+/* =====================================================
+   RISULTATO
+===================================================== */
+
+.hidden {
+  display: none;
 }
 
-/* PERCORSO */
+.numero {
+  margin: 4px 0 18px;
 
-.timeline{
-  margin-top:20px;
+  color: #666;
+
+  font-size: 15px;
 }
 
-.step{
-  position:relative;
-  padding:0 0 24px 38px;
-  color:#888;
+
+/* =====================================================
+   STATO
+===================================================== */
+
+.stato {
+  padding: 17px;
+
+  border-radius: 13px;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  margin: 15px 0 22px;
+
+  border-left: 7px solid;
 }
 
-.step:before{
-  content:"";
-  position:absolute;
-  left:7px;
-  top:6px;
-  width:15px;
-  height:15px;
-  border-radius:50%;
-  background:#ccc;
+.stato-in_attesa {
+  background: #fdeaea;
+  border-color: #dc3545;
+  color: #a61e2b;
 }
 
-.step:after{
-  content:"";
-  position:absolute;
-  left:14px;
-  top:22px;
-  width:2px;
-  height:calc(100% - 15px);
-  background:#ddd;
+.stato-verificata {
+  background: #e7f1ff;
+  border-color: #0d6efd;
+  color: #084298;
 }
 
-.step:last-child:after{
-  display:none;
+.stato-inoltrata {
+  background: #f1e8ff;
+  border-color: #6f42c1;
+  color: #59359a;
 }
 
-.step.attivo{
-  color:#222;
+.stato-attesa_ente {
+  background: #fff3cd;
+  border-color: #ff9800;
+  color: #805b00;
 }
 
-.step.attivo:before{
-  background:#198754;
+.stato-risolta {
+  background: #dff3e6;
+  border-color: #198754;
+  color: #146c43;
 }
 
-.step b{
-  display:block;
-  margin-bottom:4px;
+.stato-chiusa {
+  background: #e9ecef;
+  border-color: #6c757d;
+  color: #495057;
 }
 
-/* AVVISO */
-
-.notice{
-  background:#eef5ff;
-  border-left:5px solid #1565c0;
-  padding:15px;
-  border-radius:10px;
-  line-height:1.5;
+.stato-rifiutata {
+  background: #f8d7da;
+  border-color: #842029;
+  color: #842029;
 }
 
-/* FOOTER */
 
-footer{
-  text-align:center;
-  padding:25px 15px 35px;
-  color:#666;
-  font-size:14px;
+/* =====================================================
+   DATI PRATICA
+===================================================== */
+
+.riga {
+  padding: 14px 0;
+
+  border-bottom: 1px solid #eee;
 }
 
-footer img{
-  width:100px;
-  display:block;
-  margin:0 auto 10px;
+.riga:last-child {
+  border-bottom: 0;
 }
 
-@media(max-width:600px){
+.etichetta {
+  display: block;
 
-  .logo{
-    width:64px;
-    height:64px;
+  color: #666;
+
+  font-size: 14px;
+
+  margin-bottom: 4px;
+}
+
+.valore {
+  font-size: 17px;
+
+  font-weight: 700;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =====================================================
+   TIMELINE
+===================================================== */
+
+.timeline {
+  margin-top: 22px;
+}
+
+.step {
+  position: relative;
+
+  padding:
+    0
+    0
+    27px
+    40px;
+
+  color: #8a8a8a;
+}
+
+.step:before {
+  content: "";
+
+  position: absolute;
+
+  left: 7px;
+  top: 5px;
+
+  width: 16px;
+  height: 16px;
+
+  border-radius: 50%;
+
+  background: #ccc;
+}
+
+.step:after {
+  content: "";
+
+  position: absolute;
+
+  left: 14px;
+  top: 22px;
+
+  width: 2px;
+  height: calc(100% - 14px);
+
+  background: #ddd;
+}
+
+.step:last-child:after {
+  display: none;
+}
+
+.step.attivo {
+  color: #303236;
+}
+
+.step.attivo:before {
+  background: #198754;
+}
+
+.step b {
+  display: block;
+
+  margin-bottom: 5px;
+
+  font-size: 16px;
+}
+
+
+/* =====================================================
+   AVVISO
+===================================================== */
+
+.notice {
+  margin-bottom: 18px;
+
+  padding: 22px;
+
+  background: #fff8e1;
+
+  border: 1px solid #f0d275;
+  border-left: 6px solid #ffc800;
+
+  border-radius: 18px;
+}
+
+.notice strong {
+  display: block;
+
+  margin-bottom: 10px;
+
+  font-size: 19px;
+}
+
+.notice p {
+  margin: 9px 0;
+
+  font-size: 15px;
+  line-height: 1.5;
+
+  color: #444;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+  padding:
+    40px
+    20px
+    calc(40px + env(safe-area-inset-bottom));
+
+  background: #202328;
+
+  color: white;
+
+  text-align: center;
+}
+
+footer strong {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 21px;
+}
+
+footer p {
+  max-width: 650px;
+
+  margin: 8px auto;
+
+  color: #d0d0d0;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.footer-links {
+  margin-top: 22px;
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.footer-links a {
+  color: white;
+
+  font-size: 14px;
+
+  text-decoration: underline;
+}
+
+
+/* =====================================================
+   SMARTPHONE
+===================================================== */
+
+@media (max-width: 600px) {
+
+  .page-header {
+    min-height: 315px;
   }
 
-  .header-title h1{
-    font-size:19px;
+  .header-inner {
+    width: calc(100% - 36px);
+
+    min-height: 315px;
+
+    padding-top:
+      max(20px, env(safe-area-inset-top));
+
+    padding-bottom: 27px;
   }
 
-  .home{
-    padding:9px 10px;
-    font-size:14px;
+  .faro-title {
+    max-width: calc(100% - 112px);
+
+    font-size: 30px;
   }
 
-  .card{
-    padding:18px;
+  .logo-box {
+    flex: 0 0 102px;
+
+    width: 102px;
+    height: 102px;
   }
+
+  .page-title {
+    margin-top: 25px;
+  }
+
+  .page-title h1 {
+    font-size: clamp(36px, 10vw, 46px);
+  }
+
+  .page-title p {
+    font-size: 18px;
+  }
+
+  .wrap {
+    width: calc(100% - 26px);
+
+    padding-top: 20px;
+  }
+
+  .intro,
+  .card,
+  .notice {
+    padding: 21px 18px;
+
+    border-radius: 17px;
+  }
+
+  .intro h2,
+  .card h2 {
+    font-size: 22px;
+  }
+
+  input {
+    font-size: 16px;
+
+    padding: 15px 13px;
+  }
+
+  .button {
+    min-height: 58px;
+
+    font-size: 16px;
+  }
+
+}
+
+
+/* =====================================================
+   SMARTPHONE PICCOLI
+===================================================== */
+
+@media (max-width: 370px) {
+
+  .faro-title {
+    font-size: 27px;
+  }
+
+  .logo-box {
+    flex-basis: 90px;
+
+    width: 90px;
+    height: 90px;
+  }
+
+  .page-title h1 {
+    font-size: 35px;
+  }
+
+  .wrap {
+    width: calc(100% - 22px);
+  }
+
+  .intro,
+  .card,
+  .notice {
+    padding: 19px 16px;
+  }
+
 }
 
 </style>
+
 </head>
+
 
 <body>
 
-<header>
+
+<!-- =====================================================
+     TESTATA
+===================================================== -->
+
+<header class="page-header">
 
   <div class="header-inner">
 
-    <!--
-    Cambieremo questo nome con quello definitivo
-    del nuovo logo ad alta qualità.
-    -->
-    <img
-      class="logo"
-      src="logo-faro.jpg"
-      alt="Faro di Canicattì">
 
-    <div class="header-title">
-      <h1>Stato della pratica</h1>
-      <div>Canicattì Partecipa</div>
+    <div class="brand-row">
+
+      <div class="faro-title">
+
+        <span class="faro-small">
+          Faro di
+        </span>
+
+        Canicattì
+
+      </div>
+
+
+      <div class="logo-box">
+
+        <img
+          src="IMG_8924.png"
+          alt="Controcorrente"
+        >
+
+      </div>
+
     </div>
 
-    <a class="home" href="index.html">
-      🏠 Home
-    </a>
+
+    <div class="page-title">
+
+      <div class="project">
+        Canicattì Partecipa
+      </div>
+
+      <h1>
+        Consulta la tua pratica
+      </h1>
+
+      <p>
+        Segui il percorso della tua segnalazione.
+      </p>
+
+    </div>
+
 
   </div>
 
 </header>
 
 
+
+<!-- =====================================================
+     CONTENUTO
+===================================================== -->
+
 <main class="wrap">
 
-  <div class="card">
 
-    <h2>🔎 Cerca la tua pratica</h2>
+  <section class="intro">
 
-    <p class="intro">
-      Inserisci il numero della pratica ricevuto al momento
-      della segnalazione e l'indirizzo e-mail utilizzato
-      per inviarla.
+    <h2>
+      🔎 Cerca la tua segnalazione
+    </h2>
+
+    <p>
+      Inserisci il <strong>numero pratica</strong>
+      che hai ricevuto al momento dell'invio
+      e l'indirizzo email utilizzato per la segnalazione.
     </p>
 
+    <p>
+      Il numero pratica ha un formato simile a
+      <strong>CP-261006-A7K9X</strong>.
+    </p>
+
+  </section>
+
+
+
+  <!-- RICERCA -->
+
+  <section class="card">
+
+    <h2>
+      Dati della pratica
+    </h2>
+
     <label for="numero">
-      Numero pratica
+      <strong>Numero pratica *</strong>
     </label>
 
     <input
       id="numero"
-      type="number"
-      inputmode="numeric"
-      placeholder="Es. 14">
+      type="text"
+      autocomplete="off"
+      autocapitalize="characters"
+      spellcheck="false"
+      placeholder="Es. CP-261006-A7K9X"
+    >
+
 
     <label for="email">
-      E-mail
+      <strong>Email *</strong>
     </label>
 
     <input
       id="email"
       type="email"
       autocomplete="email"
-      placeholder="La tua e-mail">
+      inputmode="email"
+      placeholder="La tua email"
+    >
 
-    <button id="cercaBtn" onclick="cercaPratica()">
+
+    <button
+      class="button button-yellow"
+      id="cercaBtn"
+      type="button"
+    >
       🔎 Cerca pratica
     </button>
 
-    <div id="messaggio"></div>
 
-  </div>
+    <div
+      id="messaggio"
+      aria-live="polite"
+    ></div>
+
+  </section>
 
 
-  <div id="risultato" class="hidden">
 
-    <div class="card">
+  <!-- RISULTATO -->
 
-      <h2>La tua segnalazione</h2>
+  <div
+    id="risultato"
+    class="hidden"
+  >
+
+
+    <section class="card">
+
+      <h2>
+        La tua segnalazione
+      </h2>
 
       <div
         id="numeroPratica"
-        class="numero">
-      </div>
+        class="numero"
+      ></div>
+
 
       <div
         id="statoPratica"
-        class="stato">
-      </div>
+        class="stato"
+      ></div>
+
 
       <div id="datiPratica"></div>
 
-    </div>
+    </section>
 
 
-    <div class="card">
 
-      <h2>📍 Percorso della pratica</h2>
+    <section class="card">
 
-      <div id="timeline" class="timeline"></div>
+      <h2>
+        📍 Percorso della pratica
+      </h2>
 
-    </div>
+      <p>
+        Qui puoi vedere a quale punto del percorso
+        si trova la tua segnalazione.
+      </p>
+
+      <div
+        id="timeline"
+        class="timeline"
+      ></div>
+
+    </section>
 
 
-    <div class="notice">
+
+    <section class="notice">
 
       <strong>
         Cosa significa lo stato della pratica?
       </strong>
 
-      <br><br>
+      <p>
+        Canicattì Partecipa documenta, verifica e,
+        quando previsto, trasmette le segnalazioni
+        agli uffici o agli enti competenti.
+      </p>
 
-      Canicattì Partecipa documenta, verifica e,
-      quando previsto, trasmette le segnalazioni agli
-      uffici o agli enti competenti.
+      <p>
+        <b>
+          La piattaforma non è un servizio di manutenzione
+          e la presenza della pratica non significa
+          che il Faro di Canicattì possa intervenire
+          direttamente sul problema.
+        </b>
+      </p>
 
-      <br><br>
+      <p>
+        Gli eventuali interventi e i relativi tempi
+        restano di competenza dell'ente
+        o dell'ufficio responsabile.
+      </p>
 
-      L'eventuale intervento e i relativi tempi
-      dipendono dall'ente responsabile.
+    </section>
 
-    </div>
 
   </div>
+
+
+
+  <a
+    class="button button-home"
+    href="index.html"
+  >
+    ← Torna alla pagina principale
+  </a>
+
 
 </main>
 
 
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
 <footer>
 
-  <img
-    src="logo-faro.jpg"
-    alt="Faro di Canicattì">
-
   <strong>
-    Un progetto di cittadinanza attiva del Faro di Canicattì
+    Faro di Canicattì
   </strong>
 
-  <br><br>
+  <p>
+    Canicattì Partecipa è un progetto
+    di cittadinanza attiva.
+  </p>
 
-  La piattaforma documenta e inoltra le segnalazioni.
-  Gli interventi restano di competenza degli enti responsabili.
+  <p>
+    La piattaforma raccoglie, documenta e,
+    quando necessario, inoltra le segnalazioni.
+    Gli interventi restano di competenza
+    degli enti responsabili.
+  </p>
+
+
+  <div class="footer-links">
+
+    <a href="privacy.html">
+      Privacy
+    </a>
+
+    <span>•</span>
+
+    <a href="cookie.html">
+      Cookie
+    </a>
+
+    <span>•</span>
+
+    <a href="note-legali.html">
+      Note legali
+    </a>
+
+  </div>
 
 </footer>
 
 
+
 <script>
 
+/* =====================================================
+   SUPABASE
+===================================================== */
+
 const SUPABASE_URL =
-"https://zkwwxxmbikxpzedcmjxx.supabase.co";
+  "https://zkwwxxmbikxpzedcmjxx.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_5usTyC1lIfP6ykIY456Glw_iJdy6NvP";
+  "sb_publishable_5usTyC1lIfP6ykIY456Glw_iJdy6NvP";
 
 
-async function cercaPratica(){
+/* =====================================================
+   EVENTI
+===================================================== */
+
+document
+  .getElementById("cercaBtn")
+  .addEventListener(
+    "click",
+    cercaPratica
+  );
+
+
+document
+  .getElementById("numero")
+  .addEventListener(
+    "input",
+    function() {
+
+      this.value =
+        this.value
+          .toUpperCase()
+          .replace(/\s+/g, "");
+
+    }
+  );
+
+
+document
+  .getElementById("email")
+  .addEventListener(
+    "keydown",
+    function(event) {
+
+      if (event.key === "Enter") {
+
+        cercaPratica();
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   CERCA PRATICA
+===================================================== */
+
+async function cercaPratica() {
 
   const numero =
-    document.getElementById("numero").value.trim();
+    document
+      .getElementById("numero")
+      .value
+      .trim()
+      .toUpperCase();
 
   const email =
-    document.getElementById("email").value.trim();
+    document
+      .getElementById("email")
+      .value
+      .trim()
+      .toLowerCase();
 
   const messaggio =
-    document.getElementById("messaggio");
+    document
+      .getElementById("messaggio");
 
   const risultato =
-    document.getElementById("risultato");
+    document
+      .getElementById("risultato");
 
   const bottone =
-    document.getElementById("cercaBtn");
+    document
+      .getElementById("cercaBtn");
 
 
   risultato.classList.add("hidden");
 
   messaggio.className = "";
+
   messaggio.textContent = "";
 
 
-  if(!numero || !email){
+  /* CAMPI */
 
-    messaggio.className = "errore";
+  if (!numero || !email) {
 
-    messaggio.textContent =
-      "Inserisci il numero della pratica e l'indirizzo e-mail.";
+    messaggio.className =
+      "errore";
+
+    messaggio.innerHTML =
+      "⚠️ <strong>Inserisci il numero pratica e l'indirizzo email.</strong>";
 
     return;
+
+  }
+
+
+  /* FORMATO NUMERO PRATICA */
+
+  const formatoNumero =
+    /^CP-\d{6}-[A-Z0-9]+$/;
+
+
+  if (!formatoNumero.test(numero)) {
+
+    messaggio.className =
+      "errore";
+
+    messaggio.innerHTML =
+      "⚠️ <strong>Il numero pratica non sembra corretto.</strong><br>" +
+      "Controlla il codice ricevuto. Esempio: CP-261006-A7K9X.";
+
+    return;
+
+  }
+
+
+  /* EMAIL */
+
+  const emailValida =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+  if (!emailValida.test(email)) {
+
+    messaggio.className =
+      "errore";
+
+    messaggio.innerHTML =
+      "⚠️ <strong>Inserisci un indirizzo email valido.</strong>";
+
+    return;
+
   }
 
 
@@ -520,99 +1268,135 @@ async function cercaPratica(){
     "Ricerca in corso...";
 
 
-  try{
+  messaggio.innerHTML =
+    "⏳ Ricerca della pratica in corso...";
 
-    const r = await fetch(
 
-      SUPABASE_URL +
-      "/rest/v1/rpc/cerca_pratica_cittadino",
+  try {
 
-      {
-        method:"POST",
+    const risposta =
+      await fetch(
 
-        headers:{
-          "apikey":SUPABASE_KEY,
-          "Authorization":
-            "Bearer " + SUPABASE_KEY,
-          "Content-Type":"application/json"
-        },
+        SUPABASE_URL +
+        "/rest/v1/rpc/cerca_pratica_cittadino",
 
-        body:JSON.stringify({
+        {
 
-          p_id:Number(numero),
+          method: "POST",
 
-          p_email:email
+          headers: {
 
-        })
+            "apikey":
+              SUPABASE_KEY,
 
-      }
+            "Authorization":
+              "Bearer " +
+              SUPABASE_KEY,
 
-    );
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body:
+            JSON.stringify({
+
+              p_numero_pratica:
+                numero,
+
+              p_email:
+                email
+
+            })
+
+        }
+
+      );
 
 
     const testo =
-      await r.text();
+      await risposta.text();
 
 
-    if(!r.ok){
+    if (!risposta.ok) {
 
-      throw new Error(testo);
+      console.error(
+        "Errore Supabase:",
+        testo
+      );
+
+      throw new Error(
+        testo
+      );
 
     }
 
 
     let dati = [];
 
-    if(testo){
 
-      dati = JSON.parse(testo);
-
-    }
-
-
-    if(!Array.isArray(dati)){
+    if (testo) {
 
       dati =
-        dati ? [dati] : [];
+        JSON.parse(testo);
 
     }
 
 
-    if(dati.length === 0){
+    if (!Array.isArray(dati)) {
 
-      messaggio.className = "errore";
+      dati =
+        dati
+          ? [dati]
+          : [];
 
-      messaggio.textContent =
-        "Nessuna pratica trovata. Controlla il numero della pratica e l'indirizzo e-mail.";
+    }
+
+
+    if (dati.length === 0) {
+
+      messaggio.className =
+        "errore";
+
+      messaggio.innerHTML =
+        "❌ <strong>Nessuna pratica trovata.</strong><br><br>" +
+        "Controlla che il numero pratica e l'indirizzo email " +
+        "siano gli stessi utilizzati al momento della segnalazione.";
 
       return;
 
     }
 
 
-    mostraPratica(dati[0]);
+    mostraPratica(
+      dati[0]
+    );
 
 
-    messaggio.className = "successo";
+    messaggio.className =
+      "successo";
 
-    messaggio.textContent =
-      "✓ Pratica trovata.";
+    messaggio.innerHTML =
+      "✓ <strong>Pratica trovata.</strong>";
 
 
-  }
-  catch(error){
+  } catch (error) {
 
     console.error(error);
 
-    messaggio.className = "errore";
 
-    messaggio.textContent =
-      "Non è stato possibile cercare la pratica. Riprova tra qualche minuto.";
+    messaggio.className =
+      "errore";
 
-  }
-  finally{
+    messaggio.innerHTML =
+      "❌ <strong>Non è stato possibile cercare la pratica.</strong><br><br>" +
+      "Riprova tra qualche momento.";
 
-    bottone.disabled = false;
+
+  } finally {
+
+    bottone.disabled =
+      false;
 
     bottone.textContent =
       "🔎 Cerca pratica";
@@ -623,24 +1407,39 @@ async function cercaPratica(){
 
 
 
-function mostraPratica(p){
+/* =====================================================
+   MOSTRA PRATICA
+===================================================== */
+
+function mostraPratica(p) {
+
+  const numeroPratica =
+    p.numero_pratica ||
+    "Non disponibile";
+
 
   document
     .getElementById("numeroPratica")
     .textContent =
-      "Pratica n. " + p.id;
+      "Numero pratica: " +
+      numeroPratica;
 
 
   const stato =
-    p.stato || "in_attesa";
+    p.stato ||
+    "in_attesa";
 
 
   const statoBox =
-    document.getElementById("statoPratica");
+    document
+      .getElementById(
+        "statoPratica"
+      );
 
 
   statoBox.className =
-    "stato stato-" + stato;
+    "stato stato-" +
+    stato;
 
 
   statoBox.textContent =
@@ -652,7 +1451,7 @@ function mostraPratica(p){
   let html = "";
 
 
-  if(p.indirizzo){
+  if (p.indirizzo) {
 
     html += riga(
       "Indirizzo della segnalazione",
@@ -662,27 +1461,31 @@ function mostraPratica(p){
   }
 
 
-  if(p.categoria){
+  if (p.categoria) {
 
     html += riga(
       "Categoria",
-      nomeCategoria(p.categoria)
+      nomeCategoria(
+        p.categoria
+      )
     );
 
   }
 
 
-  if(p.data_invio){
+  if (p.data_invio) {
 
     html += riga(
       "Segnalazione ricevuta",
-      formattaData(p.data_invio)
+      formattaData(
+        p.data_invio
+      )
     );
 
   }
 
 
-  if(p.ente_destinatario){
+  if (p.ente_destinatario) {
 
     html += riga(
       "Ente / ufficio destinatario",
@@ -692,17 +1495,19 @@ function mostraPratica(p){
   }
 
 
-  if(p.data_inoltro){
+  if (p.data_inoltro) {
 
     html += riga(
       "Data di inoltro",
-      formattaData(p.data_inoltro)
+      formattaData(
+        p.data_inoltro
+      )
     );
 
   }
 
 
-  if(p.protocollo){
+  if (p.protocollo) {
 
     html += riga(
       "Protocollo / riferimento",
@@ -712,17 +1517,19 @@ function mostraPratica(p){
   }
 
 
-  if(p.data_risposta_ente){
+  if (p.data_risposta_ente) {
 
     html += riga(
       "Data della risposta",
-      formattaData(p.data_risposta_ente)
+      formattaData(
+        p.data_risposta_ente
+      )
     );
 
   }
 
 
-  if(p.risposta_ente){
+  if (p.risposta_ente) {
 
     html += riga(
       "Risposta / esito comunicato",
@@ -733,67 +1540,91 @@ function mostraPratica(p){
 
 
   document
-    .getElementById("datiPratica")
-    .innerHTML = html;
+    .getElementById(
+      "datiPratica"
+    )
+    .innerHTML =
+      html;
 
 
-  creaTimeline(stato);
+  creaTimeline(
+    stato
+  );
 
 
   document
-    .getElementById("risultato")
-    .classList.remove("hidden");
+    .getElementById(
+      "risultato"
+    )
+    .classList.remove(
+      "hidden"
+    );
 
 
-  setTimeout(()=>{
+  setTimeout(
+    () => {
 
-    document
-      .getElementById("risultato")
-      .scrollIntoView({
-        behavior:"smooth",
-        block:"start"
-      });
+      document
+        .getElementById(
+          "risultato"
+        )
+        .scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
 
-  },100);
+    },
+    100
+  );
 
 }
 
 
 
-function creaTimeline(stato){
+/* =====================================================
+   TIMELINE
+===================================================== */
+
+function creaTimeline(stato) {
 
   const ordine = [
+
     "in_attesa",
+
     "verificata",
+
     "inoltrata",
+
     "attesa_ente",
+
     "risolta"
+
   ];
 
 
   const testi = {
 
-    in_attesa:[
+    in_attesa: [
       "Segnalazione ricevuta",
       "La pratica è stata registrata ed è in attesa di verifica."
     ],
 
-    verificata:[
+    verificata: [
       "Documentazione verificata",
       "Il materiale ricevuto è stato controllato."
     ],
 
-    inoltrata:[
+    inoltrata: [
       "Trasmissione all'ente",
       "La pratica è stata trasmessa all'ufficio o ente competente."
     ],
 
-    attesa_ente:[
+    attesa_ente: [
       "In attesa dell'ente competente",
-      "Il nostro passaggio è stato completato. Attendiamo eventuali comunicazioni dall'ente."
+      "La segnalazione è stata trasmessa. Attendiamo eventuali comunicazioni dall'ente."
     ],
 
-    risolta:[
+    risolta: [
       "Pratica risolta",
       "È stato comunicato un intervento o un esito positivo della pratica."
     ]
@@ -804,46 +1635,31 @@ function creaTimeline(stato){
   let html = "";
 
 
-  if(stato === "rifiutata"){
+  if (stato === "rifiutata") {
 
-    html = `
-
-      <div class="step attivo">
-
-        <b>Segnalazione ricevuta</b>
-
-        La pratica è stata registrata.
-
-      </div>
+    html += stepHTML(
+      "Segnalazione ricevuta",
+      "La pratica è stata registrata.",
+      true
+    );
 
 
-      <div class="step attivo">
-
-        <b>Segnalazione non accolta</b>
-
-        La segnalazione non è stata inserita nel percorso operativo.
-
-      </div>
-
-    `;
+    html += stepHTML(
+      "Segnalazione non accolta",
+      "Dopo la verifica, la segnalazione non è stata inserita nel percorso operativo.",
+      true
+    );
 
   }
 
-  else if(stato === "chiusa"){
 
-    ordine.forEach((s,index)=>{
+  else if (stato === "chiusa") {
 
-      if(index < 4){
-
-        html += stepHTML(
-          testi[s][0],
-          testi[s][1],
-          true
-        );
-
-      }
-
-    });
+    html += stepHTML(
+      "Segnalazione ricevuta",
+      "La pratica è stata registrata.",
+      true
+    );
 
 
     html += stepHTML(
@@ -854,47 +1670,69 @@ function creaTimeline(stato){
 
   }
 
-  else{
+
+  else {
 
     let posizione =
-      ordine.indexOf(stato);
+      ordine.indexOf(
+        stato
+      );
 
 
-    if(posizione < 0){
+    if (posizione < 0) {
 
       posizione = 0;
 
     }
 
 
-    ordine.forEach((s,index)=>{
+    ordine.forEach(
+      (s, index) => {
 
-      html += stepHTML(
-        testi[s][0],
-        testi[s][1],
-        index <= posizione
-      );
+        html += stepHTML(
+          testi[s][0],
+          testi[s][1],
+          index <= posizione
+        );
 
-    });
+      }
+    );
 
   }
 
 
   document
-    .getElementById("timeline")
-    .innerHTML = html;
+    .getElementById(
+      "timeline"
+    )
+    .innerHTML =
+      html;
 
 }
 
 
 
-function stepHTML(titolo,testo,attivo){
+/* =====================================================
+   COMPONENTI
+===================================================== */
+
+function stepHTML(
+  titolo,
+  testo,
+  attivo
+) {
 
   return `
 
-    <div class="step ${attivo ? "attivo" : ""}">
+    <div class="step ${
+      attivo
+        ? "attivo"
+        : ""
+    }">
 
-      <b>${esc(titolo)}</b>
+      <b>
+        ${esc(titolo)}
+      </b>
 
       ${esc(testo)}
 
@@ -906,7 +1744,10 @@ function stepHTML(titolo,testo,attivo){
 
 
 
-function riga(etichetta,valore){
+function riga(
+  etichetta,
+  valore
+) {
 
   return `
 
@@ -928,7 +1769,11 @@ function riga(etichetta,valore){
 
 
 
-function nomeStato(stato){
+/* =====================================================
+   STATI
+===================================================== */
+
+function nomeStato(stato) {
 
   const nomi = {
 
@@ -956,41 +1801,57 @@ function nomeStato(stato){
   };
 
 
-  return nomi[stato] ||
-         "Stato della pratica";
+  return (
+    nomi[stato] ||
+    "Stato della pratica"
+  );
 
 }
 
 
 
-function iconaStato(stato){
+function iconaStato(stato) {
 
   const icone = {
 
-    in_attesa:"🔴",
+    in_attesa:
+      "🔴",
 
-    verificata:"🔵",
+    verificata:
+      "🔵",
 
-    inoltrata:"🟣",
+    inoltrata:
+      "🟣",
 
-    attesa_ente:"🟠",
+    attesa_ente:
+      "🟠",
 
-    risolta:"🟢",
+    risolta:
+      "🟢",
 
-    chiusa:"⚫",
+    chiusa:
+      "⚫",
 
-    rifiutata:"⛔"
+    rifiutata:
+      "⛔"
 
   };
 
 
-  return icone[stato] || "📋";
+  return (
+    icone[stato] ||
+    "📋"
+  );
 
 }
 
 
 
-function nomeCategoria(categoria){
+/* =====================================================
+   CATEGORIE
+===================================================== */
+
+function nomeCategoria(categoria) {
 
   const nomi = {
 
@@ -1021,28 +1882,33 @@ function nomeCategoria(categoria){
   };
 
 
-  return nomi[categoria] ||
-         categoria;
+  return (
+    nomi[categoria] ||
+    categoria
+  );
 
 }
 
 
 
-function formattaData(data){
+/* =====================================================
+   DATA
+===================================================== */
 
-  try{
+function formattaData(data) {
+
+  try {
 
     return new Date(data)
       .toLocaleString(
         "it-IT",
         {
-          dateStyle:"long",
-          timeStyle:"short"
+          dateStyle: "long",
+          timeStyle: "short"
         }
       );
 
-  }
-  catch{
+  } catch {
 
     return data;
 
@@ -1052,19 +1918,43 @@ function formattaData(data){
 
 
 
-function esc(v){
+/* =====================================================
+   SICUREZZA HTML
+===================================================== */
+
+function esc(v) {
 
   return String(v ?? "")
 
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 
 }
 
 </script>
+
 
 </body>
 </html>
