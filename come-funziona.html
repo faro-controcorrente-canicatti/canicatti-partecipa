@@ -1,6 +1,1002 @@
-<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Come funziona</title><link rel="stylesheet" href="style.css"></head><body><header class="top"><div class="topin"><img class="mini" src="assets/logo-faro.jpg"><b>Come funziona</b><a class="back" href="index.html">Home</a></div></header><main class="wrap">
-<div class="notice"><strong>Prima regola: partecipare, non sfogarsi.</strong>Canicattì Partecipa non sostituisce Comune, gestori o uffici tecnici e non garantisce la soluzione del problema.</div>
-<div class="card"><h2>Cosa facciamo</h2><p>Raccogliamo segnalazioni circostanziate degli aderenti, evitiamo duplicati, verifichiamo il materiale e costruiamo un quadro ordinato della via o del quartiere. Quando ci sono elementi utili, il materiale può essere trasformato in un'istanza o segnalazione formale all'ente competente.</p></div>
-<div class="card"><h2>Cosa non facciamo</h2><p>Non siamo un pronto intervento, non siamo un ufficio manutenzione e non promettiamo tempi o risultati che dipendono da altri. Una pratica può risultare correttamente trasmessa anche se l'ente non è ancora intervenuto.</p></div>
-<div class="card"><h2>Perché adottare</h2><p>L'obiettivo non è riempire una mappa di problemi. È creare cittadini che seguono nel tempo un pezzo di città, documentano i fatti e rendono verificabile anche l'eventuale mancata risposta dell'ente.</p></div>
-<a class="btn" href="partecipa.html">Ho capito: voglio partecipare</a></main><footer><img src="assets/logo-faro.jpg">Un progetto di cittadinanza attiva del Faro di Canicattì<br><span class="legal">La piattaforma documenta e inoltra: gli interventi restano di competenza degli enti responsabili.</span></footer></body></html>
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<title>Come funziona | Canicattì Partecipa</title>
+
+<meta
+  name="description"
+  content="Scopri come funziona Canicattì Partecipa, il progetto di cittadinanza attiva del Faro di Canicattì."
+>
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  background: #f4f3ef;
+  color: #202226;
+
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+/* =====================================================
+   TESTATA
+===================================================== */
+
+.page-header {
+  position: relative;
+
+  min-height: 330px;
+
+  overflow: hidden;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.28),
+      rgba(0,0,0,.72)
+    ),
+    url("IMG_8923.webp");
+
+  background-size: cover;
+  background-position: center;
+}
+
+.header-inner {
+  width: calc(100% - 40px);
+  max-width: 900px;
+
+  min-height: 330px;
+
+  margin: 0 auto;
+
+  padding: 25px 0 32px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+/* =====================================================
+   FARO + LOGO
+===================================================== */
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.faro-title {
+  color: white;
+
+  font-size: 34px;
+  line-height: .93;
+
+  font-weight: 900;
+
+  letter-spacing: -1.5px;
+
+  text-transform: uppercase;
+
+  text-shadow:
+    0 3px 12px rgba(0,0,0,.55);
+}
+
+.faro-small {
+  display: block;
+
+  margin-bottom: 3px;
+
+  font-size: .56em;
+
+  font-weight: 700;
+
+  letter-spacing: .7px;
+
+  text-transform: none;
+}
+
+.logo-box {
+  flex: 0 0 105px;
+
+  width: 105px;
+  height: 105px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-box img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+
+/* =====================================================
+   TITOLO PAGINA
+===================================================== */
+
+.page-title {
+  margin-top: 35px;
+}
+
+.page-title .project {
+  margin-bottom: 8px;
+
+  color: #ffc800;
+
+  font-size: 13px;
+
+  font-weight: 850;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+.page-title h1 {
+  margin: 0 0 10px;
+
+  color: white;
+
+  font-size: clamp(37px, 8vw, 55px);
+
+  line-height: 1;
+
+  letter-spacing: -2px;
+
+  text-shadow:
+    0 3px 14px rgba(0,0,0,.45);
+}
+
+.page-title p {
+  margin: 0;
+
+  max-width: 650px;
+
+  color: white;
+
+  font-size: 19px;
+  line-height: 1.35;
+
+  text-shadow:
+    0 2px 8px rgba(0,0,0,.5);
+}
+
+
+/* =====================================================
+   CONTENUTO
+===================================================== */
+
+.wrap {
+  width: calc(100% - 32px);
+  max-width: 760px;
+
+  margin: 0 auto;
+
+  padding: 30px 0 55px;
+}
+
+
+/* =====================================================
+   AVVISO INIZIALE
+===================================================== */
+
+.intro {
+  margin-bottom: 20px;
+
+  padding: 24px;
+
+  background: white;
+
+  border-left: 6px solid #ffc800;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 22px rgba(0,0,0,.06);
+}
+
+.intro h2 {
+  margin: 0 0 12px;
+
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.intro p {
+  margin: 9px 0;
+
+  color: #44464a;
+
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.info-card {
+  margin-bottom: 18px;
+
+  padding: 24px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 22px rgba(0,0,0,.06);
+}
+
+.info-card h2 {
+  margin: 0 0 12px;
+
+  font-size: 23px;
+  line-height: 1.2;
+}
+
+.info-card p {
+  margin: 0;
+
+  color: #55585c;
+
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+
+/* =====================================================
+   CARD COLORATE
+===================================================== */
+
+.card-green {
+  border-left: 6px solid #198754;
+}
+
+.card-red {
+  border-left: 6px solid #d20719;
+}
+
+.card-blue {
+  border-left: 6px solid #1769aa;
+}
+
+.card-yellow {
+  border-left: 6px solid #ffc800;
+}
+
+
+/* =====================================================
+   COME FUNZIONA - PASSAGGI
+===================================================== */
+
+.steps {
+  margin-bottom: 18px;
+
+  padding: 24px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 22px rgba(0,0,0,.06);
+}
+
+.steps h2 {
+  margin: 0 0 20px;
+
+  font-size: 23px;
+}
+
+.step {
+  display: flex;
+
+  gap: 15px;
+
+  margin-bottom: 20px;
+}
+
+.step:last-child {
+  margin-bottom: 0;
+}
+
+.step-number {
+  flex: 0 0 38px;
+
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #ffc800;
+  color: #171717;
+
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.step-text {
+  padding-top: 3px;
+}
+
+.step-text strong {
+  display: block;
+
+  margin-bottom: 3px;
+
+  font-size: 17px;
+}
+
+.step-text p {
+  margin: 0;
+
+  color: #55585c;
+
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+
+/* =====================================================
+   PULSANTI
+===================================================== */
+
+.button {
+  width: 100%;
+
+  min-height: 58px;
+
+  margin-top: 15px;
+
+  padding: 15px 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 14px;
+
+  font-family: inherit;
+
+  font-size: 17px;
+  font-weight: 800;
+
+  text-align: center;
+
+  cursor: pointer;
+
+  transition:
+    transform .12s ease,
+    opacity .12s ease;
+}
+
+.button:active {
+  transform: scale(.985);
+}
+
+.button-yellow {
+  background: #ffc800;
+  color: #171717;
+}
+
+.button-red {
+  background: #d20719;
+  color: white;
+}
+
+.button-home {
+  margin-top: 10px;
+
+  background: #1769aa;
+  color: white;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+  padding:
+    40px
+    20px
+    calc(40px + env(safe-area-inset-bottom));
+
+  background: #202328;
+
+  color: white;
+
+  text-align: center;
+}
+
+footer strong {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 21px;
+}
+
+footer p {
+  max-width: 650px;
+
+  margin: 8px auto;
+
+  color: #d0d0d0;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.footer-links {
+  margin-top: 22px;
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.footer-links a {
+  color: white;
+
+  font-size: 14px;
+
+  text-decoration: underline;
+}
+
+
+/* =====================================================
+   SMARTPHONE
+===================================================== */
+
+@media (max-width: 600px) {
+
+  .page-header {
+    min-height: 315px;
+  }
+
+  .header-inner {
+    width: calc(100% - 36px);
+
+    min-height: 315px;
+
+    padding-top:
+      max(20px, env(safe-area-inset-top));
+
+    padding-bottom: 27px;
+  }
+
+  .faro-title {
+    max-width: calc(100% - 112px);
+
+    font-size: 30px;
+  }
+
+  .logo-box {
+    flex: 0 0 102px;
+
+    width: 102px;
+    height: 102px;
+  }
+
+  .page-title {
+    margin-top: 25px;
+  }
+
+  .page-title h1 {
+    font-size: clamp(36px, 10vw, 46px);
+  }
+
+  .page-title p {
+    font-size: 18px;
+  }
+
+  .wrap {
+    width: calc(100% - 26px);
+
+    padding-top: 20px;
+  }
+
+  .intro,
+  .info-card,
+  .steps {
+    padding: 21px 18px;
+
+    border-radius: 17px;
+  }
+
+  .intro h2,
+  .info-card h2,
+  .steps h2 {
+    font-size: 22px;
+  }
+
+  .button {
+    min-height: 58px;
+
+    font-size: 16px;
+  }
+
+}
+
+
+/* =====================================================
+   SMARTPHONE MOLTO PICCOLI
+===================================================== */
+
+@media (max-width: 370px) {
+
+  .faro-title {
+    font-size: 27px;
+  }
+
+  .logo-box {
+    flex-basis: 90px;
+
+    width: 90px;
+    height: 90px;
+  }
+
+  .page-title h1 {
+    font-size: 35px;
+  }
+
+  .wrap {
+    width: calc(100% - 22px);
+  }
+
+  .intro,
+  .info-card,
+  .steps {
+    padding: 19px 16px;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     TESTATA
+===================================================== -->
+
+<header class="page-header">
+
+  <div class="header-inner">
+
+
+    <div class="brand-row">
+
+      <div class="faro-title">
+
+        <span class="faro-small">
+          Faro di
+        </span>
+
+        Canicattì
+
+      </div>
+
+
+      <div class="logo-box">
+
+        <img
+          src="IMG_8924.png"
+          alt="Controcorrente"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="page-title">
+
+      <div class="project">
+        Canicattì Partecipa
+      </div>
+
+      <h1>
+        Come funziona
+      </h1>
+
+      <p>
+        Partecipare, documentare e seguire insieme i problemi della città.
+      </p>
+
+    </div>
+
+
+  </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     CONTENUTO
+===================================================== -->
+
+<main class="wrap">
+
+
+  <!-- INTRO -->
+
+  <section class="intro">
+
+    <h2>
+      Prima regola: partecipare, non sfogarsi.
+    </h2>
+
+    <p>
+      <strong>Canicattì Partecipa</strong>
+      è uno strumento di cittadinanza attiva.
+      Non sostituisce il Comune, i gestori
+      o gli uffici tecnici e non garantisce
+      la soluzione del problema.
+    </p>
+
+    <p>
+      L'obiettivo è raccogliere informazioni utili,
+      documentarle e seguire nel tempo
+      ciò che accade sul territorio.
+    </p>
+
+  </section>
+
+
+
+  <!-- COSA FACCIAMO -->
+
+  <section class="info-card card-green">
+
+    <h2>
+      ✅ Cosa facciamo
+    </h2>
+
+    <p>
+      Raccogliamo segnalazioni circostanziate
+      inviate dai cittadini, verifichiamo il materiale,
+      cerchiamo di evitare duplicazioni e costruiamo
+      un quadro ordinato dei problemi segnalati
+      nelle vie e nei quartieri della città.
+    </p>
+
+    <p style="margin-top:12px;">
+      Quando ci sono elementi utili,
+      la segnalazione può essere inoltrata
+      all'ente o all'ufficio competente
+      e, quando possibile, possiamo seguirne
+      gli sviluppi insieme al cittadino.
+    </p>
+
+  </section>
+
+
+
+  <!-- COSA NON FACCIAMO -->
+
+  <section class="info-card card-red">
+
+    <h2>
+      ❌ Cosa non facciamo
+    </h2>
+
+    <p>
+      Non siamo un pronto intervento,
+      non siamo un ufficio manutenzione
+      e non siamo un ufficio reclami.
+    </p>
+
+    <p style="margin-top:12px;">
+      Non possiamo promettere tempi,
+      interventi o risultati che dipendono
+      dal Comune, dai gestori o da altri enti.
+      Una segnalazione può essere correttamente
+      trasmessa anche se l'ente competente
+      non è ancora intervenuto.
+    </p>
+
+  </section>
+
+
+
+  <!-- COME FUNZIONA -->
+
+  <section class="steps">
+
+    <h2>
+      Come funziona una segnalazione
+    </h2>
+
+
+    <div class="step">
+
+      <div class="step-number">
+        1
+      </div>
+
+      <div class="step-text">
+
+        <strong>
+          Il cittadino segnala
+        </strong>
+
+        <p>
+          Indica il luogo, descrive il problema
+          e, se possibile, allega delle fotografie.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="step">
+
+      <div class="step-number">
+        2
+      </div>
+
+      <div class="step-text">
+
+        <strong>
+          Verifichiamo le informazioni
+        </strong>
+
+        <p>
+          Controlliamo che la segnalazione
+          contenga elementi sufficienti
+          per essere documentata.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="step">
+
+      <div class="step-number">
+        3
+      </div>
+
+      <div class="step-text">
+
+        <strong>
+          Individuiamo il percorso
+        </strong>
+
+        <p>
+          Quando possibile individuiamo
+          l'ente o l'ufficio competente
+          a cui può essere trasmessa.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="step">
+
+      <div class="step-number">
+        4
+      </div>
+
+      <div class="step-text">
+
+        <strong>
+          Seguiamo gli sviluppi
+        </strong>
+
+        <p>
+          La pratica può essere aggiornata
+          nel tempo in base alle informazioni
+          disponibili e agli eventuali riscontri.
+        </p>
+
+      </div>
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- PERCHÉ ADOTTARE -->
+
+  <section class="info-card card-blue">
+
+    <h2>
+      🏘️ Perché adottare una via o un quartiere?
+    </h2>
+
+    <p>
+      L'obiettivo non è semplicemente
+      riempire una mappa di problemi.
+    </p>
+
+    <p style="margin-top:12px;">
+      Vogliamo creare una rete di cittadini
+      che conoscono il territorio,
+      seguono nel tempo un pezzo della città,
+      documentano ciò che accade
+      e ci aiutano a costruire una fotografia
+      reale delle diverse zone di Canicattì.
+    </p>
+
+  </section>
+
+
+
+  <!-- DIFFERENZA -->
+
+  <section class="info-card card-yellow">
+
+    <h2>
+      💡 Segnalare o adottare?
+    </h2>
+
+    <p>
+      <strong>Per fare una segnalazione non devi aderire al progetto.</strong>
+      Qualsiasi cittadino può segnalarci
+      un problema della città.
+    </p>
+
+    <p style="margin-top:12px;">
+      Se invece vuoi collaborare nel tempo
+      seguendo una strada o un quartiere,
+      puoi aderire volontariamente
+      ad <strong>Adotta una via / Adotta un quartiere</strong>.
+    </p>
+
+  </section>
+
+
+
+  <!-- PULSANTI -->
+
+  <a
+    class="button button-yellow"
+    href="partecipa.html"
+  >
+    Fai una segnalazione
+  </a>
+
+
+  <a
+    class="button button-red"
+    href="adozione.html"
+  >
+    Adotta una via o un quartiere
+  </a>
+
+
+  <a
+    class="button button-home"
+    href="index.html"
+  >
+    ← Torna alla pagina principale
+  </a>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+  <strong>
+    Faro di Canicattì
+  </strong>
+
+  <p>
+    Canicattì Partecipa è un progetto
+    di cittadinanza attiva.
+  </p>
+
+  <p>
+    La piattaforma raccoglie, documenta e,
+    quando necessario, inoltra le segnalazioni.
+    Gli interventi restano di competenza
+    degli enti responsabili.
+  </p>
+
+
+  <div class="footer-links">
+
+    <a href="privacy.html">
+      Privacy
+    </a>
+
+    <span>•</span>
+
+    <a href="cookie.html">
+      Cookie
+    </a>
+
+    <span>•</span>
+
+    <a href="note-legali.html">
+      Note legali
+    </a>
+
+  </div>
+
+</footer>
+
+
+</body>
+
+</html>
