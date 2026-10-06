@@ -1,241 +1,900 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
+
 <head>
-  <meta charset="utf-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  >
+<meta charset="UTF-8">
 
-  <title>Adotta una via o un quartiere | Canicattì Partecipa</title>
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
 
-  <link rel="stylesheet" href="style.css">
+<title>Adotta una via o un quartiere | Canicattì Partecipa</title>
 
-  <style>
+<meta
+  name="description"
+  content="Partecipa al progetto Adotta una via o un quartiere di Canicattì Partecipa."
+>
 
-    /* ==========================================
-       MODULO ADESIONE
-       ========================================== */
+<style>
 
-    .adesione-form {
-      margin-top: 25px;
-    }
+/* =====================================================
+   RESET
+===================================================== */
 
-    .form-group {
-      margin-bottom: 22px;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
+html {
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: 100%;
+}
 
-      font-size: 16px;
-      font-weight: 700;
-    }
+body {
+  margin: 0;
+  padding: 0;
 
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      box-sizing: border-box;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
 
-      width: 100%;
+  background: #f4f3ef;
+  color: #202226;
 
-      padding: 15px 16px;
+  line-height: 1.5;
+}
 
-      border: 1px solid #ccc;
-      border-radius: 12px;
+a {
+  text-decoration: none;
+}
 
-      background: #fff;
-      color: #222;
 
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Helvetica,
-        Arial,
-        sans-serif;
+/* =====================================================
+   TESTATA
+===================================================== */
 
-      font-size: 16px;
-      line-height: 1.4;
+.page-header {
+  position: relative;
 
-      -webkit-appearance: none;
-      appearance: none;
-    }
+  min-height: 330px;
 
-    .form-group textarea {
-      min-height: 130px;
-      resize: vertical;
-    }
+  overflow: hidden;
 
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      outline: 2px solid #ffc800;
-      outline-offset: 1px;
-      border-color: #ffc800;
-    }
+  color: white;
 
-    .form-note {
-      margin-top: 7px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.28),
+      rgba(0,0,0,.72)
+    ),
+    url("IMG_8923.webp");
 
-      color: #666;
+  background-size: cover;
+  background-position: center;
+}
 
-      font-size: 13px;
-      line-height: 1.45;
-    }
+.header-inner {
+  width: calc(100% - 40px);
+  max-width: 900px;
 
-    .privacy-box {
-      margin: 25px 0;
+  min-height: 330px;
 
-      padding: 17px;
+  margin: 0 auto;
 
-      background: #f6f6f4;
+  padding: 25px 0 32px;
 
-      border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
-      font-size: 14px;
-      line-height: 1.5;
-    }
 
-    .privacy-box label {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
+/* =====================================================
+   FARO + LOGO
+===================================================== */
 
-    .privacy-box input {
-      flex: 0 0 auto;
+.brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-      width: 20px;
-      height: 20px;
+  gap: 15px;
+}
 
-      margin-top: 2px;
-    }
+.faro-title {
+  color: white;
 
-    .privacy-box a {
-      color: inherit;
-      text-decoration: underline;
-    }
+  font-size: 34px;
+  line-height: .93;
 
-    #inviaAdesione {
-      width: 100%;
+  font-weight: 900;
 
-      min-height: 58px;
+  letter-spacing: -1.5px;
 
-      border: 0;
-      border-radius: 13px;
+  text-transform: uppercase;
 
-      padding: 15px 18px;
+  text-shadow:
+    0 3px 12px rgba(0,0,0,.55);
+}
 
-      background: #d20719;
-      color: white;
+.faro-small {
+  display: block;
 
-      font-size: 17px;
-      font-weight: 800;
+  margin-bottom: 3px;
 
-      cursor: pointer;
-    }
+  font-size: .56em;
 
-    #inviaAdesione:disabled {
-      opacity: .6;
-      cursor: default;
-    }
+  font-weight: 700;
 
-    #messaggioAdesione {
-      margin-top: 20px;
+  letter-spacing: .7px;
 
-      font-size: 15px;
-      line-height: 1.5;
-    }
+  text-transform: none;
+}
 
-    .success-box {
-      padding: 18px;
+.logo-box {
+  flex: 0 0 105px;
 
-      background: #edf8ef;
+  width: 105px;
+  height: 105px;
 
-      border-left: 5px solid #269443;
-      border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-      color: #173d21;
-    }
+.logo-box img {
+  display: block;
 
-    .error-box {
-      padding: 18px;
+  width: 100%;
+  height: 100%;
 
-      background: #fff0f0;
+  object-fit: contain;
+}
 
-      border-left: 5px solid #d20719;
-      border-radius: 10px;
 
-      color: #6b1717;
-    }
+/* =====================================================
+   TITOLO PAGINA
+===================================================== */
 
-    @media (max-width: 600px) {
+.page-title {
+  margin-top: 35px;
+}
 
-      .form-group input,
-      .form-group select,
-      .form-group textarea {
-        font-size: 16px;
-      }
+.page-title .project {
+  margin-bottom: 8px;
 
-    }
+  color: #ffc800;
 
-  </style>
+  font-size: 13px;
+
+  font-weight: 850;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+.page-title h1 {
+  margin: 0 0 10px;
+
+  color: white;
+
+  font-size: clamp(37px, 8vw, 55px);
+
+  line-height: 1;
+
+  letter-spacing: -2px;
+
+  text-shadow:
+    0 3px 14px rgba(0,0,0,.45);
+}
+
+.page-title p {
+  margin: 0;
+
+  max-width: 650px;
+
+  color: white;
+
+  font-size: 19px;
+  line-height: 1.35;
+
+  text-shadow:
+    0 2px 8px rgba(0,0,0,.5);
+}
+
+
+/* =====================================================
+   CONTENUTO
+===================================================== */
+
+.wrap {
+  width: calc(100% - 32px);
+  max-width: 760px;
+
+  margin: 0 auto;
+
+  padding: 30px 0 55px;
+}
+
+
+/* =====================================================
+   INTRO
+===================================================== */
+
+.intro {
+  margin-bottom: 20px;
+
+  padding: 24px;
+
+  background: white;
+
+  border-left: 6px solid #ffc800;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 22px rgba(0,0,0,.06);
+}
+
+.intro h2 {
+  margin: 0 0 12px;
+
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.intro p {
+  margin: 9px 0;
+
+  font-size: 16px;
+  line-height: 1.5;
+
+  color: #44464a;
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.form-card {
+  margin-bottom: 18px;
+
+  padding: 24px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 22px rgba(0,0,0,.06);
+}
+
+.form-card h2 {
+  margin: 0 0 10px;
+
+  font-size: 23px;
+  line-height: 1.2;
+}
+
+.form-card p {
+  margin: 8px 0 18px;
+
+  color: #55585c;
+
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+
+/* =====================================================
+   COME FUNZIONA
+===================================================== */
+
+.info-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 14px;
+
+  margin-bottom: 18px;
+}
+
+.info-card {
+  padding: 21px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 22px rgba(0,0,0,.06);
+}
+
+.info-icon {
+  margin-bottom: 9px;
+
+  font-size: 29px;
+  line-height: 1;
+}
+
+.info-card h2 {
+  margin: 0 0 8px;
+
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.info-card p {
+  margin: 0;
+
+  color: #55585c;
+
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+
+/* =====================================================
+   CAMPI
+===================================================== */
+
+label {
+  display: block;
+
+  margin: 18px 0 7px;
+
+  font-size: 16px;
+}
+
+input,
+select,
+textarea {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+
+  margin: 0;
+
+  padding: 15px 14px;
+
+  border: 1px solid #cfd1d4;
+
+  border-radius: 12px;
+
+  background: white;
+
+  color: #202226;
+
+  font-family: inherit;
+
+  font-size: 16px;
+  line-height: 1.3;
+
+  outline: none;
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+select {
+  padding-right: 42px;
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, #555 50%),
+    linear-gradient(135deg, #555 50%, transparent 50%);
+
+  background-position:
+    calc(100% - 20px) 50%,
+    calc(100% - 14px) 50%;
+
+  background-size:
+    6px 6px,
+    6px 6px;
+
+  background-repeat: no-repeat;
+}
+
+textarea {
+  min-height: 145px;
+
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #d4aa00;
+
+  box-shadow:
+    0 0 0 3px rgba(255,200,0,.18);
+}
+
+.form-note {
+  margin-top: 7px !important;
+
+  color: #666 !important;
+
+  font-size: 13px !important;
+}
+
+
+/* =====================================================
+   PRIVACY
+===================================================== */
+
+.privacy-box {
+  margin-top: 22px;
+
+  padding: 18px;
+
+  background: #f7f7f5;
+
+  border-radius: 12px;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.privacy-box label {
+  margin: 0;
+
+  display: flex;
+  align-items: flex-start;
+
+  gap: 11px;
+}
+
+.privacy-box input[type="checkbox"] {
+  flex: 0 0 auto;
+
+  width: 20px;
+  height: 20px;
+
+  margin: 2px 0 0;
+
+  padding: 0;
+
+  appearance: auto;
+  -webkit-appearance: checkbox;
+}
+
+.privacy-box a {
+  color: #202226;
+
+  text-decoration: underline;
+}
+
+
+/* =====================================================
+   AVVISO
+===================================================== */
+
+.warning {
+  margin-bottom: 18px;
+
+  padding: 22px;
+
+  background: #fff8e1;
+
+  border: 1px solid #f0d275;
+  border-left: 6px solid #ffc800;
+
+  border-radius: 18px;
+}
+
+.warning-title {
+  display: block;
+
+  margin-bottom: 10px;
+
+  font-size: 19px;
+}
+
+.warning p {
+  margin: 9px 0;
+
+  font-size: 15px;
+  line-height: 1.5;
+
+  color: #444;
+}
+
+
+/* =====================================================
+   PULSANTI
+===================================================== */
+
+.button {
+  width: 100%;
+
+  min-height: 58px;
+
+  margin-top: 15px;
+
+  padding: 15px 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 14px;
+
+  font-family: inherit;
+
+  font-size: 17px;
+  font-weight: 800;
+
+  text-align: center;
+
+  cursor: pointer;
+
+  transition:
+    transform .12s ease,
+    opacity .12s ease;
+}
+
+.button:active {
+  transform: scale(.985);
+}
+
+.button:disabled {
+  opacity: .6;
+
+  cursor: not-allowed;
+}
+
+.button-yellow {
+  background: #ffc800;
+  color: #171717;
+}
+
+.button-red {
+  background: #d20719;
+  color: white;
+}
+
+.button-home {
+  margin-top: 4px;
+
+  background: #1769aa;
+  color: white;
+}
+
+
+/* =====================================================
+   MESSAGGI
+===================================================== */
+
+#messaggioAdesione {
+  margin-top: 18px;
+
+  font-size: 15px;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+.success-box {
+  padding: 18px;
+
+  background: #edf8ef;
+
+  border-left: 5px solid #269443;
+  border-radius: 10px;
+
+  color: #173d21;
+}
+
+.error-box {
+  padding: 18px;
+
+  background: #fff0f0;
+
+  border-left: 5px solid #d20719;
+  border-radius: 10px;
+
+  color: #6b1717;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+  padding:
+    40px
+    20px
+    calc(40px + env(safe-area-inset-bottom));
+
+  background: #202328;
+
+  color: white;
+
+  text-align: center;
+}
+
+footer strong {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 21px;
+}
+
+footer p {
+  max-width: 650px;
+
+  margin: 8px auto;
+
+  color: #d0d0d0;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.footer-links {
+  margin-top: 22px;
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.footer-links a {
+  color: white;
+
+  font-size: 14px;
+
+  text-decoration: underline;
+}
+
+
+/* =====================================================
+   SMARTPHONE
+===================================================== */
+
+@media (max-width: 600px) {
+
+  .page-header {
+    min-height: 315px;
+  }
+
+  .header-inner {
+    width: calc(100% - 36px);
+
+    min-height: 315px;
+
+    padding-top:
+      max(20px, env(safe-area-inset-top));
+
+    padding-bottom: 27px;
+  }
+
+  .faro-title {
+    max-width: calc(100% - 112px);
+
+    font-size: 30px;
+  }
+
+  .logo-box {
+    flex: 0 0 102px;
+
+    width: 102px;
+    height: 102px;
+  }
+
+  .page-title {
+    margin-top: 25px;
+  }
+
+  .page-title h1 {
+    font-size: clamp(34px, 9.5vw, 45px);
+  }
+
+  .page-title p {
+    font-size: 18px;
+  }
+
+  .wrap {
+    width: calc(100% - 26px);
+
+    padding-top: 20px;
+  }
+
+  .intro,
+  .form-card,
+  .warning {
+    padding: 21px 18px;
+
+    border-radius: 17px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .info-card {
+    padding: 20px 18px;
+
+    border-radius: 17px;
+  }
+
+  .intro h2,
+  .form-card h2 {
+    font-size: 22px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+
+    padding: 15px 13px;
+  }
+
+  .button {
+    min-height: 58px;
+
+    font-size: 16px;
+  }
+
+}
+
+
+/* =====================================================
+   SMARTPHONE MOLTO PICCOLI
+===================================================== */
+
+@media (max-width: 370px) {
+
+  .faro-title {
+    font-size: 27px;
+  }
+
+  .logo-box {
+    flex-basis: 90px;
+
+    width: 90px;
+    height: 90px;
+  }
+
+  .page-title h1 {
+    font-size: 33px;
+  }
+
+  .wrap {
+    width: calc(100% - 22px);
+  }
+
+  .intro,
+  .form-card,
+  .warning,
+  .info-card {
+    padding: 19px 16px;
+  }
+
+}
+
+</style>
+
 </head>
 
 
 <body>
 
 
-<section class="hero">
+<!-- =====================================================
+     TESTATA
+===================================================== -->
 
-  <div class="hero-in">
+<header class="page-header">
 
-    <img
-      class="brand"
-      src="IMG_8924.png"
-      alt="Faro di Canicattì"
-    >
+  <div class="header-inner">
 
-    <h1>
-      Adotta una via o un quartiere
-    </h1>
 
-    <p>
-      Un impegno semplice e concreto per prenderti cura
-      del luogo in cui vivi.
-    </p>
+    <div class="brand-row">
+
+      <div class="faro-title">
+
+        <span class="faro-small">
+          Faro di
+        </span>
+
+        Canicattì
+
+      </div>
+
+
+      <div class="logo-box">
+
+        <img
+          src="IMG_8924.png"
+          alt="Controcorrente"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="page-title">
+
+      <div class="project">
+        Canicattì Partecipa
+      </div>
+
+      <h1>
+        Adotta una via o un quartiere
+      </h1>
+
+      <p>
+        Un impegno semplice e concreto per prenderti cura
+        del luogo in cui vivi.
+      </p>
+
+    </div>
+
 
   </div>
 
-</section>
+</header>
 
+
+
+<!-- =====================================================
+     CONTENUTO
+===================================================== -->
 
 <main class="wrap">
 
 
-  <section class="notice">
+  <section class="intro">
 
-    <strong>
+    <h2>
       Non devi risolvere i problemi della tua strada.
-    </strong>
+    </h2>
 
-    Adottare una via o un quartiere significa semplicemente
-    aiutarci a osservarlo nel tempo, documentare ciò che accade
-    e contribuire a costruire una fotografia reale della zona.
+    <p>
+      Adottare una via o un quartiere significa semplicemente
+      aiutarci a osservarlo nel tempo, documentare ciò che accade
+      e contribuire a costruire una fotografia reale della zona.
+    </p>
+
+    <p>
+      L'adesione è volontaria e non comporta
+      alcun obbligo particolare.
+    </p>
 
   </section>
 
 
-  <section class="grid">
+
+  <!-- COME FUNZIONA -->
+
+  <section class="info-grid">
 
 
-    <div class="card">
+    <div class="info-card">
 
-      <div class="ico">
+      <div class="info-icon">
         📍
       </div>
 
@@ -251,9 +910,9 @@
     </div>
 
 
-    <div class="card">
+    <div class="info-card">
 
-      <div class="ico">
+      <div class="info-icon">
         🏘️
       </div>
 
@@ -269,9 +928,9 @@
     </div>
 
 
-    <div class="card">
+    <div class="info-card">
 
-      <div class="ico">
+      <div class="info-icon">
         📷
       </div>
 
@@ -287,9 +946,9 @@
     </div>
 
 
-    <div class="card">
+    <div class="info-card">
 
-      <div class="ico">
+      <div class="info-icon">
         🤝
       </div>
 
@@ -299,8 +958,8 @@
 
       <p>
         Non è necessario inviare continuamente segnalazioni.
-        L'obiettivo è avere cittadini che conoscano il territorio
-        e possano aiutarci a seguirne l'evoluzione.
+        L'obiettivo è creare una rete di cittadini
+        che conoscono il territorio.
       </p>
 
     </div>
@@ -309,157 +968,210 @@
   </section>
 
 
-  <!-- ==========================================
-       MODULO ADESIONE
-       ========================================== -->
 
-  <section class="card">
+  <!-- DATI PERSONALI -->
 
-    <h2>
-      Vuoi partecipare?
-    </h2>
-
-    <p>
-      Compila il modulo per comunicarci la tua disponibilità.
-    </p>
-
-    <p>
-      L'adesione è volontaria e non comporta alcun obbligo
-      particolare. Serve a creare una rete di cittadini
-      che vogliono contribuire alla conoscenza e alla cura
-      della città.
-    </p>
+  <form
+    id="formAdesione"
+    novalidate
+  >
 
 
-    <form
-      id="formAdesione"
-      class="adesione-form"
-      novalidate
-    >
+    <section class="form-card">
+
+      <h2>
+        👤 I tuoi dati
+      </h2>
+
+      <p>
+        Inserisci i tuoi recapiti.
+        Ci serviranno esclusivamente per gestire
+        la tua partecipazione e, quando necessario,
+        poterti contattare.
+      </p>
 
 
-      <div class="form-group">
+      <label for="nome">
+        <strong>Nome e cognome *</strong>
+      </label>
 
-        <label for="nome">
-          Nome e cognome *
-        </label>
-
-        <input
-          type="text"
-          id="nome"
-          name="nome"
-          autocomplete="name"
-          placeholder="Nome e cognome"
-          required
-        >
-
-      </div>
+      <input
+        type="text"
+        id="nome"
+        name="nome"
+        autocomplete="name"
+        placeholder="Nome e cognome"
+        required
+      >
 
 
-      <div class="form-group">
+      <label for="telefono">
+        <strong>Telefono</strong>
+      </label>
 
-        <label for="telefono">
-          Telefono
-        </label>
+      <input
+        type="tel"
+        id="telefono"
+        name="telefono"
+        autocomplete="tel"
+        inputmode="tel"
+        placeholder="Numero di telefono"
+      >
 
-        <input
-          type="tel"
-          id="telefono"
-          name="telefono"
-          autocomplete="tel"
-          inputmode="tel"
-          placeholder="Numero di telefono"
-        >
-
-        <div class="form-note">
-          Facoltativo.
-        </div>
-
-      </div>
+      <p class="form-note">
+        Facoltativo.
+      </p>
 
 
-      <div class="form-group">
+      <label for="email">
+        <strong>Email *</strong>
+      </label>
 
-        <label for="email">
-          Email *
-        </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        autocomplete="email"
+        inputmode="email"
+        placeholder="La tua email"
+        required
+      >
 
-        <input
-          type="email"
-          id="email"
-          name="email"
-          autocomplete="email"
-          inputmode="email"
-          placeholder="La tua email"
-          required
-        >
-
-      </div>
+    </section>
 
 
-      <div class="form-group">
 
-        <label for="tipo">
-          Come vuoi partecipare? *
-        </label>
+    <!-- SCELTA -->
 
-        <select
-          id="tipo"
-          name="tipo"
-          required
-        >
+    <section class="form-card">
 
-          <option value="">
-            Seleziona
-          </option>
+      <h2>
+        📍 Cosa vuoi adottare?
+      </h2>
 
-          <option value="Adotta una via">
-            Adotta una via
-          </option>
-
-          <option value="Adotta un quartiere">
-            Adotta un quartiere
-          </option>
-
-        </select>
-
-      </div>
+      <p>
+        Scegli se vuoi seguire una singola strada
+        oppure un intero quartiere.
+      </p>
 
 
-      <div class="form-group">
+      <label for="tipo">
+        <strong>Tipo di adesione *</strong>
+      </label>
 
-        <label for="zona">
-          Via o quartiere *
-        </label>
+      <select
+        id="tipo"
+        name="tipo"
+        required
+      >
 
-        <input
-          type="text"
-          id="zona"
-          name="zona"
-          placeholder="Es. Via Roma oppure Borgalino"
-          required
-        >
+        <option value="">
+          Seleziona
+        </option>
 
-      </div>
+        <option value="Adotta una via">
+          Adotta una via
+        </option>
+
+        <option value="Adotta un quartiere">
+          Adotta un quartiere
+        </option>
+
+      </select>
 
 
-      <div class="form-group">
+      <label for="zona">
+        <strong>Via o quartiere *</strong>
+      </label>
 
-        <label for="messaggio">
-          Vuoi aggiungere qualcosa?
-        </label>
+      <input
+        type="text"
+        id="zona"
+        name="zona"
+        placeholder="Es. Via Roma oppure Borgalino"
+        required
+      >
 
-        <textarea
-          id="messaggio"
-          name="messaggio"
-          placeholder="Puoi aggiungere un breve messaggio..."
-        ></textarea>
+    </section>
 
-        <div class="form-note">
-          Facoltativo.
-        </div>
 
-      </div>
+
+    <!-- MESSAGGIO -->
+
+    <section class="form-card">
+
+      <h2>
+        ✏️ Vuoi aggiungere qualcosa?
+      </h2>
+
+      <p>
+        Se vuoi, puoi indicarci perché hai scelto
+        questa strada o questo quartiere oppure
+        aggiungere una breve informazione.
+      </p>
+
+
+      <label for="messaggio">
+        <strong>Messaggio</strong>
+      </label>
+
+      <textarea
+        id="messaggio"
+        name="messaggio"
+        placeholder="Scrivi qui il tuo messaggio..."
+      ></textarea>
+
+      <p class="form-note">
+        Facoltativo.
+      </p>
+
+    </section>
+
+
+
+    <!-- AVVISO -->
+
+    <section class="warning">
+
+      <strong class="warning-title">
+        Prima di aderire
+      </strong>
+
+      <p>
+        <strong>
+          Adottare una via o un quartiere
+          non significa assumersi la responsabilità
+          di risolverne i problemi.
+        </strong>
+      </p>
+
+      <p>
+        L'obiettivo è creare una rete di cittadini
+        che possano osservare il territorio,
+        documentarne le criticità e aiutarci
+        a seguirne l'evoluzione nel tempo.
+      </p>
+
+      <p>
+        Gli eventuali interventi restano di competenza
+        degli enti e degli uffici responsabili.
+      </p>
+
+    </section>
+
+
+
+    <!-- PRIVACY + INVIO -->
+
+    <section class="form-card">
+
+      <h2>
+        Invia la tua adesione
+      </h2>
+
+      <p>
+        Controlla che i dati inseriti siano corretti.
+      </p>
 
 
       <div class="privacy-box">
@@ -473,7 +1185,9 @@
           >
 
           <span>
+
             Ho letto l'
+
             <a
               href="privacy.html"
               target="_blank"
@@ -481,8 +1195,10 @@
             >
               informativa privacy
             </a>
+
             e acconsento al trattamento dei dati necessari
             alla gestione della mia adesione. *
+
           </span>
 
         </label>
@@ -491,6 +1207,7 @@
 
 
       <button
+        class="button button-yellow"
         type="submit"
         id="inviaAdesione"
       >
@@ -504,24 +1221,30 @@
       ></div>
 
 
-    </form>
-
-  </section>
+    </section>
 
 
-  <section class="card">
+  </form>
+
+
+
+  <!-- SEGNALAZIONE -->
+
+  <section class="form-card">
 
     <h2>
       Vuoi soltanto fare una segnalazione?
     </h2>
 
     <p>
-      Non devi adottare una via e non devi aderire al progetto.
-      Qualsiasi cittadino può inviare una segnalazione.
+      Non devi adottare una via
+      e non devi aderire al progetto.
+      Qualsiasi cittadino può inviare
+      una segnalazione.
     </p>
 
     <a
-      class="btn blue"
+      class="button button-red"
       href="partecipa.html"
     >
       Fai una segnalazione
@@ -530,45 +1253,71 @@
   </section>
 
 
+
   <a
-    class="btn alt"
+    class="button button-home"
     href="index.html"
   >
-    Torna alla pagina principale
+    ← Torna alla pagina principale
   </a>
 
 
 </main>
 
 
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
 <footer>
 
-  <img
-    src="IMG_8924.png"
-    alt="Faro di Canicattì"
-  >
+  <strong>
+    Faro di Canicattì
+  </strong>
 
-  <div>
-    Un progetto di cittadinanza attiva del Faro di Canicattì
+  <p>
+    Canicattì Partecipa è un progetto
+    di cittadinanza attiva.
+  </p>
+
+  <p>
+    La piattaforma raccoglie, documenta e,
+    quando necessario, inoltra le segnalazioni.
+    Gli interventi restano di competenza
+    degli enti responsabili.
+  </p>
+
+  <div class="footer-links">
+
+    <a href="privacy.html">
+      Privacy
+    </a>
+
+    <span>•</span>
+
+    <a href="cookie.html">
+      Cookie
+    </a>
+
+    <span>•</span>
+
+    <a href="note-legali.html">
+      Note legali
+    </a>
+
   </div>
-
-  <br>
-
-  <span class="legal">
-    La piattaforma documenta e inoltra le segnalazioni.
-    Gli interventi restano di competenza degli enti responsabili.
-  </span>
 
 </footer>
 
 
+
 <script>
 
-/*
- * IMPORTANTE:
- * lo slug effettivo della Edge Function Supabase
- * è "invia-adesione" al singolare.
- */
+/* =====================================================
+   CONFIGURAZIONE
+===================================================== */
+
 const ADESIONI_FUNCTION_URL =
   "https://zkwwxxmbikxpzedcmjxx.supabase.co/functions/v1/invia-adesione";
 
@@ -583,6 +1332,10 @@ const risultato =
   document.getElementById("messaggioAdesione");
 
 
+/* =====================================================
+   INVIO ADESIONE
+===================================================== */
+
 form.addEventListener(
   "submit",
   async function(event) {
@@ -591,30 +1344,49 @@ form.addEventListener(
 
 
     const nome =
-      document.getElementById("nome").value.trim();
+      document
+        .getElementById("nome")
+        .value
+        .trim();
 
     const telefono =
-      document.getElementById("telefono").value.trim();
+      document
+        .getElementById("telefono")
+        .value
+        .trim();
 
     const email =
-      document.getElementById("email").value.trim();
+      document
+        .getElementById("email")
+        .value
+        .trim();
 
     const tipo =
-      document.getElementById("tipo").value;
+      document
+        .getElementById("tipo")
+        .value;
 
     const zona =
-      document.getElementById("zona").value.trim();
+      document
+        .getElementById("zona")
+        .value
+        .trim();
 
     const messaggio =
-      document.getElementById("messaggio").value.trim();
+      document
+        .getElementById("messaggio")
+        .value
+        .trim();
 
     const privacy =
-      document.getElementById("privacy").checked;
+      document
+        .getElementById("privacy")
+        .checked;
 
 
-    /* ==========================================
-       CONTROLLI
-       ========================================== */
+    /* =================================================
+       CAMPI OBBLIGATORI
+    ================================================= */
 
     if (
       !nome ||
@@ -629,14 +1401,21 @@ form.addEventListener(
         '</div>';
 
       return;
+
     }
 
+
+    /* =================================================
+       EMAIL
+    ================================================= */
 
     const emailValida =
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 
-    if (!emailValida.test(email)) {
+    if (
+      !emailValida.test(email)
+    ) {
 
       risultato.innerHTML =
         '<div class="error-box">' +
@@ -644,8 +1423,13 @@ form.addEventListener(
         '</div>';
 
       return;
+
     }
 
+
+    /* =================================================
+       PRIVACY
+    ================================================= */
 
     if (!privacy) {
 
@@ -656,14 +1440,16 @@ form.addEventListener(
         '</div>';
 
       return;
+
     }
 
 
-    /* ==========================================
+    /* =================================================
        INVIO
-       ========================================== */
+    ================================================= */
 
-    pulsante.disabled = true;
+    pulsante.disabled =
+      true;
 
     pulsante.textContent =
       "Invio in corso...";
@@ -674,16 +1460,22 @@ form.addEventListener(
 
     try {
 
+
       const risposta =
         await fetch(
+
           ADESIONI_FUNCTION_URL,
+
           {
 
-            method: "POST",
+            method:
+              "POST",
 
             headers: {
+
               "Content-Type":
                 "application/json"
+
             },
 
             body:
@@ -710,10 +1502,12 @@ form.addEventListener(
               })
 
           }
+
         );
 
 
       let dati = {};
+
 
       try {
 
@@ -740,15 +1534,16 @@ form.addEventListener(
       }
 
 
-      /* ==========================================
+      /* =================================================
          SUCCESSO
-         ========================================== */
+      ================================================= */
 
       let confermaEmail = "";
 
 
       if (
-        dati.conferma_cittadino === true
+        dati.conferma_cittadino ===
+        true
       ) {
 
         confermaEmail =
@@ -795,9 +1590,13 @@ form.addEventListener(
       });
 
 
-    } catch (errore) {
+    } catch (
+      errore
+    ) {
 
-      console.error(errore);
+      console.error(
+        errore
+      );
 
 
       risultato.innerHTML =
@@ -815,7 +1614,8 @@ form.addEventListener(
 
     } finally {
 
-      pulsante.disabled = false;
+      pulsante.disabled =
+        false;
 
       pulsante.textContent =
         "🤝 Invia la mia adesione";
@@ -829,4 +1629,5 @@ form.addEventListener(
 
 
 </body>
+
 </html>
