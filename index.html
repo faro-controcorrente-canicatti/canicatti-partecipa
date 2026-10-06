@@ -516,6 +516,86 @@ a {
 
 
 /* =====================================================
+   PARTECIPA CON NOI
+===================================================== */
+
+.join-us {
+  padding: 65px 0;
+  background: white;
+}
+
+.join-box {
+  padding: 32px;
+
+  background: #f4f3ef;
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 7px 22px rgba(0,0,0,.06);
+}
+
+.join-box h2 {
+  margin: 0 0 16px;
+
+  font-size: 40px;
+  line-height: 1.08;
+
+  letter-spacing: -1.5px;
+}
+
+.join-box > p {
+  max-width: 720px;
+
+  margin: 0 0 26px;
+
+  font-size: 18px;
+  line-height: 1.55;
+
+  color: #3d3f42;
+}
+
+.join-buttons {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0,1fr));
+
+  gap: 14px;
+}
+
+.join-button {
+  min-height: 64px;
+
+  padding: 16px 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 15px;
+
+  font-size: 17px;
+  font-weight: 800;
+
+  text-align: center;
+
+  box-shadow:
+    0 5px 15px rgba(0,0,0,.10);
+}
+
+.join-whatsapp {
+  background: #25d366;
+  color: #102417;
+}
+
+.join-contro {
+  background: #d20719;
+  color: white;
+}
+
+
+/* =====================================================
    FOOTER
 ===================================================== */
 
@@ -662,7 +742,8 @@ footer p {
 
   .intro,
   .options,
-  .process {
+  .process,
+  .join-us {
     padding: 54px 0;
   }
 
@@ -681,6 +762,23 @@ footer p {
 
   .cards {
     grid-template-columns: 1fr;
+  }
+
+  .join-box {
+    padding: 25px 20px;
+  }
+
+  .join-box h2 {
+    font-size: 35px;
+  }
+
+  .join-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .join-button {
+    min-height: 60px;
+    font-size: 16px;
   }
 
 }
@@ -996,9 +1094,8 @@ footer p {
         </p>
 
         <p>
-          Utilizza il <strong>numero pratica ricevuto via email</strong>
-          insieme all'indirizzo email utilizzato per l'invio
-          per verificarne lo stato e gli eventuali aggiornamenti.
+          Utilizza il numero della pratica
+          per verificare gli eventuali aggiornamenti.
         </p>
 
         <a
@@ -1033,7 +1130,7 @@ footer p {
 
 
     <h2>
-      Dalla segnalazione al suo percorso
+      Dal cittadino all'atto
     </h2>
 
 
@@ -1047,12 +1144,12 @@ footer p {
       <div>
 
         <strong>
-          Segnalazione ricevuta
+          Segnala
         </strong>
 
         <p>
-          La tua segnalazione viene registrata
-          e ricevi il numero pratica.
+          Raccontaci il problema
+          in modo semplice e preciso.
         </p>
 
       </div>
@@ -1070,12 +1167,13 @@ footer p {
       <div>
 
         <strong>
-          Verifica
+          Documenta
         </strong>
 
         <p>
-          Controlliamo le informazioni
-          e la documentazione ricevuta.
+          Indica il luogo e,
+          quando possibile,
+          allega alcune fotografie.
         </p>
 
       </div>
@@ -1093,13 +1191,12 @@ footer p {
       <div>
 
         <strong>
-          Trasmissione
+          Verifichiamo
         </strong>
 
         <p>
-          Quando ci sono gli elementi necessari,
-          la segnalazione può essere trasmessa
-          all'ente o all'ufficio competente.
+          Il materiale ricevuto viene
+          controllato e organizzato.
         </p>
 
       </div>
@@ -1117,12 +1214,13 @@ footer p {
       <div>
 
         <strong>
-          Attesa dell'ente
+          Trasmettiamo
         </strong>
 
         <p>
-          Seguiamo gli eventuali sviluppi
-          e registriamo le comunicazioni ricevute.
+          Quando necessario,
+          la segnalazione viene indirizzata
+          all'ente competente.
         </p>
 
       </div>
@@ -1140,14 +1238,72 @@ footer p {
       <div>
 
         <strong>
-          Esito della pratica
+          Seguiamo il percorso
         </strong>
 
         <p>
-          Aggiorniamo la pratica quando riceviamo
-          un riscontro o quando il percorso
-          può considerarsi concluso.
+          Registriamo gli eventuali aggiornamenti
+          e le risposte ricevute.
         </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     PARTECIPA CON NOI
+===================================================== -->
+
+<section class="join-us">
+
+  <div class="container">
+
+    <div class="label">
+      PARTECIPA CON NOI
+    </div>
+
+
+    <div class="join-box">
+
+      <h2>
+        Vuoi fare qualcosa di concreto per Canicattì?
+      </h2>
+
+
+      <p>
+        Entra in contatto con il Faro di Canicattì,
+        partecipa alle nostre attività e, se condividi
+        il progetto di Controcorrente, scegli di aderire
+        al movimento.
+      </p>
+
+
+      <div class="join-buttons">
+
+        <a
+          href="https://chat.whatsapp.com/H04D6ZlyWKQ3Zr45RBIdbB?s=cl&p=i&mlu=0&ilr=4&iam=2"
+          class="join-button join-whatsapp"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          💬 Entra nel gruppo WhatsApp
+        </a>
+
+
+        <a
+          href="https://siciliacontrocorrente.it/iscrizione/"
+          class="join-button join-contro"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          🌊 Aderisci a Controcorrente
+        </a>
 
       </div>
 
