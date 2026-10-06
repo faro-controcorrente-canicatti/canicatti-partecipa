@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<title>Privacy | Canicattì Partecipa</title>
+
+<meta
+  name="description"
+  content="Informativa sul trattamento dei dati personali del progetto Canicattì Partecipa."
+>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  background: #f4f3ef;
+  color: #202226;
+
+  line-height: 1.6;
+}
+
+a {
+  color: #1769aa;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.page-header {
+
+  position: relative;
+
+  min-height: 300px;
+
+  overflow: hidden;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.30),
+      rgba(0,0,0,.74)
+    ),
+    url("IMG_8923.webp");
+
+  background-size: cover;
+  background-position: center;
+}
+
+.header-inner {
+
+  width: calc(100% - 40px);
+  max-width: 900px;
+
+  min-height: 300px;
+
+  margin: auto;
+
+  padding:
+    max(24px, env(safe-area-inset-top))
+    0
+    30px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.brand-row {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.faro-title {
+
+  color: white;
+
+  font-size: 34px;
+  line-height: .93;
+
+  font-weight: 900;
+
+  letter-spacing: -1.5px;
+
+  text-transform: uppercase;
+
+  text-shadow:
+    0 3px 12px rgba(0,0,0,.55);
+}
+
+.faro-small {
+
+  display: block;
+
+  margin-bottom: 3px;
+
+  font-size: .56em;
+
+  font-weight: 700;
+
+  letter-spacing: .7px;
+
+  text-transform: none;
+}
+
+.logo-box {
+
+  width: 105px;
+  height: 105px;
+
+  flex: 0 0 105px;
+}
+
+.logo-box img {
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+.page-title {
+
+  margin-top: 30px;
+}
+
+.page-title .project {
+
+  margin-bottom: 7px;
+
+  color: #ffc800;
+
+  font-size: 13px;
+
+  font-weight: 850;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+.page-title h1 {
+
+  margin: 0 0 8px;
+
+  font-size: clamp(38px, 8vw, 54px);
+
+  line-height: 1;
+
+  letter-spacing: -2px;
+
+  text-shadow:
+    0 3px 14px rgba(0,0,0,.45);
+}
+
+.page-title p {
+
+  margin: 0;
+
+  max-width: 650px;
+
+  font-size: 18px;
+
+  text-shadow:
+    0 2px 8px rgba(0,0,0,.5);
+}
+
+
+/* =====================================================
+   CONTENUTO
+===================================================== */
+
+.wrap {
+
+  width: calc(100% - 30px);
+  max-width: 820px;
+
+  margin: auto;
+
+  padding: 28px 0 55px;
+}
+
+.card {
+
+  margin-bottom: 17px;
+
+  padding: 24px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 5px 20px rgba(0,0,0,.06);
+}
+
+.card-intro {
+
+  border-left: 6px solid #ffc800;
+}
+
+.card h2 {
+
+  margin: 0 0 12px;
+
+  font-size: 23px;
+  line-height: 1.25;
+}
+
+.card h3 {
+
+  margin: 22px 0 8px;
+
+  font-size: 18px;
+}
+
+.card p {
+
+  margin: 9px 0;
+
+  color: #44464a;
+}
+
+.card ul {
+
+  padding-left: 22px;
+
+  color: #44464a;
+}
+
+.card li {
+
+  margin: 7px 0;
+}
+
+
+/* =====================================================
+   BOX IMPORTANTE
+===================================================== */
+
+.notice {
+
+  margin: 17px 0;
+
+  padding: 18px;
+
+  background: #fff8df;
+
+  border-left: 5px solid #ffc800;
+
+  border-radius: 12px;
+}
+
+.notice p {
+
+  margin: 5px 0;
+}
+
+
+/* =====================================================
+   CONTATTO
+===================================================== */
+
+.contact {
+
+  padding: 18px;
+
+  background: #f1f7ff;
+
+  border-left: 5px solid #1769aa;
+
+  border-radius: 12px;
+}
+
+.contact strong {
+
+  display: block;
+
+  margin-bottom: 5px;
+}
+
+
+/* =====================================================
+   PULSANTE
+===================================================== */
+
+.button {
+
+  width: 100%;
+
+  min-height: 56px;
+
+  margin-top: 7px;
+
+  padding: 14px 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: #1769aa;
+  color: white;
+
+  font-size: 16px;
+  font-weight: 800;
+
+  text-align: center;
+  text-decoration: none;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+
+  padding:
+    38px
+    20px
+    calc(38px + env(safe-area-inset-bottom));
+
+  background: #202328;
+
+  color: white;
+
+  text-align: center;
+}
+
+footer strong {
+
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-size: 20px;
+}
+
+footer p {
+
+  max-width: 650px;
+
+  margin: 7px auto;
+
+  color: #d0d0d0;
+
+  font-size: 14px;
+}
+
+.footer-links {
+
+  margin-top: 20px;
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.footer-links a {
+
+  color: white;
+
+  font-size: 14px;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+  .page-header {
+    min-height: 285px;
+  }
+
+  .header-inner {
+
+    width: calc(100% - 36px);
+
+    min-height: 285px;
+  }
+
+  .faro-title {
+    font-size: 29px;
+  }
+
+  .logo-box {
+
+    width: 95px;
+    height: 95px;
+
+    flex-basis: 95px;
+  }
+
+  .page-title h1 {
+    font-size: 40px;
+  }
+
+  .wrap {
+    width: calc(100% - 24px);
+  }
+
+  .card {
+    padding: 20px 18px;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header class="page-header">
+
+  <div class="header-inner">
+
+    <div class="brand-row">
+
+      <div class="faro-title">
+
+        <span class="faro-small">
+          Faro di
+        </span>
+
+        Canicattì
+
+      </div>
+
+      <div class="logo-box">
+
+        <img
+          src="IMG_8924.png"
+          alt="Controcorrente"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="page-title">
+
+      <div class="project">
+        Canicattì Partecipa
+      </div>
+
+      <h1>
+        Privacy
+      </h1>
+
+      <p>
+        Informativa sul trattamento dei dati personali.
+      </p>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<main class="wrap">
+
+
+<section class="card card-intro">
+
+<h2>Informativa sulla privacy</h2>
+
+<p>
+La presente informativa descrive come vengono trattati
+i dati personali raccolti attraverso il progetto
+<strong>Canicattì Partecipa</strong>.
+</p>
+
+<div class="notice">
+
+<p>
+<strong>Canicattì Partecipa è un progetto civico promosso
+dal Faro di Canicattì.</strong>
+</p>
+
+<p>
+Non è un servizio del Comune di Canicattì
+né di altri enti o amministrazioni pubbliche
+e non sostituisce i relativi canali istituzionali.
+</p>
+
+</div>
+
+<p>
+L'informativa è resa ai sensi del Regolamento (UE)
+2016/679 (GDPR) alle persone che utilizzano
+la piattaforma e i relativi servizi.
+</p>
+
+</section>
+
+
+
+<section class="card">
+
+<h2>1. Titolare del trattamento</h2>
+
+<p>
+Il titolare del trattamento dei dati raccolti
+nell'ambito del progetto è:
+</p>
+
+<p>
+<strong>Faro di Canicattì – Controcorrente</strong>,
+gruppo territoriale privo di autonoma
+personalità giuridica.
+</p>
+
+<div class="contact">
+
+<strong>Contatto per questioni relative alla privacy</strong>
+
+<a href="mailto:controcorrentefarocanicatti@gmail.com">
+controcorrentefarocanicatti@gmail.com
+</a>
+
+</div>
+
+</section>
+
+
+
+<section class="card">
+
+<h2>2. Quali dati possono essere raccolti</h2>
+
+<p>
+A seconda del servizio utilizzato,
+possono essere raccolti i seguenti dati:
+</p>
+
+<ul>
+
+<li>nome e cognome;</li>
+
+<li>indirizzo email;</li>
+
+<li>numero di telefono, quando fornito;</li>
+
+<li>indirizzo, via, piazza o zona oggetto della segnalazione;</li>
+
+<li>descrizione del problema segnalato;</li>
+
+<li>fotografie eventualmente allegate;</li>
+
+<li>categoria della segnalazione;</li>
+
+<li>dati relativi alla gestione e allo stato della pratica;</li>
+
+<li>
+informazioni eventualmente fornite nell'ambito
+del progetto “Adotta una via / Adotta un quartiere”.
+</li>
+
+</ul>
+
+<p>
+Si invita l'utente a non inserire nelle descrizioni
+o nelle fotografie dati personali di terzi
+quando non siano necessari alla segnalazione.
+</p>
+
+</section>
+
+
+
+<section class="card">
+
+<h2>3. Perché utilizziamo questi dati</h2>
+
+<p>
+I dati vengono trattati esclusivamente
+per finalità connesse alle attività
+di Canicattì Partecipa e, in particolare, per:
+</p>
+
+<ul>
+
+<li>ricevere e organizzare le segnalazioni dei cittadini;</li>
+
+<li>verificare le informazioni ricevute;</li>
+
+<li>
+contattare il cittadino qualora siano necessari
+chiarimenti sulla segnalazione;
+</li>
+
+<li>
+documentare il problema attraverso
+le informazioni e le fotografie ricevute;
+</li>
+
+<li>
+individuare l'ente o l'ufficio che potrebbe
+essere competente;
+</li>
+
+<li>
+inoltrare, quando ritenuto opportuno,
+la segnalazione all'ente o all'ufficio competente;
+</li>
+
+<li>
+seguire e documentare gli eventuali
+sviluppi della pratica;
+</li>
+
+<li>
+informare il cittadino sullo stato
+della propria segnalazione;
+</li>
+
+<li>
+gestire le adesioni alle iniziative
+di cittadinanza attiva del progetto.
+</li>
+
+</ul>
+
+</section>
+
+
+
+<section class="card">
+
+<h2>4. Base giuridica del trattamento</h2>
+
+<p>
+Il trattamento dei dati necessari alla gestione
+delle richieste e delle segnalazioni inviate
+spontaneamente dagli interessati è effettuato
+per dare seguito alla richiesta dell'utente
+e, ove applicabile, sulla base del legittimo
+interesse del titolare a organizzare e svolgere
+le attività civiche del progetto.
+</p>
+
+<p>
+Quando per una specifica attività fosse necessario
+il consenso dell'interessato, questo verrà richiesto
+separatamente e in maniera esplicita.
+</p>
+
+</section>
+
+
+
+<section class="card">
+
+<h2>5. Fotografie</h2>
+
+<p>
+Le fotografie inviate vengono utilizzate
+per documentare e verificare il problema segnalato.
+</p>
+
+<p>
+Si raccomanda di evitare, quando possibile,
+immagini contenenti volti riconoscibili,
+targhe o altri dati personali non necessari.
+</p>
+
+<p>
+Qualora un'immagine contenga dati personali
+non necessari alla finalità della segnalazione,
+il Faro di Canicattì potrà decidere di non utilizzarla,
+di limitarne l'utilizzo o di eliminarla.
+</p>
+
+</section>
+
+
+
+<section class="card">
+
+<h2>6. Comunicazione agli enti competenti</h2>
+
+<p>
+Quando necessario per dare seguito
+a una segnalazione, le informazioni pertinenti
+potranno essere comunicate all'ente,
+all'amministrazione o all'ufficio ritenuto competente.
+</p>
+
+<p>
+Saranno trasmessi soltanto i dati considerati
+necessari rispetto alla segnalazione
+e alla finalità perseguita.
+</p>
+
+<p>
+I recapiti personali del cittadino non saranno
+comunicati a soggetti terzi quando non siano
+necessari per la gestione della pratica.
+</p>
+
+</section>
+
+
+
+<section class="card">
+
+<h2>7. Fornitori e strumenti tecnici</h2>
+
+<p>
+Per il funzionamento della piattaforma
+possono essere utilizzati servizi informatici
+esterni necessari alla gestione tecnica
+del sito, del database, delle fotografie
+e delle comunicazioni elettroniche.
+</p>
+
+<p>
+In particolare, la piattaforma utilizza
+<strong>Supabase</strong> per funzionalità
+tecniche relative alla gestione dei dati,
+all'autenticazione e all'archiviazione
+delle fotografie.
+</p>
+
+<p>
+Tali soggetti trattano i dati nell'ambito
+dei servizi tecnici forniti e secondo
+le rispettive condizioni e garanzie
+in materia di protezione dei dati.
+</p>
+
+</section>
+
+
+
+<section class="card">
+
+<h2>8. Conservazione dei dati</h2>
+
+<p>
+I dati vengono conservati per il tempo
+necessario alla gestione della segnalazione,
+al monitoraggio dei suoi eventuali sviluppi
+e alla documentazione delle attività svolte.
+</p>
+
+<p>
+Quando i dati personali non saranno più necessari
+rispetto alle finalità per le quali sono stati raccolti,
+potranno essere cancellati o anonimizzati,
+salvo eventuali esigenze di conservazione
+connesse alla tutela dei diritti del titolare
+o ad obblighi previsti dalla legge.
+</p>
+
+</section>
+
+
+
+<section class="card">
+
+<h2>9. Sicurezza e accesso ai dati</h2>
+
+<p>
+L'accesso alle informazioni amministrative
+relative alle segnalazioni è limitato
+alle persone autorizzate alla gestione
+del progetto.
+</p>
+
+<p>
+Vengono adottate misure organizzative
+e tecniche ragionevoli per proteggere
+i dati da accessi non autorizzati,
+perdita, divulgazione o utilizzo improprio.
+</p>
+
+</section>
+
+
+
+<section class="card">
+
+<h2>10. Diritti dell'interessato</h2>
+
+<p>
+Nei casi previsti dal GDPR,
+l'interessato può esercitare i propri diritti,
+tra cui:
+</p>
+
+<ul>
+
+<li>ottenere informazioni sul trattamento dei propri dati;</li>
+
+<li>richiedere l'accesso ai dati personali;</li>
+
+<li>chiederne la rettifica o l'aggiornamento;</li>
+
+<li>richiederne la cancellazione nei casi previsti;</li>
+
+<li>richiedere la limitazione del trattamento;</li>
+
+<li>opporsi al trattamento nei casi previsti dalla normativa;</li>
+
+<li>
+esercitare gli ulteriori diritti riconosciuti
+dal Regolamento (UE) 2016/679.
+</li>
+
+</ul>
+
+<p>
+Le richieste possono essere inviate a:
+</p>
+
+<div class="contact">
+
+<a href="mailto:controcorrentefarocanicatti@gmail.com">
+controcorrentefarocanicatti@gmail.com
+</a>
+
+</div>
+
+<p>
+L'interessato ha inoltre diritto,
+quando ne ricorrono i presupposti,
+di proporre reclamo al
+<strong>Garante per la protezione dei dati personali</strong>.
+</p>
+
+</section>
+
+
+
+<section class="card">
+
+<h2>11. Conferimento dei dati</h2>
+
+<p>
+Il conferimento dei dati indicati come obbligatori
+nei moduli è necessario per consentire
+la gestione della richiesta o della segnalazione.
+</p>
+
+<p>
+Il mancato conferimento di tali dati
+può rendere impossibile prendere in carico
+la richiesta attraverso la piattaforma.
+</p>
+
+<p>
+I dati indicati come facoltativi
+possono invece essere omessi.
+</p>
+
+</section>
+
+
+
+<section class="card">
+
+<h2>12. Modifiche all'informativa</h2>
+
+<p>
+La presente informativa potrà essere aggiornata
+qualora cambino le funzionalità della piattaforma,
+le modalità di trattamento dei dati
+o la normativa applicabile.
+</p>
+
+<p>
+La versione aggiornata sarà resa disponibile
+su questa pagina.
+</p>
+
+</section>
+
+
+
+<a
+  class="button"
+  href="index.html"
+>
+  ← Torna a Canicattì Partecipa
+</a>
+
+
+</main>
+
+
+
+<footer>
+
+<strong>
+Faro di Canicattì
+</strong>
+
+<p>
+Canicattì Partecipa è un progetto
+di cittadinanza attiva.
+</p>
+
+<div class="footer-links">
+
+<a href="privacy.html">
+Privacy
+</a>
+
+<span>•</span>
+
+<a href="cookie.html">
+Cookie
+</a>
+
+<span>•</span>
+
+<a href="note-legali.html">
+Note legali
+</a>
+
+</div>
+
+</footer>
+
+
+</body>
+</html>
