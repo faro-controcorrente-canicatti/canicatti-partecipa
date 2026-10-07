@@ -61,7 +61,7 @@ a {
   position: relative;
 
   width: 100%;
-  min-height: 810px;
+  min-height: 620px;
 
   overflow: hidden;
 
@@ -93,12 +93,12 @@ a {
   width: calc(100% - 40px);
   max-width: 1000px;
 
-  min-height: 810px;
+  min-height: 620px;
 
   margin: 0 auto;
 
   padding-top: 35px;
-  padding-bottom: 35px;
+  padding-bottom: 42px;
 
   display: flex;
   flex-direction: column;
@@ -224,101 +224,6 @@ a {
 
   text-shadow:
     0 3px 10px rgba(0,0,0,.55);
-}
-
-
-/* =====================================================
-   PULSANTI HERO
-===================================================== */
-
-.hero-buttons {
-  width: 100%;
-
-  margin-top: 36px;
-
-  display: flex;
-  flex-direction: column;
-
-  gap: 14px;
-}
-
-.main-button {
-  position: relative;
-
-  width: 100%;
-
-  min-height: 68px;
-
-  padding: 12px 54px 12px 18px;
-
-  display: flex;
-  align-items: center;
-
-  border: 1px solid rgba(255,255,255,.82);
-  border-radius: 18px;
-
-  background: rgba(255,255,255,.96);
-  color: #202226;
-
-  font-size: 20px;
-  line-height: 1.2;
-
-  font-weight: 850;
-
-  text-align: left;
-
-  box-shadow:
-    0 7px 22px rgba(0,0,0,.22);
-}
-
-.main-button-icon {
-  flex: 0 0 55px;
-
-  width: 55px;
-
-  margin-right: 17px;
-  padding-right: 17px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-right: 1px solid #c9c9c9;
-
-  font-size: 27px;
-  line-height: 1;
-}
-
-.main-button-text {
-  flex: 1;
-}
-
-.main-button-arrow {
-  position: absolute;
-
-  right: 20px;
-  top: 50%;
-
-  transform: translateY(-52%);
-
-  color: #202226;
-
-  font-size: 36px;
-  line-height: 1;
-
-  font-weight: 500;
-}
-
-.yellow-button .main-button-icon {
-  color: #ffc800;
-}
-
-.red-button .main-button-icon {
-  color: #d20719;
-}
-
-.orange-button .main-button-icon {
-  color: #f28c00;
 }
 
 
@@ -573,6 +478,7 @@ a {
 
 .join-us {
   padding: 65px 0;
+
   background: white;
 }
 
@@ -711,7 +617,7 @@ footer p {
 @media (max-width: 600px) {
 
   .hero {
-    min-height: 800px;
+    min-height: 600px;
 
     background-position: center center;
   }
@@ -719,12 +625,12 @@ footer p {
   .hero-inner {
     width: calc(100% - 38px);
 
-    min-height: 800px;
+    min-height: 600px;
 
     padding-top:
       max(26px, env(safe-area-inset-top));
 
-    padding-bottom: 30px;
+    padding-bottom: 38px;
   }
 
   .brand-row {
@@ -774,43 +680,6 @@ footer p {
     line-height: 1.22;
   }
 
-  .hero-buttons {
-    margin-top: 30px;
-
-    gap: 13px;
-  }
-
-  .main-button {
-    min-height: 64px;
-
-    padding:
-      12px
-      45px
-      12px
-      13px;
-
-    border-radius: 17px;
-
-    font-size: 18px;
-  }
-
-  .main-button-icon {
-    flex-basis: 47px;
-
-    width: 47px;
-
-    margin-right: 13px;
-    padding-right: 13px;
-
-    font-size: 25px;
-  }
-
-  .main-button-arrow {
-    right: 15px;
-
-    font-size: 32px;
-  }
-
   .container {
     width: calc(100% - 38px);
   }
@@ -853,6 +722,7 @@ footer p {
 
   .join-button {
     min-height: 60px;
+
     font-size: 16px;
   }
 
@@ -867,7 +737,7 @@ footer p {
 
   .hero,
   .hero-inner {
-    min-height: 780px;
+    min-height: 570px;
   }
 
   .faro-title {
@@ -889,30 +759,6 @@ footer p {
 
   .tagline {
     font-size: 22px;
-  }
-
-  .main-button {
-    font-size: 16px;
-
-    padding-left: 11px;
-    padding-right: 40px;
-  }
-
-  .main-button-icon {
-    flex-basis: 42px;
-
-    width: 42px;
-
-    margin-right: 10px;
-    padding-right: 10px;
-
-    font-size: 23px;
-  }
-
-  .main-button-arrow {
-    right: 13px;
-
-    font-size: 29px;
   }
 
   .intro h2 {
@@ -939,9 +785,17 @@ footer p {
     <div class="brand-row">
 
       <div class="faro-title">
-        <span class="faro-small">Faro di</span>
-        <span class="faro-canicatti">Canicattì</span>
+
+        <span class="faro-small">
+          Faro di
+        </span>
+
+        <span class="faro-canicatti">
+          Canicattì
+        </span>
+
       </div>
+
 
       <div class="logo-box">
 
@@ -973,52 +827,6 @@ footer p {
       <div class="tagline">
         Segnala. Partecipa.<br>
         Prenditi cura della tua città.
-      </div>
-
-
-      <div class="hero-buttons">
-
-        <a
-          href="partecipa.html"
-          class="main-button yellow-button"
-        >
-          <span class="main-button-icon">📷</span>
-
-          <span class="main-button-text">
-            Fai una segnalazione
-          </span>
-
-          <span class="main-button-arrow">›</span>
-        </a>
-
-
-        <a
-          href="adozione.html"
-          class="main-button red-button"
-        >
-          <span class="main-button-icon">📍</span>
-
-          <span class="main-button-text">
-            Adotta una via o un quartiere
-          </span>
-
-          <span class="main-button-arrow">›</span>
-        </a>
-
-
-        <a
-          href="idee.html"
-          class="main-button orange-button"
-        >
-          <span class="main-button-icon">💡</span>
-
-          <span class="main-button-text">
-            La Canicattì che vorrei
-          </span>
-
-          <span class="main-button-arrow">›</span>
-        </a>
-
       </div>
 
     </div>
