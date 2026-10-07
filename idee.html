@@ -332,7 +332,6 @@ textarea {
   font-family: inherit;
 
   font-size: 16px;
-
   line-height: 1.3;
 
   outline: none;
@@ -361,7 +360,6 @@ select {
 
 textarea {
   min-height: 180px;
-
   resize: vertical;
 }
 
@@ -382,11 +380,6 @@ input[type="file"] {
   appearance: auto;
   -webkit-appearance: auto;
 }
-
-
-/* =====================================================
-   ALLEGATI
-===================================================== */
 
 .file-info {
   margin-top: 12px !important;
@@ -472,7 +465,6 @@ input[type="file"] {
 
 .button:disabled {
   opacity: .6;
-
   cursor: not-allowed;
 }
 
@@ -490,7 +482,7 @@ input[type="file"] {
 
 
 /* =====================================================
-   MESSAGGIO INVIO
+   MESSAGGIO
 ===================================================== */
 
 #messaggioInvio {
@@ -581,7 +573,6 @@ footer p {
 
   .faro-title {
     max-width: calc(100% - 112px);
-
     font-size: 30px;
   }
 
@@ -606,7 +597,6 @@ footer p {
 
   .wrap {
     width: calc(100% - 26px);
-
     padding-top: 20px;
   }
 
@@ -614,7 +604,6 @@ footer p {
   .form-card,
   .warning {
     padding: 21px 18px;
-
     border-radius: 17px;
   }
 
@@ -627,13 +616,11 @@ footer p {
   select,
   textarea {
     font-size: 16px;
-
     padding: 15px 13px;
   }
 
   .button {
     min-height: 58px;
-
     font-size: 16px;
   }
 
@@ -742,366 +729,393 @@ footer p {
 <main class="wrap">
 
 
-  <!-- INTRO -->
-
-  <section class="intro">
-
-    <h2>
-      💡 Come immagini la Canicattì di domani?
-    </h2>
-
-    <p>
-      Cosa manca alla nostra città?
-      Cosa potrebbe essere migliorato?
-      Quale servizio, struttura, spazio o iniziativa
-      vorresti vedere realizzata?
-    </p>
-
-    <p>
-      Puoi proporre una piccola idea per il tuo quartiere
-      oppure un progetto che riguarda tutta Canicattì.
-    </p>
-
-    <p>
-      <strong>
-        Questo spazio nasce per ascoltare e raccogliere
-        le idee dei cittadini.
-      </strong>
-    </p>
-
-  </section>
-
-
-
-  <!-- TITOLO -->
-
-  <section class="form-card">
-
-    <h2>
-      💭 La tua idea
-    </h2>
-
-    <p>
-      Dai un titolo semplice alla tua proposta.
-    </p>
-
-    <label for="titolo">
-      <strong>Titolo della proposta *</strong>
-    </label>
-
-    <input
-      type="text"
-      id="titolo"
-      name="titolo"
-      placeholder="Es. Una pista ciclabile per Canicattì"
-      maxlength="150"
-      required
-    >
-
-  </section>
-
-
-
-  <!-- CATEGORIA -->
-
-  <section class="form-card">
-
-    <h2>
-      🏷️ In quale ambito?
-    </h2>
-
-    <p>
-      Scegli la categoria più vicina alla tua proposta.
-    </p>
-
-    <label for="categoria">
-      <strong>Categoria *</strong>
-    </label>
-
-    <select
-      id="categoria"
-      name="categoria"
-      required
-    >
-
-      <option value="">
-        Seleziona una categoria
-      </option>
-
-      <option value="Sport e impianti">
-        Sport e impianti
-      </option>
-
-      <option value="Giovani">
-        Giovani
-      </option>
-
-      <option value="Mobilità e viabilità">
-        Mobilità e viabilità
-      </option>
-
-      <option value="Ambiente e verde">
-        Ambiente e verde
-      </option>
-
-      <option value="Cultura ed eventi">
-        Cultura ed eventi
-      </option>
-
-      <option value="Centro storico e quartieri">
-        Centro storico e quartieri
-      </option>
-
-      <option value="Servizi">
-        Servizi
-      </option>
-
-      <option value="Sociale">
-        Sociale
-      </option>
-
-      <option value="Commercio e sviluppo economico">
-        Commercio e sviluppo economico
-      </option>
-
-      <option value="Altro">
-        Altro
-      </option>
-
-    </select>
-
-  </section>
-
-
-
-  <!-- DESCRIZIONE -->
-
-  <section class="form-card">
-
-    <h2>
-      ✏️ Raccontaci la tua proposta
-    </h2>
-
-    <p>
-      Spiega liberamente la tua idea:
-      cosa vorresti realizzare, perché secondo te
-      sarebbe utile e a chi potrebbe servire.
-    </p>
-
-    <label for="descrizione">
-      <strong>Descrizione della proposta *</strong>
-    </label>
-
-    <textarea
-      id="descrizione"
-      name="descrizione"
-      rows="8"
-      maxlength="6000"
-      placeholder="Descrivi qui la tua idea..."
-      required
-    ></textarea>
-
-  </section>
-
-
-
-  <!-- ZONA -->
-
-  <section class="form-card">
-
-    <h2>
-      📍 Dove?
-    </h2>
-
-    <p>
-      Se la proposta riguarda una zona precisa,
-      puoi indicarla qui.
-      Se invece riguarda tutta Canicattì,
-      puoi lasciare il campo vuoto.
-    </p>
-
-    <label for="zona">
-      <strong>Via / quartiere / zona</strong>
-    </label>
-
-    <input
-      type="text"
-      id="zona"
-      name="zona"
-      placeholder="Es. Borgalino, centro storico, Via Roma..."
-      maxlength="200"
-    >
-
-  </section>
-
-
-
-  <!-- ALLEGATI -->
-
-  <section class="form-card">
-
-    <h2>
-      📎 Hai già del materiale?
-    </h2>
-
-    <p>
-      Se vuoi, puoi allegare fotografie,
-      documenti o un progetto già preparato.
-    </p>
-
-    <p>
-      Puoi allegare fino a
-      <strong>3 file</strong>.
-      Ogni file può avere una dimensione
-      massima di <strong>10 MB</strong>.
-    </p>
-
-    <label for="allegati">
-      <strong>Allegati facoltativi</strong>
-    </label>
-
-    <input
-      type="file"
-      id="allegati"
-      name="allegati"
-      accept=".pdf,.doc,.docx,image/*"
-      multiple
-    >
-
-    <p
-      id="infoAllegati"
-      class="file-info"
-    ></p>
-
-  </section>
-
-
-
-  <!-- DATI -->
-
-  <section class="form-card">
-
-    <h2>
-      👤 I tuoi dati
-    </h2>
-
-    <p>
-      Ci permettono di sapere chi ha presentato
-      la proposta e di contattarti se fosse necessario
-      approfondire la tua idea.
-    </p>
-
-    <label for="nomeCompleto">
-      <strong>Nome e cognome *</strong>
-    </label>
-
-    <input
-      type="text"
-      id="nomeCompleto"
-      name="nomeCompleto"
-      placeholder="Nome e cognome"
-      autocomplete="name"
-      maxlength="200"
-      required
-    >
-
-
-    <label for="email">
-      <strong>Email *</strong>
-    </label>
-
-    <input
-      type="email"
-      id="email"
-      name="email"
-      placeholder="La tua email"
-      autocomplete="email"
-      required
-    >
-
-
-    <label for="telefono">
-      <strong>Telefono</strong>
-    </label>
-
-    <input
-      type="tel"
-      id="telefono"
-      name="telefono"
-      placeholder="Numero di telefono"
-      autocomplete="tel"
-      maxlength="50"
-    >
-
-  </section>
-
-
-
-  <!-- AVVISO -->
-
-  <section class="warning">
-
-    <strong class="warning-title">
-      Ogni proposta conta
+<section class="intro">
+
+  <h2>
+    💡 Come immagini la Canicattì di domani?
+  </h2>
+
+  <p>
+    Cosa manca alla nostra città?
+    Cosa potrebbe essere migliorato?
+    Quale servizio, struttura, spazio o iniziativa
+    vorresti vedere realizzata?
+  </p>
+
+  <p>
+    Puoi proporre una piccola idea per il tuo quartiere
+    oppure un progetto che riguarda tutta Canicattì.
+  </p>
+
+  <p>
+    <strong>
+      Questo spazio nasce per ascoltare e raccogliere
+      le idee dei cittadini.
     </strong>
+  </p>
 
-    <p>
-      Le idee ricevute attraverso
-      <strong>“La Canicattì che vorrei”</strong>
-      saranno raccolte e conservate dal Faro di Canicattì
-      per essere successivamente esaminate e approfondite.
-    </p>
-
-    <p>
-      L'invio di una proposta non comporta
-      automaticamente la sua realizzazione.
-    </p>
-
-    <p>
-      Ti chiediamo di utilizzare questo spazio
-      per proposte e idee per la città.
-      Per comunicare un problema concreto
-      presente sul territorio utilizza invece
-      la sezione <strong>Fai una segnalazione</strong>.
-    </p>
-
-  </section>
+</section>
 
 
 
-  <!-- INVIO -->
+<!-- TITOLO -->
 
-  <section class="form-card">
+<section class="form-card">
 
-    <h2>
-      Invia la tua proposta
-    </h2>
+  <h2>
+    💭 La tua idea
+  </h2>
 
-    <p>
-      Controlla che le informazioni inserite
-      siano corrette e poi invia la tua idea.
-    </p>
+  <p>
+    Dai un titolo semplice alla tua proposta.
+  </p>
 
-    <button
-      class="button button-yellow"
-      type="button"
-      id="inviaProposta"
-    >
-      Invia la tua proposta
-    </button>
+  <label for="titolo">
+    <strong>Titolo della proposta *</strong>
+  </label>
 
-    <p id="messaggioInvio"></p>
-
-  </section>
-
-
-
-  <a
-    class="button button-home"
-    href="index.html"
+  <input
+    type="text"
+    id="titolo"
+    placeholder="Es. Una pista ciclabile per Canicattì"
+    maxlength="150"
+    required
   >
-    ← Torna alla pagina principale
-  </a>
+
+</section>
+
+
+
+<!-- CATEGORIA -->
+
+<section class="form-card">
+
+  <h2>
+    🏷️ In quale ambito?
+  </h2>
+
+  <p>
+    Scegli la categoria più vicina alla tua proposta.
+  </p>
+
+  <label for="categoria">
+    <strong>Categoria *</strong>
+  </label>
+
+  <select id="categoria" required>
+
+    <option value="">
+      Seleziona una categoria
+    </option>
+
+    <option value="Sport e impianti">
+      Sport e impianti
+    </option>
+
+    <option value="Giovani">
+      Giovani
+    </option>
+
+    <option value="Mobilità e viabilità">
+      Mobilità e viabilità
+    </option>
+
+    <option value="Ambiente e verde">
+      Ambiente e verde
+    </option>
+
+    <option value="Cultura ed eventi">
+      Cultura ed eventi
+    </option>
+
+    <option value="Centro storico e quartieri">
+      Centro storico e quartieri
+    </option>
+
+    <option value="Servizi">
+      Servizi
+    </option>
+
+    <option value="Sociale">
+      Sociale
+    </option>
+
+    <option value="Commercio e sviluppo economico">
+      Commercio e sviluppo economico
+    </option>
+
+    <option value="Altro">
+      Altro
+    </option>
+
+  </select>
+
+</section>
+
+
+
+<!-- DESCRIZIONE -->
+
+<section class="form-card">
+
+  <h2>
+    ✏️ Raccontaci la tua proposta
+  </h2>
+
+  <p>
+    Spiega liberamente la tua idea:
+    cosa vorresti realizzare, perché secondo te
+    sarebbe utile e a chi potrebbe servire.
+  </p>
+
+  <label for="descrizione">
+    <strong>Descrizione della proposta *</strong>
+  </label>
+
+  <textarea
+    id="descrizione"
+    rows="8"
+    maxlength="6000"
+    placeholder="Descrivi qui la tua idea..."
+    required
+  ></textarea>
+
+</section>
+
+
+
+<!-- ZONA -->
+
+<section class="form-card">
+
+  <h2>
+    📍 Dove?
+  </h2>
+
+  <p>
+    Se la proposta riguarda una zona precisa,
+    puoi indicarla qui.
+    Se riguarda tutta Canicattì,
+    puoi lasciare il campo vuoto.
+  </p>
+
+  <label for="zona">
+    <strong>Via / quartiere / zona</strong>
+  </label>
+
+  <input
+    type="text"
+    id="zona"
+    placeholder="Es. Borgalino, centro storico, Via Roma..."
+    maxlength="200"
+  >
+
+</section>
+
+
+
+<!-- FOTOGRAFIE -->
+
+<section class="form-card">
+
+  <h2>
+    📷 Fotografie
+  </h2>
+
+  <p>
+    Se possono aiutare a spiegare meglio la tua idea,
+    puoi allegare fino a <strong>3 fotografie</strong>.
+  </p>
+
+  <p>
+    Ogni fotografia può avere una dimensione
+    massima di <strong>10 MB</strong>.
+  </p>
+
+  <label for="fotoProposta">
+    <strong>Allega fotografie</strong>
+  </label>
+
+  <input
+    type="file"
+    id="fotoProposta"
+    accept="image/*"
+    multiple
+  >
+
+  <p
+    id="infoFotoProposta"
+    class="file-info"
+  ></p>
+
+</section>
+
+
+
+<!-- DOCUMENTI -->
+
+<section class="form-card">
+
+  <h2>
+    📎 Progetto o documenti
+  </h2>
+
+  <p>
+    Hai già preparato un progetto, una relazione
+    o altro materiale sulla tua proposta?
+    Puoi allegarlo qui.
+  </p>
+
+  <p>
+    Puoi allegare fino a
+    <strong>3 documenti</strong>
+    in formato PDF o Word.
+    Ogni file può avere una dimensione
+    massima di <strong>10 MB</strong>.
+  </p>
+
+  <label for="documentiProposta">
+    <strong>Allega documenti</strong>
+  </label>
+
+  <input
+    type="file"
+    id="documentiProposta"
+    accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    multiple
+  >
+
+  <p
+    id="infoDocumentiProposta"
+    class="file-info"
+  ></p>
+
+</section>
+
+
+
+<!-- DATI -->
+
+<section class="form-card">
+
+  <h2>
+    👤 I tuoi dati
+  </h2>
+
+  <p>
+    Ci permettono di sapere chi ha presentato
+    la proposta e di contattarti se fosse necessario
+    approfondire la tua idea.
+  </p>
+
+  <label for="nomeCompleto">
+    <strong>Nome e cognome *</strong>
+  </label>
+
+  <input
+    type="text"
+    id="nomeCompleto"
+    placeholder="Nome e cognome"
+    autocomplete="name"
+    maxlength="200"
+    required
+  >
+
+
+  <label for="email">
+    <strong>Email *</strong>
+  </label>
+
+  <input
+    type="email"
+    id="email"
+    placeholder="La tua email"
+    autocomplete="email"
+    required
+  >
+
+
+  <label for="telefono">
+    <strong>Telefono</strong>
+  </label>
+
+  <input
+    type="tel"
+    id="telefono"
+    placeholder="Numero di telefono"
+    autocomplete="tel"
+    maxlength="50"
+  >
+
+</section>
+
+
+
+<!-- AVVISO -->
+
+<section class="warning">
+
+  <strong class="warning-title">
+    Ogni proposta conta
+  </strong>
+
+  <p>
+    Le idee ricevute attraverso
+    <strong>“La Canicattì che vorrei”</strong>
+    saranno raccolte e conservate dal Faro di Canicattì
+    per essere successivamente esaminate e approfondite.
+  </p>
+
+  <p>
+    L'invio di una proposta non comporta
+    automaticamente la sua realizzazione.
+  </p>
+
+  <p>
+    Ti chiediamo di utilizzare questo spazio
+    per proposte e idee per la città.
+    Per comunicare un problema concreto
+    presente sul territorio utilizza invece
+    la sezione <strong>Fai una segnalazione</strong>.
+  </p>
+
+</section>
+
+
+
+<!-- INVIO -->
+
+<section class="form-card">
+
+  <h2>
+    Invia la tua proposta
+  </h2>
+
+  <p>
+    Controlla che le informazioni inserite
+    siano corrette e poi invia la tua idea.
+  </p>
+
+  <button
+    class="button button-yellow"
+    type="button"
+    id="inviaProposta"
+  >
+    Invia la tua proposta
+  </button>
+
+  <p id="messaggioInvio"></p>
+
+</section>
+
+
+
+<a
+  class="button button-home"
+  href="index.html"
+>
+  ← Torna alla pagina principale
+</a>
 
 
 </main>
@@ -1156,7 +1170,7 @@ footer p {
 <script>
 
 /* =====================================================
-   CONFIGURAZIONE SUPABASE
+   CONFIGURAZIONE
 ===================================================== */
 
 const SUPABASE_URL =
@@ -1168,7 +1182,8 @@ const SUPABASE_ANON_KEY =
 const BUCKET_ALLEGATI =
   "allegati-proposte";
 
-const MAX_ALLEGATI = 3;
+const MAX_FOTO = 3;
+const MAX_DOCUMENTI = 3;
 
 const MAX_DIMENSIONE_FILE =
   10 * 1024 * 1024;
@@ -1187,43 +1202,85 @@ document
 
 
 document
-  .getElementById("allegati")
+  .getElementById("fotoProposta")
   .addEventListener(
     "change",
-    function() {
+    function(){
 
-      const numeroFile =
+      const numero =
         this.files.length;
 
       const info =
         document.getElementById(
-          "infoAllegati"
+          "infoFotoProposta"
         );
 
-      if (numeroFile === 0) {
+      if(numero === 0){
 
         info.textContent = "";
 
-      } else if (
-        numeroFile > MAX_ALLEGATI
-      ) {
+      }else if(numero > MAX_FOTO){
 
         info.innerHTML =
           "⚠️ Hai selezionato " +
-          numeroFile +
-          " file. Puoi allegarne al massimo " +
-          MAX_ALLEGATI +
+          numero +
+          " fotografie. Puoi allegarne al massimo " +
+          MAX_FOTO +
           ".";
 
-      } else {
+      }else{
+
+        info.innerHTML =
+          "📷 " +
+          numero +
+          (
+            numero === 1
+              ? " fotografia selezionata."
+              : " fotografie selezionate."
+          );
+
+      }
+
+    }
+  );
+
+
+document
+  .getElementById("documentiProposta")
+  .addEventListener(
+    "change",
+    function(){
+
+      const numero =
+        this.files.length;
+
+      const info =
+        document.getElementById(
+          "infoDocumentiProposta"
+        );
+
+      if(numero === 0){
+
+        info.textContent = "";
+
+      }else if(numero > MAX_DOCUMENTI){
+
+        info.innerHTML =
+          "⚠️ Hai selezionato " +
+          numero +
+          " documenti. Puoi allegarne al massimo " +
+          MAX_DOCUMENTI +
+          ".";
+
+      }else{
 
         info.innerHTML =
           "📎 " +
-          numeroFile +
+          numero +
           (
-            numeroFile === 1
-              ? " file selezionato."
-              : " file selezionati."
+            numero === 1
+              ? " documento selezionato."
+              : " documenti selezionati."
           );
 
       }
@@ -1233,17 +1290,17 @@ document
 
 
 /* =====================================================
-   DIVIDE NOME E COGNOME
+   NOME E COGNOME
 ===================================================== */
 
-function separaNomeCognome(nomeCompleto) {
+function separaNomeCognome(nomeCompleto){
 
   const parti =
     nomeCompleto
       .trim()
       .split(/\s+/);
 
-  if (parti.length === 1) {
+  if(parti.length === 1){
 
     return {
       nome: parti[0],
@@ -1264,26 +1321,28 @@ function separaNomeCognome(nomeCompleto) {
    NOME FILE SICURO
 ===================================================== */
 
-function pulisciNomeFile(nome) {
+function pulisciNomeFile(nome){
 
   return nome
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-zA-Z0-9._-]/g, "_")
-    .substring(0, 120);
+    .substring(0,120);
 
 }
 
 
 /* =====================================================
-   CARICAMENTO ALLEGATO
+   CARICAMENTO FILE
 ===================================================== */
 
-async function caricaAllegato(file) {
+async function caricaFile(
+  file,
+  categoriaAllegato
+){
 
   const nomeOriginale =
-    file.name ||
-    "allegato";
+    file.name || "allegato";
 
   const nomeSicuro =
     pulisciNomeFile(
@@ -1296,7 +1355,7 @@ async function caricaAllegato(file) {
     "_" +
     Math.random()
       .toString(36)
-      .substring(2, 12) +
+      .substring(2,12) +
     "_" +
     nomeSicuro;
 
@@ -1339,13 +1398,15 @@ async function caricaAllegato(file) {
     );
 
 
-  if (!risposta.ok) {
+  if(!risposta.ok){
 
     const errore =
       await risposta.text();
 
     throw new Error(
-      "Errore nel caricamento dell'allegato (" +
+      "Errore nel caricamento di “" +
+      nomeOriginale +
+      "” (" +
       risposta.status +
       "): " +
       errore
@@ -1355,10 +1416,22 @@ async function caricaAllegato(file) {
 
 
   return {
-    nome: nomeOriginale,
-    percorso: percorso,
-    tipo: file.type || null,
-    dimensione: file.size
+
+    nome:
+      nomeOriginale,
+
+    percorso:
+      percorso,
+
+    tipo:
+      file.type || null,
+
+    dimensione:
+      file.size,
+
+    categoria_allegato:
+      categoriaAllegato
+
   };
 
 }
@@ -1368,7 +1441,7 @@ async function caricaAllegato(file) {
    INVIO PROPOSTA
 ===================================================== */
 
-async function inviaProposta() {
+async function inviaProposta(){
 
   const titolo =
     document
@@ -1411,14 +1484,22 @@ async function inviaProposta() {
       .value
       .trim();
 
-  const inputAllegati =
-    document
-      .getElementById("allegati");
 
-  const fileSelezionati =
+  const foto =
     Array.from(
-      inputAllegati.files
+      document
+        .getElementById("fotoProposta")
+        .files
     );
+
+
+  const documenti =
+    Array.from(
+      document
+        .getElementById("documentiProposta")
+        .files
+    );
+
 
   const messaggio =
     document
@@ -1433,17 +1514,15 @@ async function inviaProposta() {
       );
 
 
-  /* =================================================
-     CAMPI OBBLIGATORI
-  ================================================= */
+  /* CAMPI OBBLIGATORI */
 
-  if (
+  if(
     !titolo ||
     !categoria ||
     !descrizione ||
     !nomeCompleto ||
     !email
-  ) {
+  ){
 
     messaggio.innerHTML =
       "⚠️ <strong>Compila tutti i campi obbligatori prima di inviare.</strong>";
@@ -1453,17 +1532,13 @@ async function inviaProposta() {
   }
 
 
-  /* =================================================
-     EMAIL
-  ================================================= */
+  /* EMAIL */
 
   const emailValida =
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 
-  if (
-    !emailValida.test(email)
-  ) {
+  if(!emailValida.test(email)){
 
     messaggio.innerHTML =
       "⚠️ <strong>Inserisci un indirizzo email valido.</strong>";
@@ -1473,55 +1548,50 @@ async function inviaProposta() {
   }
 
 
-  /* =================================================
-     NUMERO ALLEGATI
-  ================================================= */
+  /* NUMERO FILE */
 
-  if (
-    fileSelezionati.length >
-    MAX_ALLEGATI
-  ) {
+  if(foto.length > MAX_FOTO){
 
     messaggio.innerHTML =
       "⚠️ <strong>Puoi allegare al massimo " +
-      MAX_ALLEGATI +
-      " file.</strong>";
+      MAX_FOTO +
+      " fotografie.</strong>";
 
     return;
 
   }
 
 
-  /* =================================================
-     CONTROLLO FILE
-  ================================================= */
+  if(documenti.length > MAX_DOCUMENTI){
 
-  const estensioniConsentite =
-    [
-      "pdf",
-      "doc",
-      "docx",
-      "jpg",
-      "jpeg",
-      "png",
-      "webp",
-      "heic",
-      "heif"
-    ];
+    messaggio.innerHTML =
+      "⚠️ <strong>Puoi allegare al massimo " +
+      MAX_DOCUMENTI +
+      " documenti.</strong>";
+
+    return;
+
+  }
 
 
-  for (
-    const file of
-    fileSelezionati
-  ) {
+  /* CONTROLLO FOTO */
 
-    if (
-      file.size >
-      MAX_DIMENSIONE_FILE
-    ) {
+  const estensioniFoto = [
+    "jpg",
+    "jpeg",
+    "png",
+    "webp",
+    "heic",
+    "heif"
+  ];
+
+
+  for(const file of foto){
+
+    if(file.size > MAX_DIMENSIONE_FILE){
 
       messaggio.innerHTML =
-        "⚠️ <strong>Il file “" +
+        "⚠️ <strong>La fotografia “" +
         file.name +
         "” supera i 10 MB.</strong>";
 
@@ -1531,23 +1601,26 @@ async function inviaProposta() {
 
 
     const estensione =
-      file.name
-        .split(".")
-        .pop()
-        .toLowerCase();
+      file.name.includes(".")
+        ? file.name
+            .split(".")
+            .pop()
+            .toLowerCase()
+        : "";
 
 
-    if (
-      !estensioniConsentite.includes(
-        estensione
-      )
-    ) {
+    if(
+      !(
+        file.type &&
+        file.type.startsWith("image/")
+      ) &&
+      !estensioniFoto.includes(estensione)
+    ){
 
       messaggio.innerHTML =
-        "⚠️ <strong>Il file “" +
+        "⚠️ <strong>“" +
         file.name +
-        "” non è in un formato consentito.</strong><br>" +
-        "Puoi allegare PDF, Word o immagini.";
+        "” non è un'immagine valida.</strong>";
 
       return;
 
@@ -1555,6 +1628,59 @@ async function inviaProposta() {
 
   }
 
+
+  /* CONTROLLO DOCUMENTI */
+
+  const estensioniDocumenti = [
+    "pdf",
+    "doc",
+    "docx"
+  ];
+
+
+  for(const file of documenti){
+
+    if(file.size > MAX_DIMENSIONE_FILE){
+
+      messaggio.innerHTML =
+        "⚠️ <strong>Il documento “" +
+        file.name +
+        "” supera i 10 MB.</strong>";
+
+      return;
+
+    }
+
+
+    const estensione =
+      file.name.includes(".")
+        ? file.name
+            .split(".")
+            .pop()
+            .toLowerCase()
+        : "";
+
+
+    if(
+      !estensioniDocumenti.includes(
+        estensione
+      )
+    ){
+
+      messaggio.innerHTML =
+        "⚠️ <strong>Il documento “" +
+        file.name +
+        "” non è in un formato consentito.</strong><br>" +
+        "Puoi allegare PDF, DOC o DOCX.";
+
+      return;
+
+    }
+
+  }
+
+
+  /* INIZIO INVIO */
 
   pulsante.disabled = true;
 
@@ -1568,30 +1694,29 @@ async function inviaProposta() {
   const allegatiCaricati = [];
 
 
-  try {
+  try{
 
 
-    /* =================================================
-       1. CARICAMENTO ALLEGATI
-    ================================================= */
+    /* CARICA FOTOGRAFIE */
 
-    for (
+    for(
       let i = 0;
-      i < fileSelezionati.length;
+      i < foto.length;
       i++
-    ) {
+    ){
 
       messaggio.innerHTML =
-        "⏳ Caricamento allegato " +
+        "⏳ Caricamento fotografia " +
         (i + 1) +
         " di " +
-        fileSelezionati.length +
+        foto.length +
         "...";
 
 
       const allegato =
-        await caricaAllegato(
-          fileSelezionati[i]
+        await caricaFile(
+          foto[i],
+          "foto"
         );
 
 
@@ -1602,9 +1727,35 @@ async function inviaProposta() {
     }
 
 
-    /* =================================================
-       2. NOME E COGNOME
-    ================================================= */
+    /* CARICA DOCUMENTI */
+
+    for(
+      let i = 0;
+      i < documenti.length;
+      i++
+    ){
+
+      messaggio.innerHTML =
+        "⏳ Caricamento documento " +
+        (i + 1) +
+        " di " +
+        documenti.length +
+        "...";
+
+
+      const allegato =
+        await caricaFile(
+          documenti[i],
+          "documento"
+        );
+
+
+      allegatiCaricati.push(
+        allegato
+      );
+
+    }
+
 
     const persona =
       separaNomeCognome(
@@ -1612,9 +1763,7 @@ async function inviaProposta() {
       );
 
 
-    /* =================================================
-       3. DATI DA REGISTRARE
-    ================================================= */
+    /* DATI DA REGISTRARE */
 
     const dati = {
 
@@ -1661,9 +1810,7 @@ async function inviaProposta() {
     };
 
 
-    /* =================================================
-       4. REGISTRAZIONE SU SUPABASE
-    ================================================= */
+    /* REGISTRAZIONE */
 
     messaggio.innerHTML =
       "⏳ Registrazione della proposta...";
@@ -1706,7 +1853,7 @@ async function inviaProposta() {
       );
 
 
-    if (!risposta.ok) {
+    if(!risposta.ok){
 
       const testoErrore =
         await risposta.text();
@@ -1721,30 +1868,42 @@ async function inviaProposta() {
     }
 
 
-    /* =================================================
-       5. CONFERMA
-    ================================================= */
+    /* CONFERMA */
 
     let conferma =
 
       "✅ <strong>Grazie! La tua proposta è stata ricevuta.</strong><br><br>" +
 
       "La tua idea è stata inserita nella raccolta " +
+
       "<strong>“La Canicattì che vorrei”</strong> " +
+
       "e sarà conservata per essere successivamente esaminata e approfondita.";
 
 
-    if (
-      allegatiCaricati.length > 0
-    ) {
+    if(foto.length){
 
       conferma +=
-        "<br><br>📎 " +
-        allegatiCaricati.length +
+        "<br><br>📷 " +
+        foto.length +
         (
-          allegatiCaricati.length === 1
-            ? " allegato ricevuto correttamente."
-            : " allegati ricevuti correttamente."
+          foto.length === 1
+            ? " fotografia ricevuta correttamente."
+            : " fotografie ricevute correttamente."
+        );
+
+    }
+
+
+    if(documenti.length){
+
+      conferma +=
+        "<br>📎 " +
+        documenti.length +
+        (
+          documenti.length === 1
+            ? " documento ricevuto correttamente."
+            : " documenti ricevuti correttamente."
         );
 
     }
@@ -1754,9 +1913,7 @@ async function inviaProposta() {
       conferma;
 
 
-    /* =================================================
-       6. SVUOTA MODULO
-    ================================================= */
+    /* SVUOTA MODULO */
 
     document
       .getElementById("titolo")
@@ -1787,31 +1944,34 @@ async function inviaProposta() {
       .value = "";
 
     document
-      .getElementById("allegati")
+      .getElementById("fotoProposta")
       .value = "";
 
     document
-      .getElementById("infoAllegati")
+      .getElementById("documentiProposta")
+      .value = "";
+
+    document
+      .getElementById("infoFotoProposta")
+      .textContent = "";
+
+    document
+      .getElementById("infoDocumentiProposta")
       .textContent = "";
 
 
-  } catch (
-    errore
-  ) {
+  }catch(errore){
 
-    console.error(
-      errore
-    );
+    console.error(errore);
 
     messaggio.innerHTML =
       "❌ <strong>Non è stato possibile completare l'invio della proposta.</strong><br><br>" +
       errore.message;
 
 
-  } finally {
+  }finally{
 
-    pulsante.disabled =
-      false;
+    pulsante.disabled = false;
 
     pulsante.textContent =
       "Invia la tua proposta";
