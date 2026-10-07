@@ -989,7 +989,11 @@ footer p{
 .hp-stato>div{max-width:650px;margin:auto}
 .hp-stato p,.hp-testo{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6}
 .hp-stato button,.hp-link{display:inline-block;border:0;border-radius:10px;padding:13px 18px;background:#1769aa;color:white;font:inherit;font-weight:700;text-decoration:none;cursor:pointer}
-.hp-comunicazioni{padding:28px 0;background:#fff8db}
+.hp-comunicazioni{position:fixed;inset:0;z-index:9999;background:rgba(10,20,30,.68);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px}
+.hp-popup{width:min(100%,740px);max-height:calc(100dvh - 40px);overflow:auto;overscroll-behavior:contain;background:#fff8db;border-radius:20px;padding:22px;box-shadow:0 15px 60px rgba(0,0,0,.3)}
+.hp-popup h2{margin:5px 0 12px;font-size:24px}
+body.hp-popup-aperto{overflow:hidden}
+@media(max-width:650px){.hp-comunicazioni{padding:10px}.hp-popup{padding:14px;max-height:calc(100dvh - 20px)}.hp-popup h2{font-size:20px}}
 .hp-avviso{padding:20px;background:white;border:1px solid #e3d7a1;border-radius:16px;margin-top:15px;overflow-wrap:anywhere}
 .hp-avviso-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
 .hp-avviso h3{margin:0;font-size:22px}
@@ -1075,9 +1079,7 @@ footer p{
 </div>
 
 </header>
-<section id="hpComunicazioni" class="hp-comunicazioni" hidden aria-labelledby="hpTitoloAvvisi">
-  <div class="container"><h2 id="hpTitoloAvvisi">📢 Comunicazioni importanti</h2><div id="hpAvvisi"></div></div>
-</section>
+
 <p id="hpErroreAvvisi" class="hp-errore" role="status" hidden>Le comunicazioni importanti non sono disponibili al momento. Riprova tra poco.</p>
 
 
@@ -1672,6 +1674,14 @@ footer p{
 </div><!-- hpContenuto -->
 
 
+<section id="hpComunicazioni" class="hp-comunicazioni" hidden role="dialog" aria-modal="true" aria-labelledby="hpTitoloAvvisi" tabindex="-1">
+  <div class="hp-popup">
+    <div class="hp-avviso-top"><h2 id="hpTitoloAvvisi">📢 Comunicazioni importanti</h2>
+    <button type="button" class="hp-chiudi" onclick="hpChiudiTutte()" aria-label="Chiudi tutte le comunicazioni">×</button></div>
+    <div id="hpAvvisi"></div>
+  </div>
+</section>
+
 <script>
 
 /* =====================================================
@@ -2204,6 +2214,7 @@ caricaIniziativeHome();
 let hpAvvisi = [];
 let hpNascosti = new Set();
 let hpCaricamento = false;
+let hpFocusPrecedente = null;
 const hpInizi = new Map();
 const hpEl = id => document.getElementById(id);
 async function hpLeggi(tabella, query){
@@ -2240,7 +2251,13 @@ function hpRender(){
   const box = hpEl('hpAvvisi');
   box.replaceChildren();
   const attivi = hpAvvisi.filter(c => c.attiva === true && (!c.scadenza || new Date(c.scadenza).getTime() > Date.now()) && !hpNascosti.has(hpChiave(c)));
-  hpEl('hpComunicazioni').hidden = attivi.length === 0;
+  const mostra = attivi.length > 0 && !hpEl('hpContenuto').hidden;
+  const eraAperto = !hpEl('hpComunicazioni').hidden;
+  const focusNelPopup = hpEl('hpComunicazioni').contains(document.activeElement);
+  hpEl('hpComunicazioni').hidden = !mostra;
+  hpEl('hpContenuto').inert = mostra;
+  document.body.classList.toggle('hp-popup-aperto',mostra);
+  if(mostra && !eraAperto)hpFocusPrecedente=document.activeElement;
   attivi.forEach(c => {
     if(!hpEl('hpContenuto').hidden && !hpInizi.has(hpChiave(c))) hpInizi.set(hpChiave(c),Date.now());
     const card = document.createElement('article');card.className='hp-avviso';
@@ -2255,6 +2272,8 @@ function hpRender(){
     if(link){const a=document.createElement('a');a.className='hp-link';a.href=link;a.textContent=c.testo_pulsante || 'Scopri di più';card.append(a);}
     box.append(card);
   });
+  if(mostra && (!eraAperto || focusNelPopup))hpEl('hpComunicazioni').querySelector('button').focus();
+  if(!mostra && eraAperto && hpFocusPrecedente && !hpEl('hpContenuto').hidden)hpFocusPrecedente.focus();
 }
 async function hpAggiorna(){
   if(hpCaricamento) return;
@@ -2267,7 +2286,7 @@ async function hpAggiorna(){
         hpStato(righe[0]);
       }catch(e){
         console.error('Lettura impostazioni_sito:',e);
-        hpEl('hpContenuto').hidden=true;hpEl('hpAccesso').hidden=false;
+        hpEl('hpContenuto').hidden=true;hpEl('hpAccesso').hidden=false;hpInizi.clear();hpRender();
         hpEl('hpTitoloStato').textContent='Sito temporaneamente non disponibile';
         hpEl('hpTestoStato').textContent='Non è stato possibile verificare lo stato del sito. Riprova tra poco.';
       }
@@ -2304,6 +2323,24 @@ setInterval(()=>{
   if(cambiato)hpRender();
 },1000);
 
+
+function hpChiudiTutte(){
+  hpAvvisi.forEach(c=>hpNascosti.add(hpChiave(c)));hpRender();
+}
+hpEl('hpComunicazioni').addEventListener('click',event=>{
+  if(event.target===hpEl('hpComunicazioni'))hpChiudiTutte();
+});
+document.addEventListener('keydown',event=>{
+  const popup=hpEl('hpComunicazioni');
+  if(popup.hidden)return;
+  if(event.key==='Escape'){event.preventDefault();hpChiudiTutte();return;}
+  if(event.key==='Tab'){
+    const elementi=popup.querySelectorAll('button,a[href]');
+    const primo=elementi[0],ultimo=elementi[elementi.length-1];
+    if(event.shiftKey && (document.activeElement===primo || document.activeElement===popup)){event.preventDefault();ultimo.focus();}
+    else if(!event.shiftKey && document.activeElement===ultimo){event.preventDefault();primo.focus();}
+  }
+});
 </script>
 
 </body>
