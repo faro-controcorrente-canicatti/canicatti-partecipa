@@ -153,7 +153,7 @@ a {
 }
 
 .faro-title .faro-canicatti {
-  color: #f28c00;
+  color: white;
 }
 
 .logo-box {
@@ -243,53 +243,82 @@ a {
 }
 
 .main-button {
+  position: relative;
+
   width: 100%;
 
   min-height: 68px;
 
-  padding: 16px 18px;
+  padding: 12px 54px 12px 18px;
 
   display: flex;
   align-items: center;
-  justify-content: center;
 
-  gap: 10px;
-
+  border: 1px solid rgba(255,255,255,.82);
   border-radius: 18px;
 
-  font-size: 21px;
+  background: rgba(255,255,255,.96);
+  color: #202226;
+
+  font-size: 20px;
   line-height: 1.2;
 
-  font-weight: 900;
+  font-weight: 850;
 
-  text-align: center;
-
-  color: #ffffff;
-
-  text-shadow:
-    0 1px 3px rgba(0,0,0,.30);
+  text-align: left;
 
   box-shadow:
     0 7px 22px rgba(0,0,0,.22);
 }
 
-.yellow-button {
-  background: #ffc800;
-  color: #ffffff;
+.main-button-icon {
+  flex: 0 0 55px;
+
+  width: 55px;
+
+  margin-right: 17px;
+  padding-right: 17px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-right: 1px solid #c9c9c9;
+
+  font-size: 27px;
+  line-height: 1;
 }
 
-.red-button {
-  background: #d20719;
-  color: #ffffff;
-
-  border: 1px solid rgba(255,255,255,.50);
+.main-button-text {
+  flex: 1;
 }
 
-.orange-button {
-  background: #f28c00;
-  color: #ffffff;
+.main-button-arrow {
+  position: absolute;
 
-  border: 1px solid rgba(255,255,255,.45);
+  right: 20px;
+  top: 50%;
+
+  transform: translateY(-52%);
+
+  color: #202226;
+
+  font-size: 36px;
+  line-height: 1;
+
+  font-weight: 500;
+}
+
+.yellow-button .main-button-icon {
+  color: #ffc800;
+}
+
+.red-button .main-button-icon {
+  color: #d20719;
+}
+
+.orange-button .main-button-icon {
+  color: #f28c00;
 }
 
 
@@ -754,11 +783,32 @@ footer p {
   .main-button {
     min-height: 64px;
 
-    padding: 15px 12px;
+    padding:
+      12px
+      45px
+      12px
+      13px;
 
     border-radius: 17px;
 
-    font-size: 19px;
+    font-size: 18px;
+  }
+
+  .main-button-icon {
+    flex-basis: 47px;
+
+    width: 47px;
+
+    margin-right: 13px;
+    padding-right: 13px;
+
+    font-size: 25px;
+  }
+
+  .main-button-arrow {
+    right: 15px;
+
+    font-size: 32px;
   }
 
   .container {
@@ -842,7 +892,27 @@ footer p {
   }
 
   .main-button {
-    font-size: 18px;
+    font-size: 16px;
+
+    padding-left: 11px;
+    padding-right: 40px;
+  }
+
+  .main-button-icon {
+    flex-basis: 42px;
+
+    width: 42px;
+
+    margin-right: 10px;
+    padding-right: 10px;
+
+    font-size: 23px;
+  }
+
+  .main-button-arrow {
+    right: 13px;
+
+    font-size: 29px;
   }
 
   .intro h2 {
@@ -912,7 +982,13 @@ footer p {
           href="partecipa.html"
           class="main-button yellow-button"
         >
-          📷&nbsp; Fai una segnalazione
+          <span class="main-button-icon">📷</span>
+
+          <span class="main-button-text">
+            Fai una segnalazione
+          </span>
+
+          <span class="main-button-arrow">›</span>
         </a>
 
 
@@ -920,7 +996,13 @@ footer p {
           href="adozione.html"
           class="main-button red-button"
         >
-          📍&nbsp; Adotta una via o un quartiere
+          <span class="main-button-icon">📍</span>
+
+          <span class="main-button-text">
+            Adotta una via o un quartiere
+          </span>
+
+          <span class="main-button-arrow">›</span>
         </a>
 
 
@@ -928,7 +1010,13 @@ footer p {
           href="idee.html"
           class="main-button orange-button"
         >
-          💡&nbsp; La Canicattì che vorrei
+          <span class="main-button-icon">💡</span>
+
+          <span class="main-button-text">
+            La Canicattì che vorrei
+          </span>
+
+          <span class="main-button-arrow">›</span>
         </a>
 
       </div>
