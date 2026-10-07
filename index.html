@@ -983,10 +983,35 @@ footer p{
   }
 }
 
+/* Stato pubblico, avvisi e social */
+[hidden]{display:none!important}
+.hp-stato{min-height:100vh;display:grid;place-content:center;padding:30px 20px;text-align:center;background:#f4f3ef;color:#202226}
+.hp-stato>div{max-width:650px;margin:auto}
+.hp-stato p,.hp-testo{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6}
+.hp-stato button,.hp-link{display:inline-block;border:0;border-radius:10px;padding:13px 18px;background:#1769aa;color:white;font:inherit;font-weight:700;text-decoration:none;cursor:pointer}
+.hp-comunicazioni{padding:28px 0;background:#fff8db}
+.hp-avviso{padding:20px;background:white;border:1px solid #e3d7a1;border-radius:16px;margin-top:15px;overflow-wrap:anywhere}
+.hp-avviso-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.hp-avviso h3{margin:0;font-size:22px}
+.hp-chiudi{min-width:44px;min-height:44px;border:0;border-radius:8px;font-size:26px;cursor:pointer;background:#f0f0f0;color:#222}
+.hp-avviso img{display:block;max-width:100%;max-height:420px;object-fit:contain;margin:16px auto;border-radius:10px}
+.hp-social{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:22px auto;max-width:650px}
+.hp-social a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:12px 18px;border-radius:10px;color:#fff!important;text-decoration:none;font-weight:750}
+.hp-facebook{background:#0866ff}.hp-instagram{background:#a82a82}.hp-tiktok{background:#161616;border:1px solid #666}
+.hp-social a:focus-visible,.hp-chiudi:focus-visible{outline:3px solid #ffc800;outline-offset:3px}
+.hp-errore{padding:16px;text-align:center;background:#fff8db;color:#674d00}
+@media(max-width:650px){.hp-social{padding:0 15px}.hp-social a{flex:1 1 120px}.hp-avviso{padding:15px}}
 </style>
 </head>
 
 <body>
+<section id="hpAccesso" class="hp-stato" aria-live="polite">
+  <div><h1 id="hpTitoloStato">Canicattì Partecipa</h1>
+  <p id="hpTestoStato">Verifica dello stato del sito in corso...</p>
+  <button type="button" onclick="hpAggiorna()">Riprova</button>
+  <noscript><p>Attiva JavaScript per visualizzare lo stato aggiornato del sito.</p></noscript></div>
+</section>
+<div id="hpContenuto" hidden>
 
 
 <!-- =====================================================
@@ -1050,6 +1075,10 @@ footer p{
 </div>
 
 </header>
+<section id="hpComunicazioni" class="hp-comunicazioni" hidden aria-labelledby="hpTitoloAvvisi">
+  <div class="container"><h2 id="hpTitoloAvvisi">📢 Comunicazioni importanti</h2><div id="hpAvvisi"></div></div>
+</section>
+<p id="hpErroreAvvisi" class="hp-errore" role="status" hidden>Le comunicazioni importanti non sono disponibili al momento. Riprova tra poco.</p>
 
 
 <!-- =====================================================
@@ -1585,6 +1614,13 @@ footer p{
   </p>
 
 
+  <p><strong>Seguici sui social</strong></p>
+  <nav class="hp-social" aria-label="Profili social">
+    <a class="hp-facebook" href="https://www.facebook.com/share/1N3THY7nBG/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook — apre una nuova scheda">Facebook ↗</a>
+    <a class="hp-instagram" href="https://www.instagram.com/controcorrente__canicatti?stkn=MXh5aHp6dDVyYmdiMA%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram — apre una nuova scheda">Instagram ↗</a>
+    <a class="hp-tiktok" href="https://www.tiktok.com/@controcorrente.fa?_r=1&amp;_t=ZN-9AMPpx5WfPq" target="_blank" rel="noopener noreferrer" aria-label="TikTok — apre una nuova scheda">TikTok ↗</a>
+  </nav>
+
   <div class="footer-services">
 
     <a href="partecipa.html">
@@ -1633,6 +1669,7 @@ footer p{
   </div>
 
 </footer>
+</div><!-- hpContenuto -->
 
 
 <script>
@@ -2162,6 +2199,110 @@ function encodePathHome(path){
 ===================================================== */
 
 caricaIniziativeHome();
+
+/* Impostazioni e comunicazioni pubbliche: nessun token amministratore. */
+let hpAvvisi = [];
+let hpNascosti = new Set();
+let hpCaricamento = false;
+const hpInizi = new Map();
+const hpEl = id => document.getElementById(id);
+async function hpLeggi(tabella, query){
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(),12000);
+  try{
+    const r = await fetch(SUPABASE_URL + '/rest/v1/' + tabella + query,{
+      headers:{apikey:SUPABASE_KEY,'Accept-Profile':'public'},cache:'no-store',signal:controller.signal
+    });
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    const dati = await r.json();
+    if(!Array.isArray(dati)) throw new Error('Risposta non valida');
+    return dati;
+  }finally{clearTimeout(timeout);}
+}
+function hpUrl(valore){
+  if(!valore || !String(valore).trim()) return '';
+  try{
+    const url = new URL(String(valore).trim(),document.baseURI);
+    return ['https:','http:'].includes(url.protocol) ? url.href : '';
+  }catch(e){return '';}
+}
+function hpStato(riga){
+  const manutenzione = riga.manutenzione === true;
+  hpEl('hpContenuto').hidden = manutenzione;
+  hpEl('hpAccesso').hidden = !manutenzione;
+  hpEl('hpTitoloStato').textContent = 'Sito in manutenzione';
+  hpEl('hpTestoStato').textContent = riga.messaggio_manutenzione || 'Stiamo aggiornando il sito. Torna a trovarci tra poco.';
+  if(manutenzione) hpInizi.clear();
+  hpRender();
+}
+function hpChiave(c){return c.id + ':' + (c.updated_at || c.created_at || '');}
+function hpRender(){
+  const box = hpEl('hpAvvisi');
+  box.replaceChildren();
+  const attivi = hpAvvisi.filter(c => c.attiva === true && (!c.scadenza || new Date(c.scadenza).getTime() > Date.now()) && !hpNascosti.has(hpChiave(c)));
+  hpEl('hpComunicazioni').hidden = attivi.length === 0;
+  attivi.forEach(c => {
+    if(!hpEl('hpContenuto').hidden && !hpInizi.has(hpChiave(c))) hpInizi.set(hpChiave(c),Date.now());
+    const card = document.createElement('article');card.className='hp-avviso';
+    const top = document.createElement('div');top.className='hp-avviso-top';
+    const titolo = document.createElement('h3');titolo.textContent=c.titolo || 'Comunicazione importante';
+    const chiudi = document.createElement('button');chiudi.type='button';chiudi.className='hp-chiudi';chiudi.textContent='×';chiudi.setAttribute('aria-label','Chiudi comunicazione: ' + (c.titolo || 'Avviso'));
+    chiudi.addEventListener('click',()=>{hpNascosti.add(hpChiave(c));hpRender();});top.append(titolo,chiudi);card.append(top);
+    const testo = document.createElement('p');testo.className='hp-testo';testo.textContent=c.testo || '';card.append(testo);
+    const foto = hpUrl(c.foto);
+    if(foto){const img=document.createElement('img');img.src=foto;img.alt=c.titolo || 'Foto della comunicazione';img.loading='lazy';img.addEventListener('error',()=>img.remove());card.append(img);}
+    const link = hpUrl(c.link_pulsante);
+    if(link){const a=document.createElement('a');a.className='hp-link';a.href=link;a.textContent=c.testo_pulsante || 'Scopri di più';card.append(a);}
+    box.append(card);
+  });
+}
+async function hpAggiorna(){
+  if(hpCaricamento) return;
+  hpCaricamento=true;
+  await Promise.allSettled([
+    (async()=>{
+      try{
+        const righe=await hpLeggi('impostazioni_sito','?id=eq.1&select=id,manutenzione,messaggio_manutenzione,updated_at');
+        if(righe.length!==1) throw new Error('Record id=1 assente o non leggibile');
+        hpStato(righe[0]);
+      }catch(e){
+        console.error('Lettura impostazioni_sito:',e);
+        hpEl('hpContenuto').hidden=true;hpEl('hpAccesso').hidden=false;
+        hpEl('hpTitoloStato').textContent='Sito temporaneamente non disponibile';
+        hpEl('hpTestoStato').textContent='Non è stato possibile verificare lo stato del sito. Riprova tra poco.';
+      }
+    })(),
+    (async()=>{
+      try{
+        let righe=[],offset=0;
+        while(true){
+          const pagina=await hpLeggi('comunicazioni','?select=id,created_at,updated_at,titolo,testo,foto,testo_pulsante,link_pulsante,attiva,scadenza,chiusura_automatica&attiva=eq.true&order=created_at.desc,id.asc&limit=500&offset='+offset);
+          righe.push(...pagina);if(!pagina.length)break;offset+=pagina.length;
+        }
+        hpAvvisi=righe;hpEl('hpErroreAvvisi').hidden=true;hpRender();
+      }catch(e){
+        console.error('Lettura comunicazioni:',e);
+        hpAvvisi=[];hpRender();hpEl('hpErroreAvvisi').hidden=false;
+      }
+    })()
+  ]);
+  hpCaricamento=false;
+}
+hpAggiorna();
+setInterval(()=>{if(!document.hidden)hpAggiorna();},30000);
+// La scadenza viene rispettata anche senza ricaricare la pagina.
+setInterval(()=>{if(hpAvvisi.some(c=>c.scadenza && new Date(c.scadenza).getTime()<=Date.now())){hpAvvisi=hpAvvisi.filter(c=>!c.scadenza || new Date(c.scadenza).getTime()>Date.now());hpRender();}},1000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)hpAggiorna();});
+
+setInterval(()=>{
+  if(hpEl('hpContenuto').hidden)return;
+  let cambiato=false;
+  hpAvvisi.forEach(c=>{
+    const chiave=hpChiave(c),inizio=hpInizi.get(chiave),secondi=Number(c.chiusura_automatica);
+    if(secondi>0 && inizio!==undefined && Date.now()-inizio>=secondi*1000 && !hpNascosti.has(chiave)){hpNascosti.add(chiave);cambiato=true;}
+  });
+  if(cambiato)hpRender();
+},1000);
 
 </script>
 
