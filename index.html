@@ -61,7 +61,7 @@ a {
   position: relative;
 
   width: 100%;
-  min-height: 760px;
+  min-height: 810px;
 
   overflow: hidden;
 
@@ -93,7 +93,7 @@ a {
   width: calc(100% - 40px);
   max-width: 1000px;
 
-  min-height: 760px;
+  min-height: 810px;
 
   margin: 0 auto;
 
@@ -269,6 +269,13 @@ a {
 
 .red-button {
   background: #d20719;
+  color: white;
+
+  border: 1px solid rgba(255,255,255,.50);
+}
+
+.blue-button {
+  background: #1769aa;
   color: white;
 
   border: 1px solid rgba(255,255,255,.50);
@@ -631,6 +638,7 @@ footer p {
   line-height: 1.5;
 }
 
+.footer-services,
 .footer-links {
   margin-top: 23px;
 
@@ -641,6 +649,7 @@ footer p {
   gap: 8px;
 }
 
+.footer-services a,
 .footer-links a {
   color: white;
 
@@ -657,7 +666,7 @@ footer p {
 @media (max-width: 600px) {
 
   .hero {
-    min-height: 720px;
+    min-height: 800px;
 
     background-position: center center;
   }
@@ -665,7 +674,7 @@ footer p {
   .hero-inner {
     width: calc(100% - 38px);
 
-    min-height: 720px;
+    min-height: 800px;
 
     padding-top:
       max(26px, env(safe-area-inset-top));
@@ -792,7 +801,7 @@ footer p {
 
   .hero,
   .hero-inner {
-    min-height: 700px;
+    min-height: 780px;
   }
 
   .faro-title {
@@ -896,6 +905,14 @@ footer p {
           class="main-button red-button"
         >
           📍&nbsp; Adotta una via o un quartiere
+        </a>
+
+
+        <a
+          href="idee.html"
+          class="main-button blue-button"
+        >
+          💡&nbsp; La Canicattì che vorrei
         </a>
 
       </div>
@@ -1050,6 +1067,38 @@ footer p {
       <article class="card">
 
         <div class="card-icon">
+          💡
+        </div>
+
+        <h3>
+          La Canicattì che vorrei
+        </h3>
+
+        <p>
+          Non solo problemi: raccontaci anche
+          le tue idee per migliorare Canicattì.
+        </p>
+
+        <p>
+          Proponi un progetto, un nuovo servizio,
+          uno spazio, un'iniziativa o qualcosa
+          che secondo te manca alla città.
+        </p>
+
+        <a
+          href="idee.html"
+          class="card-button card-blue"
+        >
+          Proponi la tua idea
+        </a>
+
+      </article>
+
+
+
+      <article class="card">
+
+        <div class="card-icon">
           🔎
         </div>
 
@@ -1058,14 +1107,14 @@ footer p {
         </h3>
 
         <p>
-          Il materiale ricevuto viene verificato
-          e organizzato.
+          Scopri come vengono raccolti,
+          organizzati e gestiti i contributi
+          inviati attraverso Canicattì Partecipa.
         </p>
 
         <p>
-          Quando ci sono gli elementi necessari,
-          la segnalazione può essere indirizzata
-          all'ente competente.
+          Segnalazioni e partecipazione seguono
+          percorsi diversi in base al loro contenuto.
         </p>
 
         <a
@@ -1333,11 +1382,31 @@ footer p {
 
 
   <p>
-    La piattaforma raccoglie, documenta e,
-    quando necessario, inoltra le segnalazioni.
-    Gli interventi restano di competenza
-    degli enti responsabili.
+    La piattaforma raccoglie segnalazioni,
+    documenta situazioni e permette ai cittadini
+    di proporre idee per migliorare Canicattì.
   </p>
+
+
+  <div class="footer-services">
+
+    <a href="partecipa.html">
+      Invia una segnalazione
+    </a>
+
+    <span>•</span>
+
+    <a href="adozione.html">
+      Adotta una via
+    </a>
+
+    <span>•</span>
+
+    <a href="idee.html">
+      La Canicattì che vorrei
+    </a>
+
+  </div>
 
 
   <div class="footer-links">
