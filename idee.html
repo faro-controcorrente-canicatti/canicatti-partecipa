@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<title>La Canicattì che vorrei | Canicattì Partecipa</title>
+
+<meta
+  name="description"
+  content="Proponi idee e progetti per migliorare Canicattì."
+>
+
+<style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  background: #f4f3ef;
+  color: #202226;
+
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+/* =====================================================
+   TESTATA
+===================================================== */
+
+.page-header {
+  position: relative;
+
+  min-height: 330px;
+
+  overflow: hidden;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.28),
+      rgba(0,0,0,.72)
+    ),
+    url("IMG_8923.webp");
+
+  background-size: cover;
+  background-position: center;
+}
+
+.header-inner {
+  width: calc(100% - 40px);
+  max-width: 900px;
+
+  min-height: 330px;
+
+  margin: 0 auto;
+
+  padding: 25px 0 32px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+/* =====================================================
+   FARO + LOGO
+===================================================== */
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.faro-title {
+  color: white;
+
+  font-size: 34px;
+  line-height: .93;
+
+  font-weight: 900;
+
+  letter-spacing: -1.5px;
+
+  text-transform: uppercase;
+
+  text-shadow:
+    0 3px 12px rgba(0,0,0,.55);
+}
+
+.faro-small {
+  display: block;
+
+  margin-bottom: 3px;
+
+  font-size: .56em;
+
+  font-weight: 700;
+
+  letter-spacing: .7px;
+
+  text-transform: none;
+}
+
+.logo-box {
+  flex: 0 0 105px;
+
+  width: 105px;
+  height: 105px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-box img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+
+/* =====================================================
+   TITOLO PAGINA
+===================================================== */
+
+.page-title {
+  margin-top: 35px;
+}
+
+.page-title .project {
+  margin-bottom: 8px;
+
+  color: #ffc800;
+
+  font-size: 13px;
+
+  font-weight: 850;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+.page-title h1 {
+  margin: 0 0 10px;
+
+  color: white;
+
+  font-size: clamp(37px, 8vw, 55px);
+
+  line-height: 1;
+
+  letter-spacing: -2px;
+
+  text-shadow:
+    0 3px 14px rgba(0,0,0,.45);
+}
+
+.page-title p {
+  margin: 0;
+
+  max-width: 650px;
+
+  color: white;
+
+  font-size: 19px;
+  line-height: 1.35;
+
+  text-shadow:
+    0 2px 8px rgba(0,0,0,.5);
+}
+
+
+/* =====================================================
+   CONTENUTO
+===================================================== */
+
+.wrap {
+  width: calc(100% - 32px);
+  max-width: 760px;
+
+  margin: 0 auto;
+
+  padding: 30px 0 55px;
+}
+
+
+/* =====================================================
+   INTRO
+===================================================== */
+
+.intro {
+  margin-bottom: 20px;
+
+  padding: 24px;
+
+  background: white;
+
+  border-left: 6px solid #ffc800;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 22px rgba(0,0,0,.06);
+}
+
+.intro h2 {
+  margin: 0 0 12px;
+
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.intro p {
+  margin: 9px 0;
+
+  font-size: 16px;
+  line-height: 1.5;
+
+  color: #44464a;
+}
+
+
+/* =====================================================
+   CARD MODULO
+===================================================== */
+
+.form-card {
+  margin-bottom: 18px;
+
+  padding: 24px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 22px rgba(0,0,0,.06);
+}
+
+.form-card h2 {
+  margin: 0 0 10px;
+
+  font-size: 23px;
+  line-height: 1.2;
+}
+
+.form-card p {
+  margin: 8px 0 18px;
+
+  color: #55585c;
+
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+
+/* =====================================================
+   CAMPI
+===================================================== */
+
+label {
+  display: block;
+
+  margin: 18px 0 7px;
+
+  font-size: 16px;
+}
+
+input,
+select,
+textarea {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+
+  margin: 0;
+
+  padding: 15px 14px;
+
+  border: 1px solid #cfd1d4;
+
+  border-radius: 12px;
+
+  background: white;
+
+  color: #202226;
+
+  font-family: inherit;
+
+  font-size: 16px;
+
+  line-height: 1.3;
+
+  outline: none;
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+select {
+  padding-right: 42px;
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, #555 50%),
+    linear-gradient(135deg, #555 50%, transparent 50%);
+
+  background-position:
+    calc(100% - 20px) 50%,
+    calc(100% - 14px) 50%;
+
+  background-size:
+    6px 6px,
+    6px 6px;
+
+  background-repeat: no-repeat;
+}
+
+textarea {
+  min-height: 180px;
+
+  resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #d4aa00;
+
+  box-shadow:
+    0 0 0 3px rgba(255,200,0,.18);
+}
+
+input[type="file"] {
+  padding: 13px;
+
+  background: #f7f7f5;
+
+  appearance: auto;
+  -webkit-appearance: auto;
+}
+
+
+/* =====================================================
+   ALLEGATI
+===================================================== */
+
+.file-info {
+  margin-top: 12px !important;
+
+  color: #666 !important;
+
+  font-size: 14px !important;
+}
+
+
+/* =====================================================
+   AVVISO
+===================================================== */
+
+.warning {
+  margin-bottom: 18px;
+
+  padding: 22px;
+
+  background: #fff8e1;
+
+  border: 1px solid #f0d275;
+  border-left: 6px solid #ffc800;
+
+  border-radius: 18px;
+}
+
+.warning-title {
+  display: block;
+
+  margin-bottom: 10px;
+
+  font-size: 19px;
+}
+
+.warning p {
+  margin: 9px 0;
+
+  font-size: 15px;
+  line-height: 1.5;
+
+  color: #444;
+}
+
+
+/* =====================================================
+   PULSANTI
+===================================================== */
+
+.button {
+  width: 100%;
+
+  min-height: 58px;
+
+  margin-top: 15px;
+
+  padding: 15px 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 0;
+  border-radius: 14px;
+
+  font-family: inherit;
+
+  font-size: 17px;
+  font-weight: 800;
+
+  text-align: center;
+
+  cursor: pointer;
+
+  transition:
+    transform .12s ease,
+    opacity .12s ease;
+}
+
+.button:active {
+  transform: scale(.985);
+}
+
+.button:disabled {
+  opacity: .6;
+
+  cursor: not-allowed;
+}
+
+.button-yellow {
+  background: #ffc800;
+  color: #171717;
+}
+
+.button-home {
+  margin-top: 4px;
+
+  background: #1769aa;
+  color: white;
+}
+
+
+/* =====================================================
+   MESSAGGIO INVIO
+===================================================== */
+
+#messaggioInvio {
+  margin-top: 18px;
+
+  font-size: 15px;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+  padding:
+    40px
+    20px
+    calc(40px + env(safe-area-inset-bottom));
+
+  background: #202328;
+
+  color: white;
+
+  text-align: center;
+}
+
+footer strong {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 21px;
+}
+
+footer p {
+  max-width: 650px;
+
+  margin: 8px auto;
+
+  color: #d0d0d0;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.footer-links {
+  margin-top: 22px;
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.footer-links a {
+  color: white;
+
+  font-size: 14px;
+
+  text-decoration: underline;
+}
+
+
+/* =====================================================
+   SMARTPHONE
+===================================================== */
+
+@media (max-width: 600px) {
+
+  .page-header {
+    min-height: 315px;
+  }
+
+  .header-inner {
+    width: calc(100% - 36px);
+
+    min-height: 315px;
+
+    padding-top:
+      max(20px, env(safe-area-inset-top));
+
+    padding-bottom: 27px;
+  }
+
+  .faro-title {
+    max-width: calc(100% - 112px);
+
+    font-size: 30px;
+  }
+
+  .logo-box {
+    flex: 0 0 102px;
+
+    width: 102px;
+    height: 102px;
+  }
+
+  .page-title {
+    margin-top: 25px;
+  }
+
+  .page-title h1 {
+    font-size: clamp(34px, 9vw, 46px);
+  }
+
+  .page-title p {
+    font-size: 18px;
+  }
+
+  .wrap {
+    width: calc(100% - 26px);
+
+    padding-top: 20px;
+  }
+
+  .intro,
+  .form-card,
+  .warning {
+    padding: 21px 18px;
+
+    border-radius: 17px;
+  }
+
+  .intro h2,
+  .form-card h2 {
+    font-size: 22px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+
+    padding: 15px 13px;
+  }
+
+  .button {
+    min-height: 58px;
+
+    font-size: 16px;
+  }
+
+}
+
+
+/* =====================================================
+   SMARTPHONE MOLTO PICCOLI
+===================================================== */
+
+@media (max-width: 370px) {
+
+  .faro-title {
+    font-size: 27px;
+  }
+
+  .logo-box {
+    flex-basis: 90px;
+
+    width: 90px;
+    height: 90px;
+  }
+
+  .page-title h1 {
+    font-size: 33px;
+  }
+
+  .wrap {
+    width: calc(100% - 22px);
+  }
+
+  .intro,
+  .form-card,
+  .warning {
+    padding: 19px 16px;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     TESTATA
+===================================================== -->
+
+<header class="page-header">
+
+  <div class="header-inner">
+
+    <div class="brand-row">
+
+      <div class="faro-title">
+
+        <span class="faro-small">
+          Faro di
+        </span>
+
+        Canicattì
+
+      </div>
+
+      <div class="logo-box">
+
+        <img
+          src="IMG_8924.png"
+          alt="Controcorrente"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="page-title">
+
+      <div class="project">
+        Canicattì Partecipa
+      </div>
+
+      <h1>
+        La Canicattì che vorrei
+      </h1>
+
+      <p>
+        Raccontaci la tua idea per migliorare la città.
+      </p>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     CONTENUTO
+===================================================== -->
+
+<main class="wrap">
+
+
+  <!-- INTRO -->
+
+  <section class="intro">
+
+    <h2>
+      💡 Come immagini la Canicattì di domani?
+    </h2>
+
+    <p>
+      Cosa manca alla nostra città?
+      Cosa potrebbe essere migliorato?
+      Quale servizio, struttura, spazio o iniziativa
+      vorresti vedere realizzata?
+    </p>
+
+    <p>
+      Puoi proporre una piccola idea per il tuo quartiere
+      oppure un progetto che riguarda tutta Canicattì.
+    </p>
+
+    <p>
+      <strong>
+        Questo spazio nasce per ascoltare e raccogliere
+        le idee dei cittadini.
+      </strong>
+    </p>
+
+  </section>
+
+
+
+  <!-- TITOLO -->
+
+  <section class="form-card">
+
+    <h2>
+      💭 La tua idea
+    </h2>
+
+    <p>
+      Dai un titolo semplice alla tua proposta.
+    </p>
+
+    <label for="titolo">
+      <strong>Titolo della proposta *</strong>
+    </label>
+
+    <input
+      type="text"
+      id="titolo"
+      name="titolo"
+      placeholder="Es. Una pista ciclabile per Canicattì"
+      maxlength="150"
+      required
+    >
+
+  </section>
+
+
+
+  <!-- CATEGORIA -->
+
+  <section class="form-card">
+
+    <h2>
+      🏷️ In quale ambito?
+    </h2>
+
+    <p>
+      Scegli la categoria più vicina alla tua proposta.
+    </p>
+
+    <label for="categoria">
+      <strong>Categoria *</strong>
+    </label>
+
+    <select
+      id="categoria"
+      name="categoria"
+      required
+    >
+
+      <option value="">
+        Seleziona una categoria
+      </option>
+
+      <option value="Sport e impianti">
+        Sport e impianti
+      </option>
+
+      <option value="Giovani">
+        Giovani
+      </option>
+
+      <option value="Mobilità e viabilità">
+        Mobilità e viabilità
+      </option>
+
+      <option value="Ambiente e verde">
+        Ambiente e verde
+      </option>
+
+      <option value="Cultura ed eventi">
+        Cultura ed eventi
+      </option>
+
+      <option value="Centro storico e quartieri">
+        Centro storico e quartieri
+      </option>
+
+      <option value="Servizi">
+        Servizi
+      </option>
+
+      <option value="Sociale">
+        Sociale
+      </option>
+
+      <option value="Commercio e sviluppo economico">
+        Commercio e sviluppo economico
+      </option>
+
+      <option value="Altro">
+        Altro
+      </option>
+
+    </select>
+
+  </section>
+
+
+
+  <!-- DESCRIZIONE -->
+
+  <section class="form-card">
+
+    <h2>
+      ✏️ Raccontaci la tua proposta
+    </h2>
+
+    <p>
+      Spiega liberamente la tua idea:
+      cosa vorresti realizzare, perché secondo te
+      sarebbe utile e a chi potrebbe servire.
+    </p>
+
+    <label for="descrizione">
+      <strong>Descrizione della proposta *</strong>
+    </label>
+
+    <textarea
+      id="descrizione"
+      name="descrizione"
+      rows="8"
+      maxlength="6000"
+      placeholder="Descrivi qui la tua idea..."
+      required
+    ></textarea>
+
+  </section>
+
+
+
+  <!-- ZONA -->
+
+  <section class="form-card">
+
+    <h2>
+      📍 Dove?
+    </h2>
+
+    <p>
+      Se la proposta riguarda una zona precisa,
+      puoi indicarla qui.
+      Se invece riguarda tutta Canicattì,
+      puoi lasciare il campo vuoto.
+    </p>
+
+    <label for="zona">
+      <strong>Via / quartiere / zona</strong>
+    </label>
+
+    <input
+      type="text"
+      id="zona"
+      name="zona"
+      placeholder="Es. Borgalino, centro storico, Via Roma..."
+      maxlength="200"
+    >
+
+  </section>
+
+
+
+  <!-- ALLEGATI -->
+
+  <section class="form-card">
+
+    <h2>
+      📎 Hai già del materiale?
+    </h2>
+
+    <p>
+      Se vuoi, puoi allegare fotografie,
+      documenti o un progetto già preparato.
+    </p>
+
+    <p>
+      Puoi allegare fino a
+      <strong>3 file</strong>.
+      Ogni file può avere una dimensione
+      massima di <strong>10 MB</strong>.
+    </p>
+
+    <label for="allegati">
+      <strong>Allegati facoltativi</strong>
+    </label>
+
+    <input
+      type="file"
+      id="allegati"
+      name="allegati"
+      accept=".pdf,.doc,.docx,image/*"
+      multiple
+    >
+
+    <p
+      id="infoAllegati"
+      class="file-info"
+    ></p>
+
+  </section>
+
+
+
+  <!-- DATI -->
+
+  <section class="form-card">
+
+    <h2>
+      👤 I tuoi dati
+    </h2>
+
+    <p>
+      Ci permettono di sapere chi ha presentato
+      la proposta e di contattarti se fosse necessario
+      approfondire la tua idea.
+    </p>
+
+    <label for="nomeCompleto">
+      <strong>Nome e cognome *</strong>
+    </label>
+
+    <input
+      type="text"
+      id="nomeCompleto"
+      name="nomeCompleto"
+      placeholder="Nome e cognome"
+      autocomplete="name"
+      maxlength="200"
+      required
+    >
+
+
+    <label for="email">
+      <strong>Email *</strong>
+    </label>
+
+    <input
+      type="email"
+      id="email"
+      name="email"
+      placeholder="La tua email"
+      autocomplete="email"
+      required
+    >
+
+
+    <label for="telefono">
+      <strong>Telefono</strong>
+    </label>
+
+    <input
+      type="tel"
+      id="telefono"
+      name="telefono"
+      placeholder="Numero di telefono"
+      autocomplete="tel"
+      maxlength="50"
+    >
+
+  </section>
+
+
+
+  <!-- AVVISO -->
+
+  <section class="warning">
+
+    <strong class="warning-title">
+      Ogni proposta conta
+    </strong>
+
+    <p>
+      Le idee ricevute attraverso
+      <strong>“La Canicattì che vorrei”</strong>
+      saranno raccolte e conservate dal Faro di Canicattì
+      per essere successivamente esaminate e approfondite.
+    </p>
+
+    <p>
+      L'invio di una proposta non comporta
+      automaticamente la sua realizzazione.
+    </p>
+
+    <p>
+      Ti chiediamo di utilizzare questo spazio
+      per proposte e idee per la città.
+      Per comunicare un problema concreto
+      presente sul territorio utilizza invece
+      la sezione <strong>Fai una segnalazione</strong>.
+    </p>
+
+  </section>
+
+
+
+  <!-- INVIO -->
+
+  <section class="form-card">
+
+    <h2>
+      Invia la tua proposta
+    </h2>
+
+    <p>
+      Controlla che le informazioni inserite
+      siano corrette e poi invia la tua idea.
+    </p>
+
+    <button
+      class="button button-yellow"
+      type="button"
+      id="inviaProposta"
+    >
+      Invia la tua proposta
+    </button>
+
+    <p id="messaggioInvio"></p>
+
+  </section>
+
+
+
+  <a
+    class="button button-home"
+    href="index.html"
+  >
+    ← Torna alla pagina principale
+  </a>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+  <strong>
+    Faro di Canicattì
+  </strong>
+
+  <p>
+    Canicattì Partecipa è un progetto
+    di cittadinanza attiva.
+  </p>
+
+  <p>
+    Ascoltiamo il territorio, raccogliamo
+    segnalazioni e idee e promuoviamo
+    la partecipazione dei cittadini.
+  </p>
+
+  <div class="footer-links">
+
+    <a href="privacy.html">
+      Privacy
+    </a>
+
+    <span>•</span>
+
+    <a href="cookie.html">
+      Cookie
+    </a>
+
+    <span>•</span>
+
+    <a href="note-legali.html">
+      Note legali
+    </a>
+
+  </div>
+
+</footer>
+
+
+
+<script>
+
+/* =====================================================
+   CONFIGURAZIONE SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+  "https://zkwwxxmbikxpzedcmjxx.supabase.co";
+
+const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inprd3d4eG1iaWt4cHplZGNtanh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5NDM5NTAsImV4cCI6MjEwNjUxOTk1MH0.HzTRtLCAf87qicBM1TD06Wb_l7pK66azttTuGKFezmo";
+
+const BUCKET_ALLEGATI =
+  "allegati-proposte";
+
+const MAX_ALLEGATI = 3;
+
+const MAX_DIMENSIONE_FILE =
+  10 * 1024 * 1024;
+
+
+/* =====================================================
+   EVENTI
+===================================================== */
+
+document
+  .getElementById("inviaProposta")
+  .addEventListener(
+    "click",
+    inviaProposta
+  );
+
+
+document
+  .getElementById("allegati")
+  .addEventListener(
+    "change",
+    function() {
+
+      const numeroFile =
+        this.files.length;
+
+      const info =
+        document.getElementById(
+          "infoAllegati"
+        );
+
+      if (numeroFile === 0) {
+
+        info.textContent = "";
+
+      } else if (
+        numeroFile > MAX_ALLEGATI
+      ) {
+
+        info.innerHTML =
+          "⚠️ Hai selezionato " +
+          numeroFile +
+          " file. Puoi allegarne al massimo " +
+          MAX_ALLEGATI +
+          ".";
+
+      } else {
+
+        info.innerHTML =
+          "📎 " +
+          numeroFile +
+          (
+            numeroFile === 1
+              ? " file selezionato."
+              : " file selezionati."
+          );
+
+      }
+
+    }
+  );
+
+
+/* =====================================================
+   DIVIDE NOME E COGNOME
+===================================================== */
+
+function separaNomeCognome(nomeCompleto) {
+
+  const parti =
+    nomeCompleto
+      .trim()
+      .split(/\s+/);
+
+  if (parti.length === 1) {
+
+    return {
+      nome: parti[0],
+      cognome: "-"
+    };
+
+  }
+
+  return {
+    nome: parti[0],
+    cognome: parti.slice(1).join(" ")
+  };
+
+}
+
+
+/* =====================================================
+   NOME FILE SICURO
+===================================================== */
+
+function pulisciNomeFile(nome) {
+
+  return nome
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9._-]/g, "_")
+    .substring(0, 120);
+
+}
+
+
+/* =====================================================
+   CARICAMENTO ALLEGATO
+===================================================== */
+
+async function caricaAllegato(file) {
+
+  const nomeOriginale =
+    file.name ||
+    "allegato";
+
+  const nomeSicuro =
+    pulisciNomeFile(
+      nomeOriginale
+    );
+
+  const percorso =
+    "proposte/" +
+    Date.now() +
+    "_" +
+    Math.random()
+      .toString(36)
+      .substring(2, 12) +
+    "_" +
+    nomeSicuro;
+
+
+  const risposta =
+    await fetch(
+
+      SUPABASE_URL +
+      "/storage/v1/object/" +
+      BUCKET_ALLEGATI +
+      "/" +
+      percorso,
+
+      {
+
+        method: "POST",
+
+        headers: {
+
+          "apikey":
+            SUPABASE_ANON_KEY,
+
+          "Authorization":
+            "Bearer " +
+            SUPABASE_ANON_KEY,
+
+          "Content-Type":
+            file.type ||
+            "application/octet-stream",
+
+          "x-upsert":
+            "false"
+
+        },
+
+        body: file
+
+      }
+
+    );
+
+
+  if (!risposta.ok) {
+
+    const errore =
+      await risposta.text();
+
+    throw new Error(
+      "Errore nel caricamento dell'allegato (" +
+      risposta.status +
+      "): " +
+      errore
+    );
+
+  }
+
+
+  return {
+    nome: nomeOriginale,
+    percorso: percorso,
+    tipo: file.type || null,
+    dimensione: file.size
+  };
+
+}
+
+
+/* =====================================================
+   INVIO PROPOSTA
+===================================================== */
+
+async function inviaProposta() {
+
+  const titolo =
+    document
+      .getElementById("titolo")
+      .value
+      .trim();
+
+  const categoria =
+    document
+      .getElementById("categoria")
+      .value;
+
+  const descrizione =
+    document
+      .getElementById("descrizione")
+      .value
+      .trim();
+
+  const zona =
+    document
+      .getElementById("zona")
+      .value
+      .trim();
+
+  const nomeCompleto =
+    document
+      .getElementById("nomeCompleto")
+      .value
+      .trim();
+
+  const email =
+    document
+      .getElementById("email")
+      .value
+      .trim();
+
+  const telefono =
+    document
+      .getElementById("telefono")
+      .value
+      .trim();
+
+  const inputAllegati =
+    document
+      .getElementById("allegati");
+
+  const fileSelezionati =
+    Array.from(
+      inputAllegati.files
+    );
+
+  const messaggio =
+    document
+      .getElementById(
+        "messaggioInvio"
+      );
+
+  const pulsante =
+    document
+      .getElementById(
+        "inviaProposta"
+      );
+
+
+  /* =================================================
+     CAMPI OBBLIGATORI
+  ================================================= */
+
+  if (
+    !titolo ||
+    !categoria ||
+    !descrizione ||
+    !nomeCompleto ||
+    !email
+  ) {
+
+    messaggio.innerHTML =
+      "⚠️ <strong>Compila tutti i campi obbligatori prima di inviare.</strong>";
+
+    return;
+
+  }
+
+
+  /* =================================================
+     EMAIL
+  ================================================= */
+
+  const emailValida =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+  if (
+    !emailValida.test(email)
+  ) {
+
+    messaggio.innerHTML =
+      "⚠️ <strong>Inserisci un indirizzo email valido.</strong>";
+
+    return;
+
+  }
+
+
+  /* =================================================
+     NUMERO ALLEGATI
+  ================================================= */
+
+  if (
+    fileSelezionati.length >
+    MAX_ALLEGATI
+  ) {
+
+    messaggio.innerHTML =
+      "⚠️ <strong>Puoi allegare al massimo " +
+      MAX_ALLEGATI +
+      " file.</strong>";
+
+    return;
+
+  }
+
+
+  /* =================================================
+     CONTROLLO FILE
+  ================================================= */
+
+  const estensioniConsentite =
+    [
+      "pdf",
+      "doc",
+      "docx",
+      "jpg",
+      "jpeg",
+      "png",
+      "webp",
+      "heic",
+      "heif"
+    ];
+
+
+  for (
+    const file of
+    fileSelezionati
+  ) {
+
+    if (
+      file.size >
+      MAX_DIMENSIONE_FILE
+    ) {
+
+      messaggio.innerHTML =
+        "⚠️ <strong>Il file “" +
+        file.name +
+        "” supera i 10 MB.</strong>";
+
+      return;
+
+    }
+
+
+    const estensione =
+      file.name
+        .split(".")
+        .pop()
+        .toLowerCase();
+
+
+    if (
+      !estensioniConsentite.includes(
+        estensione
+      )
+    ) {
+
+      messaggio.innerHTML =
+        "⚠️ <strong>Il file “" +
+        file.name +
+        "” non è in un formato consentito.</strong><br>" +
+        "Puoi allegare PDF, Word o immagini.";
+
+      return;
+
+    }
+
+  }
+
+
+  pulsante.disabled = true;
+
+  pulsante.textContent =
+    "Invio in corso...";
+
+  messaggio.innerHTML =
+    "⏳ Invio della proposta in corso...";
+
+
+  const allegatiCaricati = [];
+
+
+  try {
+
+
+    /* =================================================
+       1. CARICAMENTO ALLEGATI
+    ================================================= */
+
+    for (
+      let i = 0;
+      i < fileSelezionati.length;
+      i++
+    ) {
+
+      messaggio.innerHTML =
+        "⏳ Caricamento allegato " +
+        (i + 1) +
+        " di " +
+        fileSelezionati.length +
+        "...";
+
+
+      const allegato =
+        await caricaAllegato(
+          fileSelezionati[i]
+        );
+
+
+      allegatiCaricati.push(
+        allegato
+      );
+
+    }
+
+
+    /* =================================================
+       2. NOME E COGNOME
+    ================================================= */
+
+    const persona =
+      separaNomeCognome(
+        nomeCompleto
+      );
+
+
+    /* =================================================
+       3. DATI DA REGISTRARE
+    ================================================= */
+
+    const dati = {
+
+      titolo:
+        titolo,
+
+      categoria:
+        categoria,
+
+      descrizione:
+        descrizione,
+
+      zona:
+        zona || null,
+
+      nome:
+        persona.nome,
+
+      cognome:
+        persona.cognome,
+
+      email:
+        email,
+
+      telefono:
+        telefono || null,
+
+      allegato_path:
+        allegatiCaricati.length > 0
+          ? allegatiCaricati[0].percorso
+          : null,
+
+      allegato_nome:
+        allegatiCaricati.length > 0
+          ? allegatiCaricati[0].nome
+          : null,
+
+      allegati:
+        allegatiCaricati,
+
+      stato_interno:
+        "Da valutare"
+
+    };
+
+
+    /* =================================================
+       4. REGISTRAZIONE SU SUPABASE
+    ================================================= */
+
+    messaggio.innerHTML =
+      "⏳ Registrazione della proposta...";
+
+
+    const risposta =
+      await fetch(
+
+        SUPABASE_URL +
+        "/rest/v1/proposte_citta",
+
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "apikey":
+              SUPABASE_ANON_KEY,
+
+            "Authorization":
+              "Bearer " +
+              SUPABASE_ANON_KEY,
+
+            "Content-Type":
+              "application/json",
+
+            "Prefer":
+              "return=minimal"
+
+          },
+
+          body:
+            JSON.stringify(
+              dati
+            )
+
+        }
+
+      );
+
+
+    if (!risposta.ok) {
+
+      const testoErrore =
+        await risposta.text();
+
+      throw new Error(
+        "Errore registrazione (" +
+        risposta.status +
+        "): " +
+        testoErrore
+      );
+
+    }
+
+
+    /* =================================================
+       5. CONFERMA
+    ================================================= */
+
+    let conferma =
+
+      "✅ <strong>Grazie! La tua proposta è stata ricevuta.</strong><br><br>" +
+
+      "La tua idea è stata inserita nella raccolta " +
+      "<strong>“La Canicattì che vorrei”</strong> " +
+      "e sarà conservata per essere successivamente esaminata e approfondita.";
+
+
+    if (
+      allegatiCaricati.length > 0
+    ) {
+
+      conferma +=
+        "<br><br>📎 " +
+        allegatiCaricati.length +
+        (
+          allegatiCaricati.length === 1
+            ? " allegato ricevuto correttamente."
+            : " allegati ricevuti correttamente."
+        );
+
+    }
+
+
+    messaggio.innerHTML =
+      conferma;
+
+
+    /* =================================================
+       6. SVUOTA MODULO
+    ================================================= */
+
+    document
+      .getElementById("titolo")
+      .value = "";
+
+    document
+      .getElementById("categoria")
+      .value = "";
+
+    document
+      .getElementById("descrizione")
+      .value = "";
+
+    document
+      .getElementById("zona")
+      .value = "";
+
+    document
+      .getElementById("nomeCompleto")
+      .value = "";
+
+    document
+      .getElementById("email")
+      .value = "";
+
+    document
+      .getElementById("telefono")
+      .value = "";
+
+    document
+      .getElementById("allegati")
+      .value = "";
+
+    document
+      .getElementById("infoAllegati")
+      .textContent = "";
+
+
+  } catch (
+    errore
+  ) {
+
+    console.error(
+      errore
+    );
+
+    messaggio.innerHTML =
+      "❌ <strong>Non è stato possibile completare l'invio della proposta.</strong><br><br>" +
+      errore.message;
+
+
+  } finally {
+
+    pulsante.disabled =
+      false;
+
+    pulsante.textContent =
+      "Invia la tua proposta";
+
+  }
+
+}
+
+</script>
+
+
+</body>
+</html>
