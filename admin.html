@@ -781,17 +781,6 @@ button{
 .cp-status{white-space:pre-wrap;margin:12px 0}
 .cp-text{white-space:pre-wrap}
 @media(max-width:650px){.cp-grid{grid-template-columns:minmax(0,1fr)}.cp-area .actions button{flex:1 1 140px}}
-/* Collegamenti social del pannello */
-.admin-social{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 20px;padding:14px;background:white;border-radius:14px}
-.admin-social strong{margin-right:4px}
-.admin-social a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 16px;border-radius:10px;color:white;font-weight:750;text-decoration:none}
-.admin-social a:focus-visible{outline:3px solid var(--blu);outline-offset:3px}
-.admin-social a:hover{filter:brightness(.9)}
-.admin-social .social-facebook{background:#0866ff}
-.admin-social .social-instagram{background:#a82a82}
-.admin-social .social-tiktok{background:#161616}
-@media(max-width:650px){.admin-social strong{flex-basis:100%}.admin-social a{flex:1 1 120px}}
-@media print{.admin-social{display:none!important}}
 </style>
 </head>
 
@@ -901,13 +890,6 @@ button{
 
 </div>
 
-
-<nav class="admin-social" aria-label="Profili social">
-  <strong>Seguici sui social</strong>
-  <a class="social-facebook" href="https://www.facebook.com/share/1N3THY7nBG/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook — apre una nuova scheda">Facebook ↗</a>
-  <a class="social-instagram" href="https://www.instagram.com/controcorrente__canicatti?stkn=MXh5aHp6dDVyYmdiMA%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram — apre una nuova scheda">Instagram ↗</a>
-  <a class="social-tiktok" href="https://www.tiktok.com/@controcorrente.fa?_r=1&amp;_t=ZN-9AMPpx5WfPq" target="_blank" rel="noopener noreferrer" aria-label="TikTok — apre una nuova scheda">TikTok ↗</a>
-</nav>
 
 <section id="sezioneDashboard">
 
@@ -1118,8 +1100,8 @@ button{
         <div><label for="cpTestoPulsante">Testo del pulsante</label><input id="cpTestoPulsante"></div>
         <div><label for="cpLinkPulsante">Link del pulsante</label><input id="cpLinkPulsante" type="text"></div>
         <div><label for="cpScadenza">Scadenza (data e ora locali, facoltativa)</label><input id="cpScadenza" type="datetime-local" step="any"></div>
-        <div><label for="cpChiusura">Chiusura automatica (valore numerico)</label><input id="cpChiusura" type="number" step="1" min="-2147483648" max="2147483647">
-        <p class="file-help">Valore intero del campo chiusura_automatica. Lascia vuoto per nessun valore; unità e comportamento dipendono dal sito pubblico.</p></div>
+        <div><label for="cpChiusura">Chiusura automatica (secondi)</label><input id="cpChiusura" type="number" step="1" min="-2147483648" max="2147483647">
+        <p class="file-help">Secondi dopo cui nascondere l’avviso nella home. Con 0 o campo vuoto resta visibile fino alla scadenza o alla chiusura manuale.</p></div>
       </div>
       <label class="cp-check"><input id="cpAttiva" type="checkbox"> Comunicazione attiva</label>
       <div class="actions"><button type="submit" class="salva">Salva comunicazione</button><button type="button" onclick="cpChiudi()">Annulla</button></div>
