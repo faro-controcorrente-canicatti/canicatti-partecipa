@@ -771,6 +771,27 @@ button{
   }
 }
 
+/* Aree aggiunte: comunicazioni e stato del sito */
+.cp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}
+.cp-check{display:flex;align-items:center;gap:10px;margin:12px 0 18px}
+.cp-check input{width:auto;margin:0;flex:0 0 auto}
+.cp-area{overflow-wrap:anywhere}
+.cp-area fieldset{border:0;padding:0;margin:0;min-width:0}
+.cp-area button:disabled{opacity:.55;cursor:wait}
+.cp-status{white-space:pre-wrap;margin:12px 0}
+.cp-text{white-space:pre-wrap}
+@media(max-width:650px){.cp-grid{grid-template-columns:minmax(0,1fr)}.cp-area .actions button{flex:1 1 140px}}
+/* Collegamenti social del pannello */
+.admin-social{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 20px;padding:14px;background:white;border-radius:14px}
+.admin-social strong{margin-right:4px}
+.admin-social a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 16px;border-radius:10px;color:white;font-weight:750;text-decoration:none}
+.admin-social a:focus-visible{outline:3px solid var(--blu);outline-offset:3px}
+.admin-social a:hover{filter:brightness(.9)}
+.admin-social .social-facebook{background:#0866ff}
+.admin-social .social-instagram{background:#a82a82}
+.admin-social .social-tiktok{background:#161616}
+@media(max-width:650px){.admin-social strong{flex-basis:100%}.admin-social a{flex:1 1 120px}}
+@media print{.admin-social{display:none!important}}
 </style>
 </head>
 
@@ -871,12 +892,22 @@ button{
     📊 Statistiche
   </button>
 
+  <button id="mComunicazioni" onclick="mostraSezione('comunicazioni')">📢 Comunicazioni importanti</button>
+  <button id="mStatoSito" onclick="mostraSezione('statoSito')">⚙️ Stato del sito</button>
+
   <button class="logout" onclick="logout()">
     🚪 Esci
   </button>
 
 </div>
 
+
+<nav class="admin-social" aria-label="Profili social">
+  <strong>Seguici sui social</strong>
+  <a class="social-facebook" href="https://www.facebook.com/share/1N3THY7nBG/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook — apre una nuova scheda">Facebook ↗</a>
+  <a class="social-instagram" href="https://www.instagram.com/controcorrente__canicatti?stkn=MXh5aHp6dDVyYmdiMA%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram — apre una nuova scheda">Instagram ↗</a>
+  <a class="social-tiktok" href="https://www.tiktok.com/@controcorrente.fa?_r=1&amp;_t=ZN-9AMPpx5WfPq" target="_blank" rel="noopener noreferrer" aria-label="TikTok — apre una nuova scheda">TikTok ↗</a>
+</nav>
 
 <section id="sezioneDashboard">
 
@@ -1068,6 +1099,52 @@ button{
 
 </section>
 
+
+<section id="sezioneComunicazioni" class="hidden cp-area">
+  <div class="section-title"><h2>📢 Comunicazioni importanti</h2></div>
+  <div class="actions">
+    <button class="salva" type="button" onclick="cpNuova()">＋ Nuova comunicazione</button>
+    <button type="button" onclick="cpCaricaComunicazioni()">Aggiorna elenco</button>
+  </div>
+  <p id="cpListaMessaggio" class="cp-status" role="status" aria-live="polite"></p>
+  <form id="cpForm" class="card hidden" onsubmit="cpSalva(event)">
+    <fieldset id="cpCampi">
+      <h3 id="cpFormTitolo">Nuova comunicazione</h3>
+      <label for="cpTitolo">Titolo</label><input id="cpTitolo" required>
+      <label for="cpTesto">Testo</label><textarea id="cpTesto"></textarea>
+      <label for="cpFoto">Foto — URL o percorso testuale</label><input id="cpFoto" type="text">
+      <p class="file-help">Inserisci il riferimento alla foto. Questo campo non carica file.</p>
+      <div class="cp-grid">
+        <div><label for="cpTestoPulsante">Testo del pulsante</label><input id="cpTestoPulsante"></div>
+        <div><label for="cpLinkPulsante">Link del pulsante</label><input id="cpLinkPulsante" type="text"></div>
+        <div><label for="cpScadenza">Scadenza (data e ora locali, facoltativa)</label><input id="cpScadenza" type="datetime-local" step="any"></div>
+        <div><label for="cpChiusura">Chiusura automatica (valore numerico)</label><input id="cpChiusura" type="number" step="1" min="-2147483648" max="2147483647">
+        <p class="file-help">Valore intero del campo chiusura_automatica. Lascia vuoto per nessun valore; unità e comportamento dipendono dal sito pubblico.</p></div>
+      </div>
+      <label class="cp-check"><input id="cpAttiva" type="checkbox"> Comunicazione attiva</label>
+      <div class="actions"><button type="submit" class="salva">Salva comunicazione</button><button type="button" onclick="cpChiudi()">Annulla</button></div>
+    </fieldset>
+    <p id="cpFormMessaggio" class="cp-status" role="status" aria-live="polite"></p>
+  </form>
+  <div id="cpElenco"></div>
+</section>
+
+<section id="sezioneStatoSito" class="hidden cp-area">
+  <div class="section-title"><h2>⚙️ Stato del sito</h2></div>
+  <div class="card">
+    <p id="cpStatoAttuale" class="meta">Stato non ancora caricato.</p>
+    <button type="button" onclick="cpCaricaStato()">Ricarica stato</button>
+    <form id="cpStatoForm" onsubmit="cpSalvaStato(event)">
+      <fieldset id="cpStatoCampi" disabled>
+        <label class="cp-check"><input id="cpManutenzione" type="checkbox"> Attiva manutenzione</label>
+        <label for="cpMessaggioManutenzione">Messaggio di manutenzione</label>
+        <textarea id="cpMessaggioManutenzione"></textarea>
+        <button class="salva" type="submit">Salva stato del sito</button>
+      </fieldset>
+    </form>
+    <p id="cpStatoMessaggio" class="cp-status" role="status" aria-live="polite"></p>
+  </div>
+</section>
 
 <section id="sezioneCategorie" class="hidden">
 
@@ -1756,7 +1833,9 @@ async function login(){
     await Promise.all([
       caricaSegnalazioni(false),
       caricaProposte(false),
-      caricaIniziative(false)
+      caricaIniziative(false),
+      cpCaricaComunicazioni(),
+      cpCaricaStato()
     ]);
 
     aggiornaInterfaccia();
@@ -1923,6 +2002,7 @@ function aggiornaInterfaccia(){
   renderStati();
   renderArchivio();
   renderStatistiche();
+  cpRender();
 }
 
 
@@ -1940,7 +2020,9 @@ function mostraSezione(nome){
     "Categorie",
     "Stati",
     "Archivio",
-    "Statistiche"
+    "Statistiche",
+    "Comunicazioni",
+    "StatoSito"
   ];
 
   sezioni.forEach(s=>{
@@ -5625,6 +5707,8 @@ async function eliminaProposta(){
 
 function logout(){
 
+  cpReset();
+
   token = null;
 
   praticaCorrente = null;
@@ -5964,6 +6048,196 @@ function pulisciNomeFile(nome){
       /_+/g,
       "_"
     );
+}
+
+/* Comunicazioni e impostazioni: usano esclusivamente la sessione esistente. */
+let cpComunicazioni = [];
+let cpCorrente = null;
+let cpOccupato = false;
+let cpStatoOccupato = false;
+let cpStatoCaricato = false;
+let cpEpoca = 0;
+const cpEl = id => document.getElementById(id);
+function cpMessaggio(id, testo, errore = false){
+  cpEl(id).textContent = testo;
+  cpEl(id).style.color = errore ? '#b42318' : '#146c43';
+}
+async function cpRichiesta(tabella, query, metodo = 'GET', dati){
+  if(!token) throw new Error('Sessione non disponibile. Accedi nuovamente.');
+  const epoca = cpEpoca;
+  const risposta = await fetch(SUPABASE_URL + '/rest/v1/' + tabella + query, {
+    method:metodo,
+    headers:{apikey:SUPABASE_KEY, Authorization:'Bearer ' + token,
+      'Content-Type':'application/json',
+      'Accept-Profile':'public', 'Content-Profile':'public',
+      Prefer:'return=representation'},
+    ...(dati === undefined ? {} : {body:JSON.stringify(dati)})
+  });
+  const testo = await risposta.text();
+  if(epoca !== cpEpoca) throw new Error('Sessione cambiata.');
+  let risultato;
+  try{ risultato = testo ? JSON.parse(testo) : null; }
+  catch(e){ throw new Error('Risposta non valida dal server (HTTP ' + risposta.status + ').'); }
+  if(!risposta.ok){
+    throw new Error((risultato && (risultato.message || risultato.error_description || risultato.error)) || ('Errore HTTP ' + risposta.status));
+  }
+  if(!Array.isArray(risultato)) throw new Error('Risposta inattesa dal server.');
+  if(metodo !== 'GET' && risultato.length !== 1){
+    throw new Error('Operazione non confermata: record non trovato o permessi insufficienti. Ricarica i dati.');
+  }
+  return risultato;
+}
+async function cpCaricaComunicazioni(){
+  if(cpOccupato) return false;
+  const epoca = cpEpoca;
+  cpOccupato = true;
+  cpEl('cpCampi').disabled = true;
+  cpMessaggio('cpListaMessaggio','Caricamento comunicazioni...');
+  cpRender();
+  try{
+    // Paginazione esplicita per non limitare l'elenco alla prima pagina REST.
+    let righe = [], offset = 0;
+    while(true){
+      const pagina = await cpRichiesta('comunicazioni','?select=*&order=created_at.desc,id.asc&limit=500&offset=' + offset);
+      righe.push(...pagina);
+      if(!pagina.length) break;
+      offset += pagina.length;
+    }
+    cpComunicazioni = righe;
+    cpMessaggio('cpListaMessaggio',righe.length ? '' : 'Nessuna comunicazione presente.');
+    return true;
+  }catch(e){
+    if(epoca === cpEpoca) cpMessaggio('cpListaMessaggio','Impossibile aggiornare l’elenco: ' + e.message,true);
+    return false;
+  }finally{
+    if(epoca === cpEpoca){cpOccupato = false; cpEl('cpCampi').disabled = false; cpRender();}
+  }
+}
+function cpRender(){
+  const elenco = cpEl('cpElenco');
+  elenco.replaceChildren();
+  cpComunicazioni.forEach(c => {
+    const card = document.createElement('article'); card.className = 'card';
+    const titolo = document.createElement('h3'); titolo.textContent = c.titolo || 'Senza titolo'; card.append(titolo);
+    const stato = document.createElement('p'); stato.className = 'meta';
+    const scaduta = c.scadenza && new Date(c.scadenza).getTime() <= Date.now();
+    stato.textContent = (c.attiva ? 'Attiva' : 'Disattivata') + (c.scadenza ? ' · Scadenza: ' + new Date(c.scadenza).toLocaleString('it-IT') : '') + (scaduta ? ' · Scaduta' : '');
+    card.append(stato);
+    const testo = document.createElement('p'); testo.className = 'cp-text'; testo.textContent = c.testo || ''; card.append(testo);
+    if(c.foto){ const foto = document.createElement('p'); foto.className = 'meta'; foto.textContent = 'Foto: ' + c.foto; card.append(foto); }
+    const azioni = document.createElement('div'); azioni.className = 'actions';
+    [['Modifica',() => cpApri(c),'apri'],[c.attiva ? 'Disattiva' : 'Attiva',() => cpCambia(c),'salva'],['Elimina',() => cpElimina(c),'elimina']].forEach(([label,azione,classe]) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = classe; b.textContent = label; b.disabled = cpOccupato; b.addEventListener('click',azione); azioni.append(b);
+    });
+    card.append(azioni); elenco.append(card);
+  });
+}
+function cpDataLocale(valore){
+  if(!valore) return '';
+  const d = new Date(valore);
+  if(!Number.isFinite(d.getTime())) return '';
+  return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,23);
+}
+function cpNuova(){ if(!cpOccupato) cpApri(null); }
+function cpApri(c){
+  if(cpOccupato) return;
+  cpCorrente = c;
+  cpEl('cpForm').reset();
+  cpEl('cpFormTitolo').textContent = c ? 'Modifica comunicazione' : 'Nuova comunicazione';
+  const campi = {cpTitolo:'titolo',cpTesto:'testo',cpFoto:'foto',cpTestoPulsante:'testo_pulsante',cpLinkPulsante:'link_pulsante',cpChiusura:'chiusura_automatica'};
+  Object.entries(campi).forEach(([id,campo]) => { cpEl(id).value = c?.[campo] ?? ''; });
+  cpEl('cpAttiva').checked = c ? !!c.attiva : false;
+  cpEl('cpScadenza').value = cpDataLocale(c?.scadenza);
+  cpMessaggio('cpFormMessaggio','');
+  cpEl('cpForm').classList.remove('hidden');
+  cpEl('cpTitolo').focus();
+}
+function cpChiudi(){
+  if(cpOccupato) return;
+  cpCorrente = null; cpEl('cpForm').reset(); cpEl('cpForm').classList.add('hidden');
+}
+async function cpSalva(event){
+  event.preventDefault();
+  if(cpOccupato || !cpEl('cpForm').reportValidity()) return;
+  const titolo = cpEl('cpTitolo').value.trim();
+  if(!titolo){cpMessaggio('cpFormMessaggio','Inserisci un titolo.',true);return;}
+  const chiusura = cpEl('cpChiusura').value;
+  if(chiusura !== '' && (!Number.isInteger(Number(chiusura)) || Number(chiusura)<-2147483648 || Number(chiusura)>2147483647)){
+    cpMessaggio('cpFormMessaggio','Chiusura automatica deve essere un intero valido.',true);return;
+  }
+  const locale = cpEl('cpScadenza').value;
+  if(locale && !Number.isFinite(new Date(locale).getTime())){cpMessaggio('cpFormMessaggio','Scadenza non valida.',true);return;}
+  // Mantiene anche precisione e fuso originari se la scadenza non è stata modificata.
+  const scadenza = cpCorrente && locale === cpDataLocale(cpCorrente.scadenza) ? cpCorrente.scadenza : (locale ? new Date(locale).toISOString() : null);
+  const dati = {titolo,testo:cpEl('cpTesto').value,foto:cpEl('cpFoto').value.trim() || null,
+    testo_pulsante:cpEl('cpTestoPulsante').value.trim() || null,link_pulsante:cpEl('cpLinkPulsante').value.trim() || null,
+    attiva:cpEl('cpAttiva').checked,scadenza:scadenza || null,chiusura_automatica:chiusura === '' ? null : Number(chiusura),updated_at:new Date().toISOString()};
+  const esistente = cpCorrente;
+  if(!esistente){dati.id = crypto.randomUUID();dati.created_at = dati.updated_at;}
+  await cpMutazione(async () => {
+    await cpRichiesta('comunicazioni',esistente ? '?id=eq.' + encodeURIComponent(esistente.id) : '',esistente ? 'PATCH' : 'POST',dati);
+  },'Comunicazione salvata.','cpFormMessaggio',true);
+}
+async function cpMutazione(azione,messaggio,destinazione,chiudi = false){
+  if(cpOccupato) return;
+  const epoca = cpEpoca;
+  cpOccupato = true; cpEl('cpCampi').disabled = true; cpRender();
+  cpMessaggio(destinazione,'Operazione in corso...');
+  let riuscita = false;
+  try{await azione();riuscita = true;}
+  catch(e){if(epoca === cpEpoca) cpMessaggio(destinazione,e.message,true);}
+  finally{if(epoca === cpEpoca){cpOccupato = false; cpEl('cpCampi').disabled = false; cpRender();}}
+  if(epoca !== cpEpoca || !riuscita) return;
+  if(chiudi) cpChiudi();
+  const aggiornata = await cpCaricaComunicazioni();
+  if(epoca === cpEpoca && aggiornata) cpMessaggio('cpListaMessaggio',messaggio);
+}
+async function cpCambia(c){
+  await cpMutazione(async () => {
+    const righe = await cpRichiesta('comunicazioni','?id=eq.' + encodeURIComponent(c.id),'PATCH',{attiva:!c.attiva,updated_at:new Date().toISOString()});
+    if(cpCorrente?.id === c.id){cpCorrente = righe[0];cpEl('cpAttiva').checked = !!righe[0].attiva;}
+  },'Stato della comunicazione aggiornato.','cpListaMessaggio');
+}
+async function cpElimina(c){
+  if(cpOccupato || !confirm('Eliminare definitivamente la comunicazione «' + (c.titolo || 'Senza titolo') + '»?')) return;
+  await cpMutazione(() => cpRichiesta('comunicazioni','?id=eq.' + encodeURIComponent(c.id),'DELETE'),
+    'Comunicazione eliminata.','cpListaMessaggio',cpCorrente?.id === c.id);
+}
+function cpMostraStato(riga){
+  cpEl('cpManutenzione').checked = !!riga.manutenzione;
+  cpEl('cpMessaggioManutenzione').value = riga.messaggio_manutenzione ?? '';
+  cpEl('cpStatoAttuale').textContent = riga.manutenzione ? 'Stato salvato: manutenzione attiva.' : 'Stato salvato: sito attivo.';
+}
+async function cpCaricaStato(){
+  if(cpStatoOccupato) return;
+  const epoca = cpEpoca;
+  cpStatoOccupato = true; cpStatoCaricato = false; cpEl('cpStatoCampi').disabled = true;
+  cpMessaggio('cpStatoMessaggio','Caricamento stato...');
+  try{
+    const righe = await cpRichiesta('impostazioni_sito','?id=eq.1&select=*');
+    if(righe.length !== 1) throw new Error('Record id=1 non trovato o non accessibile.');
+    cpMostraStato(righe[0]); cpStatoCaricato = true; cpMessaggio('cpStatoMessaggio','');
+  }catch(e){if(epoca === cpEpoca) cpMessaggio('cpStatoMessaggio',e.message,true);}
+  finally{if(epoca === cpEpoca){cpStatoOccupato = false;cpEl('cpStatoCampi').disabled = !cpStatoCaricato;}}
+}
+async function cpSalvaStato(event){
+  event.preventDefault();
+  if(cpStatoOccupato || !cpStatoCaricato) return;
+  const epoca = cpEpoca;
+  const dati = {manutenzione:cpEl('cpManutenzione').checked,messaggio_manutenzione:cpEl('cpMessaggioManutenzione').value,updated_at:new Date().toISOString()};
+  cpStatoOccupato = true; cpEl('cpStatoCampi').disabled = true; cpMessaggio('cpStatoMessaggio','Salvataggio...');
+  try{
+    const righe = await cpRichiesta('impostazioni_sito','?id=eq.1','PATCH',dati);
+    cpMostraStato(righe[0]); cpMessaggio('cpStatoMessaggio','Stato del sito salvato.');
+  }catch(e){if(epoca === cpEpoca) cpMessaggio('cpStatoMessaggio',e.message,true);}
+  finally{if(epoca === cpEpoca){cpStatoOccupato = false;cpEl('cpStatoCampi').disabled = false;}}
+}
+function cpReset(){
+  cpEpoca++;cpOccupato = false;cpStatoOccupato = false;cpStatoCaricato = false;
+  cpComunicazioni = [];cpChiudi();cpRender();cpEl('cpCampi').disabled = false;
+  cpEl('cpStatoForm').reset();cpEl('cpStatoCampi').disabled = true;
+  cpEl('cpStatoAttuale').textContent = 'Stato non ancora caricato.';
+  ['cpListaMessaggio','cpFormMessaggio','cpStatoMessaggio'].forEach(id => cpMessaggio(id,''));
 }
 
 </script>
