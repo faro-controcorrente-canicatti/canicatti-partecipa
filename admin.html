@@ -1094,8 +1094,13 @@ button{
       <h3 id="cpFormTitolo">Nuova comunicazione</h3>
       <label for="cpTitolo">Titolo</label><input id="cpTitolo" required>
       <label for="cpTesto">Testo</label><textarea id="cpTesto"></textarea>
-      <label for="cpFoto">Foto — URL o percorso testuale</label><input id="cpFoto" type="text">
-      <p class="file-help">Inserisci il riferimento alla foto. Questo campo non carica file.</p>
+      <label for="cpFotoFile">Foto della comunicazione</label>
+      <input id="cpFotoFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif" onchange="cpAnteprimaFoto()">
+      <p class="file-help">Scegli una foto dal telefono o dal computer (JPG, PNG, WebP o GIF, massimo 10 MB). Verrà caricata quando salvi.</p>
+      <img id="cpFotoAnteprima" alt="Anteprima foto della comunicazione" style="display:none;max-width:100%;max-height:240px;object-fit:contain;margin-bottom:12px">
+      <button type="button" onclick="cpRimuoviFoto()">Rimuovi foto dalla comunicazione</button>
+      <details><summary>Opzione avanzata: URL foto</summary>
+      <input id="cpFoto" type="text" aria-label="URL della foto" onchange="cpAnteprimaFoto()"></details>
       <div class="cp-grid">
         <div><label for="cpTestoPulsante">Testo del pulsante</label><input id="cpTestoPulsante"></div>
         <div><label for="cpLinkPulsante">Link del pulsante</label><input id="cpLinkPulsante" type="text"></div>
@@ -6128,6 +6133,7 @@ function cpApri(c){
   cpEl('cpFormTitolo').textContent = c ? 'Modifica comunicazione' : 'Nuova comunicazione';
   const campi = {cpTitolo:'titolo',cpTesto:'testo',cpFoto:'foto',cpTestoPulsante:'testo_pulsante',cpLinkPulsante:'link_pulsante',cpChiusura:'chiusura_automatica'};
   Object.entries(campi).forEach(([id,campo]) => { cpEl(id).value = c?.[campo] ?? ''; });
+  cpAnteprimaFoto();
   cpEl('cpAttiva').checked = c ? !!c.attiva : false;
   cpEl('cpScadenza').value = cpDataLocale(c?.scadenza);
   cpMessaggio('cpFormMessaggio','');
@@ -6136,11 +6142,15 @@ function cpApri(c){
 }
 function cpChiudi(){
   if(cpOccupato) return;
-  cpCorrente = null; cpEl('cpForm').reset(); cpEl('cpForm').classList.add('hidden');
+  cpCorrente = null; cpEl('cpForm').reset(); cpAnteprimaFoto(); cpEl('cpForm').classList.add('hidden');
 }
 async function cpSalva(event){
   event.preventDefault();
   if(cpOccupato || !cpEl('cpForm').reportValidity()) return;
+  const fileFoto = cpEl('cpFotoFile').files[0];
+  if(fileFoto && (!['image/jpeg','image/png','image/webp','image/gif'].includes(fileFoto.type) || fileFoto.size > 10*1024*1024)){
+    cpMessaggio('cpFormMessaggio','Scegli una foto JPG, PNG, WebP o GIF di massimo 10 MB.',true);return;
+  }
   const titolo = cpEl('cpTitolo').value.trim();
   if(!titolo){cpMessaggio('cpFormMessaggio','Inserisci un titolo.',true);return;}
   const chiusura = cpEl('cpChiusura').value;
@@ -6157,6 +6167,13 @@ async function cpSalva(event){
   const esistente = cpCorrente;
   if(!esistente){dati.id = crypto.randomUUID();dati.created_at = dati.updated_at;}
   await cpMutazione(async () => {
+    if(fileFoto){
+      dati.foto = await cpUploadFoto(fileFoto,esistente ? esistente.id : dati.id);
+      // Conserva l'upload per un eventuale nuovo tentativo di salvataggio.
+      cpEl('cpFoto').value = dati.foto;
+      cpEl('cpFotoFile').value = '';
+      cpAnteprimaFoto();
+    }
     await cpRichiesta('comunicazioni',esistente ? '?id=eq.' + encodeURIComponent(esistente.id) : '',esistente ? 'PATCH' : 'POST',dati);
   },'Comunicazione salvata.','cpFormMessaggio',true);
 }
@@ -6220,6 +6237,32 @@ function cpReset(){
   cpEl('cpStatoForm').reset();cpEl('cpStatoCampi').disabled = true;
   cpEl('cpStatoAttuale').textContent = 'Stato non ancora caricato.';
   ['cpListaMessaggio','cpFormMessaggio','cpStatoMessaggio'].forEach(id => cpMessaggio(id,''));
+}
+
+
+let cpFotoLocale = null;
+function cpAnteprimaFoto(){
+  if(cpFotoLocale){URL.revokeObjectURL(cpFotoLocale);cpFotoLocale=null;}
+  const file=cpEl('cpFotoFile').files[0];
+  let url=cpEl('cpFoto').value.trim();
+  if(file){cpFotoLocale=URL.createObjectURL(file);url=cpFotoLocale;}
+  const img=cpEl('cpFotoAnteprima');
+  img.style.display=url ? 'block' : 'none';
+  if(url)img.src=url;else img.removeAttribute('src');
+}
+function cpRimuoviFoto(){
+  cpEl('cpFotoFile').value='';cpEl('cpFoto').value='';cpAnteprimaFoto();
+}
+async function cpUploadFoto(file,id){
+  const epoca=cpEpoca;
+  if(!token)throw new Error('Accedi nuovamente prima di caricare la foto.');
+  const percorso='comunicazioni/'+id+'/'+crypto.randomUUID()+'_'+pulisciNomeFile(file.name);
+  const r=await fetch(SUPABASE_URL+'/storage/v1/object/'+BUCKET_INIZIATIVE+'/'+encodePath(percorso),{
+    method:'POST',headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+token,'Content-Type':file.type,'x-upsert':'false'},body:file
+  });
+  if(epoca!==cpEpoca)throw new Error('Sessione cambiata durante il caricamento.');
+  if(!r.ok)throw new Error('Caricamento foto non riuscito (HTTP '+r.status+'). '+await r.text());
+  return SUPABASE_URL+'/storage/v1/object/public/'+BUCKET_INIZIATIVE+'/'+encodePath(percorso);
 }
 
 </script>
