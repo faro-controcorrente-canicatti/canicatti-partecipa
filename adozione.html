@@ -793,12 +793,38 @@ footer p {
 
 }
 
+
+/* Navigazione e social uniformi alle altre pagine */
+a.cp-torna-home{display:block;color:inherit;text-decoration:none;cursor:pointer}
+a.cp-torna-home:focus-visible{outline:4px solid #ffc800;outline-offset:-4px}
+.cp-social{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:22px auto;max-width:650px}
+.cp-social a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:12px 18px;border-radius:10px;color:#fff!important;text-decoration:none;font-weight:750}
+.cp-social a:hover{filter:brightness(.92)}
+.cp-social a:focus-visible{outline:3px solid #ffc800;outline-offset:3px}
+.cp-social .hp-facebook{background:#0866ff}.cp-social .hp-instagram{background:#a82a82}.cp-social .hp-tiktok{background:#161616;border:1px solid #666}
+@media(max-width:650px){.cp-social{padding:0 15px}.cp-social a{flex:1 1 120px}}
+
+[hidden]{display:none!important}
+.cp-schermo-stato{min-height:100vh;display:grid;place-content:center;padding:30px 20px;text-align:center;background:#f4f3ef;color:#202226}
+.cp-schermo-stato>div{max-width:650px;margin:auto}
+.cp-schermo-stato p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6}
+.cp-schermo-stato button{border:0;border-radius:10px;padding:13px 18px;background:#1769aa;color:white;font:inherit;font-weight:700;cursor:pointer}
+.cp-schermo-stato button:disabled{opacity:.6;cursor:wait}
+
 </style>
 
 </head>
 
 
 <body>
+<section id="cpSchermoStato" class="cp-schermo-stato" aria-live="polite">
+  <div><h1 id="cpTitoloStato" tabindex="-1">Canicattì Partecipa</h1>
+  <p id="cpTestoStato">Verifica dello stato del sito in corso...</p>
+  <button id="cpRiprovaStato" type="button">Riprova</button>
+  <noscript><p>Attiva JavaScript per visualizzare lo stato aggiornato del sito.</p></noscript></div>
+</section>
+<div id="cpPaginaPubblica" hidden inert>
+
 
 
 <!-- =====================================================
@@ -806,6 +832,7 @@ footer p {
 ===================================================== -->
 
 <header class="page-header">
+<a class="cp-torna-home" href="index.html" aria-label="Torna alla home">
 
   <div class="header-inner">
 
@@ -855,6 +882,7 @@ footer p {
 
   </div>
 
+</a>
 </header>
 
 
@@ -1308,6 +1336,12 @@ footer p {
 
   </div>
 
+<p><strong>Seguici sui social</strong></p>
+  <nav class="cp-social" aria-label="Profili social">
+    <a class="hp-facebook" href="https://www.facebook.com/share/1N3THY7nBG/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook — apre una nuova scheda">Facebook ↗</a>
+    <a class="hp-instagram" href="https://www.instagram.com/controcorrente__canicatti?stkn=MXh5aHp6dDVyYmdiMA%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram — apre una nuova scheda">Instagram ↗</a>
+    <a class="hp-tiktok" href="https://www.tiktok.com/@controcorrente.fa?_r=1&amp;_t=ZN-9AMPpx5WfPq" target="_blank" rel="noopener noreferrer" aria-label="TikTok — apre una nuova scheda">TikTok ↗</a>
+  </nav>
 </footer>
 
 
@@ -1628,6 +1662,49 @@ form.addEventListener(
 </script>
 
 
+</div><!-- cpPaginaPubblica -->
+<script>
+/* Stato pubblico condiviso con l'interruttore del pannello admin. */
+(() => {
+  const url = 'https://zkwwxxmbikxpzedcmjxx.supabase.co/rest/v1/impostazioni_sito?id=eq.1&select=manutenzione,messaggio_manutenzione';
+  const key = 'sb_publishable_5usTyC1lIfP6ykIY456Glw_iJdy6NvP';
+  const content = document.getElementById('cpPaginaPubblica');
+  const screen = document.getElementById('cpSchermoStato');
+  const title = document.getElementById('cpTitoloStato');
+  const message = document.getElementById('cpTestoStato');
+  const retry = document.getElementById('cpRiprovaStato');
+  let busy = false;
+  async function update(){
+    if(busy)return;
+    busy = true;retry.disabled = true;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(),12000);
+    try{
+      const response = await fetch(url,{headers:{apikey:key,'Accept-Profile':'public'},cache:'no-store',signal:controller.signal});
+      if(!response.ok)throw new Error('HTTP ' + response.status);
+      const rows = await response.json();
+      if(!Array.isArray(rows) || rows.length!==1 || typeof rows[0].manutenzione!=='boolean')throw new Error('Stato non disponibile');
+      const maintenance = rows[0].manutenzione;
+      const entering = maintenance && screen.hidden;
+      content.hidden = maintenance;content.inert = maintenance;screen.hidden = !maintenance;
+      title.textContent = 'Sito in manutenzione';
+      message.textContent = rows[0].messaggio_manutenzione || 'Stiamo aggiornando il sito. Torna a trovarci tra poco.';
+      if(entering)title.focus();
+    }catch(error){
+      console.error('Verifica manutenzione:',error);
+      content.hidden = true;content.inert = true;screen.hidden = false;
+      title.textContent = 'Sito temporaneamente non disponibile';
+      message.textContent = 'Non è stato possibile verificare lo stato del sito. Riprova tra poco.';
+    }finally{clearTimeout(timer);busy=false;retry.disabled=false;}
+  }
+  retry.addEventListener('click',update);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)update();});
+  window.addEventListener('pageshow',update);
+  setInterval(()=>{if(!document.hidden)update();},30000);
+  update();
+})();
+
+</script>
 </body>
 
 </html>
