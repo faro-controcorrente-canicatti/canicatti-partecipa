@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<title>Gestione segnalazioni | Canicattì Partecipa</title>
+<title>Pannello amministrativo | Canicattì Partecipa</title>
 
 <style>
 
@@ -22,42 +22,22 @@
   --testo:#202226;
 }
 
-html{
-  -webkit-text-size-adjust:100%;
-}
+html{-webkit-text-size-adjust:100%}
 
 body{
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
-
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   margin:0;
   background:var(--grigio);
   color:var(--testo);
 }
 
-/* =====================================================
-   HEADER
-===================================================== */
-
 header{
   position:relative;
   overflow:hidden;
   color:white;
-
   background:
-    linear-gradient(
-      180deg,
-      rgba(0,0,0,.30),
-      rgba(0,0,0,.73)
-    ),
+    linear-gradient(180deg,rgba(0,0,0,.30),rgba(0,0,0,.73)),
     url("IMG_8923.webp");
-
   background-size:cover;
   background-position:center;
 }
@@ -66,11 +46,7 @@ header{
   max-width:1050px;
   min-height:220px;
   margin:auto;
-  padding:
-    max(22px,env(safe-area-inset-top))
-    18px
-    27px;
-
+  padding:max(22px,env(safe-area-inset-top)) 18px 27px;
   display:flex;
   flex-direction:column;
   justify-content:space-between;
@@ -112,9 +88,7 @@ header{
   object-fit:contain;
 }
 
-.admin-title{
-  margin-top:22px;
-}
+.admin-title{margin-top:22px}
 
 .admin-title small{
   display:block;
@@ -135,10 +109,6 @@ header{
   margin:7px 0 0;
   opacity:.95;
 }
-
-/* =====================================================
-   BASE
-===================================================== */
 
 .container{
   max-width:1050px;
@@ -182,9 +152,7 @@ button{
   cursor:pointer;
 }
 
-.hidden{
-  display:none!important;
-}
+.hidden{display:none!important}
 
 .login{
   width:100%;
@@ -197,10 +165,6 @@ button{
   color:#b00020;
 }
 
-/* =====================================================
-   MENU
-===================================================== */
-
 .menu{
   display:flex;
   gap:7px;
@@ -209,9 +173,7 @@ button{
   scrollbar-width:none;
 }
 
-.menu::-webkit-scrollbar{
-  display:none;
-}
+.menu::-webkit-scrollbar{display:none}
 
 .menu button{
   flex:0 0 auto;
@@ -231,22 +193,14 @@ button{
   color:white!important;
 }
 
-.section-title{
-  margin:5px 0 15px;
-}
+.section-title{margin:5px 0 15px}
 
-.section-title h2{
-  margin:0 0 5px;
-}
+.section-title h2{margin:0 0 5px}
 
 .meta{
   color:#666;
   font-size:14px;
 }
-
-/* =====================================================
-   DASHBOARD
-===================================================== */
 
 .dashboard{
   display:grid;
@@ -282,16 +236,16 @@ button{
 .stat.inoltrate{border-left:5px solid var(--viola)}
 .stat.attesa{border-left:5px solid var(--arancio)}
 .stat.risolte{border-left:5px solid var(--verde)}
+.stat.idee{border-left:5px solid var(--giallo)}
 
 .stat.nuove .numero{color:#dc3545}
 .stat.verificate .numero{color:#0d6efd}
 .stat.inoltrate .numero{color:var(--viola)}
 .stat.attesa .numero{color:var(--arancio)}
 .stat.risolte .numero{color:var(--verde)}
+.stat.idee .numero{color:#a67800}
 
-.ricerca{
-  position:relative;
-}
+.ricerca{position:relative}
 
 .ricerca input{
   padding-left:43px;
@@ -303,10 +257,6 @@ button{
   left:15px;
   top:15px;
 }
-
-/* =====================================================
-   CATEGORIE
-===================================================== */
 
 .categorie-grid{
   display:grid;
@@ -333,11 +283,8 @@ button{
   font-weight:bold;
 }
 
-/* =====================================================
-   PRATICHE
-===================================================== */
-
-.segnalazione h3{
+.segnalazione h3,
+.proposta h3{
   margin:8px 0;
   font-size:21px;
 }
@@ -393,13 +340,32 @@ button{
   border:1px solid #ced4da;
 }
 
+.stato-proposta-da{
+  background:#fff3cd;
+  color:#664d03;
+  border:1px solid #ffecb5;
+}
+
+.stato-proposta-valutata{
+  background:#e5f6eb;
+  color:#146c43;
+  border:1px solid #a3cfbb;
+}
+
+.stato-proposta-archiviata{
+  background:#e9ecef;
+  color:#495057;
+  border:1px solid #ced4da;
+}
+
 .badge-cat{
   background:#eef4fb;
   color:#315b7d;
   border:1px solid #d6e4f0;
 }
 
-.apri{
+.apri,
+.apri-proposta{
   background:var(--blu);
   color:white;
   margin-top:8px;
@@ -409,10 +375,6 @@ button{
   text-align:center;
   padding:35px 15px;
 }
-
-/* =====================================================
-   DETTAGLIO
-===================================================== */
 
 .dettaglio{
   position:fixed;
@@ -438,9 +400,7 @@ button{
   gap:10px;
 }
 
-.top-detail h2{
-  margin:0;
-}
+.top-detail h2{margin:0}
 
 .chiudi{
   background:#e9ecef;
@@ -448,13 +408,7 @@ button{
   min-width:45px;
 }
 
-/* =====================================================
-   GALLERIA FOTO
-===================================================== */
-
-.foto-titolo{
-  margin:22px 0 12px;
-}
+.foto-titolo{margin:22px 0 12px}
 
 .foto-grid{
   display:grid;
@@ -492,8 +446,6 @@ button{
   color:#777;
 }
 
-/* FOTO A TUTTO SCHERMO */
-
 .lightbox{
   position:fixed;
   inset:0;
@@ -524,10 +476,6 @@ button{
   color:#111;
   font-size:25px;
 }
-
-/* =====================================================
-   SEZIONI PRATICA
-===================================================== */
 
 .pratica-section{
   margin-top:25px;
@@ -598,18 +546,13 @@ button{
   color:#664d4d;
 }
 
-#messaggioDettaglio{
+#messaggioDettaglio,
+#messaggioProposta{
   font-weight:bold;
   margin-top:15px;
 }
 
-/* =====================================================
-   STATISTICHE
-===================================================== */
-
-.statistiche-riga{
-  margin-bottom:17px;
-}
+.statistiche-riga{margin-bottom:17px}
 
 .statistiche-riga strong{
   display:flex;
@@ -630,19 +573,39 @@ button{
   border-radius:10px;
 }
 
-/* =====================================================
-   MOBILE
-===================================================== */
+.allegati-lista{
+  display:grid;
+  gap:10px;
+  margin:12px 0;
+}
+
+.allegato-btn{
+  width:100%;
+  text-align:left;
+  background:#f7f9fb;
+  border:1px solid #dfe6ec;
+  color:#174f7b;
+  padding:13px;
+  border-radius:11px;
+}
+
+.proposta-dati{
+  background:#fafafa;
+  border:1px solid #ececec;
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:12px;
+}
+
+.proposta-dati p{
+  margin:6px 0;
+  line-height:1.45;
+}
 
 @media(max-width:650px){
 
-  .header-inner{
-    min-height:200px;
-  }
-
-  .faro-title{
-    font-size:29px;
-  }
+  .header-inner{min-height:200px}
+  .faro-title{font-size:29px}
 
   .logo-box{
     width:92px;
@@ -650,37 +613,23 @@ button{
     flex-basis:92px;
   }
 
-  .admin-title h1{
-    font-size:29px;
-  }
-
-  .container{
-    padding:12px 12px 45px;
-  }
+  .admin-title h1{font-size:29px}
+  .container{padding:12px 12px 45px}
 
   .dashboard{
     grid-template-columns:repeat(2,1fr);
   }
 
-  .stat{
-    padding:15px 12px;
-  }
-
-  .stat .numero{
-    font-size:27px;
-  }
+  .stat{padding:15px 12px}
+  .stat .numero{font-size:27px}
 
   .categorie-grid{
     grid-template-columns:1fr;
   }
 
-  button{
-    font-size:15px;
-  }
+  button{font-size:15px}
 
-  .dettaglio{
-    padding:7px;
-  }
+  .dettaglio{padding:7px}
 
   .dettaglio-box{
     margin:7px auto;
@@ -708,16 +657,17 @@ button{
 
 @media print{
 
-  body *{
-    visibility:hidden;
-  }
+  body *{visibility:hidden}
 
   #dettaglio,
-  #dettaglio *{
+  #dettaglio *,
+  #dettaglioProposta,
+  #dettaglioProposta *{
     visibility:visible;
   }
 
-  #dettaglio{
+  #dettaglio,
+  #dettaglioProposta{
     position:absolute;
     inset:0;
     background:white;
@@ -744,32 +694,32 @@ button{
 
 <header>
 
-  <div class="header-inner">
+<div class="header-inner">
 
-    <div class="brand-row">
+  <div class="brand-row">
 
-      <div class="faro-title">
-        <span>Faro di</span>
-        Canicattì
-      </div>
-
-      <div class="logo-box">
-        <img src="IMG_8924.png" alt="Controcorrente">
-      </div>
-
+    <div class="faro-title">
+      <span>Faro di</span>
+      Canicattì
     </div>
 
-    <div class="admin-title">
-
-      <small>Canicattì Partecipa</small>
-
-      <h1>📋 Gestione segnalazioni</h1>
-
-      <p>Pannello amministrativo</p>
-
+    <div class="logo-box">
+      <img src="IMG_8924.png" alt="Controcorrente">
     </div>
 
   </div>
+
+  <div class="admin-title">
+
+    <small>Canicattì Partecipa</small>
+
+    <h1>📋 Pannello amministrativo</h1>
+
+    <p>Gestione segnalazioni e proposte dei cittadini</p>
+
+  </div>
+
+</div>
 
 </header>
 
@@ -803,37 +753,41 @@ button{
 
 <div id="adminBox" class="hidden">
 
-  <div class="menu">
+<div class="menu">
 
-    <button id="mDashboard" onclick="mostraSezione('dashboard')">
-      🏠 Dashboard
-    </button>
+  <button id="mDashboard" onclick="mostraSezione('dashboard')">
+    🏠 Dashboard
+  </button>
 
-    <button id="mSegnalazioni" onclick="mostraSezione('segnalazioni')">
-      📥 Segnalazioni
-    </button>
+  <button id="mSegnalazioni" onclick="mostraSezione('segnalazioni')">
+    📥 Segnalazioni
+  </button>
 
-    <button id="mCategorie" onclick="mostraSezione('categorie')">
-      🗂️ Categorie
-    </button>
+  <button id="mProposte" onclick="mostraSezione('proposte')">
+    💡 La Canicattì che vorrei
+  </button>
 
-    <button id="mStati" onclick="mostraSezione('stati')">
-      🔄 Stati
-    </button>
+  <button id="mCategorie" onclick="mostraSezione('categorie')">
+    🗂️ Categorie
+  </button>
 
-    <button id="mArchivio" onclick="mostraSezione('archivio')">
-      📁 Archivio
-    </button>
+  <button id="mStati" onclick="mostraSezione('stati')">
+    🔄 Stati
+  </button>
 
-    <button id="mStatistiche" onclick="mostraSezione('statistiche')">
-      📊 Statistiche
-    </button>
+  <button id="mArchivio" onclick="mostraSezione('archivio')">
+    📁 Archivio
+  </button>
 
-    <button class="logout" onclick="logout()">
-      🚪 Esci
-    </button>
+  <button id="mStatistiche" onclick="mostraSezione('statistiche')">
+    📊 Statistiche
+  </button>
 
-  </div>
+  <button class="logout" onclick="logout()">
+    🚪 Esci
+  </button>
+
+</div>
 
 
 <section id="sezioneDashboard">
@@ -926,6 +880,66 @@ button{
 </section>
 
 
+<section id="sezioneProposte" class="hidden">
+
+  <div class="section-title">
+
+    <h2>💡 La Canicattì che vorrei</h2>
+
+    <div class="meta">
+      Idee e proposte inviate dai cittadini
+    </div>
+
+  </div>
+
+  <div
+    class="dashboard"
+    id="dashboardProposte">
+  </div>
+
+  <div class="card">
+
+    <div class="ricerca">
+
+      <span class="lente">🔍</span>
+
+      <input
+        id="ricercaProposte"
+        type="search"
+        placeholder="Cerca per titolo, cittadino, categoria o zona..."
+        oninput="renderProposte()">
+
+    </div>
+
+    <select
+      id="filtroStatoProposte"
+      onchange="renderProposte()">
+
+      <option value="">
+        Tutti gli stati
+      </option>
+
+      <option value="Da valutare">
+        Da valutare
+      </option>
+
+      <option value="Valutata">
+        Valutata
+      </option>
+
+      <option value="Archiviata">
+        Archiviata
+      </option>
+
+    </select>
+
+  </div>
+
+  <div id="elencoProposte"></div>
+
+</section>
+
+
 <section id="sezioneCategorie" class="hidden">
 
   <div class="section-title">
@@ -993,9 +1007,7 @@ button{
 </div>
 
 
-<!-- =====================================================
-     DETTAGLIO PRATICA
-===================================================== -->
+<!-- DETTAGLIO SEGNALAZIONE -->
 
 <div id="dettaglio" class="dettaglio hidden">
 
@@ -1092,7 +1104,9 @@ button{
 
     <label><strong>Data di inoltro</strong></label>
 
-    <input id="dDataInoltro" type="datetime-local">
+    <input
+      id="dDataInoltro"
+      type="datetime-local">
 
     <label><strong>Protocollo / riferimento</strong></label>
 
@@ -1115,7 +1129,9 @@ button{
 
     <label><strong>Data della risposta</strong></label>
 
-    <input id="dDataRisposta" type="datetime-local">
+    <input
+      id="dDataRisposta"
+      type="datetime-local">
 
     <label><strong>Risposta / esito comunicato</strong></label>
 
@@ -1153,8 +1169,12 @@ button{
       L'eliminazione non può essere annullata.
     </p>
 
-    <button class="elimina" onclick="eliminaPratica()">
+    <button
+      class="elimina"
+      onclick="eliminaPratica()">
+
       🗑️ Elimina definitivamente
+
     </button>
 
   </div>
@@ -1165,9 +1185,178 @@ button{
 </div>
 
 
-<!-- LIGHTBOX FOTO -->
+<!-- DETTAGLIO PROPOSTA -->
 
-<div id="lightbox" class="lightbox hidden" onclick="chiudiFoto()">
+<div id="dettaglioProposta" class="dettaglio hidden">
+
+<div class="dettaglio-box">
+
+  <div class="top-detail">
+
+    <h2>💡 Dettaglio proposta</h2>
+
+    <button
+      class="chiudi"
+      onclick="chiudiProposta()">
+      ✕
+    </button>
+
+  </div>
+
+  <p
+    id="dataProposta"
+    class="meta">
+  </p>
+
+
+  <div class="pratica-section">
+
+    <h3>🏙️ Proposta per la città</h3>
+
+    <label><strong>Titolo</strong></label>
+    <input id="pTitolo" readonly>
+
+    <label><strong>Categoria</strong></label>
+    <input id="pCategoria" readonly>
+
+    <label><strong>Zona / quartiere</strong></label>
+    <input id="pZona" readonly>
+
+    <label><strong>Descrizione</strong></label>
+    <textarea id="pDescrizione" readonly></textarea>
+
+  </div>
+
+
+  <div class="pratica-section">
+
+    <h3>👤 Dati del cittadino</h3>
+
+    <div class="proposta-dati">
+
+      <p>
+        <strong>Nome:</strong>
+        <span id="pNome"></span>
+      </p>
+
+      <p>
+        <strong>Cognome:</strong>
+        <span id="pCognome"></span>
+      </p>
+
+      <p>
+        <strong>Email:</strong>
+        <span id="pEmail"></span>
+      </p>
+
+      <p>
+        <strong>Telefono:</strong>
+        <span id="pTelefono"></span>
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="pratica-section">
+
+    <h3>📎 Allegati</h3>
+
+    <div id="pAllegati"></div>
+
+  </div>
+
+
+  <div class="pratica-section">
+
+    <h3>📋 Valutazione interna</h3>
+
+    <div class="info-box">
+      Lo stato e le note di questa sezione sono esclusivamente
+      interni. Non viene inviata alcuna email automatica
+      al cittadino.
+    </div>
+
+    <label><strong>Stato</strong></label>
+
+    <select id="pStato">
+
+      <option value="Da valutare">
+        🟡 Da valutare
+      </option>
+
+      <option value="Valutata">
+        🟢 Valutata
+      </option>
+
+      <option value="Archiviata">
+        ⚪ Archiviata
+      </option>
+
+    </select>
+
+    <label><strong>Note interne</strong></label>
+
+    <textarea
+      id="pNote"
+      placeholder="Annotazioni, valutazioni o approfondimenti interni..."></textarea>
+
+  </div>
+
+
+  <div class="actions">
+
+    <button
+      class="salva"
+      onclick="salvaProposta()">
+
+      💾 Salva valutazione
+
+    </button>
+
+    <button
+      class="stampa"
+      onclick="window.print()">
+
+      🖨️ Stampa
+
+    </button>
+
+  </div>
+
+
+  <div class="danger-zone">
+
+    <strong>🗑️ Eliminazione definitiva</strong>
+
+    <p>
+      Usa questa funzione solo per prove, duplicati
+      o contenuti che non devono essere conservati.
+    </p>
+
+    <button
+      class="elimina"
+      onclick="eliminaProposta()">
+
+      🗑️ Elimina proposta
+
+    </button>
+
+  </div>
+
+  <p id="messaggioProposta"></p>
+
+</div>
+</div>
+
+
+<!-- LIGHTBOX -->
+
+<div
+  id="lightbox"
+  class="lightbox hidden"
+  onclick="chiudiFoto()">
 
   <button
     class="lightbox-close"
@@ -1178,7 +1367,7 @@ button{
   <img
     id="lightboxImg"
     src=""
-    alt="Fotografia della segnalazione"
+    alt="Fotografia"
     onclick="event.stopPropagation()">
 
 </div>
@@ -1199,12 +1388,19 @@ const SUPABASE_KEY =
 const BUCKET_FOTO =
 "segnalazioni-foto";
 
+const BUCKET_PROPOSTE =
+"allegati-proposte";
+
 const EMAIL_FUNCTION_URL =
 SUPABASE_URL + "/functions/v1/invia-email";
 
 let token = null;
+
 let praticaCorrente = null;
+let propostaCorrente = null;
+
 let tutteSegnalazioni = [];
+let tutteProposte = [];
 
 
 /* =====================================================
@@ -1214,13 +1410,19 @@ let tutteSegnalazioni = [];
 async function login(){
 
   const email =
-    document.getElementById("email").value.trim();
+    document
+      .getElementById("email")
+      .value
+      .trim();
 
   const password =
-    document.getElementById("password").value;
+    document
+      .getElementById("password")
+      .value;
 
   const messaggio =
-    document.getElementById("messaggio");
+    document
+      .getElementById("messaggio");
 
   if(!email || !password){
 
@@ -1235,25 +1437,27 @@ async function login(){
 
   try{
 
-    const r = await fetch(
-      SUPABASE_URL +
-      "/auth/v1/token?grant_type=password",
-      {
-        method:"POST",
+    const r =
+      await fetch(
+        SUPABASE_URL +
+        "/auth/v1/token?grant_type=password",
+        {
+          method:"POST",
 
-        headers:{
-          "apikey":SUPABASE_KEY,
-          "Content-Type":"application/json"
-        },
+          headers:{
+            "apikey":SUPABASE_KEY,
+            "Content-Type":"application/json"
+          },
 
-        body:JSON.stringify({
-          email:email,
-          password:password
-        })
-      }
-    );
+          body:JSON.stringify({
+            email,
+            password
+          })
+        }
+      );
 
-    const d = await r.json();
+    const d =
+      await r.json();
 
     if(!r.ok || !d.access_token){
 
@@ -1270,7 +1474,8 @@ async function login(){
       return;
     }
 
-    token = d.access_token;
+    token =
+      d.access_token;
 
     messaggio.textContent = "";
 
@@ -1282,7 +1487,12 @@ async function login(){
       .getElementById("adminBox")
       .classList.remove("hidden");
 
-    await caricaSegnalazioni();
+    await Promise.all([
+      caricaSegnalazioni(false),
+      caricaProposte(false)
+    ]);
+
+    aggiornaInterfaccia();
 
     mostraSezione("dashboard");
 
@@ -1296,33 +1506,35 @@ async function login(){
 
 
 /* =====================================================
-   CARICAMENTO
+   CARICAMENTO SEGNALAZIONI
 ===================================================== */
 
-async function caricaSegnalazioni(){
+async function caricaSegnalazioni(
+  aggiorna = true
+){
 
   try{
 
-    const r = await fetch(
-      SUPABASE_URL +
-      "/rest/v1/segnalazioni_cittadini" +
-      "?select=*" +
-      "&order=data_invio.desc",
-      {
-        headers:{
-          "apikey":SUPABASE_KEY,
-          "Authorization":"Bearer " + token
+    const r =
+      await fetch(
+        SUPABASE_URL +
+        "/rest/v1/segnalazioni_cittadini" +
+        "?select=*" +
+        "&order=data_invio.desc",
+        {
+          headers:{
+            "apikey":SUPABASE_KEY,
+            "Authorization":
+              "Bearer " + token
+          }
         }
-      }
-    );
+      );
 
     if(!r.ok){
 
-      const errore = await r.text();
-
       alert(
         "Errore caricamento segnalazioni:\n" +
-        errore
+        await r.text()
       );
 
       return;
@@ -1331,7 +1543,59 @@ async function caricaSegnalazioni(){
     tutteSegnalazioni =
       await r.json();
 
-    aggiornaInterfaccia();
+    if(aggiorna)
+      aggiornaInterfaccia();
+
+  }catch(error){
+
+    alert(
+      "Errore di connessione: " +
+      error.message
+    );
+  }
+}
+
+
+/* =====================================================
+   CARICAMENTO PROPOSTE
+===================================================== */
+
+async function caricaProposte(
+  aggiorna = true
+){
+
+  try{
+
+    const r =
+      await fetch(
+        SUPABASE_URL +
+        "/rest/v1/proposte_citta" +
+        "?select=*" +
+        "&order=created_at.desc",
+        {
+          headers:{
+            "apikey":SUPABASE_KEY,
+            "Authorization":
+              "Bearer " + token
+          }
+        }
+      );
+
+    if(!r.ok){
+
+      alert(
+        "Errore caricamento proposte:\n" +
+        await r.text()
+      );
+
+      return;
+    }
+
+    tutteProposte =
+      await r.json();
+
+    if(aggiorna)
+      aggiornaInterfaccia();
 
   }catch(error){
 
@@ -1347,6 +1611,7 @@ function aggiornaInterfaccia(){
 
   renderDashboard();
   renderSegnalazioni();
+  renderProposte();
   renderCategorie();
   renderStati();
   renderArchivio();
@@ -1363,6 +1628,7 @@ function mostraSezione(nome){
   const sezioni = [
     "Dashboard",
     "Segnalazioni",
+    "Proposte",
     "Categorie",
     "Stati",
     "Archivio",
@@ -1387,11 +1653,15 @@ function mostraSezione(nome){
     nome.slice(1);
 
   document
-    .getElementById("sezione"+nomeMaiuscolo)
+    .getElementById(
+      "sezione"+nomeMaiuscolo
+    )
     .classList.remove("hidden");
 
   const b =
-    document.getElementById("m"+nomeMaiuscolo);
+    document.getElementById(
+      "m"+nomeMaiuscolo
+    );
 
   if(b)
     b.classList.add("attivo");
@@ -1415,70 +1685,120 @@ function contaStato(stato){
 }
 
 
+function contaStatoProposta(stato){
+
+  return tutteProposte.filter(
+    p=>p.stato_interno===stato
+  ).length;
+}
+
+
 function renderDashboard(){
 
   const box =
-    document.getElementById("dashboardCards");
+    document.getElementById(
+      "dashboardCards"
+    );
 
   box.innerHTML =
+
     statCard(
       tutteSegnalazioni.length,
       "Totale pratiche",
       "totale",
       ""
     )
+
     +
+
     statCard(
       contaStato("in_attesa"),
       "Da verificare",
       "nuove",
       "in_attesa"
     )
+
     +
+
     statCard(
       contaStato("verificata"),
       "Verificate",
       "verificate",
       "verificata"
     )
+
     +
+
     statCard(
       contaStato("inoltrata"),
       "Inoltrate",
       "inoltrate",
       "inoltrata"
     )
+
     +
+
     statCard(
       contaStato("attesa_ente"),
       "In attesa ente",
       "attesa",
       "attesa_ente"
     )
+
     +
+
     statCard(
       contaStato("risolta"),
       "Risolte",
       "risolte",
       "risolta"
-    );
+    )
+
+    +
+
+    `
+    <div
+      class="stat idee"
+      onclick="mostraSezione('proposte')">
+
+      <span class="numero">
+        ${tutteProposte.length}
+      </span>
+
+      <span class="titolo">
+        Proposte cittadini
+      </span>
+
+    </div>
+    `;
 
   const ultime =
     tutteSegnalazioni.slice(0,5);
 
   const contenitore =
-    document.getElementById("ultimeSegnalazioni");
+    document.getElementById(
+      "ultimeSegnalazioni"
+    );
 
   contenitore.innerHTML =
     ultime.length
-    ? ultime.map(cardHTML).join("")
-    : "<div class='card empty'>Nessuna segnalazione.</div>";
+    ?
+    ultime.map(cardHTML).join("")
+    :
+    "<div class='card empty'>" +
+    "Nessuna segnalazione." +
+    "</div>";
 
   collegaPulsanti(contenitore);
 }
 
 
-function statCard(numero,titolo,classe,stato){
+function statCard(
+  numero,
+  titolo,
+  classe,
+  stato
+){
 
   return `
     <div
@@ -1522,7 +1842,9 @@ function ricercaDaDashboard(){
 
   const testo =
     document
-      .getElementById("ricercaDashboard")
+      .getElementById(
+        "ricercaDashboard"
+      )
       .value;
 
   if(!testo.trim())
@@ -1547,7 +1869,7 @@ function ricercaDaDashboard(){
 
 
 /* =====================================================
-   ELENCO
+   SEGNALAZIONI
 ===================================================== */
 
 function renderSegnalazioni(){
@@ -1577,7 +1899,10 @@ function renderSegnalazioni(){
   const filtrate =
     tutteSegnalazioni.filter(s=>{
 
-      if(stato && s.stato!==stato)
+      if(
+        stato &&
+        s.stato!==stato
+      )
         return false;
 
       if(
@@ -1589,6 +1914,7 @@ function renderSegnalazioni(){
       if(ricerca){
 
         const testo = [
+
           s.id,
           s.numero_pratica,
           s.indirizzo,
@@ -1601,6 +1927,7 @@ function renderSegnalazioni(){
           s.protocollo,
           nomeCategoria(s.categoria),
           nomeStatoRaw(s.stato)
+
         ]
         .join(" ")
         .toLowerCase();
@@ -1623,22 +1950,22 @@ function renderSegnalazioni(){
   }
 
   elenco.innerHTML =
-    filtrate.map(cardHTML).join("");
+    filtrate
+      .map(cardHTML)
+      .join("");
 
   collegaPulsanti(elenco);
 }
 
 
-/* =====================================================
-   CARD
-===================================================== */
-
 function cardHTML(s){
 
   const riferimento =
     s.numero_pratica
-    ? esc(s.numero_pratica)
-    : "#" + Number(s.id);
+    ?
+    esc(s.numero_pratica)
+    :
+    "#" + Number(s.id);
 
   const numeroFoto =
     ottieniFoto(s).length;
@@ -1647,8 +1974,11 @@ function cardHTML(s){
 
     <div class="card segnalazione">
 
-      <span class="badge ${classeStato(s.stato)}">
+      <span
+        class="badge ${classeStato(s.stato)}">
+
         ${esc(nomeStatoRaw(s.stato))}
+
       </span>
 
       <span class="badge badge-cat">
@@ -1658,25 +1988,36 @@ function cardHTML(s){
       ${
         numeroFoto
         ?
-        `<span class="badge badge-cat">
+        `
+        <span class="badge badge-cat">
           📷 ${numeroFoto}
-        </span>`
+        </span>
+        `
         :
         ""
       }
 
       <h3>
-        ${esc(s.indirizzo || "Indirizzo non indicato")}
+        ${esc(
+          s.indirizzo ||
+          "Indirizzo non indicato"
+        )}
       </h3>
 
       <p>
-        ${esc(accorcia(s.descrizione || "",160))}
+        ${esc(
+          accorcia(
+            s.descrizione || "",
+            160
+          )
+        )}
       </p>
 
       ${
         s.ente_destinatario
         ?
-        "<p class='meta'><strong>Ente:</strong> " +
+        "<p class='meta'>" +
+        "<strong>Ente:</strong> " +
         esc(s.ente_destinatario) +
         "</p>"
         :
@@ -1691,8 +2032,9 @@ function cardHTML(s){
           s.data_invio
           ?
           " · " +
-          new Date(s.data_invio)
-            .toLocaleString("it-IT")
+          new Date(
+            s.data_invio
+          ).toLocaleString("it-IT")
           :
           ""
         }
@@ -1702,11 +2044,12 @@ function cardHTML(s){
       <button
         class="apri"
         data-id="${Number(s.id)}">
+
         Apri pratica
+
       </button>
 
     </div>
-
   `;
 }
 
@@ -1721,12 +2064,11 @@ function collegaPulsanti(contenitore){
         "click",
         ()=>{
 
-          const id =
-            Number(btn.dataset.id);
-
           const s =
             tutteSegnalazioni.find(
-              x=>Number(x.id)===id
+              x=>
+                Number(x.id) ===
+                Number(btn.dataset.id)
             );
 
           if(s)
@@ -1739,26 +2081,340 @@ function collegaPulsanti(contenitore){
 
 
 /* =====================================================
-   CATEGORIE
+   PROPOSTE
+===================================================== */
+
+function renderProposte(){
+
+  const ricerca =
+    (
+      document
+        .getElementById(
+          "ricercaProposte"
+        )
+        .value || ""
+    )
+    .toLowerCase()
+    .trim();
+
+  const stato =
+    document
+      .getElementById(
+        "filtroStatoProposte"
+      )
+      .value;
+
+
+  document
+    .getElementById(
+      "dashboardProposte"
+    )
+    .innerHTML = `
+
+      <div class="stat idee">
+
+        <span class="numero">
+          ${tutteProposte.length}
+        </span>
+
+        <span class="titolo">
+          Totale proposte
+        </span>
+
+      </div>
+
+      <div class="stat nuove">
+
+        <span class="numero">
+          ${contaStatoProposta("Da valutare")}
+        </span>
+
+        <span class="titolo">
+          Da valutare
+        </span>
+
+      </div>
+
+      <div class="stat risolte">
+
+        <span class="numero">
+          ${contaStatoProposta("Valutata")}
+        </span>
+
+        <span class="titolo">
+          Valutate
+        </span>
+
+      </div>
+    `;
+
+
+  const filtrate =
+    tutteProposte.filter(p=>{
+
+      if(
+        stato &&
+        p.stato_interno!==stato
+      )
+        return false;
+
+      if(ricerca){
+
+        const testo = [
+
+          p.titolo,
+          p.categoria,
+          p.descrizione,
+          p.zona,
+          p.nome,
+          p.cognome,
+          p.email,
+          p.telefono,
+          p.stato_interno
+
+        ]
+        .join(" ")
+        .toLowerCase();
+
+        if(!testo.includes(ricerca))
+          return false;
+      }
+
+      return true;
+    });
+
+
+  const box =
+    document.getElementById(
+      "elencoProposte"
+    );
+
+  if(!filtrate.length){
+
+    box.innerHTML =
+      "<div class='card empty'>" +
+      "Nessuna proposta trovata." +
+      "</div>";
+
+    return;
+  }
+
+
+  box.innerHTML =
+    filtrate
+      .map(propostaHTML)
+      .join("");
+
+
+  box
+    .querySelectorAll(
+      ".apri-proposta"
+    )
+    .forEach(btn=>{
+
+      btn.addEventListener(
+        "click",
+        ()=>{
+
+          const p =
+            tutteProposte.find(
+              x=>
+                String(x.id) ===
+                btn.dataset.id
+            );
+
+          if(p)
+            apriProposta(p);
+        }
+      );
+
+    });
+}
+
+
+function propostaHTML(p){
+
+  const numeroAllegati =
+    ottieniAllegatiProposta(p)
+      .length;
+
+  return `
+
+    <div class="card proposta">
+
+      <span
+        class="badge ${classeStatoProposta(
+          p.stato_interno
+        )}">
+
+        ${esc(
+          p.stato_interno ||
+          "Da valutare"
+        )}
+
+      </span>
+
+      <span class="badge badge-cat">
+
+        ${esc(
+          p.categoria ||
+          "Altro"
+        )}
+
+      </span>
+
+      ${
+        numeroAllegati
+        ?
+        `
+        <span class="badge badge-cat">
+          📎 ${numeroAllegati}
+        </span>
+        `
+        :
+        ""
+      }
+
+      <h3>
+        ${esc(
+          p.titolo ||
+          "Proposta senza titolo"
+        )}
+      </h3>
+
+      <p>
+        ${esc(
+          accorcia(
+            p.descrizione || "",
+            180
+          )
+        )}
+      </p>
+
+      ${
+        p.zona
+        ?
+        `
+        <p class="meta">
+          <strong>Zona:</strong>
+          ${esc(p.zona)}
+        </p>
+        `
+        :
+        ""
+      }
+
+      <p class="meta">
+
+        ${esc(
+          (p.nome || "") +
+          " " +
+          (p.cognome || "")
+        )}
+
+        ${
+          p.created_at
+          ?
+          " · " +
+          new Date(
+            p.created_at
+          ).toLocaleString("it-IT")
+          :
+          ""
+        }
+
+      </p>
+
+      <button
+        class="apri-proposta"
+        data-id="${escAttr(p.id)}">
+
+        Apri proposta
+
+      </button>
+
+    </div>
+  `;
+}
+
+
+function classeStatoProposta(stato){
+
+  if(stato==="Valutata")
+    return "stato-proposta-valutata";
+
+  if(stato==="Archiviata")
+    return "stato-proposta-archiviata";
+
+  return "stato-proposta-da";
+}
+
+
+/* =====================================================
+   CATEGORIE SEGNALAZIONI
 ===================================================== */
 
 function renderCategorie(){
 
   const categorie = [
-    ["strade","🛣️","Strade e marciapiedi"],
-    ["acqua","💧","Acqua"],
-    ["rifiuti","🗑️","Rifiuti e pulizia"],
-    ["illuminazione","💡","Illuminazione pubblica"],
-    ["verde","🌳","Verde pubblico"],
-    ["segnaletica","🚦","Segnaletica e sicurezza"],
-    ["degrado","🏚️","Degrado urbano"],
-    ["altro","📌","Altro"]
+
+    [
+      "strade",
+      "🛣️",
+      "Strade e marciapiedi"
+    ],
+
+    [
+      "acqua",
+      "💧",
+      "Acqua"
+    ],
+
+    [
+      "rifiuti",
+      "🗑️",
+      "Rifiuti e pulizia"
+    ],
+
+    [
+      "illuminazione",
+      "💡",
+      "Illuminazione pubblica"
+    ],
+
+    [
+      "verde",
+      "🌳",
+      "Verde pubblico"
+    ],
+
+    [
+      "segnaletica",
+      "🚦",
+      "Segnaletica e sicurezza"
+    ],
+
+    [
+      "degrado",
+      "🏚️",
+      "Degrado urbano"
+    ],
+
+    [
+      "altro",
+      "📌",
+      "Altro"
+    ]
+
   ];
 
-  const box =
-    document.getElementById("categorieGrid");
 
-  box.innerHTML =
+  document
+    .getElementById(
+      "categorieGrid"
+    )
+    .innerHTML =
+
     categorie.map(c=>{
 
       const numero =
@@ -1785,7 +2441,6 @@ function renderCategorie(){
           </div>
 
         </div>
-
       `;
 
     }).join("");
@@ -1795,42 +2450,90 @@ function renderCategorie(){
 function vaiACategoria(cat){
 
   document
-    .getElementById("filtroCategoria")
+    .getElementById(
+      "filtroCategoria"
+    )
     .value = cat;
 
   document
-    .getElementById("filtroStato")
+    .getElementById(
+      "filtroStato"
+    )
     .value = "";
 
   document
-    .getElementById("ricerca")
+    .getElementById(
+      "ricerca"
+    )
     .value = "";
 
-  mostraSezione("segnalazioni");
+  mostraSezione(
+    "segnalazioni"
+  );
 
   renderSegnalazioni();
 }
 
 
 /* =====================================================
-   STATI
+   STATI SEGNALAZIONI
 ===================================================== */
 
 function renderStati(){
 
   const stati = [
-    ["in_attesa","🔴","In attesa di verifica"],
-    ["verificata","🔵","Documentazione verificata"],
-    ["inoltrata","🟣","Inoltrate all'ente"],
-    ["attesa_ente","🟠","In attesa dell'ente"],
-    ["risolta","🟢","Risolte"],
-    ["chiusa","⚫","Chiuse"],
-    ["rifiutata","⚪","Rifiutate"]
+
+    [
+      "in_attesa",
+      "🔴",
+      "In attesa di verifica"
+    ],
+
+    [
+      "verificata",
+      "🔵",
+      "Documentazione verificata"
+    ],
+
+    [
+      "inoltrata",
+      "🟣",
+      "Inoltrate all'ente"
+    ],
+
+    [
+      "attesa_ente",
+      "🟠",
+      "In attesa dell'ente"
+    ],
+
+    [
+      "risolta",
+      "🟢",
+      "Risolte"
+    ],
+
+    [
+      "chiusa",
+      "⚫",
+      "Chiuse"
+    ],
+
+    [
+      "rifiutata",
+      "⚪",
+      "Rifiutate"
+    ]
+
   ];
 
+
   document
-    .getElementById("statiGrid")
+    .getElementById(
+      "statiGrid"
+    )
     .innerHTML =
+
     stati.map(s=>`
 
       <div
@@ -1870,7 +2573,9 @@ function renderArchivio(){
     );
 
   const box =
-    document.getElementById("archivio");
+    document.getElementById(
+      "archivio"
+    );
 
   if(!archiviate.length){
 
@@ -1883,7 +2588,9 @@ function renderArchivio(){
   }
 
   box.innerHTML =
-    archiviate.map(cardHTML).join("");
+    archiviate
+      .map(cardHTML)
+      .join("");
 
   collegaPulsanti(box);
 }
@@ -1916,21 +2623,33 @@ function renderStatistiche(){
     "rifiutata"
   ];
 
+
   renderBarre(
+
     "statisticheCategorie",
+
     cat.map(c=>[
+
       nomeCategoria(c),
+
       tutteSegnalazioni.filter(
         s=>s.categoria===c
       ).length
+
     ])
   );
 
+
   renderBarre(
+
     "statisticheStati",
+
     stati.map(s=>[
+
       nomeStatoRaw(s),
+
       contaStato(s)
+
     ])
   );
 }
@@ -1941,52 +2660,50 @@ function renderBarre(id,dati){
   const max =
     Math.max(
       1,
-      ...dati.map(x=>x[1])
+      ...dati.map(
+        x=>x[1]
+      )
     );
 
   document
     .getElementById(id)
     .innerHTML =
-    dati.map(x=>{
 
-      const percentuale =
-        (x[1]/max)*100;
+    dati.map(x=>`
 
-      return `
+      <div class="statistiche-riga">
 
-        <div class="statistiche-riga">
+        <strong>
 
-          <strong>
+          <span>
+            ${esc(x[0])}
+          </span>
 
-            <span>
-              ${esc(x[0])}
-            </span>
+          <span>
+            ${x[1]}
+          </span>
 
-            <span>
-              ${x[1]}
-            </span>
+        </strong>
 
-          </strong>
+        <div class="barra">
 
-          <div class="barra">
-
-            <div
-              class="barra-interna"
-              style="width:${percentuale}%">
-            </div>
-
+          <div
+            class="barra-interna"
+            style="width:${
+              (x[1]/max)*100
+            }%">
           </div>
 
         </div>
 
-      `;
+      </div>
 
-    }).join("");
+    `).join("");
 }
 
 
 /* =====================================================
-   FOTO
+   FOTO SEGNALAZIONI
 ===================================================== */
 
 function costruisciUrlFoto(percorso){
@@ -1997,39 +2714,33 @@ function costruisciUrlFoto(percorso){
   if(
     percorso.startsWith("http://") ||
     percorso.startsWith("https://")
-  ){
+  )
     return percorso;
-  }
-
-  const percorsoPulito =
-    percorso.replace(/^\/+/,"");
 
   return (
     SUPABASE_URL +
     "/storage/v1/object/public/" +
     BUCKET_FOTO +
     "/" +
-    percorsoPulito
+    percorso.replace(/^\/+/,"")
   );
 }
 
-
-/*
-  La pagina partecipa.html salva:
-  - prima foto in foto_url
-  - tutte le foto in foto_urls
-
-  Qui leggiamo entrambi e togliamo i duplicati.
-*/
 
 function ottieniFoto(s){
 
   let foto = [];
 
-  if(Array.isArray(s.foto_urls)){
+  if(
+    Array.isArray(
+      s.foto_urls
+    )
+  ){
 
     foto =
-      foto.concat(s.foto_urls);
+      foto.concat(
+        s.foto_urls
+      );
 
   }else if(
     typeof s.foto_urls === "string" &&
@@ -2039,22 +2750,26 @@ function ottieniFoto(s){
     try{
 
       const parsed =
-        JSON.parse(s.foto_urls);
+        JSON.parse(
+          s.foto_urls
+        );
 
-      if(Array.isArray(parsed))
+      if(
+        Array.isArray(parsed)
+      )
         foto =
           foto.concat(parsed);
 
     }catch{
 
-      foto.push(s.foto_urls);
+      foto.push(
+        s.foto_urls
+      );
     }
   }
 
   if(s.foto_url)
     foto.push(s.foto_url);
-
-  /* Compatibilità eventuali vecchie pratiche */
 
   if(s.foto_url_2)
     foto.push(s.foto_url_2);
@@ -2062,12 +2777,18 @@ function ottieniFoto(s){
   if(s.foto_url_3)
     foto.push(s.foto_url_3);
 
+
   return [
     ...new Set(
+
       foto
         .filter(Boolean)
-        .map(x=>String(x).trim())
+        .map(
+          x=>
+            String(x).trim()
+        )
         .filter(Boolean)
+
     )
   ];
 }
@@ -2076,12 +2797,18 @@ function ottieniFoto(s){
 function apriFoto(url){
 
   document
-    .getElementById("lightboxImg")
+    .getElementById(
+      "lightboxImg"
+    )
     .src = url;
 
   document
-    .getElementById("lightbox")
-    .classList.remove("hidden");
+    .getElementById(
+      "lightbox"
+    )
+    .classList.remove(
+      "hidden"
+    );
 
   document.body.style.overflow =
     "hidden";
@@ -2094,11 +2821,17 @@ function chiudiFoto(event){
     event.stopPropagation();
 
   document
-    .getElementById("lightbox")
-    .classList.add("hidden");
+    .getElementById(
+      "lightbox"
+    )
+    .classList.add(
+      "hidden"
+    );
 
   document
-    .getElementById("lightboxImg")
+    .getElementById(
+      "lightboxImg"
+    )
     .src = "";
 
   document.body.style.overflow =
@@ -2107,7 +2840,7 @@ function chiudiFoto(event){
 
 
 /* =====================================================
-   APRI PRATICA
+   APRI SEGNALAZIONE
 ===================================================== */
 
 function apriPratica(s){
@@ -2116,115 +2849,206 @@ function apriPratica(s){
 
   const riferimento =
     s.numero_pratica
-    ? s.numero_pratica
-    : "#" + s.id;
+    ?
+    s.numero_pratica
+    :
+    "#" + s.id;
+
 
   document
-    .getElementById("numeroPratica")
+    .getElementById(
+      "numeroPratica"
+    )
     .textContent =
+
     "Pratica " +
     riferimento +
+
     (
       s.data_invio
       ?
       " — ricevuta il " +
-      new Date(s.data_invio)
-        .toLocaleString("it-IT")
+      new Date(
+        s.data_invio
+      ).toLocaleString("it-IT")
       :
       ""
     );
 
-  document.getElementById("dIndirizzo").value =
-    s.indirizzo || "";
-
-  document.getElementById("dCategoria").value =
-    s.categoria || "altro";
-
-  document.getElementById("dDescrizione").value =
-    s.descrizione || "";
-
-  document.getElementById("dNome").value =
-    s.nome || "";
-
-  document.getElementById("dTelefono").value =
-    s.telefono || "";
-
-  document.getElementById("dEmail").value =
-    s.email || "";
-
-  document.getElementById("dStato").value =
-    s.stato || "in_attesa";
-
-  document.getElementById("dEnte").value =
-    s.ente_destinatario || "";
-
-  document.getElementById("dDataInoltro").value =
-    dataPerInput(s.data_inoltro);
-
-  document.getElementById("dProtocollo").value =
-    s.protocollo || "";
-
-  document.getElementById("dNoteInterne").value =
-    s.note_interne || "";
-
-  document.getElementById("dRispostaEnte").value =
-    s.risposta_ente || "";
-
-  document.getElementById("dDataRisposta").value =
-    dataPerInput(s.data_risposta_ente);
 
   document
-    .getElementById("messaggioDettaglio")
+    .getElementById(
+      "dIndirizzo"
+    )
+    .value =
+    s.indirizzo || "";
+
+
+  document
+    .getElementById(
+      "dCategoria"
+    )
+    .value =
+    s.categoria || "altro";
+
+
+  document
+    .getElementById(
+      "dDescrizione"
+    )
+    .value =
+    s.descrizione || "";
+
+
+  document
+    .getElementById(
+      "dNome"
+    )
+    .value =
+    s.nome || "";
+
+
+  document
+    .getElementById(
+      "dTelefono"
+    )
+    .value =
+    s.telefono || "";
+
+
+  document
+    .getElementById(
+      "dEmail"
+    )
+    .value =
+    s.email || "";
+
+
+  document
+    .getElementById(
+      "dStato"
+    )
+    .value =
+    s.stato || "in_attesa";
+
+
+  document
+    .getElementById(
+      "dEnte"
+    )
+    .value =
+    s.ente_destinatario || "";
+
+
+  document
+    .getElementById(
+      "dDataInoltro"
+    )
+    .value =
+    dataPerInput(
+      s.data_inoltro
+    );
+
+
+  document
+    .getElementById(
+      "dProtocollo"
+    )
+    .value =
+    s.protocollo || "";
+
+
+  document
+    .getElementById(
+      "dNoteInterne"
+    )
+    .value =
+    s.note_interne || "";
+
+
+  document
+    .getElementById(
+      "dRispostaEnte"
+    )
+    .value =
+    s.risposta_ente || "";
+
+
+  document
+    .getElementById(
+      "dDataRisposta"
+    )
+    .value =
+    dataPerInput(
+      s.data_risposta_ente
+    );
+
+
+  document
+    .getElementById(
+      "messaggioDettaglio"
+    )
     .textContent = "";
 
-  const fotoBox =
-    document.getElementById("fotoBox");
 
   const foto =
     ottieniFoto(s);
+
+  const fotoBox =
+    document.getElementById(
+      "fotoBox"
+    );
+
 
   if(foto.length){
 
     fotoBox.innerHTML = `
 
       <h3 class="foto-titolo">
-        📷 Fotografie allegate (${foto.length})
+
+        📷 Fotografie allegate
+        (${foto.length})
+
       </h3>
 
       <div class="foto-grid">
 
-        ${foto.map((percorso,index)=>{
+        ${
+          foto.map(
+            (percorso,index)=>{
 
-          const url =
-            costruisciUrlFoto(percorso);
+              const url =
+                costruisciUrlFoto(
+                  percorso
+                );
 
-          return `
+              return `
 
-            <div
-              class="foto-item"
-              onclick="apriFoto('${escJs(url)}')">
+                <div
+                  class="foto-item"
+                  onclick="apriFoto('${escJs(url)}')">
 
-              <img
-                src="${escAttr(url)}"
-                alt="Fotografia ${index+1} della segnalazione"
-                loading="lazy">
+                  <img
+                    src="${escAttr(url)}"
+                    alt="Fotografia ${index+1} della segnalazione"
+                    loading="lazy">
 
-              <div class="foto-numero">
-                Foto ${index+1}
-              </div>
+                  <div class="foto-numero">
+                    Foto ${index+1}
+                  </div>
 
-            </div>
+                </div>
+              `;
 
-          `;
-
-        }).join("")}
+            }
+          ).join("")
+        }
 
       </div>
 
       <p class="foto-suggerimento">
         Tocca una fotografia per visualizzarla a schermo intero.
       </p>
-
     `;
 
   }else{
@@ -2235,24 +3059,33 @@ function apriPratica(s){
       "</p>";
   }
 
+
   document
-    .getElementById("dettaglio")
-    .classList.remove("hidden");
+    .getElementById(
+      "dettaglio"
+    )
+    .classList.remove(
+      "hidden"
+    );
 }
 
 
 function chiudiDettaglio(){
 
   document
-    .getElementById("dettaglio")
-    .classList.add("hidden");
+    .getElementById(
+      "dettaglio"
+    )
+    .classList.add(
+      "hidden"
+    );
 
   praticaCorrente = null;
 }
 
 
 /* =====================================================
-   SALVA + EMAIL
+   SALVA SEGNALAZIONE + EMAIL
 ===================================================== */
 
 async function salvaPratica(){
@@ -2260,131 +3093,195 @@ async function salvaPratica(){
   if(!praticaCorrente)
     return;
 
+
   const messaggio =
     document.getElementById(
       "messaggioDettaglio"
     );
 
+
   const vecchioStato =
     praticaCorrente.stato ||
     "in_attesa";
 
+
   const nuovoStato =
     document
-      .getElementById("dStato")
+      .getElementById(
+        "dStato"
+      )
       .value;
 
+
   const statoCambiato =
-    vecchioStato !== nuovoStato;
+    vecchioStato !==
+    nuovoStato;
+
 
   messaggio.textContent =
     "Salvataggio in corso...";
 
+
   const dataInoltro =
     document
-      .getElementById("dDataInoltro")
+      .getElementById(
+        "dDataInoltro"
+      )
       .value;
+
 
   const dataRisposta =
     document
-      .getElementById("dDataRisposta")
+      .getElementById(
+        "dDataRisposta"
+      )
       .value;
+
 
   const dati = {
 
     indirizzo:
       document
-        .getElementById("dIndirizzo")
-        .value.trim(),
+        .getElementById(
+          "dIndirizzo"
+        )
+        .value
+        .trim(),
 
     categoria:
       document
-        .getElementById("dCategoria")
+        .getElementById(
+          "dCategoria"
+        )
         .value,
 
     descrizione:
       document
-        .getElementById("dDescrizione")
-        .value.trim(),
+        .getElementById(
+          "dDescrizione"
+        )
+        .value
+        .trim(),
 
     nome:
       document
-        .getElementById("dNome")
-        .value.trim(),
+        .getElementById(
+          "dNome"
+        )
+        .value
+        .trim(),
 
     telefono:
       document
-        .getElementById("dTelefono")
-        .value.trim() || null,
+        .getElementById(
+          "dTelefono"
+        )
+        .value
+        .trim() || null,
 
     email:
       document
-        .getElementById("dEmail")
-        .value.trim() || null,
+        .getElementById(
+          "dEmail"
+        )
+        .value
+        .trim() || null,
 
     stato:
       nuovoStato,
 
     ente_destinatario:
       document
-        .getElementById("dEnte")
-        .value.trim() || null,
+        .getElementById(
+          "dEnte"
+        )
+        .value
+        .trim() || null,
 
     data_inoltro:
       dataInoltro
-      ? new Date(dataInoltro).toISOString()
-      : null,
+      ?
+      new Date(
+        dataInoltro
+      ).toISOString()
+      :
+      null,
 
     protocollo:
       document
-        .getElementById("dProtocollo")
-        .value.trim() || null,
+        .getElementById(
+          "dProtocollo"
+        )
+        .value
+        .trim() || null,
 
     note_interne:
       document
-        .getElementById("dNoteInterne")
-        .value.trim() || null,
+        .getElementById(
+          "dNoteInterne"
+        )
+        .value
+        .trim() || null,
 
     risposta_ente:
       document
-        .getElementById("dRispostaEnte")
-        .value.trim() || null,
+        .getElementById(
+          "dRispostaEnte"
+        )
+        .value
+        .trim() || null,
 
     data_risposta_ente:
       dataRisposta
-      ? new Date(dataRisposta).toISOString()
-      : null
+      ?
+      new Date(
+        dataRisposta
+      ).toISOString()
+      :
+      null
   };
+
 
   try{
 
-    const r = await fetch(
-      SUPABASE_URL +
-      "/rest/v1/segnalazioni_cittadini" +
-      "?id=eq." +
-      Number(praticaCorrente.id),
-      {
-        method:"PATCH",
+    const r =
+      await fetch(
 
-        headers:{
-          "apikey":SUPABASE_KEY,
-          "Authorization":"Bearer " + token,
-          "Content-Type":"application/json",
-          "Prefer":"return=minimal"
-        },
+        SUPABASE_URL +
+        "/rest/v1/segnalazioni_cittadini" +
+        "?id=eq." +
+        Number(
+          praticaCorrente.id
+        ),
 
-        body:JSON.stringify(dati)
-      }
-    );
+        {
+          method:"PATCH",
+
+          headers:{
+            "apikey":
+              SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " + token,
+
+            "Content-Type":
+              "application/json",
+
+            "Prefer":
+              "return=minimal"
+          },
+
+          body:
+            JSON.stringify(dati)
+        }
+      );
+
 
     if(!r.ok){
 
-      const errore =
-        await r.text();
-
       messaggio.textContent =
         "❌ Errore durante il salvataggio: " +
-        errore;
+        await r.text();
 
       return;
     }
@@ -2392,6 +3289,7 @@ async function salvaPratica(){
 
     let emailInviata = false;
     let erroreEmail = false;
+
 
     if(
       statoCambiato &&
@@ -2401,11 +3299,14 @@ async function salvaPratica(){
       messaggio.textContent =
         "Pratica salvata. Invio aggiornamento al cittadino...";
 
+
       try{
 
         const rispostaEmail =
           await fetch(
+
             EMAIL_FUNCTION_URL,
+
             {
               method:"POST",
 
@@ -2414,35 +3315,42 @@ async function salvaPratica(){
                   "application/json"
               },
 
-              body:JSON.stringify({
+              body:
+                JSON.stringify({
 
-                email:
-                  dati.email,
+                  email:
+                    dati.email,
 
-                nome:
-                  dati.nome,
+                  nome:
+                    dati.nome,
 
-                numero_pratica:
-                  praticaCorrente.numero_pratica ||
-                  ("#" + praticaCorrente.id),
+                  numero_pratica:
+                    praticaCorrente.numero_pratica ||
+                    (
+                      "#" +
+                      praticaCorrente.id
+                    ),
 
-                stato:
-                  nuovoStato,
+                  stato:
+                    nuovoStato,
 
-                oggetto:
-                  nomeCategoria(dati.categoria) +
-                  " – " +
-                  dati.indirizzo,
+                  oggetto:
+                    nomeCategoria(
+                      dati.categoria
+                    ) +
+                    " – " +
+                    dati.indirizzo,
 
-                messaggio:
-                  dati.descrizione,
+                  messaggio:
+                    dati.descrizione,
 
-                ente:
-                  dati.ente_destinatario
+                  ente:
+                    dati.ente_destinatario
 
-              })
+                })
             }
           );
+
 
         if(rispostaEmail.ok){
 
@@ -2501,7 +3409,6 @@ async function salvaPratica(){
         messaggio.textContent =
           "⚠️ Pratica salvata correttamente, ma non è stato possibile " +
           "inviare l'email al cittadino.";
-
       }
 
     }else{
@@ -2509,6 +3416,7 @@ async function salvaPratica(){
       messaggio.textContent =
         "✅ Pratica salvata correttamente.";
     }
+
 
     await caricaSegnalazioni();
 
@@ -2522,7 +3430,7 @@ async function salvaPratica(){
 
 
 /* =====================================================
-   RIFIUTA
+   RIFIUTA SEGNALAZIONE
 ===================================================== */
 
 async function rifiutaPratica(){
@@ -2540,15 +3448,18 @@ async function rifiutaPratica(){
     return;
 
   document
-    .getElementById("dStato")
-    .value = "rifiutata";
+    .getElementById(
+      "dStato"
+    )
+    .value =
+    "rifiutata";
 
   await salvaPratica();
 }
 
 
 /* =====================================================
-   ELIMINA
+   ELIMINA SEGNALAZIONE
 ===================================================== */
 
 async function eliminaPratica(){
@@ -2556,81 +3467,107 @@ async function eliminaPratica(){
   if(!praticaCorrente)
     return;
 
+
   const id =
-    Number(praticaCorrente.id);
+    Number(
+      praticaCorrente.id
+    );
+
 
   const riferimento =
     praticaCorrente.numero_pratica ||
     ("#" + id);
 
+
   const primaConferma =
     confirm(
+
       "ATTENZIONE\n\n" +
+
       "Stai per eliminare definitivamente la pratica " +
       riferimento +
       ".\n\n" +
-      "La segnalazione non comparirà più nel pannello e " +
-      "l'operazione non potrà essere annullata.\n\n" +
+
+      "L'operazione non potrà essere annullata.\n\n" +
+
       "Vuoi continuare?"
     );
+
 
   if(!primaConferma)
     return;
 
+
   const secondaConferma =
     confirm(
+
       "ULTIMA CONFERMA\n\n" +
+
       "Eliminare definitivamente la pratica " +
       riferimento +
       "?"
     );
 
+
   if(!secondaConferma)
     return;
 
+
   const messaggio =
     document
-      .getElementById("messaggioDettaglio");
+      .getElementById(
+        "messaggioDettaglio"
+      );
+
 
   messaggio.textContent =
     "Eliminazione in corso...";
 
+
   try{
 
-    const r = await fetch(
-      SUPABASE_URL +
-      "/rest/v1/segnalazioni_cittadini" +
-      "?id=eq." +
-      id,
-      {
-        method:"DELETE",
+    const r =
+      await fetch(
 
-        headers:{
-          "apikey":SUPABASE_KEY,
-          "Authorization":"Bearer " + token,
-          "Prefer":"return=representation"
+        SUPABASE_URL +
+        "/rest/v1/segnalazioni_cittadini" +
+        "?id=eq." +
+        id,
+
+        {
+          method:"DELETE",
+
+          headers:{
+            "apikey":
+              SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " + token,
+
+            "Prefer":
+              "return=representation"
+          }
         }
-      }
-    );
+      );
+
 
     if(!r.ok){
 
-      const errore =
-        await r.text();
-
       messaggio.textContent =
         "❌ Eliminazione non riuscita: " +
-        errore;
+        await r.text();
 
       return;
     }
 
+
     const eliminate =
       await r.json();
 
+
     if(
       !Array.isArray(eliminate) ||
-      eliminate.length===0
+      !eliminate.length
     ){
 
       messaggio.textContent =
@@ -2640,20 +3577,738 @@ async function eliminaPratica(){
       return;
     }
 
+
     document
-      .getElementById("dettaglio")
-      .classList.add("hidden");
+      .getElementById(
+        "dettaglio"
+      )
+      .classList.add(
+        "hidden"
+      );
+
 
     praticaCorrente = null;
 
+
     await caricaSegnalazioni();
 
-    mostraSezione("dashboard");
+
+    mostraSezione(
+      "dashboard"
+    );
+
 
     alert(
       "Pratica " +
       riferimento +
       " eliminata definitivamente."
+    );
+
+  }catch(error){
+
+    messaggio.textContent =
+      "❌ Errore di connessione: " +
+      error.message;
+  }
+}
+
+
+/* =====================================================
+   ALLEGATI PROPOSTE
+===================================================== */
+
+function ottieniAllegatiProposta(p){
+
+  let allegati = [];
+
+
+  if(
+    Array.isArray(
+      p.allegati
+    )
+  ){
+
+    allegati =
+      p.allegati;
+
+  }else if(
+    typeof p.allegati === "string" &&
+    p.allegati.trim()
+  ){
+
+    try{
+
+      const parsed =
+        JSON.parse(
+          p.allegati
+        );
+
+      if(
+        Array.isArray(parsed)
+      )
+        allegati =
+          parsed;
+
+    }catch{}
+  }
+
+
+  if(
+    !allegati.length &&
+    p.allegato_path
+  ){
+
+    allegati = [{
+
+      path:
+        p.allegato_path,
+
+      nome:
+        p.allegato_nome ||
+        "Allegato"
+
+    }];
+  }
+
+
+  return allegati
+    .map(x=>{
+
+      if(
+        typeof x === "string"
+      ){
+
+        return {
+
+          path:x,
+
+          nome:
+            x.split("/")
+              .pop() ||
+            "Allegato"
+        };
+      }
+
+
+      return {
+
+        path:
+          x.path ||
+          x.percorso ||
+          x.url ||
+          "",
+
+        nome:
+          x.nome ||
+          x.name ||
+          x.filename ||
+          "Allegato"
+      };
+
+    })
+    .filter(
+      x=>x.path
+    );
+}
+
+
+/* =====================================================
+   URL PRIVATO ALLEGATO
+===================================================== */
+
+async function creaUrlFirmato(path){
+
+  const pulito =
+    String(path)
+      .replace(/^\/+/,"");
+
+
+  const r =
+    await fetch(
+
+      SUPABASE_URL +
+      "/storage/v1/object/sign/" +
+      BUCKET_PROPOSTE +
+      "/" +
+      encodePath(pulito),
+
+      {
+        method:"POST",
+
+        headers:{
+
+          "apikey":
+            SUPABASE_KEY,
+
+          "Authorization":
+            "Bearer " + token,
+
+          "Content-Type":
+            "application/json"
+        },
+
+        body:
+          JSON.stringify({
+            expiresIn:600
+          })
+      }
+    );
+
+
+  if(!r.ok){
+
+    throw new Error(
+      await r.text()
+    );
+  }
+
+
+  const d =
+    await r.json();
+
+
+  const signed =
+    d.signedURL ||
+    d.signedUrl ||
+    d.signed_url;
+
+
+  if(!signed){
+
+    throw new Error(
+      "URL firmato non disponibile."
+    );
+  }
+
+
+  if(
+    signed.startsWith("http")
+  )
+    return signed;
+
+
+  return (
+    SUPABASE_URL +
+    "/storage/v1" +
+    (
+      signed.startsWith("/")
+      ?
+      signed
+      :
+      "/" + signed
+    )
+  );
+}
+
+
+/* =====================================================
+   APRI ALLEGATO
+===================================================== */
+
+async function apriAllegatoProposta(index){
+
+  if(!propostaCorrente)
+    return;
+
+
+  const allegato =
+    ottieniAllegatiProposta(
+      propostaCorrente
+    )[index];
+
+
+  if(!allegato)
+    return;
+
+
+  try{
+
+    const url =
+      await creaUrlFirmato(
+        allegato.path
+      );
+
+
+    window.open(
+      url,
+      "_blank",
+      "noopener"
+    );
+
+  }catch(error){
+
+    alert(
+      "Non è stato possibile aprire l'allegato:\n" +
+      error.message
+    );
+  }
+}
+
+
+/* =====================================================
+   APRI PROPOSTA
+===================================================== */
+
+function apriProposta(p){
+
+  propostaCorrente = p;
+
+
+  document
+    .getElementById(
+      "dataProposta"
+    )
+    .textContent =
+
+    p.created_at
+    ?
+    "Ricevuta il " +
+    new Date(
+      p.created_at
+    ).toLocaleString("it-IT")
+    :
+    "";
+
+
+  document
+    .getElementById(
+      "pTitolo"
+    )
+    .value =
+    p.titolo || "";
+
+
+  document
+    .getElementById(
+      "pCategoria"
+    )
+    .value =
+    p.categoria || "";
+
+
+  document
+    .getElementById(
+      "pZona"
+    )
+    .value =
+    p.zona || "";
+
+
+  document
+    .getElementById(
+      "pDescrizione"
+    )
+    .value =
+    p.descrizione || "";
+
+
+  document
+    .getElementById(
+      "pNome"
+    )
+    .textContent =
+    p.nome || "—";
+
+
+  document
+    .getElementById(
+      "pCognome"
+    )
+    .textContent =
+    p.cognome || "—";
+
+
+  document
+    .getElementById(
+      "pEmail"
+    )
+    .textContent =
+    p.email || "—";
+
+
+  document
+    .getElementById(
+      "pTelefono"
+    )
+    .textContent =
+    p.telefono || "—";
+
+
+  document
+    .getElementById(
+      "pStato"
+    )
+    .value =
+    p.stato_interno ||
+    "Da valutare";
+
+
+  document
+    .getElementById(
+      "pNote"
+    )
+    .value =
+    p.note_interne || "";
+
+
+  document
+    .getElementById(
+      "messaggioProposta"
+    )
+    .textContent = "";
+
+
+  const allegati =
+    ottieniAllegatiProposta(p);
+
+
+  const box =
+    document.getElementById(
+      "pAllegati"
+    );
+
+
+  box.innerHTML =
+    allegati.length
+    ?
+    `
+    <div class="allegati-lista">
+
+      ${
+        allegati.map(
+          (allegato,index)=>`
+
+            <button
+              class="allegato-btn"
+              onclick="apriAllegatoProposta(${index})">
+
+              📎 ${esc(allegato.nome)}
+
+              <br>
+
+              <span class="meta">
+                Tocca per aprire
+              </span>
+
+            </button>
+
+          `
+        ).join("")
+      }
+
+    </div>
+    `
+    :
+    "<p class='meta'>" +
+    "Nessun allegato." +
+    "</p>";
+
+
+  document
+    .getElementById(
+      "dettaglioProposta"
+    )
+    .classList.remove(
+      "hidden"
+    );
+}
+
+
+function chiudiProposta(){
+
+  document
+    .getElementById(
+      "dettaglioProposta"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+  propostaCorrente = null;
+}
+
+
+/* =====================================================
+   SALVA PROPOSTA
+===================================================== */
+
+async function salvaProposta(){
+
+  if(!propostaCorrente)
+    return;
+
+
+  const messaggio =
+    document
+      .getElementById(
+        "messaggioProposta"
+      );
+
+
+  const dati = {
+
+    stato_interno:
+      document
+        .getElementById(
+          "pStato"
+        )
+        .value,
+
+    note_interne:
+      document
+        .getElementById(
+          "pNote"
+        )
+        .value
+        .trim() || null
+  };
+
+
+  messaggio.textContent =
+    "Salvataggio in corso...";
+
+
+  try{
+
+    const r =
+      await fetch(
+
+        SUPABASE_URL +
+        "/rest/v1/proposte_citta" +
+        "?id=eq." +
+        encodeURIComponent(
+          propostaCorrente.id
+        ),
+
+        {
+          method:"PATCH",
+
+          headers:{
+
+            "apikey":
+              SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " + token,
+
+            "Content-Type":
+              "application/json",
+
+            "Prefer":
+              "return=minimal"
+          },
+
+          body:
+            JSON.stringify(dati)
+        }
+      );
+
+
+    if(!r.ok){
+
+      messaggio.textContent =
+        "❌ Errore durante il salvataggio: " +
+        await r.text();
+
+      return;
+    }
+
+
+    Object.assign(
+      propostaCorrente,
+      dati
+    );
+
+
+    messaggio.textContent =
+      "✅ Valutazione salvata correttamente.";
+
+
+    await caricaProposte();
+
+  }catch(error){
+
+    messaggio.textContent =
+      "❌ Errore di connessione: " +
+      error.message;
+  }
+}
+
+
+/* =====================================================
+   ELIMINA PROPOSTA
+===================================================== */
+
+async function eliminaProposta(){
+
+  if(!propostaCorrente)
+    return;
+
+
+  const primaConferma =
+    confirm(
+
+      "ATTENZIONE\n\n" +
+
+      "Vuoi eliminare definitivamente questa proposta?\n\n" +
+
+      "L'operazione non potrà essere annullata."
+    );
+
+
+  if(!primaConferma)
+    return;
+
+
+  const secondaConferma =
+    confirm(
+
+      "ULTIMA CONFERMA\n\n" +
+
+      "Eliminare definitivamente la proposta?"
+    );
+
+
+  if(!secondaConferma)
+    return;
+
+
+  const messaggio =
+    document
+      .getElementById(
+        "messaggioProposta"
+      );
+
+
+  messaggio.textContent =
+    "Eliminazione in corso...";
+
+
+  try{
+
+    const allegati =
+      ottieniAllegatiProposta(
+        propostaCorrente
+      );
+
+
+    const r =
+      await fetch(
+
+        SUPABASE_URL +
+        "/rest/v1/proposte_citta" +
+        "?id=eq." +
+        encodeURIComponent(
+          propostaCorrente.id
+        ),
+
+        {
+          method:"DELETE",
+
+          headers:{
+
+            "apikey":
+              SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " + token,
+
+            "Prefer":
+              "return=representation"
+          }
+        }
+      );
+
+
+    if(!r.ok){
+
+      messaggio.textContent =
+        "❌ Eliminazione non riuscita: " +
+        await r.text();
+
+      return;
+    }
+
+
+    const eliminate =
+      await r.json();
+
+
+    if(
+      !Array.isArray(eliminate) ||
+      !eliminate.length
+    ){
+
+      messaggio.textContent =
+        "❌ La proposta non è stata eliminata.";
+
+      return;
+    }
+
+
+    for(
+      const allegato
+      of allegati
+    ){
+
+      try{
+
+        await fetch(
+
+          SUPABASE_URL +
+          "/storage/v1/object/" +
+          BUCKET_PROPOSTE +
+          "/" +
+          encodePath(
+            allegato.path
+          ),
+
+          {
+            method:"DELETE",
+
+            headers:{
+
+              "apikey":
+                SUPABASE_KEY,
+
+              "Authorization":
+                "Bearer " + token
+            }
+          }
+        );
+
+      }catch(error){
+
+        console.error(
+          "Errore eliminazione allegato",
+          error
+        );
+      }
+    }
+
+
+    document
+      .getElementById(
+        "dettaglioProposta"
+      )
+      .classList.add(
+        "hidden"
+      );
+
+
+    propostaCorrente = null;
+
+
+    await caricaProposte();
+
+
+    mostraSezione(
+      "proposte"
+    );
+
+
+    alert(
+      "Proposta eliminata definitivamente."
     );
 
   }catch(error){
@@ -2672,46 +4327,95 @@ async function eliminaPratica(){
 function logout(){
 
   token = null;
+
   praticaCorrente = null;
+  propostaCorrente = null;
+
   tutteSegnalazioni = [];
+  tutteProposte = [];
+
 
   document
-    .getElementById("dettaglio")
-    .classList.add("hidden");
+    .getElementById(
+      "dettaglio"
+    )
+    .classList.add(
+      "hidden"
+    );
+
 
   document
-    .getElementById("adminBox")
-    .classList.add("hidden");
+    .getElementById(
+      "dettaglioProposta"
+    )
+    .classList.add(
+      "hidden"
+    );
+
 
   document
-    .getElementById("loginBox")
-    .classList.remove("hidden");
+    .getElementById(
+      "adminBox"
+    )
+    .classList.add(
+      "hidden"
+    );
+
 
   document
-    .getElementById("password")
+    .getElementById(
+      "loginBox"
+    )
+    .classList.remove(
+      "hidden"
+    );
+
+
+  document
+    .getElementById(
+      "password"
+    )
     .value = "";
 
+
   document
-    .getElementById("messaggio")
+    .getElementById(
+      "messaggio"
+    )
     .textContent = "";
 }
 
 
 /* =====================================================
-   STATO
+   STATO SEGNALAZIONI
 ===================================================== */
 
 function nomeStatoRaw(stato){
 
   const nomi = {
-    in_attesa:"In attesa di verifica",
-    verificata:"Documentazione verificata",
-    inoltrata:"Inoltrata all'ente",
-    attesa_ente:"In attesa dell'ente",
-    risolta:"Risolta",
-    chiusa:"Chiusa",
-    rifiutata:"Rifiutata"
+
+    in_attesa:
+      "In attesa di verifica",
+
+    verificata:
+      "Documentazione verificata",
+
+    inoltrata:
+      "Inoltrata all'ente",
+
+    attesa_ente:
+      "In attesa dell'ente",
+
+    risolta:
+      "Risolta",
+
+    chiusa:
+      "Chiusa",
+
+    rifiutata:
+      "Rifiutata"
   };
+
 
   return (
     nomi[stato] ||
@@ -2724,14 +4428,29 @@ function nomeStatoRaw(stato){
 function classeStato(stato){
 
   const classi = {
-    in_attesa:"stato-in_attesa",
-    verificata:"stato-verificata",
-    inoltrata:"stato-inoltrata",
-    attesa_ente:"stato-attesa_ente",
-    risolta:"stato-risolta",
-    chiusa:"stato-chiusa",
-    rifiutata:"stato-rifiutata"
+
+    in_attesa:
+      "stato-in_attesa",
+
+    verificata:
+      "stato-verificata",
+
+    inoltrata:
+      "stato-inoltrata",
+
+    attesa_ente:
+      "stato-attesa_ente",
+
+    risolta:
+      "stato-risolta",
+
+    chiusa:
+      "stato-chiusa",
+
+    rifiutata:
+      "stato-rifiutata"
   };
+
 
   return (
     classi[stato] ||
@@ -2741,21 +4460,38 @@ function classeStato(stato){
 
 
 /* =====================================================
-   CATEGORIE
+   CATEGORIE SEGNALAZIONI
 ===================================================== */
 
 function nomeCategoria(cat){
 
   const nomi = {
-    strade:"Strade e marciapiedi",
-    acqua:"Acqua",
-    rifiuti:"Rifiuti e pulizia",
-    illuminazione:"Illuminazione pubblica",
-    verde:"Verde pubblico",
-    segnaletica:"Segnaletica e sicurezza",
-    degrado:"Degrado urbano",
-    altro:"Altro"
+
+    strade:
+      "Strade e marciapiedi",
+
+    acqua:
+      "Acqua",
+
+    rifiuti:
+      "Rifiuti e pulizia",
+
+    illuminazione:
+      "Illuminazione pubblica",
+
+    verde:
+      "Verde pubblico",
+
+    segnaletica:
+      "Segnaletica e sicurezza",
+
+    degrado:
+      "Degrado urbano",
+
+    altro:
+      "Altro"
   };
+
 
   return (
     nomi[cat] ||
@@ -2774,17 +4510,28 @@ function dataPerInput(data){
   if(!data)
     return "";
 
+
   const d =
     new Date(data);
 
-  if(Number.isNaN(d.getTime()))
+
+  if(
+    Number.isNaN(
+      d.getTime()
+    )
+  )
     return "";
+
 
   const locale =
     new Date(
+
       d.getTime() -
-      d.getTimezoneOffset()*60000
+
+      d.getTimezoneOffset()
+      * 60000
     );
+
 
   return locale
     .toISOString()
@@ -2796,13 +4543,22 @@ function dataPerInput(data){
    UTILITÀ
 ===================================================== */
 
-function accorcia(testo,max){
+function accorcia(
+  testo,
+  max
+){
 
-  if(testo.length<=max)
+  if(
+    testo.length <= max
+  )
     return testo;
 
+
   return (
-    testo.substring(0,max) +
+    testo.substring(
+      0,
+      max
+    ) +
     "…"
   );
 }
@@ -2810,12 +4566,29 @@ function accorcia(testo,max){
 
 function esc(v){
 
-  return String(v ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+  return String(
+    v ?? ""
+  )
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
 }
 
 
@@ -2827,11 +4600,36 @@ function escAttr(v){
 
 function escJs(v){
 
-  return String(v ?? "")
-    .replaceAll("\\","\\\\")
-    .replaceAll("'","\\'")
-    .replaceAll("\n","")
-    .replaceAll("\r","");
+  return String(
+    v ?? ""
+  )
+  .replaceAll(
+    "\\",
+    "\\\\"
+  )
+  .replaceAll(
+    "'",
+    "\\'"
+  )
+  .replaceAll(
+    "\n",
+    ""
+  )
+  .replaceAll(
+    "\r",
+    ""
+  );
+}
+
+
+function encodePath(path){
+
+  return String(path)
+    .split("/")
+    .map(
+      encodeURIComponent
+    )
+    .join("/");
 }
 
 </script>
