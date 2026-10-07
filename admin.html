@@ -237,6 +237,7 @@ button{
 .stat.attesa{border-left:5px solid var(--arancio)}
 .stat.risolte{border-left:5px solid var(--verde)}
 .stat.idee{border-left:5px solid var(--giallo)}
+.stat.iniziative{border-left:5px solid #6f42c1}
 
 .stat.nuove .numero{color:#dc3545}
 .stat.verificate .numero{color:#0d6efd}
@@ -244,6 +245,7 @@ button{
 .stat.attesa .numero{color:var(--arancio)}
 .stat.risolte .numero{color:var(--verde)}
 .stat.idee .numero{color:#a67800}
+.stat.iniziative .numero{color:#6f42c1}
 
 .ricerca{position:relative}
 
@@ -284,7 +286,8 @@ button{
 }
 
 .segnalazione h3,
-.proposta h3{
+.proposta h3,
+.iniziativa h3{
   margin:8px 0;
   font-size:21px;
 }
@@ -358,6 +361,18 @@ button{
   border:1px solid #ced4da;
 }
 
+.stato-bozza{
+  background:#e9ecef;
+  color:#495057;
+  border:1px solid #ced4da;
+}
+
+.stato-pubblicata{
+  background:#e5f6eb;
+  color:#146c43;
+  border:1px solid #a3cfbb;
+}
+
 .badge-cat{
   background:#eef4fb;
   color:#315b7d;
@@ -365,10 +380,19 @@ button{
 }
 
 .apri,
-.apri-proposta{
+.apri-proposta,
+.apri-iniziativa{
   background:var(--blu);
   color:white;
   margin-top:8px;
+}
+
+.nuova-iniziativa{
+  width:100%;
+  margin-bottom:15px;
+  background:#6f42c1;
+  color:white;
+  min-height:54px;
 }
 
 .empty{
@@ -547,7 +571,8 @@ button{
 }
 
 #messaggioDettaglio,
-#messaggioProposta{
+#messaggioProposta,
+#messaggioIniziativa{
   font-weight:bold;
   margin-top:15px;
 }
@@ -602,6 +627,56 @@ button{
   line-height:1.45;
 }
 
+/* =====================================================
+   INIZIATIVE
+===================================================== */
+
+.iniziativa-cover{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:13px;
+  margin-bottom:12px;
+  background:#eee;
+}
+
+.iniziativa-foto-admin{
+  position:relative;
+  background:#f5f5f5;
+  border:1px solid #ddd;
+  border-radius:13px;
+  overflow:hidden;
+}
+
+.iniziativa-foto-admin img{
+  display:block;
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  cursor:pointer;
+}
+
+.rimuovi-foto{
+  width:100%;
+  border-radius:0;
+  background:#b42318;
+  color:white;
+}
+
+.file-help{
+  margin:-7px 0 15px;
+  color:#666;
+  font-size:13px;
+  line-height:1.4;
+}
+
+.upload-box{
+  padding:16px;
+  background:#fafafa;
+  border:1px dashed #bbb;
+  border-radius:12px;
+}
+
 @media(max-width:650px){
 
   .header-inner{min-height:200px}
@@ -642,7 +717,8 @@ button{
     gap:13px;
   }
 
-  .foto-item img{
+  .foto-item img,
+  .iniziativa-foto-admin img{
     height:auto;
     max-height:430px;
     object-fit:contain;
@@ -653,6 +729,10 @@ button{
     flex:1 1 100%;
     min-height:50px;
   }
+
+  .iniziativa-cover{
+    height:190px;
+  }
 }
 
 @media print{
@@ -662,12 +742,15 @@ button{
   #dettaglio,
   #dettaglio *,
   #dettaglioProposta,
-  #dettaglioProposta *{
+  #dettaglioProposta *,
+  #dettaglioIniziativa,
+  #dettaglioIniziativa *{
     visibility:visible;
   }
 
   #dettaglio,
-  #dettaglioProposta{
+  #dettaglioProposta,
+  #dettaglioIniziativa{
     position:absolute;
     inset:0;
     background:white;
@@ -682,7 +765,8 @@ button{
   .actions,
   .chiudi,
   .danger-zone,
-  .foto-suggerimento{
+  .foto-suggerimento,
+  .rimuovi-foto{
     display:none!important;
   }
 }
@@ -715,7 +799,7 @@ button{
 
     <h1>📋 Pannello amministrativo</h1>
 
-    <p>Gestione segnalazioni e proposte dei cittadini</p>
+    <p>Gestione segnalazioni, proposte e iniziative</p>
 
   </div>
 
@@ -765,6 +849,10 @@ button{
 
   <button id="mProposte" onclick="mostraSezione('proposte')">
     💡 La Canicattì che vorrei
+  </button>
+
+  <button id="mIniziative" onclick="mostraSezione('iniziative')">
+    📸 Le nostre iniziative
   </button>
 
   <button id="mCategorie" onclick="mostraSezione('categorie')">
@@ -892,10 +980,7 @@ button{
 
   </div>
 
-  <div
-    class="dashboard"
-    id="dashboardProposte">
-  </div>
+  <div class="dashboard" id="dashboardProposte"></div>
 
   <div class="card">
 
@@ -915,27 +1000,71 @@ button{
       id="filtroStatoProposte"
       onchange="renderProposte()">
 
-      <option value="">
-        Tutti gli stati
-      </option>
-
-      <option value="Da valutare">
-        Da valutare
-      </option>
-
-      <option value="Valutata">
-        Valutata
-      </option>
-
-      <option value="Archiviata">
-        Archiviata
-      </option>
+      <option value="">Tutti gli stati</option>
+      <option value="Da valutare">Da valutare</option>
+      <option value="Valutata">Valutata</option>
+      <option value="Archiviata">Archiviata</option>
 
     </select>
 
   </div>
 
   <div id="elencoProposte"></div>
+
+</section>
+
+
+<!-- =====================================================
+     LE NOSTRE INIZIATIVE
+===================================================== -->
+
+<section id="sezioneIniziative" class="hidden">
+
+  <div class="section-title">
+
+    <h2>📸 Le nostre iniziative</h2>
+
+    <div class="meta">
+      Crea e gestisci le attività del Faro di Canicattì
+    </div>
+
+  </div>
+
+  <div id="dashboardIniziative" class="dashboard"></div>
+
+  <button
+    class="nuova-iniziativa"
+    onclick="nuovaIniziativa()">
+    ＋ Nuova iniziativa
+  </button>
+
+  <div class="card">
+
+    <div class="ricerca">
+
+      <span class="lente">🔍</span>
+
+      <input
+        id="ricercaIniziative"
+        type="search"
+        placeholder="Cerca per titolo, luogo o descrizione..."
+        oninput="renderIniziative()">
+
+    </div>
+
+    <select
+      id="filtroStatoIniziative"
+      onchange="renderIniziative()">
+
+      <option value="">Tutte</option>
+      <option value="Bozza">Bozze</option>
+      <option value="Pubblicata">Pubblicate</option>
+
+    </select>
+
+  </div>
+
+  <div id="elencoIniziative"></div>
 
 </section>
 
@@ -1007,7 +1136,9 @@ button{
 </div>
 
 
-<!-- DETTAGLIO SEGNALAZIONE -->
+<!-- =====================================================
+     DETTAGLIO SEGNALAZIONE
+===================================================== -->
 
 <div id="dettaglio" class="dettaglio hidden">
 
@@ -1169,12 +1300,8 @@ button{
       L'eliminazione non può essere annullata.
     </p>
 
-    <button
-      class="elimina"
-      onclick="eliminaPratica()">
-
+    <button class="elimina" onclick="eliminaPratica()">
       🗑️ Elimina definitivamente
-
     </button>
 
   </div>
@@ -1185,7 +1312,9 @@ button{
 </div>
 
 
-<!-- DETTAGLIO PROPOSTA -->
+<!-- =====================================================
+     DETTAGLIO PROPOSTA
+===================================================== -->
 
 <div id="dettaglioProposta" class="dettaglio hidden">
 
@@ -1195,18 +1324,13 @@ button{
 
     <h2>💡 Dettaglio proposta</h2>
 
-    <button
-      class="chiudi"
-      onclick="chiudiProposta()">
+    <button class="chiudi" onclick="chiudiProposta()">
       ✕
     </button>
 
   </div>
 
-  <p
-    id="dataProposta"
-    class="meta">
-  </p>
+  <p id="dataProposta" class="meta"></p>
 
 
   <div class="pratica-section">
@@ -1307,20 +1431,12 @@ button{
 
   <div class="actions">
 
-    <button
-      class="salva"
-      onclick="salvaProposta()">
-
+    <button class="salva" onclick="salvaProposta()">
       💾 Salva valutazione
-
     </button>
 
-    <button
-      class="stampa"
-      onclick="window.print()">
-
+    <button class="stampa" onclick="window.print()">
       🖨️ Stampa
-
     </button>
 
   </div>
@@ -1335,17 +1451,170 @@ button{
       o contenuti che non devono essere conservati.
     </p>
 
-    <button
-      class="elimina"
-      onclick="eliminaProposta()">
-
+    <button class="elimina" onclick="eliminaProposta()">
       🗑️ Elimina proposta
-
     </button>
 
   </div>
 
   <p id="messaggioProposta"></p>
+
+</div>
+</div>
+
+
+<!-- =====================================================
+     DETTAGLIO / NUOVA INIZIATIVA
+===================================================== -->
+
+<div id="dettaglioIniziativa" class="dettaglio hidden">
+
+<div class="dettaglio-box">
+
+  <div class="top-detail">
+
+    <h2 id="titoloModalIniziativa">
+      📸 Iniziativa
+    </h2>
+
+    <button class="chiudi" onclick="chiudiIniziativa()">
+      ✕
+    </button>
+
+  </div>
+
+
+  <div class="pratica-section">
+
+    <h3>📝 Informazioni</h3>
+
+    <label><strong>Titolo *</strong></label>
+
+    <input
+      id="iTitolo"
+      placeholder="Es. Manifestazione Acqua Bene Comune">
+
+
+    <label><strong>Data dell'iniziativa *</strong></label>
+
+    <input
+      id="iData"
+      type="date">
+
+
+    <label><strong>Luogo</strong></label>
+
+    <input
+      id="iLuogo"
+      placeholder="Es. Villa Comunale, Canicattì">
+
+
+    <label><strong>Descrizione *</strong></label>
+
+    <textarea
+      id="iDescrizione"
+      placeholder="Racconta brevemente l'iniziativa, cosa è stato fatto e perché..."></textarea>
+
+
+    <label><strong>Stato</strong></label>
+
+    <select id="iStato">
+
+      <option value="Bozza">
+        ⚪ Bozza
+      </option>
+
+      <option value="Pubblicata">
+        🟢 Pubblicata
+      </option>
+
+    </select>
+
+    <div class="info-box">
+      Se scegli <strong>Bozza</strong>, l'iniziativa resterà
+      visibile soltanto nel pannello amministrativo.
+      Con <strong>Pubblicata</strong> potrà essere mostrata
+      nella pagina pubblica del sito.
+    </div>
+
+  </div>
+
+
+  <div class="pratica-section">
+
+    <h3>📷 Fotografie</h3>
+
+    <div id="iFotoEsistenti"></div>
+
+    <div class="upload-box">
+
+      <label>
+        <strong>Aggiungi fotografie</strong>
+      </label>
+
+      <input
+        id="iNuoveFoto"
+        type="file"
+        accept="image/*"
+        multiple>
+
+      <div class="file-help">
+        Puoi selezionare più fotografie.
+        Ogni immagine deve rispettare il limite impostato
+        nel bucket Supabase.
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="actions">
+
+    <button
+      id="btnSalvaIniziativa"
+      class="salva"
+      onclick="salvaIniziativa()">
+
+      💾 Salva iniziativa
+
+    </button>
+
+    <button
+      class="stampa"
+      onclick="window.print()">
+
+      🖨️ Stampa
+
+    </button>
+
+  </div>
+
+
+  <div
+    id="dangerIniziativa"
+    class="danger-zone hidden">
+
+    <strong>🗑️ Eliminazione definitiva</strong>
+
+    <p>
+      Eliminando l'iniziativa verranno eliminate anche
+      le fotografie collegate dal bucket
+      <strong>foto-iniziative</strong>.
+    </p>
+
+    <button
+      class="elimina"
+      onclick="eliminaIniziativa()">
+
+      🗑️ Elimina iniziativa
+
+    </button>
+
+  </div>
+
+
+  <p id="messaggioIniziativa"></p>
 
 </div>
 </div>
@@ -1391,6 +1660,9 @@ const BUCKET_FOTO =
 const BUCKET_PROPOSTE =
 "allegati-proposte";
 
+const BUCKET_INIZIATIVE =
+"foto-iniziative";
+
 const EMAIL_FUNCTION_URL =
 SUPABASE_URL + "/functions/v1/invia-email";
 
@@ -1398,9 +1670,11 @@ let token = null;
 
 let praticaCorrente = null;
 let propostaCorrente = null;
+let iniziativaCorrente = null;
 
 let tutteSegnalazioni = [];
 let tutteProposte = [];
+let tutteIniziative = [];
 
 
 /* =====================================================
@@ -1410,19 +1684,13 @@ let tutteProposte = [];
 async function login(){
 
   const email =
-    document
-      .getElementById("email")
-      .value
-      .trim();
+    document.getElementById("email").value.trim();
 
   const password =
-    document
-      .getElementById("password")
-      .value;
+    document.getElementById("password").value;
 
   const messaggio =
-    document
-      .getElementById("messaggio");
+    document.getElementById("messaggio");
 
   if(!email || !password){
 
@@ -1456,8 +1724,7 @@ async function login(){
         }
       );
 
-    const d =
-      await r.json();
+    const d = await r.json();
 
     if(!r.ok || !d.access_token){
 
@@ -1474,8 +1741,7 @@ async function login(){
       return;
     }
 
-    token =
-      d.access_token;
+    token = d.access_token;
 
     messaggio.textContent = "";
 
@@ -1489,7 +1755,8 @@ async function login(){
 
     await Promise.all([
       caricaSegnalazioni(false),
-      caricaProposte(false)
+      caricaProposte(false),
+      caricaIniziative(false)
     ]);
 
     aggiornaInterfaccia();
@@ -1509,9 +1776,7 @@ async function login(){
    CARICAMENTO SEGNALAZIONI
 ===================================================== */
 
-async function caricaSegnalazioni(
-  aggiorna = true
-){
+async function caricaSegnalazioni(aggiorna = true){
 
   try{
 
@@ -1524,8 +1789,7 @@ async function caricaSegnalazioni(
         {
           headers:{
             "apikey":SUPABASE_KEY,
-            "Authorization":
-              "Bearer " + token
+            "Authorization":"Bearer " + token
           }
         }
       );
@@ -1540,8 +1804,7 @@ async function caricaSegnalazioni(
       return;
     }
 
-    tutteSegnalazioni =
-      await r.json();
+    tutteSegnalazioni = await r.json();
 
     if(aggiorna)
       aggiornaInterfaccia();
@@ -1560,9 +1823,7 @@ async function caricaSegnalazioni(
    CARICAMENTO PROPOSTE
 ===================================================== */
 
-async function caricaProposte(
-  aggiorna = true
-){
+async function caricaProposte(aggiorna = true){
 
   try{
 
@@ -1575,8 +1836,7 @@ async function caricaProposte(
         {
           headers:{
             "apikey":SUPABASE_KEY,
-            "Authorization":
-              "Bearer " + token
+            "Authorization":"Bearer " + token
           }
         }
       );
@@ -1591,8 +1851,54 @@ async function caricaProposte(
       return;
     }
 
-    tutteProposte =
-      await r.json();
+    tutteProposte = await r.json();
+
+    if(aggiorna)
+      aggiornaInterfaccia();
+
+  }catch(error){
+
+    alert(
+      "Errore di connessione: " +
+      error.message
+    );
+  }
+}
+
+
+/* =====================================================
+   CARICAMENTO INIZIATIVE
+===================================================== */
+
+async function caricaIniziative(aggiorna = true){
+
+  try{
+
+    const r =
+      await fetch(
+        SUPABASE_URL +
+        "/rest/v1/iniziative" +
+        "?select=*" +
+        "&order=data_iniziativa.desc",
+        {
+          headers:{
+            "apikey":SUPABASE_KEY,
+            "Authorization":"Bearer " + token
+          }
+        }
+      );
+
+    if(!r.ok){
+
+      alert(
+        "Errore caricamento iniziative:\n" +
+        await r.text()
+      );
+
+      return;
+    }
+
+    tutteIniziative = await r.json();
 
     if(aggiorna)
       aggiornaInterfaccia();
@@ -1612,6 +1918,7 @@ function aggiornaInterfaccia(){
   renderDashboard();
   renderSegnalazioni();
   renderProposte();
+  renderIniziative();
   renderCategorie();
   renderStati();
   renderArchivio();
@@ -1629,6 +1936,7 @@ function mostraSezione(nome){
     "Dashboard",
     "Segnalazioni",
     "Proposte",
+    "Iniziative",
     "Categorie",
     "Stati",
     "Archivio",
@@ -1693,12 +2001,18 @@ function contaStatoProposta(stato){
 }
 
 
+function contaStatoIniziativa(stato){
+
+  return tutteIniziative.filter(
+    i=>i.stato===stato
+  ).length;
+}
+
+
 function renderDashboard(){
 
   const box =
-    document.getElementById(
-      "dashboardCards"
-    );
+    document.getElementById("dashboardCards");
 
   box.innerHTML =
 
@@ -1767,6 +2081,20 @@ function renderDashboard(){
 
       <span class="titolo">
         Proposte cittadini
+      </span>
+
+    </div>
+
+    <div
+      class="stat iniziative"
+      onclick="mostraSezione('iniziative')">
+
+      <span class="numero">
+        ${tutteIniziative.length}
+      </span>
+
+      <span class="titolo">
+        Iniziative
       </span>
 
     </div>
@@ -1842,9 +2170,7 @@ function ricercaDaDashboard(){
 
   const testo =
     document
-      .getElementById(
-        "ricercaDashboard"
-      )
+      .getElementById("ricercaDashboard")
       .value;
 
   if(!testo.trim())
@@ -2089,9 +2415,7 @@ function renderProposte(){
   const ricerca =
     (
       document
-        .getElementById(
-          "ricercaProposte"
-        )
+        .getElementById("ricercaProposte")
         .value || ""
     )
     .toLowerCase()
@@ -2099,16 +2423,12 @@ function renderProposte(){
 
   const stato =
     document
-      .getElementById(
-        "filtroStatoProposte"
-      )
+      .getElementById("filtroStatoProposte")
       .value;
 
 
   document
-    .getElementById(
-      "dashboardProposte"
-    )
+    .getElementById("dashboardProposte")
     .innerHTML = `
 
       <div class="stat idee">
@@ -2207,9 +2527,7 @@ function renderProposte(){
 
 
   box
-    .querySelectorAll(
-      ".apri-proposta"
-    )
+    .querySelectorAll(".apri-proposta")
     .forEach(btn=>{
 
       btn.addEventListener(
@@ -2351,6 +2669,1283 @@ function classeStatoProposta(stato){
 
 
 /* =====================================================
+   INIZIATIVE - ELENCO
+===================================================== */
+
+function renderIniziative(){
+
+  const dashboard =
+    document.getElementById(
+      "dashboardIniziative"
+    );
+
+  dashboard.innerHTML = `
+
+    <div class="stat iniziative">
+
+      <span class="numero">
+        ${tutteIniziative.length}
+      </span>
+
+      <span class="titolo">
+        Totale iniziative
+      </span>
+
+    </div>
+
+    <div class="stat nuove">
+
+      <span class="numero">
+        ${contaStatoIniziativa("Bozza")}
+      </span>
+
+      <span class="titolo">
+        Bozze
+      </span>
+
+    </div>
+
+    <div class="stat risolte">
+
+      <span class="numero">
+        ${contaStatoIniziativa("Pubblicata")}
+      </span>
+
+      <span class="titolo">
+        Pubblicate
+      </span>
+
+    </div>
+  `;
+
+
+  const ricerca =
+    (
+      document
+        .getElementById("ricercaIniziative")
+        .value || ""
+    )
+    .toLowerCase()
+    .trim();
+
+  const stato =
+    document
+      .getElementById("filtroStatoIniziative")
+      .value;
+
+
+  const filtrate =
+    tutteIniziative.filter(i=>{
+
+      if(
+        stato &&
+        i.stato !== stato
+      )
+        return false;
+
+      if(ricerca){
+
+        const testo = [
+          i.titolo,
+          i.luogo,
+          i.descrizione,
+          i.stato
+        ]
+        .join(" ")
+        .toLowerCase();
+
+        if(!testo.includes(ricerca))
+          return false;
+      }
+
+      return true;
+    });
+
+
+  const box =
+    document.getElementById(
+      "elencoIniziative"
+    );
+
+
+  if(!filtrate.length){
+
+    box.innerHTML =
+      "<div class='card empty'>" +
+      "Nessuna iniziativa trovata." +
+      "</div>";
+
+    return;
+  }
+
+
+  box.innerHTML =
+    filtrate
+      .map(iniziativaHTML)
+      .join("");
+
+
+  box
+    .querySelectorAll(".apri-iniziativa")
+    .forEach(btn=>{
+
+      btn.addEventListener(
+        "click",
+        ()=>{
+
+          const iniziativa =
+            tutteIniziative.find(
+              x=>
+                String(x.id) ===
+                btn.dataset.id
+            );
+
+          if(iniziativa)
+            apriIniziativa(iniziativa);
+        }
+      );
+
+    });
+}
+
+
+function iniziativaHTML(i){
+
+  const foto =
+    ottieniFotoIniziativa(i);
+
+  const cover =
+    foto.length
+    ?
+    `
+      <img
+        class="iniziativa-cover"
+        src="${escAttr(urlFotoIniziativa(foto[0]))}"
+        alt="${escAttr(i.titolo || "Iniziativa")}"
+        loading="lazy">
+    `
+    :
+    "";
+
+
+  return `
+
+    <div class="card iniziativa">
+
+      ${cover}
+
+      <span
+        class="badge ${
+          i.stato === "Pubblicata"
+          ?
+          "stato-pubblicata"
+          :
+          "stato-bozza"
+        }">
+
+        ${
+          i.stato === "Pubblicata"
+          ?
+          "🟢 Pubblicata"
+          :
+          "⚪ Bozza"
+        }
+
+      </span>
+
+      ${
+        foto.length
+        ?
+        `
+        <span class="badge badge-cat">
+          📷 ${foto.length}
+        </span>
+        `
+        :
+        ""
+      }
+
+      <h3>
+        ${esc(
+          i.titolo ||
+          "Iniziativa senza titolo"
+        )}
+      </h3>
+
+      ${
+        i.data_iniziativa
+        ?
+        `
+        <p class="meta">
+          📅 ${esc(formattaDataIt(i.data_iniziativa))}
+        </p>
+        `
+        :
+        ""
+      }
+
+      ${
+        i.luogo
+        ?
+        `
+        <p class="meta">
+          📍 ${esc(i.luogo)}
+        </p>
+        `
+        :
+        ""
+      }
+
+      <p>
+        ${esc(
+          accorcia(
+            i.descrizione || "",
+            180
+          )
+        )}
+      </p>
+
+      <button
+        class="apri-iniziativa"
+        data-id="${escAttr(i.id)}">
+
+        Gestisci iniziativa
+
+      </button>
+
+    </div>
+  `;
+}
+
+
+/* =====================================================
+   NUOVA / APRI INIZIATIVA
+===================================================== */
+
+function nuovaIniziativa(){
+
+  iniziativaCorrente = null;
+
+  document
+    .getElementById("titoloModalIniziativa")
+    .textContent =
+    "📸 Nuova iniziativa";
+
+  document
+    .getElementById("iTitolo")
+    .value = "";
+
+  document
+    .getElementById("iData")
+    .value = "";
+
+  document
+    .getElementById("iLuogo")
+    .value = "";
+
+  document
+    .getElementById("iDescrizione")
+    .value = "";
+
+  document
+    .getElementById("iStato")
+    .value = "Bozza";
+
+  document
+    .getElementById("iNuoveFoto")
+    .value = "";
+
+  document
+    .getElementById("iFotoEsistenti")
+    .innerHTML =
+    "<p class='meta'>Nessuna fotografia ancora caricata.</p>";
+
+  document
+    .getElementById("dangerIniziativa")
+    .classList.add("hidden");
+
+  document
+    .getElementById("messaggioIniziativa")
+    .textContent = "";
+
+  document
+    .getElementById("dettaglioIniziativa")
+    .classList.remove("hidden");
+}
+
+
+function apriIniziativa(i){
+
+  iniziativaCorrente = i;
+
+  document
+    .getElementById("titoloModalIniziativa")
+    .textContent =
+    "📸 Gestisci iniziativa";
+
+  document
+    .getElementById("iTitolo")
+    .value =
+    i.titolo || "";
+
+  document
+    .getElementById("iData")
+    .value =
+    i.data_iniziativa || "";
+
+  document
+    .getElementById("iLuogo")
+    .value =
+    i.luogo || "";
+
+  document
+    .getElementById("iDescrizione")
+    .value =
+    i.descrizione || "";
+
+  document
+    .getElementById("iStato")
+    .value =
+    i.stato || "Bozza";
+
+  document
+    .getElementById("iNuoveFoto")
+    .value = "";
+
+  document
+    .getElementById("dangerIniziativa")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("messaggioIniziativa")
+    .textContent = "";
+
+  renderFotoIniziativaAdmin();
+
+  document
+    .getElementById("dettaglioIniziativa")
+    .classList.remove("hidden");
+}
+
+
+function chiudiIniziativa(){
+
+  document
+    .getElementById("dettaglioIniziativa")
+    .classList.add("hidden");
+
+  document
+    .getElementById("iNuoveFoto")
+    .value = "";
+
+  iniziativaCorrente = null;
+}
+
+
+/* =====================================================
+   FOTO INIZIATIVE
+===================================================== */
+
+function ottieniFotoIniziativa(i){
+
+  if(!i)
+    return [];
+
+  let foto = i.fotografie;
+
+  if(Array.isArray(foto))
+    return foto
+      .map(normalizzaFotoIniziativa)
+      .filter(Boolean);
+
+  if(
+    typeof foto === "string" &&
+    foto.trim()
+  ){
+
+    try{
+
+      const parsed =
+        JSON.parse(foto);
+
+      if(Array.isArray(parsed))
+        return parsed
+          .map(normalizzaFotoIniziativa)
+          .filter(Boolean);
+
+    }catch{}
+  }
+
+  return [];
+}
+
+
+function normalizzaFotoIniziativa(f){
+
+  if(!f)
+    return null;
+
+  if(typeof f === "string"){
+
+    return {
+      percorso:f,
+      nome:
+        f.split("/").pop() ||
+        "Fotografia"
+    };
+  }
+
+  const percorso =
+    f.percorso ||
+    f.path ||
+    f.url ||
+    "";
+
+  if(!percorso)
+    return null;
+
+  return {
+    percorso,
+    nome:
+      f.nome ||
+      f.name ||
+      f.filename ||
+      percorso.split("/").pop() ||
+      "Fotografia"
+  };
+}
+
+
+function urlFotoIniziativa(foto){
+
+  const percorso =
+    typeof foto === "string"
+    ?
+    foto
+    :
+    foto.percorso;
+
+  if(!percorso)
+    return "";
+
+  if(
+    percorso.startsWith("http://") ||
+    percorso.startsWith("https://")
+  )
+    return percorso;
+
+  return (
+    SUPABASE_URL +
+    "/storage/v1/object/public/" +
+    BUCKET_INIZIATIVE +
+    "/" +
+    percorso.replace(/^\/+/,"")
+  );
+}
+
+
+function renderFotoIniziativaAdmin(){
+
+  const box =
+    document.getElementById(
+      "iFotoEsistenti"
+    );
+
+  if(!iniziativaCorrente){
+
+    box.innerHTML =
+      "<p class='meta'>Nessuna fotografia ancora caricata.</p>";
+
+    return;
+  }
+
+
+  const foto =
+    ottieniFotoIniziativa(
+      iniziativaCorrente
+    );
+
+
+  if(!foto.length){
+
+    box.innerHTML =
+      "<p class='meta'>Nessuna fotografia ancora caricata.</p>";
+
+    return;
+  }
+
+
+  box.innerHTML = `
+
+    <div class="foto-grid">
+
+      ${
+        foto.map(
+          (f,index)=>`
+
+          <div class="iniziativa-foto-admin">
+
+            <img
+              src="${escAttr(urlFotoIniziativa(f))}"
+              alt="Foto ${index+1}"
+              loading="lazy"
+              onclick="apriFoto('${escJs(urlFotoIniziativa(f))}')">
+
+            <div class="foto-numero">
+              Foto ${index+1}
+            </div>
+
+            <button
+              class="rimuovi-foto"
+              onclick="rimuoviFotoIniziativa(${index})">
+
+              🗑️ Elimina foto
+
+            </button>
+
+          </div>
+
+          `
+        ).join("")
+      }
+
+    </div>
+
+    <p class="foto-suggerimento">
+      Tocca una fotografia per visualizzarla a schermo intero.
+    </p>
+  `;
+}
+
+
+/* =====================================================
+   UPLOAD FOTO INIZIATIVE
+===================================================== */
+
+async function caricaFotoIniziativa(
+  files,
+  iniziativaId
+){
+
+  const nuoveFoto = [];
+
+  for(const file of files){
+
+    if(!file.type.startsWith("image/")){
+
+      throw new Error(
+        "Il file \"" +
+        file.name +
+        "\" non è un'immagine."
+      );
+    }
+
+
+    if(file.size > 10 * 1024 * 1024){
+
+      throw new Error(
+        "La fotografia \"" +
+        file.name +
+        "\" supera 10 MB."
+      );
+    }
+
+
+    const nomeSicuro =
+      pulisciNomeFile(file.name);
+
+    const percorso =
+      "iniziative/" +
+      iniziativaId +
+      "/" +
+      Date.now() +
+      "_" +
+      Math.random()
+        .toString(36)
+        .slice(2,9) +
+      "_" +
+      nomeSicuro;
+
+
+    const r =
+      await fetch(
+
+        SUPABASE_URL +
+        "/storage/v1/object/" +
+        BUCKET_INIZIATIVE +
+        "/" +
+        encodePath(percorso),
+
+        {
+          method:"POST",
+
+          headers:{
+            "apikey":
+              SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " + token,
+
+            "Content-Type":
+              file.type,
+
+            "x-upsert":
+              "false"
+          },
+
+          body:file
+        }
+      );
+
+
+    if(!r.ok){
+
+      throw new Error(
+        "Errore caricamento \"" +
+        file.name +
+        "\": " +
+        await r.text()
+      );
+    }
+
+
+    nuoveFoto.push({
+
+      percorso:
+        percorso,
+
+      nome:
+        file.name
+
+    });
+  }
+
+
+  return nuoveFoto;
+}
+
+
+/* =====================================================
+   SALVA INIZIATIVA
+===================================================== */
+
+async function salvaIniziativa(){
+
+  const messaggio =
+    document.getElementById(
+      "messaggioIniziativa"
+    );
+
+
+  const titolo =
+    document
+      .getElementById("iTitolo")
+      .value
+      .trim();
+
+  const data =
+    document
+      .getElementById("iData")
+      .value;
+
+  const luogo =
+    document
+      .getElementById("iLuogo")
+      .value
+      .trim();
+
+  const descrizione =
+    document
+      .getElementById("iDescrizione")
+      .value
+      .trim();
+
+  const stato =
+    document
+      .getElementById("iStato")
+      .value;
+
+  const files =
+    Array.from(
+      document
+        .getElementById("iNuoveFoto")
+        .files || []
+    );
+
+
+  if(!titolo){
+
+    messaggio.textContent =
+      "❌ Inserisci il titolo dell'iniziativa.";
+
+    return;
+  }
+
+
+  if(!data){
+
+    messaggio.textContent =
+      "❌ Inserisci la data dell'iniziativa.";
+
+    return;
+  }
+
+
+  if(!descrizione){
+
+    messaggio.textContent =
+      "❌ Inserisci una descrizione.";
+
+    return;
+  }
+
+
+  messaggio.textContent =
+    "Salvataggio in corso...";
+
+
+  try{
+
+    let id =
+      iniziativaCorrente
+      ?
+      iniziativaCorrente.id
+      :
+      crypto.randomUUID();
+
+
+    let fotografie =
+      iniziativaCorrente
+      ?
+      ottieniFotoIniziativa(
+        iniziativaCorrente
+      )
+      :
+      [];
+
+
+    if(files.length){
+
+      messaggio.textContent =
+        "Caricamento fotografie...";
+
+      const caricate =
+        await caricaFotoIniziativa(
+          files,
+          id
+        );
+
+      fotografie =
+        fotografie.concat(
+          caricate
+        );
+    }
+
+
+    const dati = {
+
+      titolo:
+        titolo,
+
+      data_iniziativa:
+        data,
+
+      luogo:
+        luogo || null,
+
+      descrizione:
+        descrizione,
+
+      fotografie:
+        fotografie,
+
+      stato:
+        stato
+    };
+
+
+    let r;
+
+
+    if(iniziativaCorrente){
+
+      r =
+        await fetch(
+
+          SUPABASE_URL +
+          "/rest/v1/iniziative" +
+          "?id=eq." +
+          encodeURIComponent(
+            iniziativaCorrente.id
+          ),
+
+          {
+            method:"PATCH",
+
+            headers:{
+              "apikey":
+                SUPABASE_KEY,
+
+              "Authorization":
+                "Bearer " + token,
+
+              "Content-Type":
+                "application/json",
+
+              "Prefer":
+                "return=representation"
+            },
+
+            body:
+              JSON.stringify(dati)
+          }
+        );
+
+    }else{
+
+      r =
+        await fetch(
+
+          SUPABASE_URL +
+          "/rest/v1/iniziative",
+
+          {
+            method:"POST",
+
+            headers:{
+              "apikey":
+                SUPABASE_KEY,
+
+              "Authorization":
+                "Bearer " + token,
+
+              "Content-Type":
+                "application/json",
+
+              "Prefer":
+                "return=representation"
+            },
+
+            body:
+              JSON.stringify({
+                id:id,
+                ...dati
+              })
+          }
+        );
+    }
+
+
+    if(!r.ok){
+
+      messaggio.textContent =
+        "❌ Errore durante il salvataggio: " +
+        await r.text();
+
+      return;
+    }
+
+
+    const risultato =
+      await r.json();
+
+
+    if(
+      Array.isArray(risultato) &&
+      risultato.length
+    ){
+
+      iniziativaCorrente =
+        risultato[0];
+
+    }else{
+
+      iniziativaCorrente = {
+        id,
+        ...dati
+      };
+    }
+
+
+    document
+      .getElementById("iNuoveFoto")
+      .value = "";
+
+
+    document
+      .getElementById("dangerIniziativa")
+      .classList.remove("hidden");
+
+
+    document
+      .getElementById("titoloModalIniziativa")
+      .textContent =
+      "📸 Gestisci iniziativa";
+
+
+    renderFotoIniziativaAdmin();
+
+
+    messaggio.textContent =
+      stato === "Pubblicata"
+      ?
+      "✅ Iniziativa salvata e pubblicata correttamente."
+      :
+      "✅ Iniziativa salvata come bozza.";
+
+
+    await caricaIniziative();
+
+
+  }catch(error){
+
+    messaggio.textContent =
+      "❌ " +
+      error.message;
+  }
+}
+
+
+/* =====================================================
+   RIMUOVI SINGOLA FOTO INIZIATIVA
+===================================================== */
+
+async function rimuoviFotoIniziativa(index){
+
+  if(!iniziativaCorrente)
+    return;
+
+
+  const foto =
+    ottieniFotoIniziativa(
+      iniziativaCorrente
+    );
+
+
+  const daEliminare =
+    foto[index];
+
+
+  if(!daEliminare)
+    return;
+
+
+  const conferma =
+    confirm(
+      "Vuoi eliminare questa fotografia dall'iniziativa?"
+    );
+
+
+  if(!conferma)
+    return;
+
+
+  const messaggio =
+    document.getElementById(
+      "messaggioIniziativa"
+    );
+
+
+  messaggio.textContent =
+    "Eliminazione fotografia...";
+
+
+  try{
+
+    const rStorage =
+      await fetch(
+
+        SUPABASE_URL +
+        "/storage/v1/object/" +
+        BUCKET_INIZIATIVE +
+        "/" +
+        encodePath(
+          daEliminare.percorso
+        ),
+
+        {
+          method:"DELETE",
+
+          headers:{
+            "apikey":
+              SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " + token
+          }
+        }
+      );
+
+
+    if(!rStorage.ok){
+
+      messaggio.textContent =
+        "❌ Non è stato possibile eliminare la fotografia: " +
+        await rStorage.text();
+
+      return;
+    }
+
+
+    const nuoveFoto =
+      foto.filter(
+        (_,i)=>i!==index
+      );
+
+
+    const r =
+      await fetch(
+
+        SUPABASE_URL +
+        "/rest/v1/iniziative" +
+        "?id=eq." +
+        encodeURIComponent(
+          iniziativaCorrente.id
+        ),
+
+        {
+          method:"PATCH",
+
+          headers:{
+            "apikey":
+              SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " + token,
+
+            "Content-Type":
+              "application/json",
+
+            "Prefer":
+              "return=representation"
+          },
+
+          body:
+            JSON.stringify({
+              fotografie:
+                nuoveFoto
+            })
+        }
+      );
+
+
+    if(!r.ok){
+
+      messaggio.textContent =
+        "⚠️ La fotografia è stata rimossa dallo Storage, " +
+        "ma non è stato possibile aggiornare l'iniziativa: " +
+        await r.text();
+
+      return;
+    }
+
+
+    const risultato =
+      await r.json();
+
+
+    if(
+      Array.isArray(risultato) &&
+      risultato.length
+    ){
+
+      iniziativaCorrente =
+        risultato[0];
+
+    }else{
+
+      iniziativaCorrente.fotografie =
+        nuoveFoto;
+    }
+
+
+    renderFotoIniziativaAdmin();
+
+    await caricaIniziative();
+
+
+    messaggio.textContent =
+      "✅ Fotografia eliminata.";
+
+  }catch(error){
+
+    messaggio.textContent =
+      "❌ Errore: " +
+      error.message;
+  }
+}
+
+
+/* =====================================================
+   ELIMINA INIZIATIVA
+===================================================== */
+
+async function eliminaIniziativa(){
+
+  if(!iniziativaCorrente)
+    return;
+
+
+  const conferma1 =
+    confirm(
+      "ATTENZIONE\n\n" +
+      "Vuoi eliminare definitivamente questa iniziativa?"
+    );
+
+
+  if(!conferma1)
+    return;
+
+
+  const conferma2 =
+    confirm(
+      "ULTIMA CONFERMA\n\n" +
+      "Verranno eliminate anche le fotografie collegate.\n\n" +
+      "Continuare?"
+    );
+
+
+  if(!conferma2)
+    return;
+
+
+  const messaggio =
+    document.getElementById(
+      "messaggioIniziativa"
+    );
+
+
+  messaggio.textContent =
+    "Eliminazione in corso...";
+
+
+  try{
+
+    const foto =
+      ottieniFotoIniziativa(
+        iniziativaCorrente
+      );
+
+
+    const r =
+      await fetch(
+
+        SUPABASE_URL +
+        "/rest/v1/iniziative" +
+        "?id=eq." +
+        encodeURIComponent(
+          iniziativaCorrente.id
+        ),
+
+        {
+          method:"DELETE",
+
+          headers:{
+            "apikey":
+              SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " + token,
+
+            "Prefer":
+              "return=representation"
+          }
+        }
+      );
+
+
+    if(!r.ok){
+
+      messaggio.textContent =
+        "❌ Eliminazione non riuscita: " +
+        await r.text();
+
+      return;
+    }
+
+
+    const eliminate =
+      await r.json();
+
+
+    if(
+      !Array.isArray(eliminate) ||
+      !eliminate.length
+    ){
+
+      messaggio.textContent =
+        "❌ L'iniziativa non è stata eliminata.";
+
+      return;
+    }
+
+
+    for(const f of foto){
+
+      try{
+
+        await fetch(
+
+          SUPABASE_URL +
+          "/storage/v1/object/" +
+          BUCKET_INIZIATIVE +
+          "/" +
+          encodePath(
+            f.percorso
+          ),
+
+          {
+            method:"DELETE",
+
+            headers:{
+              "apikey":
+                SUPABASE_KEY,
+
+              "Authorization":
+                "Bearer " + token
+            }
+          }
+        );
+
+      }catch(error){
+
+        console.error(
+          "Errore eliminazione foto iniziativa:",
+          error
+        );
+      }
+    }
+
+
+    document
+      .getElementById("dettaglioIniziativa")
+      .classList.add("hidden");
+
+
+    iniziativaCorrente = null;
+
+
+    await caricaIniziative();
+
+
+    mostraSezione("iniziative");
+
+
+    alert(
+      "Iniziativa eliminata definitivamente."
+    );
+
+
+  }catch(error){
+
+    messaggio.textContent =
+      "❌ Errore di connessione: " +
+      error.message;
+  }
+}
+
+
+/* =====================================================
    CATEGORIE SEGNALAZIONI
 ===================================================== */
 
@@ -2358,61 +3953,20 @@ function renderCategorie(){
 
   const categorie = [
 
-    [
-      "strade",
-      "🛣️",
-      "Strade e marciapiedi"
-    ],
-
-    [
-      "acqua",
-      "💧",
-      "Acqua"
-    ],
-
-    [
-      "rifiuti",
-      "🗑️",
-      "Rifiuti e pulizia"
-    ],
-
-    [
-      "illuminazione",
-      "💡",
-      "Illuminazione pubblica"
-    ],
-
-    [
-      "verde",
-      "🌳",
-      "Verde pubblico"
-    ],
-
-    [
-      "segnaletica",
-      "🚦",
-      "Segnaletica e sicurezza"
-    ],
-
-    [
-      "degrado",
-      "🏚️",
-      "Degrado urbano"
-    ],
-
-    [
-      "altro",
-      "📌",
-      "Altro"
-    ]
+    ["strade","🛣️","Strade e marciapiedi"],
+    ["acqua","💧","Acqua"],
+    ["rifiuti","🗑️","Rifiuti e pulizia"],
+    ["illuminazione","💡","Illuminazione pubblica"],
+    ["verde","🌳","Verde pubblico"],
+    ["segnaletica","🚦","Segnaletica e sicurezza"],
+    ["degrado","🏚️","Degrado urbano"],
+    ["altro","📌","Altro"]
 
   ];
 
 
   document
-    .getElementById(
-      "categorieGrid"
-    )
+    .getElementById("categorieGrid")
     .innerHTML =
 
     categorie.map(c=>{
@@ -2450,26 +4004,18 @@ function renderCategorie(){
 function vaiACategoria(cat){
 
   document
-    .getElementById(
-      "filtroCategoria"
-    )
+    .getElementById("filtroCategoria")
     .value = cat;
 
   document
-    .getElementById(
-      "filtroStato"
-    )
+    .getElementById("filtroStato")
     .value = "";
 
   document
-    .getElementById(
-      "ricerca"
-    )
+    .getElementById("ricerca")
     .value = "";
 
-  mostraSezione(
-    "segnalazioni"
-  );
+  mostraSezione("segnalazioni");
 
   renderSegnalazioni();
 }
@@ -2483,55 +4029,19 @@ function renderStati(){
 
   const stati = [
 
-    [
-      "in_attesa",
-      "🔴",
-      "In attesa di verifica"
-    ],
-
-    [
-      "verificata",
-      "🔵",
-      "Documentazione verificata"
-    ],
-
-    [
-      "inoltrata",
-      "🟣",
-      "Inoltrate all'ente"
-    ],
-
-    [
-      "attesa_ente",
-      "🟠",
-      "In attesa dell'ente"
-    ],
-
-    [
-      "risolta",
-      "🟢",
-      "Risolte"
-    ],
-
-    [
-      "chiusa",
-      "⚫",
-      "Chiuse"
-    ],
-
-    [
-      "rifiutata",
-      "⚪",
-      "Rifiutate"
-    ]
+    ["in_attesa","🔴","In attesa di verifica"],
+    ["verificata","🔵","Documentazione verificata"],
+    ["inoltrata","🟣","Inoltrate all'ente"],
+    ["attesa_ente","🟠","In attesa dell'ente"],
+    ["risolta","🟢","Risolte"],
+    ["chiusa","⚫","Chiuse"],
+    ["rifiutata","⚪","Rifiutate"]
 
   ];
 
 
   document
-    .getElementById(
-      "statiGrid"
-    )
+    .getElementById("statiGrid")
     .innerHTML =
 
     stati.map(s=>`
@@ -2573,9 +4083,7 @@ function renderArchivio(){
     );
 
   const box =
-    document.getElementById(
-      "archivio"
-    );
+    document.getElementById("archivio");
 
   if(!archiviate.length){
 
@@ -2797,18 +4305,12 @@ function ottieniFoto(s){
 function apriFoto(url){
 
   document
-    .getElementById(
-      "lightboxImg"
-    )
+    .getElementById("lightboxImg")
     .src = url;
 
   document
-    .getElementById(
-      "lightbox"
-    )
-    .classList.remove(
-      "hidden"
-    );
+    .getElementById("lightbox")
+    .classList.remove("hidden");
 
   document.body.style.overflow =
     "hidden";
@@ -2821,17 +4323,11 @@ function chiudiFoto(event){
     event.stopPropagation();
 
   document
-    .getElementById(
-      "lightbox"
-    )
-    .classList.add(
-      "hidden"
-    );
+    .getElementById("lightbox")
+    .classList.add("hidden");
 
   document
-    .getElementById(
-      "lightboxImg"
-    )
+    .getElementById("lightboxImg")
     .src = "";
 
   document.body.style.overflow =
@@ -2856,9 +4352,7 @@ function apriPratica(s){
 
 
   document
-    .getElementById(
-      "numeroPratica"
-    )
+    .getElementById("numeroPratica")
     .textContent =
 
     "Pratica " +
@@ -2876,118 +4370,46 @@ function apriPratica(s){
     );
 
 
-  document
-    .getElementById(
-      "dIndirizzo"
-    )
-    .value =
+  document.getElementById("dIndirizzo").value =
     s.indirizzo || "";
 
-
-  document
-    .getElementById(
-      "dCategoria"
-    )
-    .value =
+  document.getElementById("dCategoria").value =
     s.categoria || "altro";
 
-
-  document
-    .getElementById(
-      "dDescrizione"
-    )
-    .value =
+  document.getElementById("dDescrizione").value =
     s.descrizione || "";
 
-
-  document
-    .getElementById(
-      "dNome"
-    )
-    .value =
+  document.getElementById("dNome").value =
     s.nome || "";
 
-
-  document
-    .getElementById(
-      "dTelefono"
-    )
-    .value =
+  document.getElementById("dTelefono").value =
     s.telefono || "";
 
-
-  document
-    .getElementById(
-      "dEmail"
-    )
-    .value =
+  document.getElementById("dEmail").value =
     s.email || "";
 
-
-  document
-    .getElementById(
-      "dStato"
-    )
-    .value =
+  document.getElementById("dStato").value =
     s.stato || "in_attesa";
 
-
-  document
-    .getElementById(
-      "dEnte"
-    )
-    .value =
+  document.getElementById("dEnte").value =
     s.ente_destinatario || "";
 
+  document.getElementById("dDataInoltro").value =
+    dataPerInput(s.data_inoltro);
 
-  document
-    .getElementById(
-      "dDataInoltro"
-    )
-    .value =
-    dataPerInput(
-      s.data_inoltro
-    );
-
-
-  document
-    .getElementById(
-      "dProtocollo"
-    )
-    .value =
+  document.getElementById("dProtocollo").value =
     s.protocollo || "";
 
-
-  document
-    .getElementById(
-      "dNoteInterne"
-    )
-    .value =
+  document.getElementById("dNoteInterne").value =
     s.note_interne || "";
 
-
-  document
-    .getElementById(
-      "dRispostaEnte"
-    )
-    .value =
+  document.getElementById("dRispostaEnte").value =
     s.risposta_ente || "";
 
+  document.getElementById("dDataRisposta").value =
+    dataPerInput(s.data_risposta_ente);
 
-  document
-    .getElementById(
-      "dDataRisposta"
-    )
-    .value =
-    dataPerInput(
-      s.data_risposta_ente
-    );
-
-
-  document
-    .getElementById(
-      "messaggioDettaglio"
-    )
+  document.getElementById("messaggioDettaglio")
     .textContent = "";
 
 
@@ -2995,9 +4417,7 @@ function apriPratica(s){
     ottieniFoto(s);
 
   const fotoBox =
-    document.getElementById(
-      "fotoBox"
-    );
+    document.getElementById("fotoBox");
 
 
   if(foto.length){
@@ -3061,24 +4481,16 @@ function apriPratica(s){
 
 
   document
-    .getElementById(
-      "dettaglio"
-    )
-    .classList.remove(
-      "hidden"
-    );
+    .getElementById("dettaglio")
+    .classList.remove("hidden");
 }
 
 
 function chiudiDettaglio(){
 
   document
-    .getElementById(
-      "dettaglio"
-    )
-    .classList.add(
-      "hidden"
-    );
+    .getElementById("dettaglio")
+    .classList.add("hidden");
 
   praticaCorrente = null;
 }
@@ -3106,16 +4518,11 @@ async function salvaPratica(){
 
 
   const nuovoStato =
-    document
-      .getElementById(
-        "dStato"
-      )
-      .value;
+    document.getElementById("dStato").value;
 
 
   const statoCambiato =
-    vecchioStato !==
-    nuovoStato;
+    vecchioStato !== nuovoStato;
 
 
   messaggio.textContent =
@@ -3123,67 +4530,51 @@ async function salvaPratica(){
 
 
   const dataInoltro =
-    document
-      .getElementById(
-        "dDataInoltro"
-      )
-      .value;
+    document.getElementById(
+      "dDataInoltro"
+    ).value;
 
 
   const dataRisposta =
-    document
-      .getElementById(
-        "dDataRisposta"
-      )
-      .value;
+    document.getElementById(
+      "dDataRisposta"
+    ).value;
 
 
   const dati = {
 
     indirizzo:
       document
-        .getElementById(
-          "dIndirizzo"
-        )
+        .getElementById("dIndirizzo")
         .value
         .trim(),
 
     categoria:
       document
-        .getElementById(
-          "dCategoria"
-        )
+        .getElementById("dCategoria")
         .value,
 
     descrizione:
       document
-        .getElementById(
-          "dDescrizione"
-        )
+        .getElementById("dDescrizione")
         .value
         .trim(),
 
     nome:
       document
-        .getElementById(
-          "dNome"
-        )
+        .getElementById("dNome")
         .value
         .trim(),
 
     telefono:
       document
-        .getElementById(
-          "dTelefono"
-        )
+        .getElementById("dTelefono")
         .value
         .trim() || null,
 
     email:
       document
-        .getElementById(
-          "dEmail"
-        )
+        .getElementById("dEmail")
         .value
         .trim() || null,
 
@@ -3192,9 +4583,7 @@ async function salvaPratica(){
 
     ente_destinatario:
       document
-        .getElementById(
-          "dEnte"
-        )
+        .getElementById("dEnte")
         .value
         .trim() || null,
 
@@ -3209,25 +4598,19 @@ async function salvaPratica(){
 
     protocollo:
       document
-        .getElementById(
-          "dProtocollo"
-        )
+        .getElementById("dProtocollo")
         .value
         .trim() || null,
 
     note_interne:
       document
-        .getElementById(
-          "dNoteInterne"
-        )
+        .getElementById("dNoteInterne")
         .value
         .trim() || null,
 
     risposta_ente:
       document
-        .getElementById(
-          "dRispostaEnte"
-        )
+        .getElementById("dRispostaEnte")
         .value
         .trim() || null,
 
@@ -3448,9 +4831,7 @@ async function rifiutaPratica(){
     return;
 
   document
-    .getElementById(
-      "dStato"
-    )
+    .getElementById("dStato")
     .value =
     "rifiutata";
 
@@ -3514,10 +4895,9 @@ async function eliminaPratica(){
 
 
   const messaggio =
-    document
-      .getElementById(
-        "messaggioDettaglio"
-      );
+    document.getElementById(
+      "messaggioDettaglio"
+    );
 
 
   messaggio.textContent =
@@ -3579,12 +4959,8 @@ async function eliminaPratica(){
 
 
     document
-      .getElementById(
-        "dettaglio"
-      )
-      .classList.add(
-        "hidden"
-      );
+      .getElementById("dettaglio")
+      .classList.add("hidden");
 
 
     praticaCorrente = null;
@@ -3593,9 +4969,7 @@ async function eliminaPratica(){
     await caricaSegnalazioni();
 
 
-    mostraSezione(
-      "dashboard"
-    );
+    mostraSezione("dashboard");
 
 
     alert(
@@ -3855,9 +5229,7 @@ function apriProposta(p){
 
 
   document
-    .getElementById(
-      "dataProposta"
-    )
+    .getElementById("dataProposta")
     .textContent =
 
     p.created_at
@@ -3870,91 +5242,38 @@ function apriProposta(p){
     "";
 
 
-  document
-    .getElementById(
-      "pTitolo"
-    )
-    .value =
+  document.getElementById("pTitolo").value =
     p.titolo || "";
 
-
-  document
-    .getElementById(
-      "pCategoria"
-    )
-    .value =
+  document.getElementById("pCategoria").value =
     p.categoria || "";
 
-
-  document
-    .getElementById(
-      "pZona"
-    )
-    .value =
+  document.getElementById("pZona").value =
     p.zona || "";
 
-
-  document
-    .getElementById(
-      "pDescrizione"
-    )
-    .value =
+  document.getElementById("pDescrizione").value =
     p.descrizione || "";
 
-
-  document
-    .getElementById(
-      "pNome"
-    )
-    .textContent =
+  document.getElementById("pNome").textContent =
     p.nome || "—";
 
-
-  document
-    .getElementById(
-      "pCognome"
-    )
-    .textContent =
+  document.getElementById("pCognome").textContent =
     p.cognome || "—";
 
-
-  document
-    .getElementById(
-      "pEmail"
-    )
-    .textContent =
+  document.getElementById("pEmail").textContent =
     p.email || "—";
 
-
-  document
-    .getElementById(
-      "pTelefono"
-    )
-    .textContent =
+  document.getElementById("pTelefono").textContent =
     p.telefono || "—";
 
-
-  document
-    .getElementById(
-      "pStato"
-    )
-    .value =
+  document.getElementById("pStato").value =
     p.stato_interno ||
     "Da valutare";
 
-
-  document
-    .getElementById(
-      "pNote"
-    )
-    .value =
+  document.getElementById("pNote").value =
     p.note_interne || "";
 
-
-  document
-    .getElementById(
-      "messaggioProposta"
-    )
+  document.getElementById("messaggioProposta")
     .textContent = "";
 
 
@@ -4005,24 +5324,16 @@ function apriProposta(p){
 
 
   document
-    .getElementById(
-      "dettaglioProposta"
-    )
-    .classList.remove(
-      "hidden"
-    );
+    .getElementById("dettaglioProposta")
+    .classList.remove("hidden");
 }
 
 
 function chiudiProposta(){
 
   document
-    .getElementById(
-      "dettaglioProposta"
-    )
-    .classList.add(
-      "hidden"
-    );
+    .getElementById("dettaglioProposta")
+    .classList.add("hidden");
 
   propostaCorrente = null;
 }
@@ -4039,26 +5350,21 @@ async function salvaProposta(){
 
 
   const messaggio =
-    document
-      .getElementById(
-        "messaggioProposta"
-      );
+    document.getElementById(
+      "messaggioProposta"
+    );
 
 
   const dati = {
 
     stato_interno:
       document
-        .getElementById(
-          "pStato"
-        )
+        .getElementById("pStato")
         .value,
 
     note_interne:
       document
-        .getElementById(
-          "pNote"
-        )
+        .getElementById("pNote")
         .value
         .trim() || null
   };
@@ -4174,10 +5480,9 @@ async function eliminaProposta(){
 
 
   const messaggio =
-    document
-      .getElementById(
-        "messaggioProposta"
-      );
+    document.getElementById(
+      "messaggioProposta"
+    );
 
 
   messaggio.textContent =
@@ -4288,12 +5593,8 @@ async function eliminaProposta(){
 
 
     document
-      .getElementById(
-        "dettaglioProposta"
-      )
-      .classList.add(
-        "hidden"
-      );
+      .getElementById("dettaglioProposta")
+      .classList.add("hidden");
 
 
     propostaCorrente = null;
@@ -4302,9 +5603,7 @@ async function eliminaProposta(){
     await caricaProposte();
 
 
-    mostraSezione(
-      "proposte"
-    );
+    mostraSezione("proposte");
 
 
     alert(
@@ -4330,58 +5629,45 @@ function logout(){
 
   praticaCorrente = null;
   propostaCorrente = null;
+  iniziativaCorrente = null;
 
   tutteSegnalazioni = [];
   tutteProposte = [];
+  tutteIniziative = [];
 
 
   document
-    .getElementById(
-      "dettaglio"
-    )
-    .classList.add(
-      "hidden"
-    );
+    .getElementById("dettaglio")
+    .classList.add("hidden");
 
 
   document
-    .getElementById(
-      "dettaglioProposta"
-    )
-    .classList.add(
-      "hidden"
-    );
+    .getElementById("dettaglioProposta")
+    .classList.add("hidden");
 
 
   document
-    .getElementById(
-      "adminBox"
-    )
-    .classList.add(
-      "hidden"
-    );
+    .getElementById("dettaglioIniziativa")
+    .classList.add("hidden");
 
 
   document
-    .getElementById(
-      "loginBox"
-    )
-    .classList.remove(
-      "hidden"
-    );
+    .getElementById("adminBox")
+    .classList.add("hidden");
 
 
   document
-    .getElementById(
-      "password"
-    )
+    .getElementById("loginBox")
+    .classList.remove("hidden");
+
+
+  document
+    .getElementById("password")
     .value = "";
 
 
   document
-    .getElementById(
-      "messaggio"
-    )
+    .getElementById("messaggio")
     .textContent = "";
 }
 
@@ -4539,18 +5825,47 @@ function dataPerInput(data){
 }
 
 
+function formattaDataIt(data){
+
+  if(!data)
+    return "";
+
+  const parti =
+    String(data).split("-");
+
+  if(parti.length === 3){
+
+    const d =
+      new Date(
+        Number(parti[0]),
+        Number(parti[1]) - 1,
+        Number(parti[2])
+      );
+
+    return d.toLocaleDateString(
+      "it-IT",
+      {
+        day:"numeric",
+        month:"long",
+        year:"numeric"
+      }
+    );
+  }
+
+  return String(data);
+}
+
+
 /* =====================================================
    UTILITÀ
 ===================================================== */
 
-function accorcia(
-  testo,
-  max
-){
+function accorcia(testo,max){
 
-  if(
-    testo.length <= max
-  )
+  testo =
+    String(testo || "");
+
+  if(testo.length <= max)
     return testo;
 
 
@@ -4630,6 +5945,25 @@ function encodePath(path){
       encodeURIComponent
     )
     .join("/");
+}
+
+
+function pulisciNomeFile(nome){
+
+  return String(nome || "foto")
+    .normalize("NFD")
+    .replace(
+      /[\u0300-\u036f]/g,
+      ""
+    )
+    .replace(
+      /[^a-zA-Z0-9._-]/g,
+      "_"
+    )
+    .replace(
+      /_+/g,
+      "_"
+    );
 }
 
 </script>
