@@ -2,54 +2,36 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>Canicattì Partecipa | Faro di Canicattì</title>
 
 <meta
   name="description"
-  content="Canicattì Partecipa, progetto di cittadinanza attiva del Faro di Canicattì."
->
+  content="Canicattì Partecipa, progetto di cittadinanza attiva del Faro di Canicattì.">
 
 <style>
 
-/* =====================================================
-   RESET
-===================================================== */
-
-* {
-  box-sizing: border-box;
+*{
+  box-sizing:border-box;
 }
 
-html {
-  margin: 0;
-  padding: 0;
-  -webkit-text-size-adjust: 100%;
+html{
+  margin:0;
+  padding:0;
+  -webkit-text-size-adjust:100%;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
-
-  background: #f4f3ef;
-  color: #202226;
+body{
+  margin:0;
+  padding:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:#f4f3ef;
+  color:#202226;
 }
 
-a {
-  text-decoration: none;
+a{
+  text-decoration:none;
 }
 
 
@@ -57,13 +39,11 @@ a {
    HERO
 ===================================================== */
 
-.hero {
-  position: relative;
-
-  width: 100%;
-  min-height: 620px;
-
-  overflow: hidden;
+.hero{
+  position:relative;
+  width:100%;
+  min-height:620px;
+  overflow:hidden;
 
   background:
     linear-gradient(
@@ -74,153 +54,130 @@ a {
     ),
     url("IMG_8923.webp");
 
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;
 
-  color: white;
+  color:white;
 }
 
+.hero-inner{
+  position:relative;
+  z-index:2;
 
-/* =====================================================
-   CONTENITORE HERO
-===================================================== */
+  width:calc(100% - 40px);
+  max-width:1000px;
+  min-height:620px;
 
-.hero-inner {
-  position: relative;
-  z-index: 2;
+  margin:0 auto;
 
-  width: calc(100% - 40px);
-  max-width: 1000px;
+  padding-top:35px;
+  padding-bottom:42px;
 
-  min-height: 620px;
-
-  margin: 0 auto;
-
-  padding-top: 35px;
-  padding-bottom: 42px;
-
-  display: flex;
-  flex-direction: column;
+  display:flex;
+  flex-direction:column;
 }
 
+.brand-row{
+  width:100%;
 
-/* =====================================================
-   FARO + LOGO
-===================================================== */
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 
-.brand-row {
-  width: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 18px;
+  gap:18px;
 }
 
-.faro-title {
-  color: white;
+.faro-title{
+  color:white;
 
-  font-size: 43px;
-  line-height: .92;
+  font-size:43px;
+  line-height:.92;
+  font-weight:900;
 
-  font-weight: 900;
-
-  letter-spacing: -2px;
-
-  text-transform: uppercase;
+  letter-spacing:-2px;
+  text-transform:uppercase;
 
   text-shadow:
     0 4px 16px rgba(0,0,0,.55);
 }
 
-.faro-title .faro-small {
-  display: block;
+.faro-title .faro-small{
+  display:block;
 
-  margin-bottom: 4px;
+  margin-bottom:4px;
 
-  font-size: .58em;
-  line-height: 1;
+  font-size:.58em;
+  line-height:1;
+  font-weight:700;
 
-  font-weight: 700;
+  letter-spacing:1px;
+  text-transform:none;
 
-  letter-spacing: 1px;
-
-  text-transform: none;
-
-  color: white;
+  color:white;
 }
 
-.faro-title .faro-canicatti {
-  color: white;
+.faro-title .faro-canicatti{
+  color:white;
 }
 
-.logo-box {
-  flex: 0 0 150px;
+.logo-box{
+  flex:0 0 150px;
 
-  width: 150px;
-  height: 150px;
+  width:150px;
+  height:150px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.logo-box img {
-  display: block;
+.logo-box img{
+  display:block;
 
-  width: 100%;
-  height: 100%;
+  width:100%;
+  height:100%;
 
-  object-fit: contain;
+  object-fit:contain;
 
-  border: 0;
-  background: transparent;
+  border:0;
+  background:transparent;
 }
 
-
-/* =====================================================
-   TITOLO CANICATTÌ PARTECIPA
-===================================================== */
-
-.hero-main {
-  margin-top: auto;
+.hero-main{
+  margin-top:auto;
 }
 
-.project-name {
-  margin: 0;
+.project-name{
+  margin:0;
 
-  font-size: 70px;
-  line-height: .91;
+  font-size:70px;
+  line-height:.91;
+  font-weight:900;
 
-  font-weight: 900;
-
-  letter-spacing: -3px;
-
-  text-transform: uppercase;
+  letter-spacing:-3px;
+  text-transform:uppercase;
 
   text-shadow:
     0 4px 18px rgba(0,0,0,.40);
 }
 
-.project-name span {
-  display: block;
+.project-name span{
+  display:block;
 }
 
-.project-name .yellow {
-  color: #ffc800;
+.project-name .yellow{
+  color:#ffc800;
 }
 
-.tagline {
-  margin: 28px 0 0;
+.tagline{
+  margin:28px 0 0;
 
-  color: white;
+  color:white;
 
-  font-size: 30px;
-  line-height: 1.22;
-
-  font-weight: 500;
+  font-size:30px;
+  line-height:1.22;
+  font-weight:500;
 
   text-shadow:
     0 3px 10px rgba(0,0,0,.55);
@@ -228,68 +185,69 @@ a {
 
 
 /* =====================================================
+   STRUTTURA GENERALE
+===================================================== */
+
+.container{
+  width:calc(100% - 40px);
+  max-width:1000px;
+  margin:0 auto;
+}
+
+.label{
+  margin-bottom:20px;
+
+  color:#a67d00;
+
+  font-size:13px;
+  font-weight:850;
+
+  letter-spacing:2.8px;
+}
+
+
+/* =====================================================
    INTRO
 ===================================================== */
 
-.intro {
-  background: #f4f3ef;
-
-  padding: 62px 0;
+.intro{
+  background:#f4f3ef;
+  padding:62px 0;
 }
 
-.container {
-  width: calc(100% - 40px);
-  max-width: 1000px;
+.intro h2{
+  margin:0 0 28px;
 
-  margin: 0 auto;
+  max-width:850px;
+
+  font-size:48px;
+  line-height:1.04;
+
+  letter-spacing:-2px;
+
+  color:#202226;
 }
 
-.label {
-  margin-bottom: 20px;
+.intro p{
+  max-width:800px;
 
-  color: #a67d00;
+  margin:0 0 17px;
 
-  font-size: 13px;
+  font-size:18px;
+  line-height:1.55;
 
-  font-weight: 850;
-
-  letter-spacing: 2.8px;
+  color:#34363a;
 }
 
-.intro h2 {
-  margin: 0 0 28px;
+.notice{
+  margin-top:28px;
 
-  max-width: 850px;
+  padding:20px;
 
-  font-size: 48px;
-  line-height: 1.04;
+  background:white;
 
-  letter-spacing: -2px;
-
-  color: #202226;
-}
-
-.intro p {
-  max-width: 800px;
-
-  margin: 0 0 17px;
-
-  font-size: 18px;
-  line-height: 1.55;
-
-  color: #34363a;
-}
-
-.notice {
-  margin-top: 28px;
-
-  padding: 20px;
-
-  background: white;
-
-  border-left: 5px solid #ffc800;
-
-  border-radius: 13px;
+  border-left:5px solid #ffc800;
+  border-radius:13px;
 
   box-shadow:
     0 7px 22px rgba(0,0,0,.05);
@@ -297,178 +255,170 @@ a {
 
 
 /* =====================================================
-   PARTECIPA
+   OPZIONI
 ===================================================== */
 
-.options {
-  padding: 62px 0;
-
-  background: white;
+.options{
+  padding:62px 0;
+  background:white;
 }
 
-.options h2 {
-  margin: 0 0 30px;
+.options h2{
+  margin:0 0 30px;
 
-  font-size: 40px;
-  line-height: 1.08;
+  font-size:40px;
+  line-height:1.08;
 
-  letter-spacing: -1.5px;
+  letter-spacing:-1.5px;
 }
 
-.cards {
-  display: grid;
+.cards{
+  display:grid;
 
   grid-template-columns:
-    repeat(2, minmax(0,1fr));
+    repeat(2,minmax(0,1fr));
 
-  gap: 20px;
+  gap:20px;
 }
 
-.card {
-  padding: 25px;
+.card{
+  padding:25px;
 
-  background: #f7f7f5;
+  background:#f7f7f5;
 
-  border: 1px solid #e9e8e4;
-
-  border-radius: 20px;
+  border:1px solid #e9e8e4;
+  border-radius:20px;
 
   box-shadow:
     0 7px 22px rgba(0,0,0,.05);
 }
 
-.card-icon {
-  margin-bottom: 12px;
-
-  font-size: 30px;
+.card-icon{
+  margin-bottom:12px;
+  font-size:30px;
 }
 
-.card h3 {
-  margin: 0 0 14px;
+.card h3{
+  margin:0 0 14px;
 
-  font-size: 25px;
-  line-height: 1.15;
+  font-size:25px;
+  line-height:1.15;
 }
 
-.card p {
-  margin: 0 0 14px;
+.card p{
+  margin:0 0 14px;
 
-  font-size: 17px;
-  line-height: 1.5;
+  font-size:17px;
+  line-height:1.5;
 
-  color: #3d3f42;
+  color:#3d3f42;
 }
 
-.card-button {
-  width: 100%;
+.card-button{
+  width:100%;
+  min-height:54px;
 
-  min-height: 54px;
+  margin-top:20px;
+  padding:14px;
 
-  margin-top: 20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-  padding: 14px;
+  border-radius:12px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  text-align:center;
 
-  border-radius: 12px;
-
-  text-align: center;
-
-  font-size: 16px;
-  font-weight: 800;
+  font-size:16px;
+  font-weight:800;
 }
 
-.card-yellow {
-  background: #ffc800;
-  color: #171717;
+.card-yellow{
+  background:#ffc800;
+  color:#171717;
 }
 
-.card-red {
-  background: #d20719;
-  color: white;
+.card-red{
+  background:#d20719;
+  color:white;
 }
 
-.card-orange {
-  background: #f28c00;
-  color: white;
+.card-orange{
+  background:#f28c00;
+  color:white;
 }
 
-.card-dark {
-  background: #282b30;
-  color: white;
+.card-dark{
+  background:#282b30;
+  color:white;
 }
 
-.card-blue {
-  background: #1769aa;
-  color: white;
+.card-blue{
+  background:#1769aa;
+  color:white;
 }
 
 
 /* =====================================================
-   PERCORSO
+   PROCESSO
 ===================================================== */
 
-.process {
-  padding: 62px 0;
-
-  background: #f4f3ef;
+.process{
+  padding:62px 0;
+  background:#f4f3ef;
 }
 
-.process h2 {
-  margin: 0 0 32px;
+.process h2{
+  margin:0 0 32px;
 
-  font-size: 42px;
-  line-height: 1.08;
+  font-size:42px;
+  line-height:1.08;
 
-  letter-spacing: -1.5px;
+  letter-spacing:-1.5px;
 }
 
-.step {
-  max-width: 760px;
+.step{
+  max-width:760px;
 
-  display: flex;
+  display:flex;
 
-  gap: 16px;
+  gap:16px;
 
-  margin-bottom: 20px;
+  margin-bottom:20px;
+  padding-bottom:20px;
 
-  padding-bottom: 20px;
-
-  border-bottom: 1px solid #d9d8d4;
+  border-bottom:1px solid #d9d8d4;
 }
 
-.step-number {
-  flex: 0 0 43px;
+.step-number{
+  flex:0 0 43px;
 
-  width: 43px;
-  height: 43px;
+  width:43px;
+  height:43px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-  border-radius: 50%;
+  border-radius:50%;
 
-  background: #ffc800;
+  background:#ffc800;
+  color:#171717;
 
-  color: #171717;
-
-  font-weight: 900;
+  font-weight:900;
 }
 
-.step strong {
-  font-size: 19px;
+.step strong{
+  font-size:19px;
 }
 
-.step p {
-  margin: 4px 0 0;
+.step p{
+  margin:4px 0 0;
 
-  font-size: 16px;
-  line-height: 1.45;
+  font-size:16px;
+  line-height:1.45;
 
-  color: #44464a;
+  color:#44464a;
 }
 
 
@@ -476,80 +426,290 @@ a {
    PARTECIPA CON NOI
 ===================================================== */
 
-.join-us {
-  padding: 65px 0;
-
-  background: white;
+.join-us{
+  padding:65px 0;
+  background:white;
 }
 
-.join-box {
-  padding: 32px;
+.join-box{
+  padding:32px;
 
-  background: #f4f3ef;
+  background:#f4f3ef;
 
-  border-radius: 22px;
+  border-radius:22px;
 
   box-shadow:
     0 7px 22px rgba(0,0,0,.06);
 }
 
-.join-box h2 {
-  margin: 0 0 16px;
+.join-box h2{
+  margin:0 0 16px;
 
-  font-size: 40px;
-  line-height: 1.08;
+  font-size:40px;
+  line-height:1.08;
 
-  letter-spacing: -1.5px;
+  letter-spacing:-1.5px;
 }
 
-.join-box > p {
-  max-width: 720px;
+.join-box > p{
+  max-width:720px;
 
-  margin: 0 0 26px;
+  margin:0 0 26px;
 
-  font-size: 18px;
-  line-height: 1.55;
+  font-size:18px;
+  line-height:1.55;
 
-  color: #3d3f42;
+  color:#3d3f42;
 }
 
-.join-buttons {
-  display: grid;
+.join-buttons{
+  display:grid;
 
   grid-template-columns:
-    repeat(2, minmax(0,1fr));
+    repeat(2,minmax(0,1fr));
 
-  gap: 14px;
+  gap:14px;
 }
 
-.join-button {
-  min-height: 64px;
+.join-button{
+  min-height:64px;
 
-  padding: 16px 18px;
+  padding:16px 18px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-  border-radius: 15px;
+  border-radius:15px;
 
-  font-size: 17px;
-  font-weight: 800;
+  font-size:17px;
+  font-weight:800;
 
-  text-align: center;
+  text-align:center;
 
   box-shadow:
     0 5px 15px rgba(0,0,0,.10);
 }
 
-.join-whatsapp {
-  background: #25d366;
-  color: #102417;
+.join-whatsapp{
+  background:#25d366;
+  color:#102417;
 }
 
-.join-contro {
-  background: #d20719;
-  color: white;
+.join-contro{
+  background:#d20719;
+  color:white;
+}
+
+
+/* =====================================================
+   LE NOSTRE INIZIATIVE
+===================================================== */
+
+.iniziative-home{
+  padding:65px 0 70px;
+  background:#f4f3ef;
+}
+
+.iniziative-heading{
+  display:flex;
+
+  align-items:flex-end;
+  justify-content:space-between;
+
+  gap:25px;
+
+  margin-bottom:30px;
+}
+
+.iniziative-heading h2{
+  margin:0;
+
+  font-size:42px;
+  line-height:1.06;
+
+  letter-spacing:-1.6px;
+}
+
+.iniziative-heading p{
+  max-width:650px;
+
+  margin:13px 0 0;
+
+  color:#44464a;
+
+  font-size:17px;
+  line-height:1.5;
+}
+
+.iniziative-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
+  gap:20px;
+}
+
+.iniziativa-card{
+  overflow:hidden;
+
+  display:flex;
+  flex-direction:column;
+
+  background:white;
+
+  border:1px solid #e7e6e2;
+  border-radius:19px;
+
+  box-shadow:
+    0 7px 22px rgba(0,0,0,.06);
+}
+
+.iniziativa-foto{
+  position:relative;
+
+  width:100%;
+  height:210px;
+
+  overflow:hidden;
+
+  background:#e5e5e2;
+}
+
+.iniziativa-foto img{
+  display:block;
+
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+}
+
+.iniziativa-numero-foto{
+  position:absolute;
+
+  right:10px;
+  bottom:10px;
+
+  padding:6px 9px;
+
+  border-radius:20px;
+
+  background:rgba(0,0,0,.72);
+
+  color:white;
+
+  font-size:12px;
+  font-weight:750;
+}
+
+.iniziativa-contenuto{
+  flex:1;
+
+  padding:20px;
+
+  display:flex;
+  flex-direction:column;
+}
+
+.iniziativa-data{
+  margin-bottom:8px;
+
+  color:#9a7200;
+
+  font-size:13px;
+  font-weight:850;
+}
+
+.iniziativa-contenuto h3{
+  margin:0 0 10px;
+
+  font-size:22px;
+  line-height:1.15;
+
+  letter-spacing:-.4px;
+}
+
+.iniziativa-luogo{
+  margin:0 0 11px;
+
+  color:#555;
+
+  font-size:14px;
+  font-weight:650;
+}
+
+.iniziativa-testo{
+  margin:0;
+
+  color:#44464a;
+
+  font-size:15px;
+  line-height:1.5;
+}
+
+.iniziativa-link{
+  margin-top:auto;
+  padding-top:18px;
+
+  color:#8c6800;
+
+  font-size:15px;
+  font-weight:850;
+}
+
+.iniziativa-card-link{
+  display:flex;
+  flex-direction:column;
+  flex:1;
+
+  color:inherit;
+}
+
+.iniziative-actions{
+  margin-top:30px;
+
+  display:flex;
+  justify-content:center;
+}
+
+.tutte-iniziative{
+  min-height:56px;
+
+  padding:15px 24px;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:13px;
+
+  background:#ffc800;
+  color:#171717;
+
+  font-size:16px;
+  font-weight:850;
+
+  box-shadow:
+    0 5px 15px rgba(0,0,0,.09);
+}
+
+.iniziative-loading{
+  grid-column:1/-1;
+
+  padding:32px 20px;
+
+  background:white;
+
+  border-radius:17px;
+
+  text-align:center;
+
+  color:#666;
+
+  box-shadow:
+    0 5px 18px rgba(0,0,0,.05);
 }
 
 
@@ -557,219 +717,274 @@ a {
    FOOTER
 ===================================================== */
 
-footer {
+footer{
   padding:
-    45px
-    20px
-    calc(45px + env(safe-area-inset-bottom));
+    45px 20px
+    calc(
+      45px +
+      env(safe-area-inset-bottom)
+    );
 
-  background: #202328;
+  background:#202328;
 
-  color: white;
+  color:white;
 
-  text-align: center;
+  text-align:center;
 }
 
-footer strong {
-  display: block;
+footer strong{
+  display:block;
 
-  margin-bottom: 8px;
+  margin-bottom:8px;
 
-  font-size: 21px;
+  font-size:21px;
 }
 
-footer p {
-  max-width: 700px;
+footer p{
+  max-width:700px;
 
-  margin: 8px auto;
+  margin:8px auto;
 
-  color: #d0d0d0;
+  color:#d0d0d0;
 
-  font-size: 14px;
-  line-height: 1.5;
+  font-size:14px;
+  line-height:1.5;
 }
 
 .footer-services,
-.footer-links {
-  margin-top: 23px;
+.footer-links{
+  margin-top:23px;
 
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
 
-  gap: 8px;
+  gap:8px;
 }
 
 .footer-services a,
-.footer-links a {
-  color: white;
+.footer-links a{
+  color:white;
 
-  font-size: 14px;
+  font-size:14px;
 
-  text-decoration: underline;
+  text-decoration:underline;
 }
 
 
 /* =====================================================
-   SMARTPHONE / IPHONE
+   MOBILE
 ===================================================== */
 
-@media (max-width: 600px) {
+@media(max-width:750px){
 
-  .hero {
-    min-height: 600px;
-
-    background-position: center center;
+  .iniziative-grid{
+    grid-template-columns:1fr;
   }
 
-  .hero-inner {
-    width: calc(100% - 38px);
+  .iniziativa-card{
+    max-width:600px;
+    width:100%;
+    margin:0 auto;
+  }
 
-    min-height: 600px;
+  .iniziativa-foto{
+    height:270px;
+  }
+}
+
+
+@media(max-width:600px){
+
+  .hero{
+    min-height:600px;
+    background-position:center center;
+  }
+
+  .hero-inner{
+    width:calc(100% - 38px);
+
+    min-height:600px;
 
     padding-top:
-      max(26px, env(safe-area-inset-top));
+      max(
+        26px,
+        env(safe-area-inset-top)
+      );
 
-    padding-bottom: 38px;
+    padding-bottom:38px;
   }
 
-  .brand-row {
-    align-items: center;
-
-    gap: 10px;
+  .brand-row{
+    align-items:center;
+    gap:10px;
   }
 
-  .faro-title {
-    max-width: calc(100% - 145px);
+  .faro-title{
+    max-width:
+      calc(100% - 145px);
 
-    font-size: clamp(35px, 9.5vw, 43px);
+    font-size:
+      clamp(
+        35px,
+        9.5vw,
+        43px
+      );
 
-    line-height: .91;
+    line-height:.91;
 
-    letter-spacing: -1.8px;
+    letter-spacing:-1.8px;
   }
 
-  .faro-title .faro-small {
-    font-size: .57em;
-
-    letter-spacing: .5px;
-
-    margin-bottom: 4px;
+  .faro-title .faro-small{
+    font-size:.57em;
+    letter-spacing:.5px;
+    margin-bottom:4px;
   }
 
-  .logo-box {
-    flex: 0 0 135px;
+  .logo-box{
+    flex:0 0 135px;
 
-    width: 135px;
-    height: 135px;
+    width:135px;
+    height:135px;
   }
 
-  .project-name {
-    font-size: clamp(50px, 13vw, 62px);
+  .project-name{
+    font-size:
+      clamp(
+        50px,
+        13vw,
+        62px
+      );
 
-    line-height: .91;
+    line-height:.91;
 
-    letter-spacing: -2.5px;
+    letter-spacing:-2.5px;
   }
 
-  .tagline {
-    margin-top: 24px;
+  .tagline{
+    margin-top:24px;
 
-    font-size: 24px;
-
-    line-height: 1.22;
+    font-size:24px;
+    line-height:1.22;
   }
 
-  .container {
-    width: calc(100% - 38px);
+  .container{
+    width:calc(100% - 38px);
   }
 
   .intro,
   .options,
   .process,
-  .join-us {
-    padding: 54px 0;
+  .join-us,
+  .iniziative-home{
+    padding:54px 0;
   }
 
-  .intro h2 {
-    font-size: 39px;
-
-    line-height: 1.04;
-
-    letter-spacing: -1.5px;
+  .intro h2{
+    font-size:39px;
+    line-height:1.04;
+    letter-spacing:-1.5px;
   }
 
   .options h2,
-  .process h2 {
-    font-size: 35px;
+  .process h2{
+    font-size:35px;
   }
 
-  .cards {
-    grid-template-columns: 1fr;
+  .cards{
+    grid-template-columns:1fr;
   }
 
-  .join-box {
-    padding: 25px 20px;
+  .join-box{
+    padding:25px 20px;
   }
 
-  .join-box h2 {
-    font-size: 35px;
+  .join-box h2{
+    font-size:35px;
   }
 
-  .join-buttons {
-    grid-template-columns: 1fr;
+  .join-buttons{
+    grid-template-columns:1fr;
   }
 
-  .join-button {
-    min-height: 60px;
-
-    font-size: 16px;
+  .join-button{
+    min-height:60px;
+    font-size:16px;
   }
 
+  .iniziative-heading{
+    display:block;
+
+    margin-bottom:24px;
+  }
+
+  .iniziative-heading h2{
+    font-size:35px;
+  }
+
+  .iniziative-heading p{
+    font-size:16px;
+  }
+
+  .iniziativa-foto{
+    height:250px;
+  }
+
+  .iniziativa-contenuto{
+    padding:20px;
+  }
+
+  .iniziativa-contenuto h3{
+    font-size:24px;
+  }
+
+  .tutte-iniziative{
+    width:100%;
+  }
 }
 
 
-/* =====================================================
-   IPHONE PIÙ PICCOLI
-===================================================== */
-
-@media (max-width: 380px) {
+@media(max-width:380px){
 
   .hero,
-  .hero-inner {
-    min-height: 570px;
+  .hero-inner{
+    min-height:570px;
   }
 
-  .faro-title {
-    max-width: calc(100% - 123px);
+  .faro-title{
+    max-width:
+      calc(100% - 123px);
 
-    font-size: 33px;
+    font-size:33px;
   }
 
-  .logo-box {
-    flex: 0 0 116px;
+  .logo-box{
+    flex:0 0 116px;
 
-    width: 116px;
-    height: 116px;
+    width:116px;
+    height:116px;
   }
 
-  .project-name {
-    font-size: 47px;
+  .project-name{
+    font-size:47px;
   }
 
-  .tagline {
-    font-size: 22px;
+  .tagline{
+    font-size:22px;
   }
 
-  .intro h2 {
-    font-size: 35px;
+  .intro h2{
+    font-size:35px;
   }
 
+  .iniziativa-foto{
+    height:225px;
+  }
 }
 
 </style>
 </head>
-
 
 <body>
 
@@ -780,61 +995,61 @@ footer p {
 
 <header class="hero">
 
-  <div class="hero-inner">
+<div class="hero-inner">
 
-    <div class="brand-row">
+  <div class="brand-row">
 
-      <div class="faro-title">
+    <div class="faro-title">
 
-        <span class="faro-small">
-          Faro di
-        </span>
+      <span class="faro-small">
+        Faro di
+      </span>
 
-        <span class="faro-canicatti">
-          Canicattì
-        </span>
-
-      </div>
-
-
-      <div class="logo-box">
-
-        <img
-          src="IMG_8924.png"
-          alt="Controcorrente"
-        >
-
-      </div>
+      <span class="faro-canicatti">
+        Canicattì
+      </span>
 
     </div>
 
 
-    <div class="hero-main">
+    <div class="logo-box">
 
-      <h1 class="project-name">
-
-        <span>
-          CANICATTÌ
-        </span>
-
-        <span class="yellow">
-          PARTECIPA
-        </span>
-
-      </h1>
-
-
-      <div class="tagline">
-        Segnala. Partecipa.<br>
-        Prenditi cura della tua città.
-      </div>
+      <img
+        src="IMG_8924.png"
+        alt="Controcorrente">
 
     </div>
 
   </div>
 
-</header>
 
+  <div class="hero-main">
+
+    <h1 class="project-name">
+
+      <span>
+        CANICATTÌ
+      </span>
+
+      <span class="yellow">
+        PARTECIPA
+      </span>
+
+    </h1>
+
+
+    <div class="tagline">
+
+      Segnala. Partecipa.<br>
+      Prenditi cura della tua città.
+
+    </div>
+
+  </div>
+
+</div>
+
+</header>
 
 
 <!-- =====================================================
@@ -843,378 +1058,384 @@ footer p {
 
 <section class="intro">
 
-  <div class="container">
+<div class="container">
 
-    <div class="label">
-      CITTADINANZA ATTIVA
+  <div class="label">
+    CITTADINANZA ATTIVA
+  </div>
+
+
+  <h2>
+    La città è di tutti.<br>
+    Prendersene cura comincia da noi.
+  </h2>
+
+
+  <p>
+
+    <strong>
+      Canicattì Partecipa
+    </strong>
+
+    è uno strumento di partecipazione civica
+    promosso dal
+
+    <strong>
+      Faro di Canicattì
+    </strong>.
+
+  </p>
+
+
+  <p>
+
+    Ogni cittadino può contribuire segnalando
+    problemi, documentando situazioni che meritano
+    attenzione e proponendo idee per migliorare
+    la città.
+
+  </p>
+
+
+  <div class="notice">
+
+    <strong>
+      Non promettiamo interventi che non dipendono da noi.
+    </strong>
+
+    <p>
+
+      Raccogliamo e documentiamo le segnalazioni e,
+      quando ci sono gli elementi necessari,
+      possiamo indirizzarle agli enti competenti
+      e seguirne il percorso.
+
+    </p>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     COME PARTECIPARE
+===================================================== -->
+
+<section class="options">
+
+<div class="container">
+
+  <div class="label">
+    COME PARTECIPARE
+  </div>
+
+
+  <h2>
+    Scegli come dare il tuo contributo
+  </h2>
+
+
+  <div class="cards">
+
+
+    <article class="card">
+
+      <div class="card-icon">
+        📷
+      </div>
+
+      <h3>
+        Fai una segnalazione
+      </h3>
+
+      <p>
+        Buche, perdite d'acqua, rifiuti,
+        illuminazione, degrado, verde pubblico
+        o altre criticità della città.
+      </p>
+
+      <p>
+        Indica il luogo, descrivi il problema
+        e allega, quando possibile,
+        alcune fotografie.
+      </p>
+
+      <a
+        href="partecipa.html"
+        class="card-button card-yellow">
+
+        Fai una segnalazione
+
+      </a>
+
+    </article>
+
+
+    <article class="card">
+
+      <div class="card-icon">
+        📍
+      </div>
+
+      <h3>
+        Adotta una via o un quartiere
+      </h3>
+
+      <p>
+        Vuoi contribuire in maniera più continuativa?
+        Puoi dedicare attenzione a una strada,
+        una zona o un quartiere della città.
+      </p>
+
+      <p>
+        Potrai documentarne nel tempo criticità,
+        necessità e miglioramenti.
+      </p>
+
+      <a
+        href="adozione.html"
+        class="card-button card-red">
+
+        Adotta una via o un quartiere
+
+      </a>
+
+    </article>
+
+
+    <article class="card">
+
+      <div class="card-icon">
+        💡
+      </div>
+
+      <h3>
+        La Canicattì che vorrei
+      </h3>
+
+      <p>
+        Non solo problemi: raccontaci anche
+        le tue idee per migliorare Canicattì.
+      </p>
+
+      <p>
+        Proponi un progetto, un nuovo servizio,
+        uno spazio, un'iniziativa o qualcosa
+        che secondo te manca alla città.
+      </p>
+
+      <a
+        href="idee.html"
+        class="card-button card-orange">
+
+        Proponi la tua idea
+
+      </a>
+
+    </article>
+
+
+    <article class="card">
+
+      <div class="card-icon">
+        🔎
+      </div>
+
+      <h3>
+        Cosa succede dopo?
+      </h3>
+
+      <p>
+        Scopri come vengono raccolti,
+        organizzati e gestiti i contributi
+        inviati attraverso Canicattì Partecipa.
+      </p>
+
+      <p>
+        Segnalazioni e partecipazione seguono
+        percorsi diversi in base al loro contenuto.
+      </p>
+
+      <a
+        href="come-funziona.html"
+        class="card-button card-dark">
+
+        Scopri come funziona
+
+      </a>
+
+    </article>
+
+
+    <article class="card">
+
+      <div class="card-icon">
+        📄
+      </div>
+
+      <h3>
+        Segui la tua pratica
+      </h3>
+
+      <p>
+        Hai già inviato una segnalazione?
+      </p>
+
+      <p>
+        Utilizza il numero della pratica
+        per verificare gli eventuali aggiornamenti.
+      </p>
+
+      <a
+        href="stato.html"
+        class="card-button card-blue">
+
+        Consulta la tua pratica
+
+      </a>
+
+    </article>
+
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     COME FUNZIONA
+===================================================== -->
+
+<section class="process">
+
+<div class="container">
+
+  <div class="label">
+    COME FUNZIONA
+  </div>
+
+
+  <h2>
+    Dal cittadino all'atto
+  </h2>
+
+
+  <div class="step">
+
+    <div class="step-number">
+      1
     </div>
 
-
-    <h2>
-      La città è di tutti.<br>
-      Prendersene cura comincia da noi.
-    </h2>
-
-
-    <p>
-      <strong>Canicattì Partecipa</strong>
-      è uno strumento di partecipazione civica
-      promosso dal <strong>Faro di Canicattì</strong>.
-    </p>
-
-
-    <p>
-      Ogni cittadino può contribuire segnalando problemi,
-      documentando situazioni che meritano attenzione
-      e proponendo idee per migliorare la città.
-    </p>
-
-
-    <div class="notice">
+    <div>
 
       <strong>
-        Non promettiamo interventi che non dipendono da noi.
+        Segnala
       </strong>
 
       <p>
-        Raccogliamo e documentiamo le segnalazioni e,
-        quando ci sono gli elementi necessari,
-        possiamo indirizzarle agli enti competenti
-        e seguirne il percorso.
+        Raccontaci il problema
+        in modo semplice e preciso.
       </p>
 
     </div>
 
   </div>
 
-</section>
 
+  <div class="step">
 
-
-<!-- =====================================================
-     MODI PER PARTECIPARE
-===================================================== -->
-
-<section class="options">
-
-  <div class="container">
-
-    <div class="label">
-      COME PARTECIPARE
+    <div class="step-number">
+      2
     </div>
 
+    <div>
 
-    <h2>
-      Scegli come dare il tuo contributo
-    </h2>
+      <strong>
+        Documenta
+      </strong>
 
-
-    <div class="cards">
-
-
-      <article class="card">
-
-        <div class="card-icon">
-          📷
-        </div>
-
-        <h3>
-          Fai una segnalazione
-        </h3>
-
-        <p>
-          Buche, perdite d'acqua, rifiuti,
-          illuminazione, degrado, verde pubblico
-          o altre criticità della città.
-        </p>
-
-        <p>
-          Indica il luogo, descrivi il problema
-          e allega, quando possibile, alcune fotografie.
-        </p>
-
-        <a
-          href="partecipa.html"
-          class="card-button card-yellow"
-        >
-          Fai una segnalazione
-        </a>
-
-      </article>
-
-
-
-      <article class="card">
-
-        <div class="card-icon">
-          📍
-        </div>
-
-        <h3>
-          Adotta una via o un quartiere
-        </h3>
-
-        <p>
-          Vuoi contribuire in maniera più continuativa?
-          Puoi dedicare attenzione a una strada,
-          una zona o un quartiere della città.
-        </p>
-
-        <p>
-          Potrai documentarne nel tempo criticità,
-          necessità e miglioramenti.
-        </p>
-
-        <a
-          href="adozione.html"
-          class="card-button card-red"
-        >
-          Adotta una via o un quartiere
-        </a>
-
-      </article>
-
-
-
-      <article class="card">
-
-        <div class="card-icon">
-          💡
-        </div>
-
-        <h3>
-          La Canicattì che vorrei
-        </h3>
-
-        <p>
-          Non solo problemi: raccontaci anche
-          le tue idee per migliorare Canicattì.
-        </p>
-
-        <p>
-          Proponi un progetto, un nuovo servizio,
-          uno spazio, un'iniziativa o qualcosa
-          che secondo te manca alla città.
-        </p>
-
-        <a
-          href="idee.html"
-          class="card-button card-orange"
-        >
-          Proponi la tua idea
-        </a>
-
-      </article>
-
-
-
-      <article class="card">
-
-        <div class="card-icon">
-          🔎
-        </div>
-
-        <h3>
-          Cosa succede dopo?
-        </h3>
-
-        <p>
-          Scopri come vengono raccolti,
-          organizzati e gestiti i contributi
-          inviati attraverso Canicattì Partecipa.
-        </p>
-
-        <p>
-          Segnalazioni e partecipazione seguono
-          percorsi diversi in base al loro contenuto.
-        </p>
-
-        <a
-          href="come-funziona.html"
-          class="card-button card-dark"
-        >
-          Scopri come funziona
-        </a>
-
-      </article>
-
-
-
-      <article class="card">
-
-        <div class="card-icon">
-          📄
-        </div>
-
-        <h3>
-          Segui la tua pratica
-        </h3>
-
-        <p>
-          Hai già inviato una segnalazione?
-        </p>
-
-        <p>
-          Utilizza il numero della pratica
-          per verificare gli eventuali aggiornamenti.
-        </p>
-
-        <a
-          href="stato.html"
-          class="card-button card-blue"
-        >
-          Consulta la tua pratica
-        </a>
-
-      </article>
-
+      <p>
+        Indica il luogo e, quando possibile,
+        allega alcune fotografie.
+      </p>
 
     </div>
 
   </div>
 
-</section>
 
+  <div class="step">
 
-
-<!-- =====================================================
-     PERCORSO
-===================================================== -->
-
-<section class="process">
-
-  <div class="container">
-
-    <div class="label">
-      COME FUNZIONA
+    <div class="step-number">
+      3
     </div>
 
+    <div>
 
-    <h2>
-      Dal cittadino all'atto
-    </h2>
+      <strong>
+        Verifichiamo
+      </strong>
 
-
-
-    <div class="step">
-
-      <div class="step-number">
-        1
-      </div>
-
-      <div>
-
-        <strong>
-          Segnala
-        </strong>
-
-        <p>
-          Raccontaci il problema
-          in modo semplice e preciso.
-        </p>
-
-      </div>
-
-    </div>
-
-
-
-    <div class="step">
-
-      <div class="step-number">
-        2
-      </div>
-
-      <div>
-
-        <strong>
-          Documenta
-        </strong>
-
-        <p>
-          Indica il luogo e,
-          quando possibile,
-          allega alcune fotografie.
-        </p>
-
-      </div>
-
-    </div>
-
-
-
-    <div class="step">
-
-      <div class="step-number">
-        3
-      </div>
-
-      <div>
-
-        <strong>
-          Verifichiamo
-        </strong>
-
-        <p>
-          Il materiale ricevuto viene
-          controllato e organizzato.
-        </p>
-
-      </div>
-
-    </div>
-
-
-
-    <div class="step">
-
-      <div class="step-number">
-        4
-      </div>
-
-      <div>
-
-        <strong>
-          Trasmettiamo
-        </strong>
-
-        <p>
-          Quando necessario,
-          la segnalazione viene indirizzata
-          all'ente competente.
-        </p>
-
-      </div>
-
-    </div>
-
-
-
-    <div class="step">
-
-      <div class="step-number">
-        5
-      </div>
-
-      <div>
-
-        <strong>
-          Seguiamo il percorso
-        </strong>
-
-        <p>
-          Registriamo gli eventuali aggiornamenti
-          e le risposte ricevute.
-        </p>
-
-      </div>
+      <p>
+        Il materiale ricevuto
+        viene controllato e organizzato.
+      </p>
 
     </div>
 
   </div>
 
-</section>
 
+  <div class="step">
+
+    <div class="step-number">
+      4
+    </div>
+
+    <div>
+
+      <strong>
+        Trasmettiamo
+      </strong>
+
+      <p>
+        Quando necessario, la segnalazione
+        viene indirizzata all'ente competente.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="step">
+
+    <div class="step-number">
+      5
+    </div>
+
+    <div>
+
+      <strong>
+        Seguiamo il percorso
+      </strong>
+
+      <p>
+        Registriamo gli eventuali aggiornamenti
+        e le risposte ricevute.
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+</section>
 
 
 <!-- =====================================================
@@ -1223,57 +1444,121 @@ footer p {
 
 <section class="join-us">
 
-  <div class="container">
+<div class="container">
 
-    <div class="label">
-      PARTECIPA CON NOI
-    </div>
-
-
-    <div class="join-box">
-
-      <h2>
-        Vuoi fare qualcosa di concreto per Canicattì?
-      </h2>
+  <div class="label">
+    PARTECIPA CON NOI
+  </div>
 
 
-      <p>
-        Entra in contatto con il Faro di Canicattì,
-        partecipa alle nostre attività e, se condividi
-        il progetto di Controcorrente, scegli di aderire
-        al movimento.
-      </p>
+  <div class="join-box">
+
+    <h2>
+      Vuoi fare qualcosa di concreto per Canicattì?
+    </h2>
 
 
-      <div class="join-buttons">
+    <p>
 
-        <a
-          href="https://chat.whatsapp.com/H04D6ZlyWKQ3Zr45RBIdbB?s=cl&p=i&mlu=0&ilr=4&iam=2"
-          class="join-button join-whatsapp"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          💬 Entra nel gruppo WhatsApp
-        </a>
+      Entra in contatto con il Faro di Canicattì,
+      partecipa alle nostre attività e,
+      se condividi il progetto di Controcorrente,
+      scegli di aderire al movimento.
+
+    </p>
 
 
-        <a
-          href="https://siciliacontrocorrente.it/iscrizione/"
-          class="join-button join-contro"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          🌊 Aderisci a Controcorrente
-        </a>
+    <div class="join-buttons">
 
-      </div>
+      <a
+        href="https://chat.whatsapp.com/H04D6ZlyWKQ3Zr45RBIdbB?s=cl&p=i&mlu=0&ilr=4&iam=2"
+        class="join-button join-whatsapp"
+        target="_blank"
+        rel="noopener noreferrer">
+
+        💬 Entra nel gruppo WhatsApp
+
+      </a>
+
+
+      <a
+        href="https://siciliacontrocorrente.it/iscrizione/"
+        class="join-button join-contro"
+        target="_blank"
+        rel="noopener noreferrer">
+
+        🌊 Aderisci a Controcorrente
+
+      </a>
 
     </div>
 
   </div>
 
+</div>
+
 </section>
 
+
+<!-- =====================================================
+     LE NOSTRE INIZIATIVE
+===================================================== -->
+
+<section class="iniziative-home">
+
+<div class="container">
+
+  <div class="iniziative-heading">
+
+    <div>
+
+      <div class="label">
+        SUL TERRITORIO
+      </div>
+
+      <h2>
+        Le nostre iniziative
+      </h2>
+
+      <p>
+        Attività, incontri e momenti di partecipazione
+        promossi dal Faro di Canicattì.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div
+    id="iniziativeHome"
+    class="iniziative-grid">
+
+    <div class="iniziative-loading">
+      Caricamento iniziative...
+    </div>
+
+  </div>
+
+
+  <div
+    id="iniziativeActions"
+    class="iniziative-actions"
+    style="display:none;">
+
+    <a
+      href="iniziative.html"
+      class="tutte-iniziative">
+
+      Vedi tutte le iniziative →
+
+    </a>
+
+  </div>
+
+</div>
+
+</section>
 
 
 <!-- =====================================================
@@ -1318,6 +1603,12 @@ footer p {
       La Canicattì che vorrei
     </a>
 
+    <span>•</span>
+
+    <a href="iniziative.html">
+      Le nostre iniziative
+    </a>
+
   </div>
 
 
@@ -1343,6 +1634,536 @@ footer p {
 
 </footer>
 
+
+<script>
+
+/* =====================================================
+   CONFIGURAZIONE INIZIATIVE
+===================================================== */
+
+const SUPABASE_URL =
+"https://zkwwxxmbikxpzedcmjxx.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_5usTyC1lIfP6ykIY456Glw_iJdy6NvP";
+
+const BUCKET_INIZIATIVE =
+"foto-iniziative";
+
+
+/* =====================================================
+   CARICA LE ULTIME 3 INIZIATIVE
+===================================================== */
+
+async function caricaIniziativeHome(){
+
+  const box =
+    document.getElementById(
+      "iniziativeHome"
+    );
+
+  const actions =
+    document.getElementById(
+      "iniziativeActions"
+    );
+
+
+  try{
+
+    const risposta =
+      await fetch(
+
+        SUPABASE_URL +
+        "/rest/v1/iniziative" +
+        "?select=*" +
+        "&stato=eq.Pubblicata" +
+        "&order=data_iniziativa.desc,created_at.desc" +
+        "&limit=3",
+
+        {
+          headers:{
+            "apikey":
+              SUPABASE_KEY
+          }
+        }
+      );
+
+
+    if(!risposta.ok){
+
+      throw new Error(
+        await risposta.text()
+      );
+    }
+
+
+    const iniziative =
+      await risposta.json();
+
+
+    if(!iniziative.length){
+
+      box.innerHTML = `
+
+        <div class="iniziative-loading">
+
+          Le iniziative del Faro di Canicattì
+          saranno pubblicate qui.
+
+        </div>
+      `;
+
+      actions.style.display =
+        "none";
+
+      return;
+    }
+
+
+    box.innerHTML =
+      iniziative
+        .map(
+          iniziativaHomeHTML
+        )
+        .join("");
+
+
+    actions.style.display =
+      "flex";
+
+
+  }catch(error){
+
+    console.error(
+      "Errore caricamento iniziative:",
+      error
+    );
+
+
+    box.innerHTML = `
+
+      <div class="iniziative-loading">
+
+        Non è stato possibile caricare
+        le iniziative in questo momento.
+
+      </div>
+    `;
+
+
+    actions.style.display =
+      "flex";
+  }
+}
+
+
+/* =====================================================
+   CARD HOME
+===================================================== */
+
+function iniziativaHomeHTML(
+  iniziativa
+){
+
+  const fotografie =
+    ottieniFotografieHome(
+      iniziativa
+    );
+
+
+  const copertina =
+    fotografie.length
+    ?
+    costruisciUrlFotoHome(
+      fotografie[0]
+    )
+    :
+    "";
+
+
+  return `
+
+    <article class="iniziativa-card">
+
+      <a
+        href="iniziative.html"
+        class="iniziativa-card-link">
+
+
+        ${
+          copertina
+          ?
+          `
+
+          <div class="iniziativa-foto">
+
+            <img
+              src="${escAttrHome(copertina)}"
+              alt="${escAttrHome(
+                iniziativa.titolo ||
+                "Iniziativa del Faro di Canicattì"
+              )}"
+              loading="lazy">
+
+            ${
+              fotografie.length > 1
+              ?
+              `
+
+              <span class="iniziativa-numero-foto">
+
+                📷 ${fotografie.length}
+
+              </span>
+
+              `
+              :
+              ""
+            }
+
+          </div>
+
+          `
+          :
+          ""
+        }
+
+
+        <div class="iniziativa-contenuto">
+
+          <div class="iniziativa-data">
+
+            ${escHome(
+              formattaDataHome(
+                iniziativa.data_iniziativa
+              )
+            )}
+
+          </div>
+
+
+          <h3>
+
+            ${escHome(
+              iniziativa.titolo ||
+              "Iniziativa"
+            )}
+
+          </h3>
+
+
+          ${
+            iniziativa.luogo
+            ?
+            `
+
+            <p class="iniziativa-luogo">
+
+              📍 ${escHome(
+                iniziativa.luogo
+              )}
+
+            </p>
+
+            `
+            :
+            ""
+          }
+
+
+          <p class="iniziativa-testo">
+
+            ${escHome(
+              accorciaHome(
+                iniziativa.descrizione ||
+                "",
+                130
+              )
+            )}
+
+          </p>
+
+
+          <div class="iniziativa-link">
+
+            Scopri l'iniziativa →
+
+          </div>
+
+        </div>
+
+      </a>
+
+    </article>
+  `;
+}
+
+
+/* =====================================================
+   FOTOGRAFIE
+===================================================== */
+
+function ottieniFotografieHome(
+  iniziativa
+){
+
+  let fotografie = [];
+
+
+  if(
+    Array.isArray(
+      iniziativa.fotografie
+    )
+  ){
+
+    fotografie =
+      iniziativa.fotografie;
+
+  }else if(
+    typeof iniziativa.fotografie ===
+    "string" &&
+    iniziativa.fotografie.trim()
+  ){
+
+    try{
+
+      const parsed =
+        JSON.parse(
+          iniziativa.fotografie
+        );
+
+
+      if(
+        Array.isArray(parsed)
+      ){
+
+        fotografie =
+          parsed;
+      }
+
+    }catch{}
+  }
+
+
+  return fotografie
+    .map(
+      foto=>{
+
+        if(
+          typeof foto ===
+          "string"
+        ){
+
+          return foto;
+        }
+
+
+        if(
+          foto &&
+          typeof foto ===
+          "object"
+        ){
+
+          return (
+            foto.path ||
+            foto.percorso ||
+            foto.url ||
+            ""
+          );
+        }
+
+
+        return "";
+      }
+    )
+    .filter(Boolean);
+}
+
+
+/* =====================================================
+   URL FOTO
+===================================================== */
+
+function costruisciUrlFotoHome(
+  percorso
+){
+
+  if(!percorso)
+    return "";
+
+
+  if(
+    percorso.startsWith(
+      "http://"
+    ) ||
+    percorso.startsWith(
+      "https://"
+    )
+  ){
+
+    return percorso;
+  }
+
+
+  const pulito =
+    String(percorso)
+      .replace(/^\/+/,"");
+
+
+  return (
+
+    SUPABASE_URL +
+
+    "/storage/v1/object/public/" +
+
+    BUCKET_INIZIATIVE +
+
+    "/" +
+
+    encodePathHome(
+      pulito
+    )
+  );
+}
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+function formattaDataHome(data){
+
+  if(!data)
+    return "";
+
+
+  const parti =
+    String(data)
+      .split("-");
+
+
+  if(parti.length !== 3)
+    return data;
+
+
+  const d =
+    new Date(
+
+      Number(parti[0]),
+
+      Number(parti[1]) - 1,
+
+      Number(parti[2])
+
+    );
+
+
+  return d.toLocaleDateString(
+    "it-IT",
+    {
+      day:"numeric",
+      month:"long",
+      year:"numeric"
+    }
+  );
+}
+
+
+/* =====================================================
+   UTILITÀ
+===================================================== */
+
+function accorciaHome(
+  testo,
+  massimo
+){
+
+  testo =
+    String(
+      testo || ""
+    );
+
+
+  if(
+    testo.length <=
+    massimo
+  ){
+
+    return testo;
+  }
+
+
+  return (
+    testo.substring(
+      0,
+      massimo
+    )
+    .trim() +
+    "…"
+  );
+}
+
+
+function escHome(v){
+
+  return String(
+    v ?? ""
+  )
+
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
+
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
+
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
+
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
+
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
+}
+
+
+function escAttrHome(v){
+
+  return escHome(v);
+}
+
+
+function encodePathHome(path){
+
+  return String(path)
+
+    .split("/")
+
+    .map(
+      encodeURIComponent
+    )
+
+    .join("/");
+}
+
+
+/* =====================================================
+   AVVIO
+===================================================== */
+
+caricaIniziativeHome();
+
+</script>
 
 </body>
 </html>
