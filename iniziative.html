@@ -1,0 +1,1959 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>Le nostre iniziative | Canicattì Partecipa</title>
+
+<meta
+  name="description"
+  content="Le iniziative realizzate dal Faro di Canicattì: attività, incontri e momenti di partecipazione per la città.">
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+:root{
+  --giallo:#ffc800;
+  --rosso:#d20719;
+  --grigio:#f4f3ef;
+  --testo:#202226;
+  --muted:#65676b;
+}
+
+html{
+  margin:0;
+  padding:0;
+  -webkit-text-size-adjust:100%;
+}
+
+body{
+  margin:0;
+  padding:0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+  background:var(--grigio);
+  color:var(--testo);
+}
+
+a{
+  text-decoration:none;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.hero{
+  position:relative;
+  width:100%;
+  min-height:420px;
+  overflow:hidden;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.28) 0%,
+      rgba(0,0,0,.40) 45%,
+      rgba(0,0,0,.75) 100%
+    ),
+    url("IMG_8923.webp");
+
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;
+
+  color:white;
+}
+
+.hero-inner{
+  width:calc(100% - 40px);
+  max-width:1000px;
+  min-height:420px;
+  margin:0 auto;
+
+  padding-top:35px;
+  padding-bottom:38px;
+
+  display:flex;
+  flex-direction:column;
+}
+
+.brand-row{
+  width:100%;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:18px;
+}
+
+.faro-title{
+  color:white;
+
+  font-size:43px;
+  line-height:.92;
+  font-weight:900;
+
+  letter-spacing:-2px;
+  text-transform:uppercase;
+
+  text-shadow:
+    0 4px 16px rgba(0,0,0,.55);
+}
+
+.faro-title .faro-small{
+  display:block;
+
+  margin-bottom:4px;
+
+  font-size:.58em;
+  line-height:1;
+  font-weight:700;
+
+  letter-spacing:1px;
+  text-transform:none;
+
+  color:white;
+}
+
+.logo-box{
+  flex:0 0 135px;
+
+  width:135px;
+  height:135px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.logo-box img{
+  display:block;
+
+  width:100%;
+  height:100%;
+
+  object-fit:contain;
+
+  border:0;
+  background:transparent;
+}
+
+.hero-main{
+  margin-top:auto;
+}
+
+.hero-label{
+  margin-bottom:10px;
+
+  color:var(--giallo);
+
+  font-size:14px;
+  font-weight:850;
+
+  letter-spacing:2.4px;
+  text-transform:uppercase;
+}
+
+.hero h1{
+  margin:0;
+
+  max-width:850px;
+
+  font-size:57px;
+  line-height:.96;
+  font-weight:900;
+
+  letter-spacing:-2.5px;
+
+  text-shadow:
+    0 4px 18px rgba(0,0,0,.45);
+}
+
+.hero-description{
+  max-width:760px;
+
+  margin:20px 0 0;
+
+  font-size:20px;
+  line-height:1.4;
+
+  color:white;
+
+  text-shadow:
+    0 3px 10px rgba(0,0,0,.55);
+}
+
+
+/* =====================================================
+   CONTENUTO
+===================================================== */
+
+.container{
+  width:calc(100% - 40px);
+  max-width:1000px;
+  margin:0 auto;
+}
+
+.intro{
+  padding:55px 0 30px;
+}
+
+.label{
+  margin-bottom:14px;
+
+  color:#a67d00;
+
+  font-size:13px;
+  font-weight:850;
+
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+}
+
+.intro h2{
+  margin:0 0 18px;
+
+  font-size:40px;
+  line-height:1.08;
+
+  letter-spacing:-1.5px;
+}
+
+.intro p{
+  max-width:800px;
+
+  margin:0;
+
+  color:#424448;
+
+  font-size:18px;
+  line-height:1.55;
+}
+
+
+/* =====================================================
+   INIZIATIVE
+===================================================== */
+
+.iniziative-section{
+  padding:20px 0 65px;
+}
+
+.iniziative-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:24px;
+}
+
+.iniziativa-card{
+  overflow:hidden;
+
+  background:white;
+
+  border-radius:20px;
+
+  box-shadow:
+    0 7px 24px rgba(0,0,0,.08);
+
+  border:
+    1px solid rgba(0,0,0,.05);
+}
+
+.iniziativa-cover{
+  position:relative;
+
+  width:100%;
+  height:285px;
+
+  overflow:hidden;
+
+  background:#e6e6e3;
+}
+
+.iniziativa-cover img{
+  width:100%;
+  height:100%;
+
+  display:block;
+
+  object-fit:cover;
+
+  transition:
+    transform .25s ease;
+}
+
+.iniziativa-card:hover
+.iniziativa-cover img{
+  transform:scale(1.025);
+}
+
+.numero-foto{
+  position:absolute;
+
+  right:12px;
+  bottom:12px;
+
+  padding:7px 11px;
+
+  border-radius:20px;
+
+  background:rgba(0,0,0,.70);
+
+  color:white;
+
+  font-size:13px;
+  font-weight:750;
+}
+
+.iniziativa-body{
+  padding:23px;
+}
+
+.iniziativa-data{
+  margin-bottom:9px;
+
+  color:#9a7200;
+
+  font-size:14px;
+  font-weight:850;
+
+  letter-spacing:.5px;
+}
+
+.iniziativa-body h2{
+  margin:0 0 10px;
+
+  font-size:27px;
+  line-height:1.12;
+
+  letter-spacing:-.7px;
+}
+
+.iniziativa-luogo{
+  margin:0 0 14px;
+
+  color:#555;
+
+  font-size:15px;
+  font-weight:650;
+}
+
+.iniziativa-descrizione{
+  margin:0;
+
+  color:#3e4044;
+
+  font-size:16px;
+  line-height:1.52;
+}
+
+.apri-iniziativa{
+  width:100%;
+
+  min-height:52px;
+
+  margin-top:20px;
+  padding:13px 16px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border:0;
+  border-radius:12px;
+
+  background:var(--giallo);
+  color:#171717;
+
+  font-family:inherit;
+  font-size:16px;
+  font-weight:850;
+
+  cursor:pointer;
+}
+
+
+/* =====================================================
+   NESSUNA INIZIATIVA / CARICAMENTO
+===================================================== */
+
+.stato-box{
+  padding:40px 20px;
+
+  background:white;
+
+  border-radius:18px;
+
+  text-align:center;
+
+  box-shadow:
+    0 5px 18px rgba(0,0,0,.06);
+}
+
+.stato-box strong{
+  display:block;
+
+  margin-bottom:8px;
+
+  font-size:20px;
+}
+
+.stato-box p{
+  margin:0;
+
+  color:#666;
+
+  line-height:1.5;
+}
+
+
+/* =====================================================
+   DETTAGLIO
+===================================================== */
+
+.dettaglio{
+  position:fixed;
+
+  inset:0;
+
+  z-index:2000;
+
+  overflow:auto;
+
+  padding:18px;
+
+  background:
+    rgba(0,0,0,.72);
+}
+
+.hidden{
+  display:none!important;
+}
+
+.dettaglio-box{
+  width:100%;
+  max-width:850px;
+
+  margin:20px auto;
+
+  padding:25px;
+
+  background:white;
+
+  border-radius:20px;
+}
+
+.dettaglio-top{
+  display:flex;
+
+  align-items:flex-start;
+  justify-content:space-between;
+
+  gap:15px;
+
+  margin-bottom:10px;
+}
+
+.dettaglio-top h2{
+  margin:0;
+
+  font-size:31px;
+  line-height:1.1;
+
+  letter-spacing:-1px;
+}
+
+.chiudi{
+  flex:0 0 46px;
+
+  width:46px;
+  height:46px;
+
+  padding:0;
+
+  border:0;
+  border-radius:50%;
+
+  background:#ececea;
+
+  color:#222;
+
+  font-size:23px;
+  font-weight:bold;
+
+  cursor:pointer;
+}
+
+.dettaglio-data{
+  margin:0 0 7px;
+
+  color:#9a7200;
+
+  font-weight:850;
+}
+
+.dettaglio-luogo{
+  margin:0 0 20px;
+
+  color:#555;
+
+  font-weight:650;
+}
+
+.dettaglio-descrizione{
+  margin:0 0 25px;
+
+  font-size:17px;
+  line-height:1.65;
+
+  color:#34363a;
+
+  white-space:pre-wrap;
+}
+
+
+/* =====================================================
+   GALLERIA
+===================================================== */
+
+.galleria-title{
+  margin:25px 0 14px;
+
+  font-size:21px;
+}
+
+.galleria{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap:12px;
+}
+
+.foto{
+  overflow:hidden;
+
+  border-radius:14px;
+
+  background:#eee;
+
+  cursor:pointer;
+}
+
+.foto img{
+  display:block;
+
+  width:100%;
+  height:280px;
+
+  object-fit:cover;
+}
+
+.foto-numero{
+  padding:9px 12px;
+
+  background:#f5f5f3;
+
+  color:#555;
+
+  font-size:13px;
+  font-weight:750;
+}
+
+
+/* =====================================================
+   LIGHTBOX
+===================================================== */
+
+.lightbox{
+  position:fixed;
+
+  inset:0;
+
+  z-index:4000;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:20px;
+
+  background:
+    rgba(0,0,0,.95);
+}
+
+.lightbox img{
+  max-width:100%;
+  max-height:90vh;
+
+  object-fit:contain;
+}
+
+.lightbox-close{
+  position:fixed;
+
+  top:max(
+    15px,
+    env(safe-area-inset-top)
+  );
+
+  right:15px;
+
+  z-index:4001;
+
+  width:48px;
+  height:48px;
+
+  padding:0;
+
+  border:0;
+  border-radius:50%;
+
+  background:white;
+  color:#111;
+
+  font-size:25px;
+  font-weight:bold;
+
+  cursor:pointer;
+}
+
+
+/* =====================================================
+   TORNA HOME
+===================================================== */
+
+.home-section{
+  padding:0 0 65px;
+}
+
+.home-box{
+  padding:30px;
+
+  background:#202328;
+
+  color:white;
+
+  border-radius:20px;
+
+  text-align:center;
+}
+
+.home-box h2{
+  margin:0 0 10px;
+
+  font-size:28px;
+}
+
+.home-box p{
+  max-width:650px;
+
+  margin:0 auto 20px;
+
+  color:#ddd;
+
+  font-size:16px;
+  line-height:1.5;
+}
+
+.home-button{
+  display:inline-flex;
+
+  min-height:52px;
+
+  padding:14px 22px;
+
+  align-items:center;
+  justify-content:center;
+
+  border-radius:12px;
+
+  background:var(--giallo);
+
+  color:#171717;
+
+  font-weight:850;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer{
+  padding:
+    45px 20px
+    calc(
+      45px +
+      env(safe-area-inset-bottom)
+    );
+
+  background:#202328;
+
+  color:white;
+
+  text-align:center;
+}
+
+footer strong{
+  display:block;
+
+  margin-bottom:8px;
+
+  font-size:21px;
+}
+
+footer p{
+  max-width:700px;
+
+  margin:8px auto;
+
+  color:#d0d0d0;
+
+  font-size:14px;
+  line-height:1.5;
+}
+
+.footer-links{
+  margin-top:22px;
+
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+
+  gap:8px;
+}
+
+.footer-links a{
+  color:white;
+
+  font-size:14px;
+
+  text-decoration:underline;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:650px){
+
+  .hero{
+    min-height:400px;
+  }
+
+  .hero-inner{
+    width:calc(100% - 38px);
+
+    min-height:400px;
+
+    padding-top:
+      max(
+        26px,
+        env(safe-area-inset-top)
+      );
+
+    padding-bottom:34px;
+  }
+
+  .faro-title{
+    max-width:
+      calc(100% - 130px);
+
+    font-size:
+      clamp(
+        34px,
+        9vw,
+        41px
+      );
+  }
+
+  .logo-box{
+    flex:0 0 120px;
+
+    width:120px;
+    height:120px;
+  }
+
+  .hero h1{
+    font-size:
+      clamp(
+        43px,
+        11vw,
+        54px
+      );
+
+    letter-spacing:-2px;
+  }
+
+  .hero-description{
+    font-size:18px;
+  }
+
+  .container{
+    width:calc(100% - 32px);
+  }
+
+  .intro{
+    padding:45px 0 25px;
+  }
+
+  .intro h2{
+    font-size:34px;
+  }
+
+  .iniziative-grid{
+    grid-template-columns:1fr;
+
+    gap:20px;
+  }
+
+  .iniziativa-cover{
+    height:260px;
+  }
+
+  .iniziativa-body{
+    padding:20px;
+  }
+
+  .iniziativa-body h2{
+    font-size:25px;
+  }
+
+  .dettaglio{
+    padding:7px;
+  }
+
+  .dettaglio-box{
+    margin:7px auto;
+
+    padding:18px;
+
+    border-radius:16px;
+  }
+
+  .dettaglio-top h2{
+    font-size:26px;
+  }
+
+  .galleria{
+    grid-template-columns:1fr;
+  }
+
+  .foto img{
+    height:auto;
+
+    max-height:500px;
+
+    object-fit:contain;
+
+    background:#111;
+  }
+
+  .home-box{
+    padding:25px 18px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="hero">
+
+<div class="hero-inner">
+
+  <div class="brand-row">
+
+    <div class="faro-title">
+
+      <span class="faro-small">
+        Faro di
+      </span>
+
+      Canicattì
+
+    </div>
+
+    <div class="logo-box">
+
+      <img
+        src="IMG_8924.png"
+        alt="Controcorrente">
+
+    </div>
+
+  </div>
+
+
+  <div class="hero-main">
+
+    <div class="hero-label">
+      Faro di Canicattì
+    </div>
+
+    <h1>
+      Le nostre iniziative
+    </h1>
+
+    <p class="hero-description">
+      Attività, incontri e momenti di partecipazione
+      realizzati insieme per Canicattì.
+    </p>
+
+  </div>
+
+</div>
+
+</header>
+
+
+<!-- =====================================================
+     INTRO
+===================================================== -->
+
+<section class="intro">
+
+<div class="container">
+
+  <div class="label">
+    COSA ABBIAMO FATTO
+  </div>
+
+  <h2>
+    Le iniziative sul territorio
+  </h2>
+
+  <p>
+    Qui raccogliamo le attività promosse dal
+    <strong>Faro di Canicattì</strong>:
+    incontri, iniziative civiche, momenti di confronto
+    e partecipazione nella nostra città.
+  </p>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     ELENCO INIZIATIVE
+===================================================== -->
+
+<section class="iniziative-section">
+
+<div class="container">
+
+  <div id="iniziative">
+
+    <div class="stato-box">
+
+      <strong>
+        Caricamento iniziative...
+      </strong>
+
+      <p>
+        Attendi qualche secondo.
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     HOME
+===================================================== -->
+
+<section class="home-section">
+
+<div class="container">
+
+  <div class="home-box">
+
+    <h2>
+      Vuoi partecipare anche tu?
+    </h2>
+
+    <p>
+      Scopri Canicattì Partecipa e contribuisci
+      con una segnalazione, un'idea o partecipando
+      alle attività del Faro di Canicattì.
+    </p>
+
+    <a
+      href="index.html"
+      class="home-button">
+
+      ← Torna a Canicattì Partecipa
+
+    </a>
+
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+  <strong>
+    Faro di Canicattì
+  </strong>
+
+  <p>
+    Canicattì Partecipa è un progetto
+    di cittadinanza attiva.
+  </p>
+
+  <div class="footer-links">
+
+    <a href="index.html">
+      Home
+    </a>
+
+    <span>•</span>
+
+    <a href="privacy.html">
+      Privacy
+    </a>
+
+    <span>•</span>
+
+    <a href="cookie.html">
+      Cookie
+    </a>
+
+    <span>•</span>
+
+    <a href="note-legali.html">
+      Note legali
+    </a>
+
+  </div>
+
+</footer>
+
+
+<!-- =====================================================
+     DETTAGLIO INIZIATIVA
+===================================================== -->
+
+<div
+  id="dettaglio"
+  class="dettaglio hidden">
+
+<div class="dettaglio-box">
+
+  <div class="dettaglio-top">
+
+    <h2 id="dTitolo"></h2>
+
+    <button
+      class="chiudi"
+      onclick="chiudiDettaglio()">
+
+      ✕
+
+    </button>
+
+  </div>
+
+  <p
+    id="dData"
+    class="dettaglio-data">
+  </p>
+
+  <p
+    id="dLuogo"
+    class="dettaglio-luogo">
+  </p>
+
+  <div
+    id="dDescrizione"
+    class="dettaglio-descrizione">
+  </div>
+
+  <div id="dFoto"></div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     LIGHTBOX
+===================================================== -->
+
+<div
+  id="lightbox"
+  class="lightbox hidden"
+  onclick="chiudiFoto()">
+
+  <button
+    class="lightbox-close"
+    onclick="chiudiFoto(event)">
+
+    ✕
+
+  </button>
+
+  <img
+    id="lightboxImg"
+    src=""
+    alt="Fotografia iniziativa"
+    onclick="event.stopPropagation()">
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURAZIONE SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+"https://zkwwxxmbikxpzedcmjxx.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_5usTyC1lIfP6ykIY456Glw_iJdy6NvP";
+
+const BUCKET_INIZIATIVE =
+"foto-iniziative";
+
+let tutteIniziative = [];
+
+
+/* =====================================================
+   CARICA INIZIATIVE PUBBLICATE
+===================================================== */
+
+async function caricaIniziative(){
+
+  const box =
+    document.getElementById(
+      "iniziative"
+    );
+
+  try{
+
+    const risposta =
+      await fetch(
+
+        SUPABASE_URL +
+        "/rest/v1/iniziative" +
+        "?select=*" +
+        "&stato=eq.Pubblicata" +
+        "&order=data_iniziativa.desc,created_at.desc",
+
+        {
+          headers:{
+
+            "apikey":
+              SUPABASE_KEY
+
+          }
+        }
+      );
+
+
+    if(!risposta.ok){
+
+      throw new Error(
+        await risposta.text()
+      );
+    }
+
+
+    tutteIniziative =
+      await risposta.json();
+
+
+    renderIniziative();
+
+
+  }catch(error){
+
+    console.error(
+      error
+    );
+
+
+    box.innerHTML = `
+
+      <div class="stato-box">
+
+        <strong>
+          Non è stato possibile caricare
+          le iniziative.
+        </strong>
+
+        <p>
+          Riprova tra qualche momento.
+        </p>
+
+      </div>
+    `;
+  }
+}
+
+
+/* =====================================================
+   MOSTRA INIZIATIVE
+===================================================== */
+
+function renderIniziative(){
+
+  const box =
+    document.getElementById(
+      "iniziative"
+    );
+
+
+  if(!tutteIniziative.length){
+
+    box.innerHTML = `
+
+      <div class="stato-box">
+
+        <strong>
+          Le iniziative saranno pubblicate qui.
+        </strong>
+
+        <p>
+          In questo momento non ci sono
+          iniziative pubblicate nell'archivio.
+        </p>
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  box.innerHTML = `
+
+    <div class="iniziative-grid">
+
+      ${
+        tutteIniziative
+          .map(
+            iniziativaHTML
+          )
+          .join("")
+      }
+
+    </div>
+  `;
+
+
+  box
+    .querySelectorAll(
+      ".apri-iniziativa"
+    )
+    .forEach(
+      bottone=>{
+
+        bottone.addEventListener(
+          "click",
+          ()=>{
+
+            const iniziativa =
+              tutteIniziative.find(
+                x=>
+                  String(x.id) ===
+                  bottone.dataset.id
+              );
+
+
+            if(iniziativa){
+
+              apriIniziativa(
+                iniziativa
+              );
+            }
+
+          }
+        );
+
+      }
+    );
+}
+
+
+/* =====================================================
+   CARD INIZIATIVA
+===================================================== */
+
+function iniziativaHTML(iniziativa){
+
+  const fotografie =
+    ottieniFotografie(
+      iniziativa
+    );
+
+
+  const copertina =
+    fotografie.length
+    ?
+    costruisciUrlFoto(
+      fotografie[0]
+    )
+    :
+    "";
+
+
+  return `
+
+    <article class="iniziativa-card">
+
+      ${
+        copertina
+        ?
+        `
+
+        <div class="iniziativa-cover">
+
+          <img
+            src="${escAttr(copertina)}"
+            alt="${escAttr(
+              iniziativa.titolo ||
+              "Iniziativa del Faro di Canicattì"
+            )}"
+            loading="lazy">
+
+          ${
+            fotografie.length > 1
+            ?
+            `
+
+            <span class="numero-foto">
+              📷 ${fotografie.length}
+            </span>
+
+            `
+            :
+            ""
+          }
+
+        </div>
+
+        `
+        :
+        ""
+      }
+
+
+      <div class="iniziativa-body">
+
+        <div class="iniziativa-data">
+
+          ${esc(
+            formattaData(
+              iniziativa.data_iniziativa
+            )
+          )}
+
+        </div>
+
+
+        <h2>
+
+          ${esc(
+            iniziativa.titolo ||
+            "Iniziativa"
+          )}
+
+        </h2>
+
+
+        ${
+          iniziativa.luogo
+          ?
+          `
+
+          <p class="iniziativa-luogo">
+
+            📍 ${esc(
+              iniziativa.luogo
+            )}
+
+          </p>
+
+          `
+          :
+          ""
+        }
+
+
+        <p class="iniziativa-descrizione">
+
+          ${esc(
+            accorcia(
+              iniziativa.descrizione ||
+              "",
+              220
+            )
+          )}
+
+        </p>
+
+
+        <button
+          class="apri-iniziativa"
+          data-id="${escAttr(
+            iniziativa.id
+          )}">
+
+          Scopri l'iniziativa →
+
+        </button>
+
+      </div>
+
+    </article>
+  `;
+}
+
+
+/* =====================================================
+   APRI DETTAGLIO
+===================================================== */
+
+function apriIniziativa(
+  iniziativa
+){
+
+  document
+    .getElementById(
+      "dTitolo"
+    )
+    .textContent =
+    iniziativa.titolo ||
+    "Iniziativa";
+
+
+  document
+    .getElementById(
+      "dData"
+    )
+    .textContent =
+    formattaData(
+      iniziativa.data_iniziativa
+    );
+
+
+  const luogo =
+    document.getElementById(
+      "dLuogo"
+    );
+
+
+  if(iniziativa.luogo){
+
+    luogo.textContent =
+      "📍 " +
+      iniziativa.luogo;
+
+    luogo.style.display =
+      "block";
+
+  }else{
+
+    luogo.textContent = "";
+
+    luogo.style.display =
+      "none";
+  }
+
+
+  document
+    .getElementById(
+      "dDescrizione"
+    )
+    .textContent =
+    iniziativa.descrizione ||
+    "";
+
+
+  const fotografie =
+    ottieniFotografie(
+      iniziativa
+    );
+
+
+  const fotoBox =
+    document.getElementById(
+      "dFoto"
+    );
+
+
+  if(fotografie.length){
+
+    fotoBox.innerHTML = `
+
+      <h3 class="galleria-title">
+
+        📷 Fotografie
+        (${fotografie.length})
+
+      </h3>
+
+
+      <div class="galleria">
+
+        ${
+          fotografie.map(
+            (foto,index)=>{
+
+              const url =
+                costruisciUrlFoto(
+                  foto
+                );
+
+              return `
+
+                <div
+                  class="foto"
+                  onclick="apriFoto(
+                    '${escJs(url)}'
+                  )">
+
+                  <img
+                    src="${escAttr(url)}"
+                    alt="Fotografia ${index+1}"
+                    loading="lazy">
+
+                  <div class="foto-numero">
+
+                    Foto ${index+1}
+
+                  </div>
+
+                </div>
+              `;
+
+            }
+          ).join("")
+        }
+
+      </div>
+    `;
+
+  }else{
+
+    fotoBox.innerHTML = "";
+  }
+
+
+  document
+    .getElementById(
+      "dettaglio"
+    )
+    .classList.remove(
+      "hidden"
+    );
+
+
+  document.body.style.overflow =
+    "hidden";
+}
+
+
+/* =====================================================
+   CHIUDI DETTAGLIO
+===================================================== */
+
+function chiudiDettaglio(){
+
+  document
+    .getElementById(
+      "dettaglio"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  document.body.style.overflow =
+    "";
+}
+
+
+/* =====================================================
+   FOTOGRAFIE
+===================================================== */
+
+function ottieniFotografie(
+  iniziativa
+){
+
+  let fotografie = [];
+
+
+  if(
+    Array.isArray(
+      iniziativa.fotografie
+    )
+  ){
+
+    fotografie =
+      iniziativa.fotografie;
+
+  }else if(
+    typeof iniziativa.fotografie ===
+    "string" &&
+    iniziativa.fotografie.trim()
+  ){
+
+    try{
+
+      const parsed =
+        JSON.parse(
+          iniziativa.fotografie
+        );
+
+
+      if(
+        Array.isArray(parsed)
+      ){
+
+        fotografie =
+          parsed;
+      }
+
+    }catch{}
+  }
+
+
+  return fotografie
+    .map(
+      foto=>{
+
+        if(
+          typeof foto ===
+          "string"
+        ){
+
+          return foto;
+        }
+
+
+        if(
+          foto &&
+          typeof foto ===
+          "object"
+        ){
+
+          return (
+            foto.path ||
+            foto.percorso ||
+            foto.url ||
+            ""
+          );
+        }
+
+
+        return "";
+      }
+    )
+    .filter(Boolean);
+}
+
+
+/* =====================================================
+   URL FOTO PUBBLICA
+===================================================== */
+
+function costruisciUrlFoto(
+  percorso
+){
+
+  if(!percorso)
+    return "";
+
+
+  if(
+    percorso.startsWith(
+      "http://"
+    ) ||
+    percorso.startsWith(
+      "https://"
+    )
+  ){
+
+    return percorso;
+  }
+
+
+  const pulito =
+    String(percorso)
+      .replace(/^\/+/,"");
+
+
+  return (
+
+    SUPABASE_URL +
+
+    "/storage/v1/object/public/" +
+
+    BUCKET_INIZIATIVE +
+
+    "/" +
+
+    encodePath(
+      pulito
+    )
+  );
+}
+
+
+/* =====================================================
+   LIGHTBOX
+===================================================== */
+
+function apriFoto(url){
+
+  document
+    .getElementById(
+      "lightboxImg"
+    )
+    .src = url;
+
+
+  document
+    .getElementById(
+      "lightbox"
+    )
+    .classList.remove(
+      "hidden"
+    );
+}
+
+
+function chiudiFoto(event){
+
+  if(event)
+    event.stopPropagation();
+
+
+  document
+    .getElementById(
+      "lightbox"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  document
+    .getElementById(
+      "lightboxImg"
+    )
+    .src = "";
+}
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+function formattaData(data){
+
+  if(!data)
+    return "";
+
+
+  const parti =
+    String(data)
+      .split("-");
+
+
+  if(parti.length !== 3)
+    return data;
+
+
+  const d =
+    new Date(
+
+      Number(parti[0]),
+
+      Number(parti[1]) - 1,
+
+      Number(parti[2])
+
+    );
+
+
+  return d.toLocaleDateString(
+    "it-IT",
+    {
+      day:"numeric",
+      month:"long",
+      year:"numeric"
+    }
+  );
+}
+
+
+/* =====================================================
+   UTILITÀ
+===================================================== */
+
+function accorcia(
+  testo,
+  massimo
+){
+
+  testo =
+    String(
+      testo || ""
+    );
+
+
+  if(
+    testo.length <=
+    massimo
+  ){
+
+    return testo;
+  }
+
+
+  return (
+    testo.substring(
+      0,
+      massimo
+    )
+    .trim() +
+    "…"
+  );
+}
+
+
+function esc(v){
+
+  return String(
+    v ?? ""
+  )
+
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
+
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
+
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
+
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
+
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
+}
+
+
+function escAttr(v){
+
+  return esc(v);
+}
+
+
+function escJs(v){
+
+  return String(
+    v ?? ""
+  )
+
+  .replaceAll(
+    "\\",
+    "\\\\"
+  )
+
+  .replaceAll(
+    "'",
+    "\\'"
+  )
+
+  .replaceAll(
+    "\n",
+    ""
+  )
+
+  .replaceAll(
+    "\r",
+    ""
+  );
+}
+
+
+function encodePath(path){
+
+  return String(path)
+
+    .split("/")
+
+    .map(
+      encodeURIComponent
+    )
+
+    .join("/");
+}
+
+
+/* =====================================================
+   AVVIO
+===================================================== */
+
+caricaIniziative();
+
+</script>
+
+</body>
+</html>
