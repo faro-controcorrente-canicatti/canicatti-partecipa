@@ -1005,17 +1005,44 @@ body.hp-popup-aperto{overflow:hidden}
 .hp-social a:focus-visible,.hp-chiudi:focus-visible{outline:3px solid #ffc800;outline-offset:3px}
 .hp-errore{padding:16px;text-align:center;background:#fff8db;color:#674d00}
 @media(max-width:650px){.hp-social{padding:0 15px}.hp-social a{flex:1 1 120px}.hp-avviso{padding:15px}}
+
+/* Mantiene i colori originali anche dopo aver visitato il link della testata. */
+.hero .cp-torna-home,.hero .cp-torna-home:visited{display:block;color:white;text-decoration:none}
+.hero .project-name span:not(.yellow){color:white}
+.hero .cp-torna-home:focus-visible{outline:4px solid #ffc800;outline-offset:-4px}
 </style>
+
+<script>
+// Ultimo stato verificato nella scheda: ripristino immediato, poi verifica in rete.
+function cpSalvaStato(riga){
+  try{sessionStorage.setItem('cp-stato-sito',JSON.stringify({manutenzione:riga.manutenzione,messaggio_manutenzione:riga.messaggio_manutenzione || ''}));}catch(e){}
+}
+function cpRipristinaStato(home){
+  try{
+    const stato=JSON.parse(sessionStorage.getItem('cp-stato-sito'));
+    if(!stato || typeof stato.manutenzione!=='boolean')return null;
+    const contenuto=document.getElementById(home?'hpContenuto':'cpPaginaPubblica');
+    const schermo=document.getElementById(home?'hpAccesso':'cpSchermoStato');
+    contenuto.hidden=stato.manutenzione;contenuto.inert=stato.manutenzione;
+    schermo.hidden=!stato.manutenzione;
+    document.getElementById(home?'hpTitoloStato':'cpTitoloStato').textContent='Sito in manutenzione';
+    document.getElementById(home?'hpTestoStato':'cpTestoStato').textContent=stato.messaggio_manutenzione || 'Stiamo aggiornando il sito. Torna a trovarci tra poco.';
+    document.getElementById(home?'hpRiprovaStato':'cpRiprovaStato').hidden=false;
+    return stato;
+  }catch(e){return null;}
+}
+</script>
 </head>
 
 <body>
-<section id="hpAccesso" class="hp-stato" aria-live="polite">
+<section id="hpAccesso" class="hp-stato" aria-live="polite" hidden>
   <div><h1 id="hpTitoloStato">Canicattì Partecipa</h1>
   <p id="hpTestoStato">Verifica dello stato del sito in corso...</p>
   <button id="hpRiprovaStato" type="button" onclick="hpAggiorna()" hidden>Riprova</button>
   <noscript><p>Attiva JavaScript per visualizzare lo stato aggiornato del sito.</p></noscript></div>
 </section>
 <div id="hpContenuto" hidden>
+<script>window.cpStatoIniziale=cpRipristinaStato(true);</script>
 
 
 <!-- =====================================================
@@ -2216,7 +2243,7 @@ caricaIniziativeHome();
 let hpAvvisi = [];
 let hpNascosti = new Set();
 let hpCaricamento = false;
-let hpUltimoStato = null;
+let hpUltimoStato = window.cpStatoIniziale || null;
 let hpFocusPrecedente = null;
 const hpInizi = new Map();
 const hpEl = id => document.getElementById(id);
@@ -2243,9 +2270,11 @@ function hpUrl(valore){
 function hpStato(riga){
   if(!riga || typeof riga.manutenzione !== 'boolean') throw new Error('Stato manutenzione non valido');
   hpUltimoStato = riga;
+  cpSalvaStato(riga);
   hpEl('hpRiprovaStato').hidden = false;
   const manutenzione = riga.manutenzione === true;
   hpEl('hpContenuto').hidden = manutenzione;
+  hpEl('hpContenuto').inert = manutenzione;
   hpEl('hpAccesso').hidden = !manutenzione;
   hpEl('hpTitoloStato').textContent = 'Sito in manutenzione';
   hpEl('hpTestoStato').textContent = riga.messaggio_manutenzione || 'Stiamo aggiornando il sito. Torna a trovarci tra poco.';
@@ -2261,7 +2290,7 @@ function hpRender(){
   const eraAperto = !hpEl('hpComunicazioni').hidden;
   const focusNelPopup = hpEl('hpComunicazioni').contains(document.activeElement);
   hpEl('hpComunicazioni').hidden = !mostra;
-  hpEl('hpContenuto').inert = mostra;
+  hpEl('hpContenuto').inert = mostra || hpEl('hpContenuto').hidden;
   document.body.classList.toggle('hp-popup-aperto',mostra);
   if(mostra && !eraAperto)hpFocusPrecedente=document.activeElement;
   attivi.forEach(c => {
@@ -2298,6 +2327,7 @@ async function hpAggiorna(){
           hpStato(hpUltimoStato);
         }else{
           hpEl('hpContenuto').hidden=false;
+          hpEl('hpContenuto').inert=false;
           hpEl('hpAccesso').hidden=true;
           hpRender();
         }
