@@ -1009,13 +1009,13 @@ body.hp-popup-aperto{overflow:hidden}
 </head>
 
 <body>
-<section id="hpAccesso" class="hp-stato" aria-live="polite" hidden>
+<section id="hpAccesso" class="hp-stato" aria-live="polite">
   <div><h1 id="hpTitoloStato">Canicattì Partecipa</h1>
   <p id="hpTestoStato">Verifica dello stato del sito in corso...</p>
-  <button type="button" onclick="hpAggiorna()">Riprova</button>
+  <button id="hpRiprovaStato" type="button" onclick="hpAggiorna()" hidden>Riprova</button>
   <noscript><p>Attiva JavaScript per visualizzare lo stato aggiornato del sito.</p></noscript></div>
 </section>
-<div id="hpContenuto">
+<div id="hpContenuto" hidden>
 
 
 <!-- =====================================================
@@ -1023,6 +1023,7 @@ body.hp-popup-aperto{overflow:hidden}
 ===================================================== -->
 
 <header class="hero">
+<a class="cp-torna-home" href="index.html" aria-label="Torna alla home">
 
 <div class="hero-inner">
 
@@ -1078,6 +1079,7 @@ body.hp-popup-aperto{overflow:hidden}
 
 </div>
 
+</a>
 </header>
 
 <p id="hpErroreAvvisi" class="hp-errore" role="status" hidden>Le comunicazioni importanti non sono disponibili al momento. Riprova tra poco.</p>
@@ -2241,6 +2243,7 @@ function hpUrl(valore){
 function hpStato(riga){
   if(!riga || typeof riga.manutenzione !== 'boolean') throw new Error('Stato manutenzione non valido');
   hpUltimoStato = riga;
+  hpEl('hpRiprovaStato').hidden = false;
   const manutenzione = riga.manutenzione === true;
   hpEl('hpContenuto').hidden = manutenzione;
   hpEl('hpAccesso').hidden = !manutenzione;
