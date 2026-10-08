@@ -711,7 +711,7 @@ a.cp-torna-home:focus-visible{outline:4px solid #ffc800;outline-offset:-4px}
 <section id="cpSchermoStato" class="cp-schermo-stato" aria-live="polite">
   <div><h1 id="cpTitoloStato" tabindex="-1">Canicattì Partecipa</h1>
   <p id="cpTestoStato">Verifica dello stato del sito in corso...</p>
-  <button id="cpRiprovaStato" type="button">Riprova</button>
+  <button id="cpRiprovaStato" type="button" hidden>Riprova</button>
   <noscript><p>Attiva JavaScript per visualizzare lo stato aggiornato del sito.</p></noscript></div>
 </section>
 <div id="cpPaginaPubblica" hidden inert>
@@ -1940,6 +1940,7 @@ async function inviaSegnalazione() {
   const message = document.getElementById('cpTestoStato');
   const retry = document.getElementById('cpRiprovaStato');
   let busy = false;
+  let lastMaintenance = false;
   async function update(){
     if(busy)return;
     busy = true;retry.disabled = true;
@@ -1951,6 +1952,7 @@ async function inviaSegnalazione() {
       const rows = await response.json();
       if(!Array.isArray(rows) || rows.length!==1 || typeof rows[0].manutenzione!=='boolean')throw new Error('Stato non disponibile');
       const maintenance = rows[0].manutenzione;
+      lastMaintenance = maintenance;
       const entering = maintenance && screen.hidden;
       content.hidden = maintenance;content.inert = maintenance;screen.hidden = !maintenance;
       title.textContent = 'Sito in manutenzione';
@@ -1958,14 +1960,16 @@ async function inviaSegnalazione() {
       if(entering)title.focus();
     }catch(error){
       console.error('Verifica manutenzione:',error);
-      content.hidden = true;content.inert = true;screen.hidden = false;
-      title.textContent = 'Sito temporaneamente non disponibile';
-      message.textContent = 'Non è stato possibile verificare lo stato del sito. Riprova tra poco.';
-    }finally{clearTimeout(timer);busy=false;retry.disabled=false;}
+      // Conserva la manutenzione confermata; un errore non blocca la pagina.
+      content.hidden = lastMaintenance;
+      content.inert = lastMaintenance;
+      screen.hidden = !lastMaintenance;
+    }finally{clearTimeout(timer);busy=false;retry.disabled=false;retry.hidden=false;}
   }
   retry.addEventListener('click',update);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)update();});
   window.addEventListener('pageshow',update);
+  window.addEventListener('online',update);
   setInterval(()=>{if(!document.hidden)update();},30000);
   update();
 })();
