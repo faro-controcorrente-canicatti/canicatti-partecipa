@@ -1005,28 +1005,17 @@ body.hp-popup-aperto{overflow:hidden}
 .hp-social a:focus-visible,.hp-chiudi:focus-visible{outline:3px solid #ffc800;outline-offset:3px}
 .hp-errore{padding:16px;text-align:center;background:#fff8db;color:#674d00}
 @media(max-width:650px){.hp-social{padding:0 15px}.hp-social a{flex:1 1 120px}.hp-avviso{padding:15px}}
-
-/* Navigazione e social uniformi alle altre pagine */
-a.cp-torna-home{display:block;color:inherit;text-decoration:none;cursor:pointer}
-a.cp-torna-home:focus-visible{outline:4px solid #ffc800;outline-offset:-4px}
-.cp-social{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:22px auto;max-width:650px}
-.cp-social a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:12px 18px;border-radius:10px;color:#fff!important;text-decoration:none;font-weight:750}
-.cp-social a:hover{filter:brightness(.92)}
-.cp-social a:focus-visible{outline:3px solid #ffc800;outline-offset:3px}
-.cp-social .hp-facebook{background:#0866ff}.cp-social .hp-instagram{background:#a82a82}.cp-social .hp-tiktok{background:#161616;border:1px solid #666}
-@media(max-width:650px){.cp-social{padding:0 15px}.cp-social a{flex:1 1 120px}}
-
 </style>
 </head>
 
 <body>
-<section id="hpAccesso" class="hp-stato" aria-live="polite">
+<section id="hpAccesso" class="hp-stato" aria-live="polite" hidden>
   <div><h1 id="hpTitoloStato">Canicattì Partecipa</h1>
   <p id="hpTestoStato">Verifica dello stato del sito in corso...</p>
   <button type="button" onclick="hpAggiorna()">Riprova</button>
   <noscript><p>Attiva JavaScript per visualizzare lo stato aggiornato del sito.</p></noscript></div>
 </section>
-<div id="hpContenuto" hidden>
+<div id="hpContenuto">
 
 
 <!-- =====================================================
@@ -1034,7 +1023,6 @@ a.cp-torna-home:focus-visible{outline:4px solid #ffc800;outline-offset:-4px}
 ===================================================== -->
 
 <header class="hero">
-<a class="cp-torna-home" href="index.html" aria-label="Torna alla home">
 
 <div class="hero-inner">
 
@@ -1090,7 +1078,6 @@ a.cp-torna-home:focus-visible{outline:4px solid #ffc800;outline-offset:-4px}
 
 </div>
 
-</a>
 </header>
 
 <p id="hpErroreAvvisi" class="hp-errore" role="status" hidden>Le comunicazioni importanti non sono disponibili al momento. Riprova tra poco.</p>
@@ -2227,6 +2214,7 @@ caricaIniziativeHome();
 let hpAvvisi = [];
 let hpNascosti = new Set();
 let hpCaricamento = false;
+let hpUltimoStato = null;
 let hpFocusPrecedente = null;
 const hpInizi = new Map();
 const hpEl = id => document.getElementById(id);
@@ -2251,6 +2239,8 @@ function hpUrl(valore){
   }catch(e){return '';}
 }
 function hpStato(riga){
+  if(!riga || typeof riga.manutenzione !== 'boolean') throw new Error('Stato manutenzione non valido');
+  hpUltimoStato = riga;
   const manutenzione = riga.manutenzione === true;
   hpEl('hpContenuto').hidden = manutenzione;
   hpEl('hpAccesso').hidden = !manutenzione;
@@ -2299,9 +2289,15 @@ async function hpAggiorna(){
         hpStato(righe[0]);
       }catch(e){
         console.error('Lettura impostazioni_sito:',e);
-        hpEl('hpContenuto').hidden=true;hpEl('hpAccesso').hidden=false;hpInizi.clear();hpRender();
-        hpEl('hpTitoloStato').textContent='Sito temporaneamente non disponibile';
-        hpEl('hpTestoStato').textContent='Non è stato possibile verificare lo stato del sito. Riprova tra poco.';
+        // Un errore di rete o di permessi non equivale a manutenzione.
+        // Manteniamo l'ultimo stato confermato; al primo accesso mostriamo la home.
+        if(hpUltimoStato){
+          hpStato(hpUltimoStato);
+        }else{
+          hpEl('hpContenuto').hidden=false;
+          hpEl('hpAccesso').hidden=true;
+          hpRender();
+        }
       }
     })(),
     (async()=>{
@@ -2322,6 +2318,8 @@ async function hpAggiorna(){
 }
 hpAggiorna();
 setInterval(()=>{if(!document.hidden)hpAggiorna();},30000);
+window.addEventListener('online',hpAggiorna);
+window.addEventListener('pageshow',hpAggiorna);
 // La scadenza viene rispettata anche senza ricaricare la pagina.
 setInterval(()=>{if(hpAvvisi.some(c=>c.scadenza && new Date(c.scadenza).getTime()<=Date.now())){hpAvvisi=hpAvvisi.filter(c=>!c.scadenza || new Date(c.scadenza).getTime()>Date.now());hpRender();}},1000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)hpAggiorna();});
