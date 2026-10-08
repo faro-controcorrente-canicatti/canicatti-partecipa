@@ -648,17 +648,39 @@ a.cp-torna-home:focus-visible{outline:4px solid #ffc800;outline-offset:-4px}
 
 </style>
 
+
+<script>
+// Ultimo stato verificato nella scheda: ripristino immediato, poi verifica in rete.
+function cpSalvaStato(riga){
+  try{sessionStorage.setItem('cp-stato-sito',JSON.stringify({manutenzione:riga.manutenzione,messaggio_manutenzione:riga.messaggio_manutenzione || ''}));}catch(e){}
+}
+function cpRipristinaStato(home){
+  try{
+    const stato=JSON.parse(sessionStorage.getItem('cp-stato-sito'));
+    if(!stato || typeof stato.manutenzione!=='boolean')return null;
+    const contenuto=document.getElementById(home?'hpContenuto':'cpPaginaPubblica');
+    const schermo=document.getElementById(home?'hpAccesso':'cpSchermoStato');
+    contenuto.hidden=stato.manutenzione;contenuto.inert=stato.manutenzione;
+    schermo.hidden=!stato.manutenzione;
+    document.getElementById(home?'hpTitoloStato':'cpTitoloStato').textContent='Sito in manutenzione';
+    document.getElementById(home?'hpTestoStato':'cpTestoStato').textContent=stato.messaggio_manutenzione || 'Stiamo aggiornando il sito. Torna a trovarci tra poco.';
+    document.getElementById(home?'hpRiprovaStato':'cpRiprovaStato').hidden=false;
+    return stato;
+  }catch(e){return null;}
+}
+</script>
 </head>
 
 
 <body>
-<section id="cpSchermoStato" class="cp-schermo-stato" aria-live="polite">
+<section id="cpSchermoStato" class="cp-schermo-stato" aria-live="polite" hidden>
   <div><h1 id="cpTitoloStato" tabindex="-1">Canicattì Partecipa</h1>
   <p id="cpTestoStato">Verifica dello stato del sito in corso...</p>
   <button id="cpRiprovaStato" type="button" hidden>Riprova</button>
   <noscript><p>Attiva JavaScript per visualizzare lo stato aggiornato del sito.</p></noscript></div>
 </section>
 <div id="cpPaginaPubblica" hidden inert>
+<script>window.cpStatoIniziale=cpRipristinaStato(false);</script>
 
 
 
@@ -1152,7 +1174,7 @@ a.cp-torna-home:focus-visible{outline:4px solid #ffc800;outline-offset:-4px}
   const message = document.getElementById('cpTestoStato');
   const retry = document.getElementById('cpRiprovaStato');
   let busy = false;
-  let lastMaintenance = false;
+  let lastMaintenance = window.cpStatoIniziale?.manutenzione === true;
   async function update(){
     if(busy)return;
     busy = true;retry.disabled = true;
@@ -1165,6 +1187,7 @@ a.cp-torna-home:focus-visible{outline:4px solid #ffc800;outline-offset:-4px}
       if(!Array.isArray(rows) || rows.length!==1 || typeof rows[0].manutenzione!=='boolean')throw new Error('Stato non disponibile');
       const maintenance = rows[0].manutenzione;
       lastMaintenance = maintenance;
+      cpSalvaStato(rows[0]);
       const entering = maintenance && screen.hidden;
       content.hidden = maintenance;content.inert = maintenance;screen.hidden = !maintenance;
       title.textContent = 'Sito in manutenzione';
