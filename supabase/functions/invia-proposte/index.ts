@@ -137,7 +137,7 @@ async function cpSavedProposal(body:Record<string,unknown>){
  const {url,headers}=cpService();
  const query=new URLSearchParams({select:'id,created_at,titolo,categoria,descrizione,zona,nome,cognome,email,telefono,allegati,stato_interno',email:'eq.'+String(body.email??'').trim(),titolo:'eq.'+String(body.titolo??'').trim(),created_at:'gte.'+new Date(Date.now()-3600000).toISOString(),stato_interno:'eq.Da valutare',limit:'2'});
  const response=await fetch(url+'/rest/v1/proposte_citta?'+query,{headers,signal:AbortSignal.timeout(15000)});
- if(!response.ok)throw new Error('database');
+ if(!response.ok){const data=await response.json().catch(()=>({}));throw new Error('database:'+response.status+':'+String(data.code || 'UNKNOWN').replace(/[^A-Z0-9_]/g,''));}
  const rows=await response.json();if(!Array.isArray(rows)||rows.length!==1)return null;
  const row=rows[0];const age=Date.now()-Date.parse(row.created_at);
  if(!Number.isFinite(age)||age< -60000||age>3600000)return null;
@@ -524,7 +524,7 @@ Grazie per la partecipazione.<br>
       ),
     });
   } catch (error) {
-    console.error("Errore servizio notifiche");
+    console.error("Errore servizio notifiche", error instanceof Error && /^(config|guard|database|database:[0-9]{3}:[A-Z0-9_]+)$/.test(error.message) ? error.message : "unexpected");
 
     return risposta(
       {
