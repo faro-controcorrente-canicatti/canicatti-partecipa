@@ -4740,7 +4740,7 @@ async function salvaPratica(){
               "application/json",
 
             "Prefer":
-              "return=minimal"
+              "return=representation"
           },
 
           body:
@@ -4758,6 +4758,12 @@ async function salvaPratica(){
       return;
     }
 
+
+    const salvate = await r.json();
+    if(!Array.isArray(salvate) || salvate.length !== 1){
+      messaggio.textContent = "❌ Nessuna pratica salvata. Ricarica il pannello e verifica l’accesso.";
+      return;
+    }
 
     let emailInviata = false;
     let erroreEmail = false;
@@ -4783,12 +4789,16 @@ async function salvaPratica(){
               method:"POST",
 
               headers:{
+                "Authorization": "Bearer " + token,
                 "Content-Type":
                   "application/json"
               },
 
               body:
                 JSON.stringify({
+
+                  pratica_id: praticaCorrente.id,
+                  tipo_notifica: "aggiornamento",
 
                   email:
                     dati.email,
