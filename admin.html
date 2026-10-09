@@ -3258,7 +3258,7 @@ function renderFotoIniziativaAdmin(){
               src="${escAttr(urlFotoIniziativa(f))}"
               alt="Foto ${index+1}"
               loading="lazy"
-              onclick="apriFoto('${escJs(urlFotoIniziativa(f))}')">
+              data-apri-foto="${escAttr(urlFotoIniziativa(f))}">
 
             <div class="foto-numero">
               Foto ${index+1}
@@ -4515,7 +4515,7 @@ function apriPratica(s){
 
                 <div
                   class="foto-item"
-                  onclick="apriFoto('${escJs(url)}')">
+                  data-apri-foto="${escAttr(url)}">
 
                   <img
                     src="${escAttr(url)}"
@@ -6265,6 +6265,13 @@ async function cpUploadFoto(file,id){
   return SUPABASE_URL+'/storage/v1/object/public/'+BUCKET_INIZIATIVE+'/'+encodePath(percorso);
 }
 
+
+// Il valore dell'URL resta un dato: non viene inserito in codice JavaScript.
+document.addEventListener('click', function (event) {
+  const target = event.target instanceof Element
+    ? event.target.closest('[data-apri-foto]') : null;
+  if (target) apriFoto(target.getAttribute('data-apri-foto'));
+});
 </script>
 
 </body>
