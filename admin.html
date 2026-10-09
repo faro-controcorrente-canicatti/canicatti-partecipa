@@ -1105,8 +1105,8 @@ button{
         <div><label for="cpTestoPulsante">Testo del pulsante</label><input id="cpTestoPulsante"></div>
         <div><label for="cpLinkPulsante">Link del pulsante</label><input id="cpLinkPulsante" type="text"></div>
         <div><label for="cpScadenza">Scadenza (data e ora locali, facoltativa)</label><input id="cpScadenza" type="datetime-local" step="any"></div>
-        <div><label for="cpChiusura">Chiusura automatica (secondi)</label><input id="cpChiusura" type="number" step="1" min="-2147483648" max="2147483647">
-        <p class="file-help">Secondi dopo cui nascondere l’avviso nella home. Con 0 o campo vuoto resta visibile fino alla scadenza o alla chiusura manuale.</p></div>
+        <div><label for="cpChiusura">Chiusura automatica (secondi)</label><input id="cpChiusura" type="number" step="1" min="0" max="120">
+        <p class="file-help">Secondi dopo cui nascondere l’avviso nella home. Usa 3–120 secondi. Con 0 o campo vuoto resta visibile fino alla scadenza o alla chiusura manuale.</p></div>
       </div>
       <label class="cp-check"><input id="cpAttiva" type="checkbox"> Comunicazione attiva</label>
       <div class="actions"><button type="submit" class="salva">Salva comunicazione</button><button type="button" onclick="cpChiudi()">Annulla</button></div>
@@ -3619,22 +3619,11 @@ async function salvaIniziativa(){
       await r.json();
 
 
-    if(
-      Array.isArray(risultato) &&
-      risultato.length
-    ){
-
-      iniziativaCorrente =
-        risultato[0];
-
-    }else{
-
-      iniziativaCorrente = {
-        id,
-        ...dati
-      };
+    if(!Array.isArray(risultato) || risultato.length!==1){
+      messaggio.textContent="❌ Salvataggio non confermato: ricarica i dati e verifica l’accesso.";
+      return;
     }
-
+    iniziativaCorrente=risultato[0];
 
     document
       .getElementById("iNuoveFoto")
@@ -5500,7 +5489,7 @@ async function salvaProposta(){
               "application/json",
 
             "Prefer":
-              "return=minimal"
+              "return=representation"
           },
 
           body:
@@ -5519,6 +5508,11 @@ async function salvaProposta(){
     }
 
 
+    const salvate=await r.json();
+    if(!Array.isArray(salvate) || salvate.length!==1){
+      messaggio.textContent="❌ Salvataggio non confermato: ricarica i dati e verifica l’accesso.";
+      return;
+    }
     Object.assign(
       propostaCorrente,
       dati
@@ -6184,8 +6178,8 @@ async function cpSalva(event){
   const titolo = cpEl('cpTitolo').value.trim();
   if(!titolo){cpMessaggio('cpFormMessaggio','Inserisci un titolo.',true);return;}
   const chiusura = cpEl('cpChiusura').value;
-  if(chiusura !== '' && (!Number.isInteger(Number(chiusura)) || Number(chiusura)<-2147483648 || Number(chiusura)>2147483647)){
-    cpMessaggio('cpFormMessaggio','Chiusura automatica deve essere un intero valido.',true);return;
+  if(chiusura !== '' && Number(chiusura)!==0 && (!Number.isInteger(Number(chiusura)) || Number(chiusura)<3 || Number(chiusura)>120)){
+    cpMessaggio('cpFormMessaggio','Usa un intero da 3 a 120 secondi, oppure 0 per disattivarla.',true);return;
   }
   const locale = cpEl('cpScadenza').value;
   if(locale && !Number.isFinite(new Date(locale).getTime())){cpMessaggio('cpFormMessaggio','Scadenza non valida.',true);return;}
@@ -6193,7 +6187,7 @@ async function cpSalva(event){
   const scadenza = cpCorrente && locale === cpDataLocale(cpCorrente.scadenza) ? cpCorrente.scadenza : (locale ? new Date(locale).toISOString() : null);
   const dati = {titolo,testo:cpEl('cpTesto').value,foto:cpEl('cpFoto').value.trim() || null,
     testo_pulsante:cpEl('cpTestoPulsante').value.trim() || null,link_pulsante:cpEl('cpLinkPulsante').value.trim() || null,
-    attiva:cpEl('cpAttiva').checked,scadenza:scadenza || null,chiusura_automatica:chiusura === '' ? null : Number(chiusura),updated_at:new Date().toISOString()};
+    attiva:cpEl('cpAttiva').checked,scadenza:scadenza || null,chiusura_automatica:chiusura === '' || Number(chiusura)===0 ? null : Number(chiusura),updated_at:new Date().toISOString()};
   const esistente = cpCorrente;
   if(!esistente){dati.id = crypto.randomUUID();dati.created_at = dati.updated_at;}
   await cpMutazione(async () => {
