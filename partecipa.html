@@ -1864,7 +1864,7 @@ async function inviaSegnalazione() {
 
       testoConferma +=
         "📧 Ti abbiamo inviato anche una conferma all'indirizzo <strong>" +
-        email +
+        cpEscTesto(email) +
         "</strong>.<br><br>";
 
     } else {
@@ -1930,9 +1930,9 @@ async function inviaSegnalazione() {
       errore
     );
 
-    messaggio.innerHTML =
-      "❌ <strong>Non è stato possibile completare l'invio della segnalazione.</strong><br><br>" +
-      errore.message;
+    messaggio.textContent =
+      "❌ Non è stato possibile completare l'invio della segnalazione. " +
+      String(errore.message || "Riprova più tardi.");
 
 
   } finally {
@@ -1947,6 +1947,11 @@ async function inviaSegnalazione() {
 
 }
 
+function cpEscTesto(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[char]);
+}
 </script>
 
 
