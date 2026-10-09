@@ -152,7 +152,7 @@ serve(async (req) => {
     } catch { return errorePubblico('Richiesta non valida',400); }
     const emailRichiesta = String(body.email || '').trim().toLowerCase();
     const codice = String(body.numero_pratica || '').trim();
-    if(!/^[^s@]+@[^s@]+.[^s@]+$/.test(emailRichiesta) || emailRichiesta.length>254 || !codice || codice.length>80)
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailRichiesta) || emailRichiesta.length>254 || !codice || codice.length>80)
       return errorePubblico('Dati della pratica non validi',400);
     const statoRichiesto = normalizzaStato(body.stato);
     const ricevuta = body.tipo_notifica !== 'aggiornamento' && ['ricevuta','in_attesa','in_attesa_di_verifica'].includes(statoRichiesto);
