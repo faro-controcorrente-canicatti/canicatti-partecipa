@@ -127,6 +127,35 @@ async function cpReserve(kind:string,email:string,fields:unknown[]){
   return {eventKey,status:result==='limited'?429:result==='expired'?409:['allowed','retry'].includes(result)?200:503};
 }
 
+
+function cpService(){
+ const secret=Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || JSON.parse(Deno.env.get('SUPABASE_SECRET_KEYS') || '{}').default;
+ const url=Deno.env.get('SUPABASE_URL');if(!secret||!url)throw new Error('config');
+ return {url,headers:{apikey:secret,Authorization:'Bearer '+secret,'Content-Type':'application/json'}};
+}
+async function cpSavedProposal(body:Record<string,unknown>){
+ const {url,headers}=cpService();
+ const query=new URLSearchParams({select:'id,created_at,titolo,categoria,descrizione,zona,nome,cognome,email,telefono,allegati,stato_interno',email:'eq.'+String(body.email??'').trim(),titolo:'eq.'+String(body.titolo??'').trim(),created_at:'gte.'+new Date(Date.now()-3600000).toISOString(),stato_interno:'eq.Da valutare',limit:'2'});
+ const response=await fetch(url+'/rest/v1/proposte_citta?'+query,{headers,signal:AbortSignal.timeout(15000)});
+ if(!response.ok)throw new Error('database');
+ const rows=await response.json();if(!Array.isArray(rows)||rows.length!==1)return null;
+ const row=rows[0];const age=Date.now()-Date.parse(row.created_at);
+ if(!Number.isFinite(age)||age< -60000||age>3600000)return null;
+ for(const field of ['titolo','categoria','descrizione','zona','nome','cognome','email','telefono']){
+   if(String(row[field]??'').trim()!==String(body[field]??'').trim())return null;
+ }
+ const files=Array.isArray(row.allegati)?row.allegati:[];
+ const requested=Array.isArray(body.allegati)?body.allegati:[];
+ if(files.length!==requested.length)return null;
+ for(let i=0;i<files.length;i++)for(const field of ['nome','percorso','tipo','dimensione'])if(String(files[i]?.[field]??'')!==String(requested[i]?.[field]??''))return null;
+ return row;
+}
+async function cpSaveAdoption(eventKey:string,body:Record<string,unknown>){
+ const {url,headers}=cpService();
+ const response=await fetch(url+'/rest/v1/cp_adesioni?on_conflict=event_key',{method:'POST',headers:{...headers,Prefer:'resolution=ignore-duplicates,return=minimal'},body:JSON.stringify({event_key:eventKey,nome:String(body.nome??'').trim(),email:String(body.email??'').trim(),telefono:String(body.telefono??'').trim()||null,tipo:String(body.tipo??'').trim(),zona:String(body.zona??'').trim(),messaggio:String(body.messaggio??'').trim()||null}),signal:AbortSignal.timeout(15000)});
+ if(!response.ok)throw new Error('database');
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", {
@@ -211,7 +240,9 @@ serve(async (req) => {
     }
 
     if(email.length>254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return risposta({success:false,error:'Indirizzo email non valido'},400);
-    const reservation=await cpReserve('proposta',email,[nome,cognome,email.toLowerCase(),telefono,titolo,categoria,descrizione,zona,body.allegati || []]);
+    const savedProposal=await cpSavedProposal(body);
+    if(!savedProposal)return risposta({success:false,error:'Proposta salvata non verificabile: contatta il progetto se la conferma non arriva'},403);
+    const reservation=await cpReserve('proposta',email,[savedProposal.id,nome,cognome,email.toLowerCase(),telefono,titolo,categoria,descrizione,zona,savedProposal.allegati || []]);
     if(reservation.status!==200)return risposta({success:false,error:reservation.status===429?'Troppi invii: riprova più tardi':'Invio non disponibile, riprova più tardi'},reservation.status);
 
     const nomeCompleto =
