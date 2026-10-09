@@ -4283,26 +4283,91 @@ function renderBarre(id,dati){
    FOTO SEGNALAZIONI
 ===================================================== */
 
-function costruisciUrlFoto(percorso){
+let versioneFotoSegnalazione = 0;
 
-  if(!percorso)
-    return "";
-
-  if(
-    percorso.startsWith("http://") ||
-    percorso.startsWith("https://")
-  )
-    return percorso;
-
-  return (
-    SUPABASE_URL +
-    "/storage/v1/object/public/" +
-    BUCKET_FOTO +
-    "/" +
-    percorso.replace(/^\/+/,"")
-  );
+function percorsoFotoSegnalazione(valore){
+  let percorso = String(valore || '').trim();
+  if(!percorso) throw new Error('Percorso fotografia mancante.');
+  if(/^https?:/i.test(percorso)){
+    const url = new URL(percorso);
+    const prefisso = '/storage/v1/object/public/' + BUCKET_FOTO + '/';
+    if(url.origin !== new URL(SUPABASE_URL).origin || !url.pathname.startsWith(prefisso))
+      throw new Error('Fotografia esterna non consentita.');
+    percorso = url.pathname.slice(prefisso.length).split('/').map(decodeURIComponent).join('/');
+  }
+  percorso = percorso.replace(/^\/+/, '');
+  const parti = percorso.split('/');
+  if(parti.some(p => !p || p === '.' || p === '..' || /[\\\u0000-\u001f\u007f]/.test(p)))
+    throw new Error('Percorso fotografia non valido.');
+  return parti.map(encodeURIComponent).join('/');
 }
 
+async function firmaFotoSegnalazione(percorso){
+  if(!token) throw new Error('Accedi nuovamente per vedere le fotografie.');
+  const r = await fetch(SUPABASE_URL + '/storage/v1/object/sign/' + BUCKET_FOTO + '/' + percorsoFotoSegnalazione(percorso), {
+    method: 'POST',
+    headers: {apikey: SUPABASE_KEY, Authorization: 'Bearer ' + token, 'Content-Type': 'application/json'},
+    body: JSON.stringify({expiresIn: 600})
+  });
+  if(!r.ok) throw new Error('Fotografia non disponibile o accesso scaduto.');
+  const d = await r.json();
+  const firma = d.signedURL || d.signedUrl;
+  if(typeof firma !== 'string' || !firma) throw new Error('Link fotografia non disponibile.');
+  const url = new URL(firma.startsWith('/object/') ? '/storage/v1' + firma : firma, SUPABASE_URL);
+  if(url.origin !== new URL(SUPABASE_URL).origin || !url.pathname.startsWith('/storage/v1/object/sign/' + BUCKET_FOTO + '/'))
+    throw new Error('Link fotografia non valido.');
+  return url.href;
+}
+
+function mostraFotoSegnalazioni(foto, fotoBox){
+  const versione = ++versioneFotoSegnalazione;
+  fotoBox.replaceChildren();
+  const titolo = document.createElement('h3');
+  titolo.className = 'foto-titolo';
+  titolo.textContent = '📷 Fotografie allegate (' + foto.length + ')';
+  const griglia = document.createElement('div');
+  griglia.className = 'foto-grid';
+  fotoBox.append(titolo, griglia);
+  foto.forEach((percorso, index) => {
+    const item = document.createElement('div');
+    item.className = 'foto-item';
+    const img = document.createElement('img');
+    img.alt = 'Fotografia ' + (index + 1) + ' della segnalazione';
+    img.loading = 'lazy';
+    const stato = document.createElement('div');
+    stato.className = 'foto-numero';
+    stato.textContent = 'Caricamento foto ' + (index + 1) + '…';
+    item.append(img, stato);
+    griglia.append(item);
+    let pronta = false, aperturaInCorso = false;
+    firmaFotoSegnalazione(percorso).then(url => {
+      if(versione !== versioneFotoSegnalazione) return;
+      img.src = url;
+      stato.textContent = 'Foto ' + (index + 1);
+      pronta = true;
+    }).catch(error => {
+      if(versione === versioneFotoSegnalazione) stato.textContent = error.message;
+    });
+    item.addEventListener('click', async () => {
+      if(!pronta || aperturaInCorso || versione !== versioneFotoSegnalazione) return;
+      aperturaInCorso = true;
+      try {
+        // Si rinnova il link anche dopo la scadenza della miniatura.
+        const url = await firmaFotoSegnalazione(percorso);
+        if(versione !== versioneFotoSegnalazione) return;
+        img.src = url;
+        stato.textContent = 'Foto ' + (index + 1);
+        apriFoto(url);
+      } catch(error) {
+        if(versione === versioneFotoSegnalazione) stato.textContent = error.message;
+      } finally { aperturaInCorso = false; }
+    });
+  });
+  const suggerimento = document.createElement('p');
+  suggerimento.className = 'foto-suggerimento';
+  suggerimento.textContent = 'Tocca una fotografia per visualizzarla a schermo intero.';
+  fotoBox.append(suggerimento);
+}
 
 function ottieniFoto(s){
 
@@ -4491,54 +4556,7 @@ function apriPratica(s){
 
   if(foto.length){
 
-    fotoBox.innerHTML = `
-
-      <h3 class="foto-titolo">
-
-        📷 Fotografie allegate
-        (${foto.length})
-
-      </h3>
-
-      <div class="foto-grid">
-
-        ${
-          foto.map(
-            (percorso,index)=>{
-
-              const url =
-                costruisciUrlFoto(
-                  percorso
-                );
-
-              return `
-
-                <div
-                  class="foto-item"
-                  data-apri-foto="${escAttr(url)}">
-
-                  <img
-                    src="${escAttr(url)}"
-                    alt="Fotografia ${index+1} della segnalazione"
-                    loading="lazy">
-
-                  <div class="foto-numero">
-                    Foto ${index+1}
-                  </div>
-
-                </div>
-              `;
-
-            }
-          ).join("")
-        }
-
-      </div>
-
-      <p class="foto-suggerimento">
-        Tocca una fotografia per visualizzarla a schermo intero.
-      </p>
-    `;
+    mostraFotoSegnalazioni(foto, fotoBox);
 
   }else{
 
@@ -4556,6 +4574,8 @@ function apriPratica(s){
 
 
 function chiudiDettaglio(){
+
+  versioneFotoSegnalazione++;
 
   document
     .getElementById("dettaglio")
@@ -6276,3 +6296,4 @@ document.addEventListener('click', function (event) {
 
 </body>
 </html>
+
