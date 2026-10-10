@@ -845,7 +845,16 @@ button{
 </div>
 
 
+<section id="cpMfaBox" class="card hidden" aria-labelledby="cpMfaTitle">
+<h2 id="cpMfaTitle">Verifica di sicurezza</h2>
+<p id="cpMfaMessage" aria-live="polite"></p>
+<img id="cpMfaQr" class="hidden" alt="QR da scansionare personalmente con l’app Authenticator" style="display:block;width:240px;max-width:100%;height:auto;background:white;padding:12px">
+<form id="cpMfaForm"><label for="cpMfaCode">Codice Authenticator</label><input id="cpMfaCode" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required>
+<button id="cpMfaVerify" type="submit" class="login">Verifica e accedi</button></form>
+<button type="button" onclick="cpAnnullaMfa()">Annulla ed esci</button>
+</section>
 <div id="adminBox" class="hidden">
+<section id="cpSicurezza" class="card hidden"><h2>Sicurezza dell’accesso</h2><p id="cpSicurezzaMessage" aria-live="polite"></p><button id="cpMfaEnroll" type="button" onclick="cpRegistraMfa()">Configura il secondo fattore con il mio telefono</button><p>Usa un’app Authenticator. Non condividere QR o codici. Dopo l’attivazione controlla anche un nuovo accesso prima di chiudere questa scheda.</p></section>
 
 <div class="menu">
 
@@ -884,6 +893,7 @@ button{
   <button id="mComunicazioni" onclick="mostraSezione('comunicazioni')">📢 Comunicazioni importanti</button>
   <button id="mStatoSito" onclick="mostraSezione('statoSito')">⚙️ Stato del sito</button>
 
+  <button type="button" onclick="cpMostraSicurezza()">🔐 Sicurezza accesso</button>
   <button class="logout" onclick="logout()">
     🚪 Esci
   </button>
@@ -1745,6 +1755,115 @@ let tutteIniziative = [];
    LOGIN
 ===================================================== */
 
+// REST MFA ufficiale Supabase. Token e segreto restano solo in memoria.
+const CP_ADMIN_UID = '74b7a543-e730-4b67-9065-a05364f0ea50';
+let cpMfaToken = null;
+let cpMfaFactor = null;
+let cpMfaBusy = false;
+let cpMfaEnrollment = false;
+
+async function cpAuthRequest(path, sessionToken, body){
+  const controller = new AbortController();
+  const timer = setTimeout(()=>controller.abort(),15000);
+  try{
+    const r = await fetch(SUPABASE_URL+'/auth/v1'+path,{
+      method:body===undefined?'GET':'POST',
+      headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+sessionToken,'Content-Type':'application/json'},
+      ...(body===undefined?{}:{body:JSON.stringify(body)}),signal:controller.signal
+    });
+    const d = await r.json();
+    if(!r.ok)throw new Error('Verifica non riuscita. Controlla il codice e riprova.');
+    return d;
+  }finally{clearTimeout(timer);}
+}
+function cpTokenLevel(value){
+  try{return JSON.parse(atob(value.split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))).aal;}catch(_){return null;}
+}
+async function cpApriDashboard(){
+  document.getElementById('loginBox').classList.add('hidden');
+  document.getElementById('cpMfaBox').classList.add('hidden');
+  document.getElementById('adminBox').classList.remove('hidden');
+  document.getElementById('password').value='';
+  await Promise.all([caricaSegnalazioni(false),caricaProposte(false),caricaIniziative(false),cpCaricaComunicazioni(),cpCaricaStato()]);
+  aggiornaInterfaccia();mostraSezione('dashboard');
+}
+function cpMostraMfa(){
+  document.getElementById('loginBox').classList.add('hidden');
+  document.getElementById('adminBox').classList.add('hidden');
+  document.getElementById('cpMfaBox').classList.remove('hidden');
+  document.getElementById('cpMfaCode').value='';
+  document.getElementById('cpMfaCode').focus();
+}
+async function cpCompletaLogin(d){
+  if(d.user?.id!==CP_ADMIN_UID)throw new Error('Questo account non è autorizzato al pannello.');
+  const user=await cpAuthRequest('/user',d.access_token);
+  if(user.id!==CP_ADMIN_UID)throw new Error('Account non autorizzato.');
+  const verified=(user.factors||[]).filter(f=>f.factor_type==='totp'&&f.status==='verified');
+  if(verified.length&&cpTokenLevel(d.access_token)!=='aal2'){
+    token=null;cpMfaToken=d.access_token;cpMfaFactor=verified[0].id;cpMfaEnrollment=false;
+    document.getElementById('cpMfaMessage').textContent='Inserisci il codice a sei cifre della tua app Authenticator.';
+    cpMostraMfa();return;
+  }
+  token=d.access_token;cpMfaToken=null;cpMfaFactor=null;
+  await cpApriDashboard();
+}
+function cpResetMfa(){
+  cpMfaToken=null;cpMfaFactor=null;cpMfaEnrollment=false;
+  document.getElementById('cpMfaCode').value='';
+  document.getElementById('cpMfaQr').removeAttribute('src');
+  document.getElementById('cpMfaQr').classList.add('hidden');
+  document.getElementById('cpMfaBox').classList.add('hidden');
+}
+function cpAnnullaMfa(){cpResetMfa();logout();}
+async function cpMostraSicurezza(){
+  const panel=document.getElementById('cpSicurezza');panel.classList.remove('hidden');
+  const message=document.getElementById('cpSicurezzaMessage');
+  message.textContent='Verifica della protezione in corso...';
+  try{
+    const user=await cpAuthRequest('/user',token);
+    const verified=(user.factors||[]).filter(f=>f.factor_type==='totp'&&f.status==='verified');
+    document.getElementById('cpMfaEnroll').disabled=verified.length>0;
+    message.textContent=verified.length?'Secondo fattore registrato. Ogni nuovo accesso richiede il codice Authenticator.':'Secondo fattore non ancora attivo. Premi il pulsante per configurarlo personalmente con il tuo telefono.';
+  }catch(_){message.textContent='Non posso verificare lo stato. Accedi di nuovo e riprova.';document.getElementById('cpMfaEnroll').disabled=true;}
+  panel.scrollIntoView({behavior:'smooth',block:'start'});
+}
+async function cpRegistraMfa(){
+  if(cpMfaBusy||!token)return;
+  cpMfaBusy=true;document.getElementById('cpMfaEnroll').disabled=true;
+  try{
+    const user=await cpAuthRequest('/user',token);
+    if(user.id!==CP_ADMIN_UID)throw new Error('Account non autorizzato.');
+    if((user.factors||[]).some(f=>f.status==='verified'))throw new Error('Il secondo fattore è già registrato.');
+    const d=await cpAuthRequest('/factors',token,{factor_type:'totp',friendly_name:'Canicatti Partecipa '+Date.now(),issuer:'Canicatti Partecipa'});
+    if(d.type!=='totp'||typeof d.id!=='string'||!d.totp?.qr_code)throw new Error('Configurazione non disponibile.');
+    cpMfaToken=token;token=null;cpMfaFactor=d.id;cpMfaEnrollment=true;
+    const qr=document.getElementById('cpMfaQr');qr.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(d.totp.qr_code);qr.classList.remove('hidden');
+    document.getElementById('cpMfaMessage').textContent='Scansiona il QR con la tua app Authenticator, poi inserisci il codice. Proteggi anche il recupero dell’app. Non inviare qui QR o codici.';
+    cpMostraMfa();
+  }catch(error){document.getElementById('cpSicurezzaMessage').textContent=error.message||'Configurazione non riuscita.';document.getElementById('cpMfaEnroll').disabled=false;}
+  finally{cpMfaBusy=false;}
+}
+async function cpVerificaMfa(event){
+  event.preventDefault();
+  if(cpMfaBusy||!cpMfaToken||!cpMfaFactor)return;
+  const input=document.getElementById('cpMfaCode');const code=input.value.trim();
+  const message=document.getElementById('cpMfaMessage');
+  if(!/^\d{6}$/.test(code)){message.textContent='Inserisci le sei cifre del codice.';return;}
+  cpMfaBusy=true;document.getElementById('cpMfaVerify').disabled=true;
+  try{
+    const challenge=await cpAuthRequest('/factors/'+encodeURIComponent(cpMfaFactor)+'/challenge',cpMfaToken,{});
+    if(!challenge.id)throw new Error('Verifica non disponibile.');
+    const d=await cpAuthRequest('/factors/'+encodeURIComponent(cpMfaFactor)+'/verify',cpMfaToken,{challenge_id:challenge.id,code});
+    if(!d.access_token||cpTokenLevel(d.access_token)!=='aal2')throw new Error('Verifica non completata.');
+    const user=await cpAuthRequest('/user',d.access_token);
+    if(user.id!==CP_ADMIN_UID)throw new Error('Account non autorizzato.');
+    token=d.access_token;cpResetMfa();document.getElementById('cpSicurezzaMessage').textContent='Codice verificato. Secondo fattore registrato.';
+    await cpApriDashboard();
+  }catch(_){message.textContent='Codice non verificato. Usa il codice attuale dell’app e riprova.';}
+  finally{input.value='';cpMfaBusy=false;document.getElementById('cpMfaVerify').disabled=false;}
+}
+document.getElementById('cpMfaForm').addEventListener('submit',cpVerificaMfa);
+
 async function login(){
 
   const email =
@@ -1805,29 +1924,8 @@ async function login(){
       return;
     }
 
-    token = d.access_token;
-
-    messaggio.textContent = "";
-
-    document
-      .getElementById("loginBox")
-      .classList.add("hidden");
-
-    document
-      .getElementById("adminBox")
-      .classList.remove("hidden");
-
-    await Promise.all([
-      caricaSegnalazioni(false),
-      caricaProposte(false),
-      caricaIniziative(false),
-      cpCaricaComunicazioni(),
-      cpCaricaStato()
-    ]);
-
-    aggiornaInterfaccia();
-
-    mostraSezione("dashboard");
+    messaggio.textContent = '';
+    await cpCompletaLogin(d);
 
   }catch(error){
 
@@ -5717,6 +5815,7 @@ async function eliminaProposta(){
 ===================================================== */
 
 function logout(){
+  cpResetMfa();
 
   cpReset();
 
@@ -6300,4 +6399,5 @@ document.addEventListener('click', function (event) {
 
 </body>
 </html>
+
 
