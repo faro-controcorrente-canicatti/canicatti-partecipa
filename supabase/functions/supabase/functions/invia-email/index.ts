@@ -167,6 +167,11 @@ serve(async (req) => {
       if(!authResponse.ok) return errorePubblico('Accesso amministrativo richiesto',401);
       const user = await authResponse.json();
       if(user.id !== ADMIN_UID) return errorePubblico('Operazione non autorizzata');
+      // L’identità è stata verificata dal servizio Auth sopra.
+      // Per gli aggiornamenti amministrativi richiediamo il token AAL2.
+      let assurance = null;
+      try { assurance = JSON.parse(atob(authorization.slice(7).split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))).aal; } catch (_) {}
+      if(assurance !== 'aal2') return errorePubblico('Verifica con secondo fattore richiesta',403);
     }
     const praticaId = body.pratica_id == null ? '' : String(body.pratica_id);
     if(praticaId && !/^-?\d{1,19}$/.test(praticaId)) return errorePubblico('Dati della pratica non validi',400);
@@ -836,3 +841,4 @@ Canicattì Partecipa.
     );
   }
 });
+
