@@ -168,6 +168,15 @@ async function cpSaveAdoption(eventKey:string,body:Record<string,unknown>){
  if(!response.ok)throw new Error('database');
 }
 
+
+async function cpMaintenanceAdoption(){
+ const {url,headers}=cpService();
+ const response=await fetch(url+'/rest/v1/impostazioni_sito?select=manutenzione',{headers,signal:AbortSignal.timeout(15000)});
+ if(!response.ok)return false;
+ const rows=await response.json();
+ return Array.isArray(rows)&&rows.length===1&&rows[0].manutenzione===false;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", {
@@ -228,6 +237,11 @@ serve(async (req) => {
     }
 
     if(email.length>254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return risposta({success:false,error:'Indirizzo email non valido'},400);
+    for(const [key,max] of Object.entries({nome:200,email:254,telefono:80,tipo:50,zona:500,messaggio:10000})){
+      if(body[key]!=null&&(typeof body[key]!=='string'||String(body[key]).length>max))return risposta({success:false,error:'Controlla i campi della richiesta'},400);
+    }
+    if(!['Adotta una via','Adotta un quartiere'].includes(tipo))return risposta({success:false,error:'Tipo di adesione non valido'},400);
+    if(!(await cpMaintenanceAdoption()))return risposta({success:false,error:'Servizio in manutenzione o temporaneamente non disponibile'},503);
     const reservation=await cpReserve('adozione',email,[nome,email.toLowerCase(),telefono,tipo,zona,messaggio]);
     if(reservation.status!==200)return risposta({success:false,error:reservation.status===429?'Troppi invii: riprova più tardi':'Invio non disponibile, riprova più tardi'},reservation.status);
 
@@ -487,12 +501,13 @@ Messaggio automatico di Canicattì Partecipa.
 
     return risposta(
       {
-        success: interna.ok,
+        success: true,
+        registrata: true,
 
         message:
           interna.ok
             ? "Adesione inviata correttamente"
-            : "Invio dell'avviso interno non riuscito",
+            : "Adesione registrata; avviso interno temporaneamente non disponibile",
 
         notifica_interna:
           interna.ok,
@@ -519,7 +534,7 @@ Messaggio automatico di Canicattì Partecipa.
             : {}
         ),
       },
-      interna.ok ? 200 : 502,
+      200,
     );
   } catch (error) {
     console.error("Errore servizio notifiche");
