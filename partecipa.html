@@ -706,6 +706,43 @@ a.cp-torna-home:focus-visible{outline:4px solid #ffc800;outline-offset:-4px}
 
 
 <script>
+
+/* Ingresso pubblico controllato: permessi diretti sostituiti dopo il collaudo. */
+let cpTicketInvio='';
+const CP_INGRESSO_URL='https://zkwwxxmbikxpzedcmjxx.supabase.co/functions/v1/cp-ingresso';
+async function cpRichiestaProtetta(azione,body,extra={}){
+ const controller=new AbortController();
+ const timer=setTimeout(()=>controller.abort(),90000);
+ try{
+  const risposta=await fetch(CP_INGRESSO_URL+'?azione='+azione,{
+   method:'POST',headers:{apikey:SUPABASE_ANON_KEY,Authorization:'Bearer '+SUPABASE_ANON_KEY,
+   ...(azione==='carica'?{}:{'Content-Type':'application/json'}),
+   ...(cpTicketInvio?{'x-cp-ticket':cpTicketInvio}:{}),...extra},
+   body:azione==='carica'?body:JSON.stringify(body),signal:controller.signal});
+  let dati;try{dati=await risposta.json();}catch{throw new Error('Risposta del servizio non valida. Riprova più tardi.');}
+  if(!risposta.ok)throw new Error(typeof dati.error==='string'?dati.error:'Servizio temporaneamente non disponibile.');
+  return dati;
+ }catch(e){if(e.name==='AbortError')throw new Error('La richiesta ha impiegato troppo tempo. Riprova più tardi.');throw e;}
+ finally{clearTimeout(timer);}
+}
+async function cpAvviaInvio(flusso,email){
+ cpTicketInvio='';
+ const dati=await cpRichiestaProtetta('prepara',{flusso,email,sito_web:document.getElementById('cpSitoWeb')?.value||''});
+ if(typeof dati.ticket!=='string'||!dati.ticket)throw new Error('Non è stato possibile avviare l’invio.');
+ cpTicketInvio=dati.ticket;
+}
+async function cpCaricaProtetto(file,genere){
+ if(!cpTicketInvio)throw new Error('Sessione di invio non disponibile.');
+ return cpRichiestaProtetta('carica',file,{'Content-Type':file.type||'application/octet-stream',
+ 'x-cp-name':encodeURIComponent(file.name||'allegato'),'x-cp-kind':genere});
+}
+async function cpSalvaProtetto(dati){
+ if(!cpTicketInvio)throw new Error('Sessione di invio non disponibile.');
+ const risultato=await cpRichiestaProtetta('salva',dati);
+ return new Response(JSON.stringify(risultato),{status:200,headers:{'Content-Type':'application/json'}});
+}
+
+
 // Ultimo stato verificato nella scheda: ripristino immediato, poi verifica in rete.
 function cpSalvaStato(riga){
   try{sessionStorage.setItem('cp-stato-sito',JSON.stringify({manutenzione:riga.manutenzione,messaggio_manutenzione:riga.messaggio_manutenzione || ''}));}catch(e){}
@@ -850,7 +887,7 @@ function cpRipristinaStato(home){
       placeholder="Es. Via Roma, Piazza Dante..."
       autocomplete="street-address"
       required
-    >
+     maxlength="500">
 
   </section>
 
@@ -940,7 +977,7 @@ function cpRipristinaStato(home){
       rows="7"
       placeholder="Descrivi qui il problema..."
       required
-    ></textarea>
+     maxlength="10000"></textarea>
 
   </section>
 
@@ -1015,7 +1052,7 @@ function cpRipristinaStato(home){
       placeholder="Nome e cognome"
       autocomplete="name"
       required
-    >
+     maxlength="200">
 
 
     <label for="telefono">
@@ -1028,7 +1065,7 @@ function cpRipristinaStato(home){
       name="telefono"
       placeholder="Numero di telefono"
       autocomplete="tel"
-    >
+     maxlength="80">
 
 
     <label for="email">
@@ -1042,7 +1079,7 @@ function cpRipristinaStato(home){
       placeholder="La tua email"
       autocomplete="email"
       required
-    >
+     maxlength="254">
 
   </section>
 
@@ -1150,6 +1187,7 @@ function cpRipristinaStato(home){
   </a>
 
 
+<label style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden" aria-hidden="true">Lascia vuoto questo campo<input id="cpSitoWeb" type="text" autocomplete="off" tabindex="-1"></label>
 </main>
 
 
@@ -1337,89 +1375,12 @@ function generaNumeroPratica() {
 ===================================================== */
 
 async function caricaFoto(foto) {
-
-  const nomeOriginale =
-    foto.name ||
-    "foto.jpg";
-
-  const estensione =
-    nomeOriginale.includes(".")
-      ? nomeOriginale
-          .split(".")
-          .pop()
-          .toLowerCase()
-      : "jpg";
-
-  const nomeFile =
-    "segnalazioni/" +
-    Date.now() +
-    "_" +
-    Math.random()
-      .toString(36)
-      .substring(2, 12) +
-    "." +
-    estensione;
-
-
-  const rispostaFoto =
-    await fetch(
-
-      SUPABASE_URL +
-      "/storage/v1/object/" +
-      BUCKET_FOTO +
-      "/" +
-      nomeFile,
-
-      {
-
-        method: "POST",
-
-        headers: {
-
-          "apikey":
-            SUPABASE_ANON_KEY,
-
-          "Authorization":
-            "Bearer " +
-            SUPABASE_ANON_KEY,
-
-          "Content-Type":
-            foto.type ||
-            "application/octet-stream",
-
-          "x-upsert":
-            "false"
-
-        },
-
-        body: foto
-
-      }
-
-    );
-
-
-  if (!rispostaFoto.ok) {
-
-    const erroreFoto =
-      await rispostaFoto.text();
-
-    throw new Error(
-      "Errore nel caricamento di una fotografia (" +
-      rispostaFoto.status +
-      "): " +
-      erroreFoto
-    );
-
-  }
-
-
-  return nomeFile;
-
+ const allegato=await cpCaricaProtetto(foto,"foto");
+ return allegato.percorso;
 }
 
 
-/* =====================================================
+/* =================================================
    INVIO SEGNALAZIONE
 ===================================================== */
 
@@ -1585,16 +1546,15 @@ async function inviaSegnalazione() {
     "⏳ Invio della segnalazione in corso...";
 
 
-  const numeroPratica =
-    generaNumeroPratica();
+  let numeroPratica = generaNumeroPratica();
 
   const fotoUrls = [];
 
 
   try {
+ await cpAvviaInvio("segnalazione",email);
 
-
-    /* =================================================
+ /* =================================================
        1. CARICAMENTO FOTO
     ================================================= */
 
@@ -1678,41 +1638,7 @@ async function inviaSegnalazione() {
     };
 
 
-    const risposta =
-      await fetch(
-
-        SUPABASE_URL +
-        "/rest/v1/segnalazioni_cittadini",
-
-        {
-
-          method: "POST",
-
-          headers: {
-
-            "apikey":
-              SUPABASE_ANON_KEY,
-
-            "Authorization":
-              "Bearer " +
-              SUPABASE_ANON_KEY,
-
-            "Content-Type":
-              "application/json",
-
-            "Prefer":
-              "return=minimal"
-
-          },
-
-          body:
-            JSON.stringify(
-              dati
-            )
-
-        }
-
-      );
+    const risposta = await cpSalvaProtetto(dati);
 
 
     if (!risposta.ok) {
@@ -1730,7 +1656,10 @@ async function inviaSegnalazione() {
     }
 
 
-    /* =================================================
+    const registrata=await risposta.json();
+ numeroPratica=registrata.numero_pratica;
+
+ /* =================================================
        3. EMAIL
     ================================================= */
 
@@ -2005,3 +1934,4 @@ function cpEscTesto(value) {
 </script>
 </body>
 </html>
+
