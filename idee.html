@@ -422,6 +422,43 @@ a.cp-torna-home:focus-visible{
 </style>
 
 <script>
+
+/* Ingresso pubblico controllato: permessi diretti sostituiti dopo il collaudo. */
+let cpTicketInvio='';
+const CP_INGRESSO_URL='https://zkwwxxmbikxpzedcmjxx.supabase.co/functions/v1/cp-ingresso';
+async function cpRichiestaProtetta(azione,body,extra={}){
+ const controller=new AbortController();
+ const timer=setTimeout(()=>controller.abort(),90000);
+ try{
+  const risposta=await fetch(CP_INGRESSO_URL+'?azione='+azione,{
+   method:'POST',headers:{apikey:SUPABASE_ANON_KEY,Authorization:'Bearer '+SUPABASE_ANON_KEY,
+   ...(azione==='carica'?{}:{'Content-Type':'application/json'}),
+   ...(cpTicketInvio?{'x-cp-ticket':cpTicketInvio}:{}),...extra},
+   body:azione==='carica'?body:JSON.stringify(body),signal:controller.signal});
+  let dati;try{dati=await risposta.json();}catch{throw new Error('Risposta del servizio non valida. Riprova più tardi.');}
+  if(!risposta.ok)throw new Error(typeof dati.error==='string'?dati.error:'Servizio temporaneamente non disponibile.');
+  return dati;
+ }catch(e){if(e.name==='AbortError')throw new Error('La richiesta ha impiegato troppo tempo. Riprova più tardi.');throw e;}
+ finally{clearTimeout(timer);}
+}
+async function cpAvviaInvio(flusso,email){
+ cpTicketInvio='';
+ const dati=await cpRichiestaProtetta('prepara',{flusso,email,sito_web:document.getElementById('cpSitoWeb')?.value||''});
+ if(typeof dati.ticket!=='string'||!dati.ticket)throw new Error('Non è stato possibile avviare l’invio.');
+ cpTicketInvio=dati.ticket;
+}
+async function cpCaricaProtetto(file,genere){
+ if(!cpTicketInvio)throw new Error('Sessione di invio non disponibile.');
+ return cpRichiestaProtetta('carica',file,{'Content-Type':file.type||'application/octet-stream',
+ 'x-cp-name':encodeURIComponent(file.name||'allegato'),'x-cp-kind':genere});
+}
+async function cpSalvaProtetto(dati){
+ if(!cpTicketInvio)throw new Error('Sessione di invio non disponibile.');
+ const risultato=await cpRichiestaProtetta('salva',dati);
+ return new Response(JSON.stringify(risultato),{status:200,headers:{'Content-Type':'application/json'}});
+}
+
+
 function cpSalvaStato(riga){
   try{
     sessionStorage.setItem(
@@ -581,9 +618,9 @@ window.cpStatoIniziale=cpRipristinaStato(false);
     type="text"
     id="titolo"
     placeholder="Es. Una pista ciclabile per Canicattì"
-    maxlength="150"
+   
     required
-  >
+   maxlength="300">
 </section>
 
 <section class="form-card">
@@ -622,10 +659,10 @@ window.cpStatoIniziale=cpRipristinaStato(false);
   <textarea
     id="descrizione"
     rows="8"
-    maxlength="6000"
+   
     placeholder="Descrivi qui la tua idea..."
     required
-  ></textarea>
+   maxlength="10000"></textarea>
 </section>
 
 <section class="form-card">
@@ -643,8 +680,8 @@ window.cpStatoIniziale=cpRipristinaStato(false);
     type="text"
     id="zona"
     placeholder="Es. Borgalino, centro storico, Via Roma..."
-    maxlength="200"
-  >
+   
+   maxlength="500">
 </section>
 
 <section class="form-card">
@@ -710,9 +747,9 @@ window.cpStatoIniziale=cpRipristinaStato(false);
     id="nomeCompleto"
     placeholder="Nome e cognome"
     autocomplete="name"
-    maxlength="200"
+   
     required
-  >
+   maxlength="400">
 
   <label for="email">
     <strong>Email *</strong>
@@ -723,7 +760,7 @@ window.cpStatoIniziale=cpRipristinaStato(false);
     placeholder="La tua email"
     autocomplete="email"
     required
-  >
+   maxlength="254">
 
   <label for="telefono">
     <strong>Telefono</strong>
@@ -733,8 +770,8 @@ window.cpStatoIniziale=cpRipristinaStato(false);
     id="telefono"
     placeholder="Numero di telefono"
     autocomplete="tel"
-    maxlength="50"
-  >
+   
+   maxlength="80">
 </section>
 
 <section class="warning">
@@ -781,6 +818,7 @@ window.cpStatoIniziale=cpRipristinaStato(false);
   ← Torna alla pagina principale
 </a>
 
+<label style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden" aria-hidden="true">Lascia vuoto questo campo<input id="cpSitoWeb" type="text" autocomplete="off" tabindex="-1"></label>
 </main>
 
 <footer>
@@ -937,50 +975,8 @@ function pulisciNomeFile(nome){
 ===================================================== */
 
 async function caricaFile(file,categoriaAllegato){
-  const nomeOriginale=file.name || "allegato";
-  const nomeSicuro=pulisciNomeFile(nomeOriginale);
-
-  const percorso=
-    "proposte/" +
-    Date.now() + "_" +
-    Math.random().toString(36).substring(2,12) + "_" +
-    nomeSicuro;
-
-  const risposta=await fetch(
-    SUPABASE_URL +
-    "/storage/v1/object/" +
-    BUCKET_ALLEGATI + "/" +
-    percorso,
-    {
-      method:"POST",
-      headers:{
-        "apikey":SUPABASE_ANON_KEY,
-        "Authorization":"Bearer " + SUPABASE_ANON_KEY,
-        "Content-Type":file.type || "application/octet-stream",
-        "x-upsert":"false"
-      },
-      body:file
-    }
-  );
-
-  if(!risposta.ok){
-    const errore=await risposta.text();
-
-    throw new Error(
-      "Errore nel caricamento di “" +
-      nomeOriginale + "” (" +
-      risposta.status + "): " +
-      errore
-    );
-  }
-
-  return {
-    nome:nomeOriginale,
-    percorso:percorso,
-    tipo:file.type || null,
-    dimensione:file.size,
-    categoria_allegato:categoriaAllegato
-  };
+ const allegato=await cpCaricaProtetto(file,categoriaAllegato==="foto"?"foto":"documento");
+ return {...allegato,categoria_allegato:categoriaAllegato};
 }
 
 /* =====================================================
@@ -1126,6 +1122,7 @@ async function inviaProposta(){
   const allegatiCaricati=[];
 
   try{
+    await cpAvviaInvio("proposta",email);
 
     /* CARICA FOTOGRAFIE */
 
@@ -1184,19 +1181,7 @@ async function inviaProposta(){
     messaggio.textContent=
       "⏳ Registrazione della proposta...";
 
-    const risposta=await fetch(
-      SUPABASE_URL + "/rest/v1/proposte_citta",
-      {
-        method:"POST",
-        headers:{
-          "apikey":SUPABASE_ANON_KEY,
-          "Authorization":"Bearer " + SUPABASE_ANON_KEY,
-          "Content-Type":"application/json",
-          "Prefer":"return=minimal"
-        },
-        body:JSON.stringify(dati)
-      }
-    );
+    const risposta=await cpSalvaProtetto(dati);
 
     if(!risposta.ok){
       const testoErrore=await risposta.text();
@@ -1453,3 +1438,4 @@ async function inviaProposta(){
 
 </body>
 </html>
+
