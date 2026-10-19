@@ -250,7 +250,9 @@ serve(async (req) => {
     const nomeSafe = safe(nome);
     const telefonoSafe = safe(telefono);
     const emailSafe = safe(email);
-    const tipoSafe = safe(tipo);
+    // Keep legacy stored values; use the current project labels in both emails.
+    const tipoEtichetta = tipo === 'Adotta una via' ? 'Segui la tua via' : 'Segui il tuo quartiere';
+    const tipoSafe = safe(tipoEtichetta);
     const zonaSafe = safe(zona);
     const messaggioSafe = safe(messaggio);
 
@@ -263,7 +265,7 @@ serve(async (req) => {
       `
 <p>
 È arrivata una nuova richiesta di partecipazione
-al progetto <strong>Adotta una via o un quartiere</strong>.
+al progetto <strong>Segui la tua via o il tuo quartiere</strong>.
 </p>
 
 <div style="
@@ -336,7 +338,7 @@ Ciao <strong>${nomeSafe}</strong>,
 
 <p>
 abbiamo ricevuto la tua disponibilità a partecipare
-al progetto <strong>Adotta una via o un quartiere</strong>.
+al progetto <strong>Segui la tua via o il tuo quartiere</strong>.
 </p>
 
 <div style="
@@ -361,6 +363,12 @@ ${zonaSafe}
 <p>
 Grazie per aver scelto di contribuire alla
 conoscenza e alla cura della nostra città.
+</p>
+
+<p>
+L’adesione è volontaria: puoi osservare e documentare nel tempo
+criticità, necessità e miglioramenti della zona, senza obblighi
+di pulizia o manutenzione degli spazi pubblici.
 </p>
 
 <p>
@@ -458,7 +466,7 @@ Messaggio automatico di Canicattì Partecipa.
 
     const interna = await invia(
       EMAIL_INTERNA,
-      `Nuova adesione – ${tipo} – ${zona}`,
+      `Nuova adesione – ${tipoEtichetta} – ${zona}`,
       htmlInterna,
       email,
     );
