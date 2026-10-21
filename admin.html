@@ -744,13 +744,16 @@ button{
   #dettaglioProposta,
   #dettaglioProposta *,
   #dettaglioIniziativa,
-  #dettaglioIniziativa *{
+  #dettaglioIniziativa *,
+  #dettaglioAdesione,
+  #dettaglioAdesione *{
     visibility:visible;
   }
 
   #dettaglio,
   #dettaglioProposta,
-  #dettaglioIniziativa{
+  #dettaglioIniziativa,
+  #dettaglioAdesione{
     position:absolute;
     inset:0;
     background:white;
@@ -772,6 +775,7 @@ button{
 }
 
 @media print{
+ #dettaglioAdesione{overflow:visible;bottom:auto;max-height:none}
  #cpShareInitiative,#cpShareStatus,.upload-box,.info-box{display:none!important}
  body.cp-print-adesioni #sezioneAdesioni,body.cp-print-adesioni #sezioneAdesioni *{visibility:visible}
  body.cp-print-adesioni #sezioneAdesioni{position:absolute;inset:0;padding:20px}
@@ -1709,6 +1713,8 @@ button{
 </div>
 </div>
 
+
+<div id="dettaglioAdesione" class="dettaglio hidden" role="dialog" aria-modal="true" aria-labelledby="cpAdesioneTitolo"><div class="dettaglio-box"><div class="top-detail"><h2 id="cpAdesioneTitolo">Segui la tua via o il tuo quartiere</h2><button id="cpAdesioneChiudi" class="chiudi" type="button" aria-label="Chiudi pratica" onclick="cpChiudiAdesione()">✕</button></div><div id="cpAdesioneDettaglio"></div><div class="actions"><button type="button" class="stampa" onclick="window.print()">🖨️ Stampa pratica</button><button type="button" class="chiudi" onclick="cpChiudiAdesione()">Chiudi</button></div></div></div>
 
 <!-- LIGHTBOX -->
 
@@ -5884,6 +5890,7 @@ async function eliminaProposta(){
 ===================================================== */
 
 function logout(){
+  cpChiudiAdesione();
   cpNascondiPassword();
   cpSessionClear();
   cpUserId=null;
@@ -6237,15 +6244,27 @@ function pulisciNomeFile(nome){
 
 
 function cpStampaAdesioni(){document.body.classList.add('cp-print-adesioni');const cleanup=()=>document.body.classList.remove('cp-print-adesioni');window.addEventListener('afterprint',cleanup,{once:true});try{window.print();}catch(error){cleanup();throw error;}}
-let cpAdesioni=[];
+let cpAdesioni=[],cpAdesioneFocus=null;
+function cpApriAdesione(id){
+ if(!token||![CP_ADMIN_UID,CP_READER_UID].includes(cpUserId))return;
+ const a=cpAdesioni.find(row=>String(row.id)===String(id));if(!a)return;
+ const field=(label,value)=>'<div class="pratica-section"><h3>'+label+'</h3><p style="white-space:pre-wrap;overflow-wrap:anywhere">'+esc(value||'—')+'</p></div>';
+ const tipo=a.tipo==='Adotta una via'?'Segui la tua via':a.tipo==='Adotta un quartiere'?'Segui il tuo quartiere':a.tipo;
+ document.getElementById('cpAdesioneDettaglio').innerHTML=field('Riferimento pratica',a.id)+field('Via o quartiere',a.zona)+field('Tipo di adesione',tipo)+field('Nome e cognome',a.nome)+field('Email',a.email)+field('Telefono',a.telefono)+field('Messaggio',a.messaggio)+field('Stato',a.stato)+field('Ricevuta il',a.created_at?new Date(a.created_at).toLocaleString('it-IT'):'')+(a.closed_at?field('Chiusa il',new Date(a.closed_at).toLocaleString('it-IT')):'');
+ cpAdesioneFocus=document.activeElement;document.getElementById('dettaglioAdesione').classList.remove('hidden');document.getElementById('cpAdesioneChiudi').focus();
+}
+function cpChiudiAdesione(){document.getElementById('dettaglioAdesione').classList.add('hidden');document.getElementById('cpAdesioneDettaglio').replaceChildren();cpAdesioneFocus?.focus();cpAdesioneFocus=null;}
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!document.getElementById('dettaglioAdesione').classList.contains('hidden'))cpChiudiAdesione();});
+
 async function cpCaricaAdesioni(){
  const msg=document.getElementById('cpAdesioniMessaggio'),box=document.getElementById('cpAdesioniElenco');
  msg.textContent='Caricamento adesioni…';const epoch=cpEpoca;
  try{
   let rows=[],offset=0;
-  while(true){const page=await cpRichiesta('cp_adesioni','?select=id,created_at,stato,nome,email,telefono,tipo,zona,messaggio&order=created_at.desc,id.asc&limit=500&offset='+offset);rows.push(...page);if(page.length<500)break;offset+=page.length;}
+  while(true){const page=await cpRichiesta('cp_adesioni','?select=id,created_at,closed_at,stato,nome,email,telefono,tipo,zona,messaggio&order=created_at.desc,id.asc&limit=500&offset='+offset);rows.push(...page);if(page.length<500)break;offset+=page.length;}
   if(epoch!==cpEpoca)return;cpAdesioni=rows;
-  box.innerHTML=rows.map(a=>'<article class="card"><h3>'+esc(a.zona||'Zona non indicata')+'</h3><p>'+esc(a.tipo==='Adotta una via'?'Segui la tua via':a.tipo==='Adotta un quartiere'?'Segui il tuo quartiere':a.tipo||'')+'</p><p>'+esc(a.nome||'')+' · '+esc(a.email||'')+' · '+esc(a.telefono||'')+'</p><p style="white-space:pre-wrap">'+esc(a.messaggio||'')+'</p><p class="meta">'+esc(a.stato||'Da valutare')+' · '+esc(a.created_at?new Date(a.created_at).toLocaleString('it-IT'):'')+'</p></article>').join('');
+  box.innerHTML=rows.map(a=>'<article class="card"><h3>'+esc(a.zona||'Zona non indicata')+'</h3><p>'+esc(a.tipo==='Adotta una via'?'Segui la tua via':a.tipo==='Adotta un quartiere'?'Segui il tuo quartiere':a.tipo||'')+'</p><p>'+esc(a.nome||'')+' · '+esc(a.email||'')+' · '+esc(a.telefono||'')+'</p><p style="white-space:pre-wrap">'+esc(a.messaggio||'')+'</p><p class="meta">'+esc(a.stato||'Da valutare')+' · '+esc(a.created_at?new Date(a.created_at).toLocaleString('it-IT'):'')+'</p><button type="button" class="cp-apri-adesione" data-adesione-id="'+escAttr(a.id)+'">Apri pratica</button></article>').join('');
+  box.querySelectorAll('.cp-apri-adesione').forEach(button=>button.addEventListener('click',()=>cpApriAdesione(button.dataset.adesioneId)));
   msg.textContent=rows.length?rows.length+(rows.length===1?' adesione':' adesioni'):'Nessuna adesione presente.';
  }catch(_){if(epoch===cpEpoca)msg.textContent='Adesioni non disponibili. Riprova.';}
 }
