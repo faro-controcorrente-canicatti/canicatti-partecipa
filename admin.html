@@ -6244,7 +6244,7 @@ function pulisciNomeFile(nome){
 
 
 function cpStampaAdesioni(){document.body.classList.add('cp-print-adesioni');const cleanup=()=>document.body.classList.remove('cp-print-adesioni');window.addEventListener('afterprint',cleanup,{once:true});try{window.print();}catch(error){cleanup();throw error;}}
-let cpAdesioni=[],cpAdesioneFocus=null;
+let cpAdesioni=[],cpAdesioneFocus=null,cpAdesioneEliminazione=false;
 function cpApriAdesione(id){
  if(!token||![CP_ADMIN_UID,CP_READER_UID].includes(cpUserId))return;
  const a=cpAdesioni.find(row=>String(row.id)===String(id));if(!a)return;
@@ -6263,10 +6263,28 @@ async function cpCaricaAdesioni(){
   let rows=[],offset=0;
   while(true){const page=await cpRichiesta('cp_adesioni','?select=id,created_at,closed_at,stato,nome,email,telefono,tipo,zona,messaggio&order=created_at.desc,id.asc&limit=500&offset='+offset);rows.push(...page);if(page.length<500)break;offset+=page.length;}
   if(epoch!==cpEpoca)return;cpAdesioni=rows;
-  box.innerHTML=rows.map(a=>'<article class="card"><h3>'+esc(a.zona||'Zona non indicata')+'</h3><p>'+esc(a.tipo==='Adotta una via'?'Segui la tua via':a.tipo==='Adotta un quartiere'?'Segui il tuo quartiere':a.tipo||'')+'</p><p>'+esc(a.nome||'')+' · '+esc(a.email||'')+' · '+esc(a.telefono||'')+'</p><p style="white-space:pre-wrap">'+esc(a.messaggio||'')+'</p><p class="meta">'+esc(a.stato||'Da valutare')+' · '+esc(a.created_at?new Date(a.created_at).toLocaleString('it-IT'):'')+'</p><button type="button" class="cp-apri-adesione" data-adesione-id="'+escAttr(a.id)+'">Apri pratica</button></article>').join('');
+  box.innerHTML=rows.map(a=>'<article class="card"><h3>'+esc(a.zona||'Zona non indicata')+'</h3><p>'+esc(a.tipo==='Adotta una via'?'Segui la tua via':a.tipo==='Adotta un quartiere'?'Segui il tuo quartiere':a.tipo||'')+'</p><p>'+esc(a.nome||'')+' · '+esc(a.email||'')+' · '+esc(a.telefono||'')+'</p><p style="white-space:pre-wrap">'+esc(a.messaggio||'')+'</p><p class="meta">'+esc(a.stato||'Da valutare')+' · '+esc(a.created_at?new Date(a.created_at).toLocaleString('it-IT'):'')+'</p><button type="button" class="cp-apri-adesione" data-adesione-id="'+escAttr(a.id)+'">Apri pratica</button>'+(cpIsOwner()?'<button type="button" class="cp-elimina-adesione" data-adesione-id="'+escAttr(a.id)+'">🗑️ Elimina richiesta</button>':'')+'</article>').join('');
   box.querySelectorAll('.cp-apri-adesione').forEach(button=>button.addEventListener('click',()=>cpApriAdesione(button.dataset.adesioneId)));
+  box.querySelectorAll('.cp-elimina-adesione').forEach(button=>button.addEventListener('click',()=>cpEliminaAdesione(button.dataset.adesioneId)));
   msg.textContent=rows.length?rows.length+(rows.length===1?' adesione':' adesioni'):'Nessuna adesione presente.';
  }catch(_){if(epoch===cpEpoca)msg.textContent='Adesioni non disponibili. Riprova.';}
+}
+async function cpEliminaAdesione(id){
+ cpRichiedeProprietario();
+ if(cpAdesioneEliminazione)return;
+ const a=cpAdesioni.find(row=>String(row.id)===String(id));if(!a)return;
+ if(!confirm('Eliminare definitivamente la richiesta di '+(a.nome||'adesione')+' per «'+(a.zona||'zona non indicata')+'»? La cancellazione non può essere annullata.'))return;
+ cpAdesioneEliminazione=true;const epoch=cpEpoca;
+ const msg=document.getElementById('cpAdesioniMessaggio');
+ document.querySelectorAll('.cp-elimina-adesione').forEach(button=>button.disabled=true);
+ msg.textContent='Eliminazione richiesta…';
+ try{
+  await cpRichiesta('cp_adesioni','?id=eq.'+encodeURIComponent(a.id),'DELETE');
+  if(epoch!==cpEpoca)return;
+  cpChiudiAdesione();await cpCaricaAdesioni();
+  if(epoch===cpEpoca)msg.textContent='Richiesta eliminata. '+msg.textContent;
+ }catch(error){if(epoch===cpEpoca)msg.textContent='Eliminazione non riuscita: '+error.message;}
+ finally{cpAdesioneEliminazione=false;if(epoch===cpEpoca)document.querySelectorAll('.cp-elimina-adesione').forEach(button=>button.disabled=false);}
 }
 async function cpCondividiIniziativa(){
  if(!iniziativaCorrente||iniziativaCorrente.stato!=='Pubblicata')return;
