@@ -2008,7 +2008,7 @@ function encodePath(path){
    AVVIO
 ===================================================== */
 
-caricaIniziative();
+caricaIniziative().then(cpApriIniziativaCondivisa);
 
 </script>
 
@@ -2058,6 +2058,16 @@ caricaIniziative();
   setInterval(()=>{if(!document.hidden)update();},30000);
   update();
 })();
+
+
+function cpApriIniziativaCondivisa(){
+ if(document.getElementById('cpPaginaPubblica').hidden)return;
+ const prefix='#iniziativa-';if(!location.hash.startsWith(prefix))return;
+ let id;try{id=decodeURIComponent(location.hash.slice(prefix.length));}catch(_){return;}
+ const item=tutteIniziative.find(x=>String(x.id)===id);if(item)apriIniziativa(item);
+}
+window.addEventListener('hashchange',cpApriIniziativaCondivisa);
+new MutationObserver(cpApriIniziativaCondivisa).observe(document.getElementById('cpPaginaPubblica'),{attributes:true,attributeFilter:['hidden']});
 
 </script>
 </body>

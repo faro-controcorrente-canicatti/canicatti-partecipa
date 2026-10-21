@@ -771,6 +771,12 @@ button{
   }
 }
 
+@media print{
+ #cpShareInitiative,#cpShareStatus,.upload-box,.info-box{display:none!important}
+ body.cp-print-adesioni #sezioneAdesioni,body.cp-print-adesioni #sezioneAdesioni *{visibility:visible}
+ body.cp-print-adesioni #sezioneAdesioni{position:absolute;inset:0;padding:20px}
+ body.cp-print-adesioni #sezioneAdesioni button{display:none!important}
+}
 /* Aree aggiunte: comunicazioni e stato del sito */
 .cp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}
 .cp-check{display:flex;align-items:center;gap:10px;margin:12px 0 18px}
@@ -782,7 +788,7 @@ button{
 .cp-text{white-space:pre-wrap}
 @media(max-width:650px){.cp-grid{grid-template-columns:minmax(0,1fr)}.cp-area .actions button{flex:1 1 140px}}
 
-.cp-readonly .danger-zone, .cp-readonly [data-cp-owner], .cp-readonly #mDashboard, .cp-readonly #mIniziative, .cp-readonly #mCategorie, .cp-readonly #mStati, .cp-readonly #mStatistiche, .cp-readonly #mComunicazioni, .cp-readonly #mStatoSito {display:none!important}
+.cp-readonly .danger-zone, .cp-readonly [data-cp-owner], .cp-readonly #cpForm, .cp-readonly #dettaglioIniziativa .upload-box, .cp-readonly #dettaglioIniziativa .info-box {display:none!important}
 #cpRole{padding:12px;background:#eaf1fa;border-radius:8px}
 .cp-readonly #cpRole{display:none!important}
 .cp-visite-table{width:100%;border-collapse:collapse}.cp-visite-table td,.cp-visite-table th{text-align:left;padding:9px;border-bottom:1px solid #dde3ea}
@@ -839,7 +845,7 @@ button{
     id="password"
     type="password"
     placeholder="Password"
-    autocomplete="current-password">
+    autocomplete="current-password"><button id="cpPasswordEye" type="button" aria-label="Mostra password" aria-pressed="false" onclick="cpTogglePassword()" style="width:auto;margin:0 0 14px">👁</button>
 
   <button class="login" onclick="login()">
     Accedi
@@ -859,7 +865,7 @@ button{
 <button type="button" onclick="cpAnnullaMfa()">Annulla ed esci</button>
 </section>
 <div id="adminBox" class="hidden"><p id="cpRole" role="status"></p>
-<section id="cpSicurezza" class="card hidden"><h2>Sicurezza dell’accesso</h2><p id="cpSicurezzaMessage" aria-live="polite"></p><button data-cp-owner id="cpMfaEnroll" type="button" onclick="cpRegistraMfa()">Configura il secondo fattore con il mio telefono</button><p>Usa un’app Authenticator. Non condividere QR o codici. Dopo l’attivazione controlla anche un nuovo accesso prima di chiudere questa scheda.</p></section>
+<section id="cpSicurezza" class="card hidden"><h2>Sicurezza dell’accesso</h2><p id="cpSicurezzaMessage" aria-live="polite"></p><button data-cp-owner id="cpMfaEnroll" type="button" onclick="cpRegistraMfa()">Configura il secondo fattore con il mio telefono</button><p data-cp-owner>Usa un’app Authenticator. Non condividere QR o codici. Dopo l’attivazione controlla anche un nuovo accesso prima di chiudere questa scheda.</p></section>
 
 <div class="menu">
 
@@ -874,6 +880,8 @@ button{
   <button id="mProposte" onclick="mostraSezione('proposte')">
     💡 La Canicattì che vorrei
   </button>
+
+  <button id="mAdesioni" onclick="mostraSezione('adesioni')">🏘️ Segui la tua via o il tuo quartiere</button>
 
   <button id="mIniziative" onclick="mostraSezione('iniziative')">
     📸 Le nostre iniziative
@@ -898,7 +906,7 @@ button{
   <button id="mComunicazioni" onclick="mostraSezione('comunicazioni')">📢 Comunicazioni importanti</button>
   <button id="mStatoSito" onclick="mostraSezione('statoSito')">⚙️ Stato del sito</button>
 
-  <button data-cp-owner type="button" onclick="cpMostraSicurezza()">🔐 Sicurezza accesso</button>
+  <button type="button" onclick="cpMostraSicurezza()">🔐 Sicurezza accesso</button>
   <button class="logout" onclick="logout()">
     🚪 Esci
   </button>
@@ -1053,7 +1061,7 @@ button{
     <h2>📸 Le nostre iniziative</h2>
 
     <div class="meta">
-      Crea e gestisci le attività del Faro di Canicattì
+      Attività del Faro di Canicattì
     </div>
 
   </div>
@@ -1097,6 +1105,7 @@ button{
 </section>
 
 
+<section id="sezioneAdesioni" class="hidden"><div class="section-title"><h2>🏘️ Segui la tua via o il tuo quartiere</h2></div><button type="button" onclick="cpCaricaAdesioni()">Aggiorna adesioni</button><button type="button" onclick="cpStampaAdesioni()">🖨️ Stampa</button><p id="cpAdesioniMessaggio" role="status"></p><div id="cpAdesioniElenco"></div></section>
 <section id="sezioneComunicazioni" class="hidden cp-area">
   <div class="section-title"><h2>📢 Comunicazioni importanti</h2></div>
   <div class="actions">
@@ -1610,7 +1619,7 @@ button{
 
     </select>
 
-    <div class="info-box">
+    <div data-cp-owner class="info-box">
       Se scegli <strong>Bozza</strong>, l'iniziativa resterà
       visibile soltanto nel pannello amministrativo.
       Con <strong>Pubblicata</strong> potrà essere mostrata
@@ -1671,6 +1680,7 @@ button{
   </div>
 
 
+  <button id="cpShareInitiative" type="button" onclick="cpCondividiIniziativa()" hidden>↗ Condividi iniziativa</button><p id="cpShareStatus" role="status"></p>
   <div
     id="dangerIniziativa"
     class="danger-zone hidden">
@@ -1759,7 +1769,8 @@ let tutteIniziative = [];
 
 
 function cpApplicaRuolo(){
- for(const root of ['dettaglio','dettaglioProposta'])document.querySelectorAll('#'+root+' input,#'+root+' textarea,#'+root+' select').forEach(el=>{el.disabled=!cpIsOwner();});
+ document.querySelectorAll('#cpStatoForm button[type=submit],#cpForm button[type=submit]').forEach(el=>el.toggleAttribute('data-cp-owner',true));
+ for(const root of ['dettaglio','dettaglioProposta','dettaglioIniziativa','cpForm','cpStatoForm'])document.querySelectorAll('#'+root+' input,#'+root+' textarea,#'+root+' select').forEach(el=>{if(!cpIsOwner()){if(!el.disabled)el.dataset.cpLocked='1';el.disabled=true;}else if(el.dataset.cpLocked){el.disabled=false;delete el.dataset.cpLocked;}});
 }
 new MutationObserver(()=>{if(cpUserId)cpApplicaRuolo();}).observe(document.getElementById('adminBox'),{childList:true,subtree:true});
 async function cpCaricaVisite(){
@@ -1807,8 +1818,10 @@ function cpTokenLevel(value){
   try{return JSON.parse(atob(value.split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))).aal;}catch(_){return null;}
 }
 async function cpApriDashboard(){
+  cpNascondiPassword();
   const notify=await fetch(SUPABASE_URL+'/functions/v1/cp-attivita',{method:'POST',headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({azione:'apertura',id:cpOpeningId}),signal:AbortSignal.timeout(20000)}).catch(()=>({ok:false}));
   if(!notify.ok){document.getElementById('loginBox').classList.remove('hidden');document.getElementById('cpMfaBox').classList.add('hidden');token=null;throw new Error('Accesso non completato: notifica non disponibile. Riprova.');}
+  if(cpSessionExpired())throw new Error('Sessione scaduta. Accedi nuovamente.');
   cpOpeningId=crypto.randomUUID();
   document.body.classList.toggle('cp-readonly',!cpIsOwner());
   document.getElementById('cpRole').textContent=cpIsOwner()?'Account personale — amministratore con tutti i permessi':'';
@@ -1816,9 +1829,10 @@ async function cpApriDashboard(){
   document.getElementById('cpMfaBox').classList.add('hidden');
   document.getElementById('adminBox').classList.remove('hidden');
   document.getElementById('password').value='';
-  await Promise.all([caricaSegnalazioni(false),caricaProposte(false),...(cpIsOwner()?[caricaIniziative(false),cpCaricaComunicazioni(),cpCaricaStato(),cpCaricaVisite()]:[])]);
+  await Promise.all([caricaSegnalazioni(false),caricaProposte(false),caricaIniziative(false),cpCaricaComunicazioni(),cpCaricaStato(),cpCaricaVisite(),cpCaricaAdesioni()]);
   cpApplicaRuolo();
-  aggiornaInterfaccia();mostraSezione(cpIsOwner()?'dashboard':'segnalazioni');
+  aggiornaInterfaccia();mostraSezione('dashboard');
+  cpSessionSave();
 }
 function cpMostraMfa(){
   document.getElementById('loginBox').classList.add('hidden');
@@ -1857,6 +1871,7 @@ async function cpMostraSicurezza(){
     const user=await cpAuthRequest('/user',token);
     const verified=(user.factors||[]).filter(f=>f.factor_type==='totp'&&f.status==='verified');
     document.getElementById('cpMfaEnroll').disabled=verified.length>0;
+    if(!cpIsOwner()){message.textContent='Accesso protetto con email e password.';return;}
     message.textContent=verified.length?'Secondo fattore registrato. Ogni nuovo accesso richiede il codice Authenticator.':'Secondo fattore non ancora attivo. Premi il pulsante per configurarlo personalmente con il tuo telefono.';
   }catch(_){message.textContent='Non posso verificare lo stato. Accedi di nuovo e riprova.';document.getElementById('cpMfaEnroll').disabled=true;}
   panel.scrollIntoView({behavior:'smooth',block:'start'});
@@ -1892,6 +1907,7 @@ async function cpVerificaMfa(event){
     if(!d.access_token||cpTokenLevel(d.access_token)!=='aal2')throw new Error('Verifica non completata.');
     const user=await cpAuthRequest('/user',d.access_token);
     if(user.id!==CP_ADMIN_UID)throw new Error('Account non autorizzato.');
+    cpRefreshToken=d.refresh_token||cpRefreshToken;
     token=d.access_token;cpResetMfa();document.getElementById('cpSicurezzaMessage').textContent='Codice verificato. Secondo fattore registrato.';
     await cpApriDashboard();
   }catch(_){message.textContent='Accesso non completato. Riprova.';if(!token)document.getElementById('messaggio').textContent='Accesso non completato. Riprova.';}
@@ -1900,6 +1916,7 @@ async function cpVerificaMfa(event){
 document.getElementById('cpMfaForm').addEventListener('submit',cpVerificaMfa);
 
 async function login(){
+  if(cpRestoring)return;
 
   const email =
     document.getElementById("email").value.trim();
@@ -1960,6 +1977,8 @@ async function login(){
     }
 
     messaggio.textContent = '';
+    cpRefreshToken=d.refresh_token||null;
+    cpLastActivity=Date.now();
     await cpCompletaLogin(d);
 
   }catch(error){
@@ -2131,12 +2150,12 @@ function aggiornaInterfaccia(){
 ===================================================== */
 
 function mostraSezione(nome){
-  if(!cpIsOwner()&&!['segnalazioni','proposte','archivio'].includes(nome))return;
 
   const sezioni = [
     "Dashboard",
     "Segnalazioni",
     "Proposte",
+    "Adesioni",
     "Iniziative",
     "Categorie",
     "Stati",
@@ -3112,7 +3131,7 @@ function iniziativaHTML(i){
         class="apri-iniziativa"
         data-id="${escAttr(i.id)}">
 
-        Gestisci iniziativa
+        ${cpIsOwner()?'Gestisci iniziativa':'Apri iniziativa'}
 
       </button>
 
@@ -3126,6 +3145,8 @@ function iniziativaHTML(i){
 ===================================================== */
 
 function nuovaIniziativa(){
+  cpRichiedeProprietario();
+  document.getElementById('cpShareInitiative').hidden=true;document.getElementById('cpShareStatus').textContent='';
 
   iniziativaCorrente = null;
 
@@ -3184,7 +3205,7 @@ function apriIniziativa(i){
   document
     .getElementById("titoloModalIniziativa")
     .textContent =
-    "📸 Gestisci iniziativa";
+    cpIsOwner()?"📸 Gestisci iniziativa":"📸 Iniziativa";
 
   document
     .getElementById("iTitolo")
@@ -3224,6 +3245,9 @@ function apriIniziativa(i){
     .textContent = "";
 
   renderFotoIniziativaAdmin();
+  cpApplicaRuolo();
+  document.getElementById('cpShareInitiative').hidden=i.stato!=='Pubblicata';
+  document.getElementById('cpShareStatus').textContent='';
 
   document
     .getElementById("dettaglioIniziativa")
@@ -5860,6 +5884,8 @@ async function eliminaProposta(){
 ===================================================== */
 
 function logout(){
+  cpNascondiPassword();
+  cpSessionClear();
   cpUserId=null;
   document.body.classList.remove('cp-readonly');
   cpOpeningId=crypto.randomUUID();
@@ -5876,6 +5902,7 @@ function logout(){
   tutteSegnalazioni = [];
   tutteProposte = [];
   tutteIniziative = [];
+  cpAdesioni=[];document.getElementById('cpAdesioniElenco').replaceChildren();
 
 
   document
@@ -6208,6 +6235,30 @@ function pulisciNomeFile(nome){
     );
 }
 
+
+function cpStampaAdesioni(){document.body.classList.add('cp-print-adesioni');const cleanup=()=>document.body.classList.remove('cp-print-adesioni');window.addEventListener('afterprint',cleanup,{once:true});try{window.print();}catch(error){cleanup();throw error;}}
+let cpAdesioni=[];
+async function cpCaricaAdesioni(){
+ const msg=document.getElementById('cpAdesioniMessaggio'),box=document.getElementById('cpAdesioniElenco');
+ msg.textContent='Caricamento adesioni…';const epoch=cpEpoca;
+ try{
+  let rows=[],offset=0;
+  while(true){const page=await cpRichiesta('cp_adesioni','?select=id,created_at,stato,nome,email,telefono,tipo,zona,messaggio&order=created_at.desc,id.asc&limit=500&offset='+offset);rows.push(...page);if(page.length<500)break;offset+=page.length;}
+  if(epoch!==cpEpoca)return;cpAdesioni=rows;
+  box.innerHTML=rows.map(a=>'<article class="card"><h3>'+esc(a.zona||'Zona non indicata')+'</h3><p>'+esc(a.tipo==='Adotta una via'?'Segui la tua via':a.tipo==='Adotta un quartiere'?'Segui il tuo quartiere':a.tipo||'')+'</p><p>'+esc(a.nome||'')+' · '+esc(a.email||'')+' · '+esc(a.telefono||'')+'</p><p style="white-space:pre-wrap">'+esc(a.messaggio||'')+'</p><p class="meta">'+esc(a.stato||'Da valutare')+' · '+esc(a.created_at?new Date(a.created_at).toLocaleString('it-IT'):'')+'</p></article>').join('');
+  msg.textContent=rows.length?rows.length+(rows.length===1?' adesione':' adesioni'):'Nessuna adesione presente.';
+ }catch(_){if(epoch===cpEpoca)msg.textContent='Adesioni non disponibili. Riprova.';}
+}
+async function cpCondividiIniziativa(){
+ if(!iniziativaCorrente||iniziativaCorrente.stato!=='Pubblicata')return;
+ const data={title:iniziativaCorrente.titolo||'Canicattì Partecipa',text:iniziativaCorrente.titolo||'Iniziativa di Canicattì Partecipa',url:'https://canicattipartecipa.it/iniziative.html#iniziativa-'+encodeURIComponent(iniziativaCorrente.id)};
+ const status=document.getElementById('cpShareStatus');
+ try{if(navigator.share){await navigator.share(data);status.textContent='';}else if(navigator.clipboard){await navigator.clipboard.writeText(data.url);status.textContent='Link copiato: '+data.url;}else status.textContent='Link da condividere: '+data.url;}
+ catch(error){if(error.name!=='AbortError')status.textContent='Link da condividere: '+data.url;}
+}
+function cpNascondiPassword(){const field=document.getElementById('password'),button=document.getElementById('cpPasswordEye');field.type='password';button.setAttribute('aria-pressed','false');button.setAttribute('aria-label','Mostra password');}
+function cpTogglePassword(){const field=document.getElementById('password'),button=document.getElementById('cpPasswordEye');const show=field.type==='password';field.type=show?'text':'password';button.setAttribute('aria-pressed',String(show));button.setAttribute('aria-label',show?'Nascondi password':'Mostra password');}
+
 /* Comunicazioni e impostazioni: usano esclusivamente la sessione esistente. */
 let cpComunicazioni = [];
 let cpCorrente = null;
@@ -6221,6 +6272,7 @@ function cpMessaggio(id, testo, errore = false){
   cpEl(id).style.color = errore ? '#b42318' : '#146c43';
 }
 async function cpRichiesta(tabella, query, metodo = 'GET', dati){
+  if(metodo!=='GET')cpRichiedeProprietario();
   if(!token) throw new Error('Sessione non disponibile. Accedi nuovamente.');
   const epoca = cpEpoca;
   const risposta = await fetch(SUPABASE_URL + '/rest/v1/' + tabella + query, {
@@ -6268,7 +6320,7 @@ async function cpCaricaComunicazioni(){
     if(epoca === cpEpoca) cpMessaggio('cpListaMessaggio','Impossibile aggiornare l’elenco: ' + e.message,true);
     return false;
   }finally{
-    if(epoca === cpEpoca){cpOccupato = false; cpEl('cpCampi').disabled = false; cpRender();}
+    if(epoca === cpEpoca){cpOccupato = false; cpEl('cpCampi').disabled = !cpIsOwner(); cpRender();}
   }
 }
 function cpRender(){
@@ -6287,7 +6339,7 @@ function cpRender(){
     [['Modifica',() => cpApri(c),'apri'],[c.attiva ? 'Disattiva' : 'Attiva',() => cpCambia(c),'salva'],['Elimina',() => cpElimina(c),'elimina']].forEach(([label,azione,classe]) => {
       const b = document.createElement('button'); b.type = 'button'; b.className = classe; b.textContent = label; b.disabled = cpOccupato; b.addEventListener('click',azione); azioni.append(b);
     });
-    card.append(azioni); elenco.append(card);
+    if(cpIsOwner())card.append(azioni); elenco.append(card);
   });
 }
 function cpDataLocale(valore){
@@ -6296,8 +6348,9 @@ function cpDataLocale(valore){
   if(!Number.isFinite(d.getTime())) return '';
   return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,23);
 }
-function cpNuova(){ if(!cpOccupato) cpApri(null); }
+function cpNuova(){ cpRichiedeProprietario(); if(!cpOccupato) cpApri(null); }
 function cpApri(c){
+  cpRichiedeProprietario();
   if(cpOccupato) return;
   cpCorrente = c;
   cpEl('cpForm').reset();
@@ -6358,7 +6411,7 @@ async function cpMutazione(azione,messaggio,destinazione,chiudi = false){
   let riuscita = false;
   try{await azione();riuscita = true;}
   catch(e){if(epoca === cpEpoca) cpMessaggio(destinazione,e.message,true);}
-  finally{if(epoca === cpEpoca){cpOccupato = false; cpEl('cpCampi').disabled = false; cpRender();}}
+  finally{if(epoca === cpEpoca){cpOccupato = false; cpEl('cpCampi').disabled = !cpIsOwner(); cpRender();}}
   if(epoca !== cpEpoca || !riuscita) return;
   if(chiudi) cpChiudi();
   const aggiornata = await cpCaricaComunicazioni();
@@ -6392,7 +6445,7 @@ async function cpCaricaStato(){
     if(righe.length !== 1) throw new Error('Record id=1 non trovato o non accessibile.');
     cpMostraStato(righe[0]); cpStatoCaricato = true; cpMessaggio('cpStatoMessaggio','');
   }catch(e){if(epoca === cpEpoca) cpMessaggio('cpStatoMessaggio',e.message,true);}
-  finally{if(epoca === cpEpoca){cpStatoOccupato = false;cpEl('cpStatoCampi').disabled = !cpStatoCaricato;}}
+  finally{if(epoca === cpEpoca){cpStatoOccupato = false;cpEl('cpStatoCampi').disabled = !cpStatoCaricato || !cpIsOwner();cpApplicaRuolo();}}
 }
 async function cpSalvaStato(event){
   cpRichiedeProprietario();
@@ -6449,6 +6502,62 @@ document.addEventListener('click', function (event) {
     ? event.target.closest('[data-apri-foto]') : null;
   if (target) apriFoto(target.getAttribute('data-apri-foto'));
 });
+
+// Sessione della sola scheda: nessuna password salvata; scadenza dopo 30 minuti senza azioni.
+const CP_SESSION_KEY='cp-admin-tab-v1',CP_IDLE_MS=30*60*1000;
+let cpRefreshToken=null,cpLastActivity=0,cpRefreshing=null,cpRestoring=false;
+function cpSessionClear(){try{sessionStorage.removeItem(CP_SESSION_KEY);}catch(_){}cpRefreshToken=null;cpLastActivity=0;}
+function cpSessionSave(){if(!token||!cpRefreshToken||!cpUserId)return;try{sessionStorage.setItem(CP_SESSION_KEY,JSON.stringify({access:token,refresh:cpRefreshToken,activity:cpLastActivity,user:cpUserId}));}catch(_){}}
+function cpSessionExpired(){return !cpLastActivity||Date.now()-cpLastActivity>=CP_IDLE_MS||cpLastActivity>Date.now()+60000;}
+function cpSessionEnd(message){logout();document.getElementById('messaggio').textContent=message;}
+function cpTokenExpiry(value){try{return Number(JSON.parse(atob(value.split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))).exp)*1000;}catch(_){return 0;}}
+async function cpRefreshSession(){
+ if(cpRefreshing)return cpRefreshing;
+ const expected=cpUserId,refresh=cpRefreshToken;
+ cpRefreshing=(async()=>{
+  if(!refresh||cpSessionExpired())throw new Error('Sessione scaduta');
+  const r=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:SUPABASE_KEY,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:refresh}),signal:AbortSignal.timeout(15000)});
+  if(!r.ok)throw new Error('Sessione scaduta');const d=await r.json();
+  if(!d.access_token||!d.refresh_token||d.user?.id!==expected||![CP_ADMIN_UID,CP_READER_UID].includes(expected)||(expected===CP_ADMIN_UID&&cpTokenLevel(d.access_token)!=='aal2'))throw new Error('Verifica richiesta');
+  if(cpSessionExpired()||cpRefreshToken!==refresh||cpUserId!==expected)throw new Error('Sessione cambiata');
+  token=d.access_token;cpRefreshToken=d.refresh_token;cpSessionSave();
+ })();
+ try{await cpRefreshing;}finally{cpRefreshing=null;}
+}
+async function cpSessionRestore(){
+ let saved;try{saved=JSON.parse(sessionStorage.getItem(CP_SESSION_KEY)||'null');}catch(_){cpSessionClear();return;}
+ if(!saved)return;
+ if(!saved.access||!saved.refresh||![CP_ADMIN_UID,CP_READER_UID].includes(saved.user)||!Number.isFinite(saved.activity)){cpSessionClear();return;}
+ cpUserId=saved.user;cpLastActivity=saved.activity;token=saved.access;cpRefreshToken=saved.refresh;
+ if(cpSessionExpired()){cpSessionEnd('Sessione scaduta dopo 30 minuti di inattività. Accedi di nuovo.');return;}
+ cpRestoring=true;document.getElementById('messaggio').textContent='Ripristino accesso…';
+ try{
+  if(cpTokenExpiry(token)<Date.now()+90000)await cpRefreshSession();
+  // La verifica dell'identità e del secondo fattore passa sempre da Supabase.
+  const user=await cpAuthRequest('/user',token);
+  if(user.id!==saved.user||(user.id===CP_ADMIN_UID&&cpTokenLevel(token)!=='aal2'))throw new Error();
+  if(cpSessionExpired())throw new Error();
+  await cpApriDashboard();document.getElementById('messaggio').textContent='';
+ }catch(_){cpSessionEnd('Accedi nuovamente per continuare.');}
+ finally{cpRestoring=false;}
+}
+function cpSessionActivity(){
+ if(!token||cpRestoring)return;
+ // Un'azione dopo la scadenza non può riattivare una sessione già scaduta.
+ if(cpSessionExpired()){cpSessionEnd('Sessione scaduta dopo 30 minuti di inattività. Accedi di nuovo.');return;}
+ if(Date.now()-cpLastActivity>1000){cpLastActivity=Date.now();cpSessionSave();}
+}
+for(const event of ['pointerdown','keydown','wheel','touchstart','scroll'])document.addEventListener(event,cpSessionActivity,{passive:true,capture:true});
+async function cpSessionCheck(){
+ if(!token||cpRestoring)return;
+ if(cpSessionExpired()){cpSessionEnd('Sessione scaduta dopo 30 minuti di inattività. Accedi di nuovo.');return;}
+ if(cpTokenExpiry(token)<Date.now()+90000){const refreshAtStart=cpRefreshToken;try{await cpRefreshSession();}catch(_){if(cpRefreshToken===refreshAtStart)cpSessionEnd('Sessione scaduta. Accedi nuovamente.');}}
+}
+setInterval(cpSessionCheck,20000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')cpSessionCheck();});
+window.addEventListener('pageshow',event=>{if(event.persisted)cpSessionCheck();});
+cpSessionRestore();
+
 </script>
 
 </body>
