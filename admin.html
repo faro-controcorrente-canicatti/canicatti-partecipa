@@ -781,6 +781,10 @@ button{
 .cp-status{white-space:pre-wrap;margin:12px 0}
 .cp-text{white-space:pre-wrap}
 @media(max-width:650px){.cp-grid{grid-template-columns:minmax(0,1fr)}.cp-area .actions button{flex:1 1 140px}}
+
+.cp-readonly .danger-zone, .cp-readonly [data-cp-owner], .cp-readonly #mDashboard, .cp-readonly #mIniziative, .cp-readonly #mCategorie, .cp-readonly #mStati, .cp-readonly #mStatistiche, .cp-readonly #mComunicazioni, .cp-readonly #mStatoSito {display:none!important}
+#cpRole{padding:12px;background:#eaf1fa;border-radius:8px}
+.cp-visite-table{width:100%;border-collapse:collapse}.cp-visite-table td,.cp-visite-table th{text-align:left;padding:9px;border-bottom:1px solid #dde3ea}
 </style>
 </head>
 
@@ -822,7 +826,7 @@ button{
 
 <div id="loginBox" class="card">
 
-  <h2>Accesso amministratore</h2>
+  <h2>Accesso amministratore</h2><p>Controcorrente: controcorrentefarocanicatti@gmail.com (sola lettura). Accesso personale separato per il proprietario.</p>
 
   <input
     id="email"
@@ -853,8 +857,8 @@ button{
 <button id="cpMfaVerify" type="submit" class="login">Verifica e accedi</button></form>
 <button type="button" onclick="cpAnnullaMfa()">Annulla ed esci</button>
 </section>
-<div id="adminBox" class="hidden">
-<section id="cpSicurezza" class="card hidden"><h2>Sicurezza dell’accesso</h2><p id="cpSicurezzaMessage" aria-live="polite"></p><button id="cpMfaEnroll" type="button" onclick="cpRegistraMfa()">Configura il secondo fattore con il mio telefono</button><p>Usa un’app Authenticator. Non condividere QR o codici. Dopo l’attivazione controlla anche un nuovo accesso prima di chiudere questa scheda.</p></section>
+<div id="adminBox" class="hidden"><p id="cpRole" role="status"></p>
+<section id="cpSicurezza" class="card hidden"><h2>Sicurezza dell’accesso</h2><p id="cpSicurezzaMessage" aria-live="polite"></p><button data-cp-owner id="cpMfaEnroll" type="button" onclick="cpRegistraMfa()">Configura il secondo fattore con il mio telefono</button><p>Usa un’app Authenticator. Non condividere QR o codici. Dopo l’attivazione controlla anche un nuovo accesso prima di chiudere questa scheda.</p></section>
 
 <div class="menu">
 
@@ -893,7 +897,7 @@ button{
   <button id="mComunicazioni" onclick="mostraSezione('comunicazioni')">📢 Comunicazioni importanti</button>
   <button id="mStatoSito" onclick="mostraSezione('statoSito')">⚙️ Stato del sito</button>
 
-  <button type="button" onclick="cpMostraSicurezza()">🔐 Sicurezza accesso</button>
+  <button data-cp-owner type="button" onclick="cpMostraSicurezza()">🔐 Sicurezza accesso</button>
   <button class="logout" onclick="logout()">
     🚪 Esci
   </button>
@@ -1055,7 +1059,7 @@ button{
 
   <div id="dashboardIniziative" class="dashboard"></div>
 
-  <button
+  <button data-cp-owner
     class="nuova-iniziativa"
     onclick="nuovaIniziativa()">
     ＋ Nuova iniziativa
@@ -1095,7 +1099,7 @@ button{
 <section id="sezioneComunicazioni" class="hidden cp-area">
   <div class="section-title"><h2>📢 Comunicazioni importanti</h2></div>
   <div class="actions">
-    <button class="salva" type="button" onclick="cpNuova()">＋ Nuova comunicazione</button>
+    <button data-cp-owner class="salva" type="button" onclick="cpNuova()">＋ Nuova comunicazione</button>
     <button type="button" onclick="cpCaricaComunicazioni()">Aggiorna elenco</button>
   </div>
   <p id="cpListaMessaggio" class="cp-status" role="status" aria-live="polite"></p>
@@ -1108,7 +1112,7 @@ button{
       <input id="cpFotoFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif" onchange="cpAnteprimaFoto()">
       <p class="file-help">Scegli una foto dal telefono o dal computer (JPG, PNG, WebP o GIF, massimo 10 MB). Verrà caricata quando salvi.</p>
       <img id="cpFotoAnteprima" alt="Anteprima foto della comunicazione" style="display:none;max-width:100%;max-height:240px;object-fit:contain;margin-bottom:12px">
-      <button type="button" onclick="cpRimuoviFoto()">Rimuovi foto dalla comunicazione</button>
+      <button data-cp-owner type="button" onclick="cpRimuoviFoto()">Rimuovi foto dalla comunicazione</button>
       <details><summary>Opzione avanzata: URL foto</summary>
       <input id="cpFoto" type="text" aria-label="URL della foto" onchange="cpAnteprimaFoto()"></details>
       <div class="cp-grid">
@@ -1194,6 +1198,7 @@ button{
     <h2>📊 Statistiche</h2>
   </div>
 
+  <div class="card"><h3>Visite reali al sito</h3><p>Visualizzazioni delle pagine pubbliche, con esclusione dei bot riconoscibili. Le visite ripartono dopo 30 minuti di inattività o al cambio di giorno. I visitatori sono stime giornaliere: stessa rete e browser possono risultare una sola persona; dispositivi diversi possono risultare più persone. Il pannello amministratore è escluso.</p><button type="button" onclick="cpCaricaVisite()">Aggiorna statistiche</button><div id="cpVisite" aria-live="polite"></div></div>
   <div class="card">
     <h3>Segnalazioni per categoria</h3>
     <div id="statisticheCategorie"></div>
@@ -1349,7 +1354,7 @@ button{
 
   <div class="actions">
 
-    <button class="salva" onclick="salvaPratica()">
+    <button data-cp-owner class="salva" onclick="salvaPratica()">
       💾 Salva pratica
     </button>
 
@@ -1357,7 +1362,7 @@ button{
       🖨️ Stampa
     </button>
 
-    <button class="rifiuta" onclick="rifiutaPratica()">
+    <button data-cp-owner class="rifiuta" onclick="rifiutaPratica()">
       ✕ Rifiuta
     </button>
 
@@ -1374,7 +1379,7 @@ button{
       L'eliminazione non può essere annullata.
     </p>
 
-    <button class="elimina" onclick="eliminaPratica()">
+    <button data-cp-owner class="elimina" onclick="eliminaPratica()">
       🗑️ Elimina definitivamente
     </button>
 
@@ -1505,7 +1510,7 @@ button{
 
   <div class="actions">
 
-    <button class="salva" onclick="salvaProposta()">
+    <button data-cp-owner class="salva" onclick="salvaProposta()">
       💾 Salva valutazione
     </button>
 
@@ -1525,7 +1530,7 @@ button{
       o contenuti che non devono essere conservati.
     </p>
 
-    <button class="elimina" onclick="eliminaProposta()">
+    <button data-cp-owner class="elimina" onclick="eliminaProposta()">
       🗑️ Elimina proposta
     </button>
 
@@ -1645,7 +1650,7 @@ button{
 
   <div class="actions">
 
-    <button
+    <button data-cp-owner
       id="btnSalvaIniziativa"
       class="salva"
       onclick="salvaIniziativa()">
@@ -1677,7 +1682,7 @@ button{
       <strong>foto-iniziative</strong>.
     </p>
 
-    <button
+    <button data-cp-owner
       class="elimina"
       onclick="eliminaIniziativa()">
 
@@ -1751,12 +1756,33 @@ let tutteProposte = [];
 let tutteIniziative = [];
 
 
+
+function cpApplicaRuolo(){
+ for(const root of ['dettaglio','dettaglioProposta'])document.querySelectorAll('#'+root+' input,#'+root+' textarea,#'+root+' select').forEach(el=>{el.disabled=!cpIsOwner();});
+}
+new MutationObserver(()=>{if(cpUserId)cpApplicaRuolo();}).observe(document.getElementById('adminBox'),{childList:true,subtree:true});
+async function cpCaricaVisite(){
+ const box=document.getElementById('cpVisite');
+ box.textContent='Caricamento statistiche...';
+ try{
+  const r=await fetch(SUPABASE_URL+'/rest/v1/rpc/cp_statistiche_visite',{method:'POST',headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+token,'Content-Type':'application/json'},body:'{}'});
+  if(!r.ok)throw new Error();const d=await r.json();
+  const row=(g)=>'<tr><td>'+esc(g.giorno)+'</td><td>'+Number(g.visualizzazioni)+'</td><td>'+Number(g.visite)+'</td><td>'+Number(g.visitatori)+'</td></tr>';
+  box.innerHTML='<p><strong>'+Number(d.totale)+'</strong> visualizzazioni totali · <strong>'+Number(d.visite)+'</strong> visite totali</p><p>Rilevazione dal '+esc(d.inizio||'primo accesso rilevato')+'.</p><h4>Ultimi 30 giorni</h4><div style="overflow:auto"><table class="cp-visite-table"><thead><tr><th>Giorno</th><th>Visualizzazioni</th><th>Visite</th><th>Visitatori stimati</th></tr></thead><tbody>'+d.giorni.map(row).join('')+'</tbody></table></div><h4>Pagine visitate</h4>'+d.pagine.map(p=>'<p>'+esc(p.pagina)+': <strong>'+Number(p.visualizzazioni)+'</strong></p>').join('');
+ }catch(_){box.textContent='Statistiche non disponibili. Premi Aggiorna per riprovare.';}
+}
+
 /* =====================================================
    LOGIN
 ===================================================== */
 
 // REST MFA ufficiale Supabase. Token e segreto restano solo in memoria.
 const CP_ADMIN_UID = '74b7a543-e730-4b67-9065-a05364f0ea50';
+const CP_READER_UID = 'e6712a60-873b-446b-90ea-5c6811d2b346';
+let cpUserId = null;
+let cpOpeningId = crypto.randomUUID();
+const cpIsOwner = () => cpUserId === CP_ADMIN_UID;
+function cpRichiedeProprietario(){if(!cpIsOwner())throw new Error('Account in sola lettura: operazione non autorizzata.');}
 let cpMfaToken = null;
 let cpMfaFactor = null;
 let cpMfaBusy = false;
@@ -1780,12 +1806,18 @@ function cpTokenLevel(value){
   try{return JSON.parse(atob(value.split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))).aal;}catch(_){return null;}
 }
 async function cpApriDashboard(){
+  const notify=await fetch(SUPABASE_URL+'/functions/v1/cp-attivita',{method:'POST',headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({azione:'apertura',id:cpOpeningId}),signal:AbortSignal.timeout(20000)}).catch(()=>({ok:false}));
+  if(!notify.ok){document.getElementById('loginBox').classList.remove('hidden');document.getElementById('cpMfaBox').classList.add('hidden');token=null;throw new Error('Accesso non completato: notifica non disponibile. Riprova.');}
+  cpOpeningId=crypto.randomUUID();
+  document.body.classList.toggle('cp-readonly',!cpIsOwner());
+  document.getElementById('cpRole').textContent=cpIsOwner()?'Account personale — amministratore con tutti i permessi':'Controcorrente — sola lettura di segnalazioni e richieste';
   document.getElementById('loginBox').classList.add('hidden');
   document.getElementById('cpMfaBox').classList.add('hidden');
   document.getElementById('adminBox').classList.remove('hidden');
   document.getElementById('password').value='';
-  await Promise.all([caricaSegnalazioni(false),caricaProposte(false),caricaIniziative(false),cpCaricaComunicazioni(),cpCaricaStato()]);
-  aggiornaInterfaccia();mostraSezione('dashboard');
+  await Promise.all([caricaSegnalazioni(false),caricaProposte(false),...(cpIsOwner()?[caricaIniziative(false),cpCaricaComunicazioni(),cpCaricaStato(),cpCaricaVisite()]:[])]);
+  cpApplicaRuolo();
+  aggiornaInterfaccia();mostraSezione(cpIsOwner()?'dashboard':'segnalazioni');
 }
 function cpMostraMfa(){
   document.getElementById('loginBox').classList.add('hidden');
@@ -1795,11 +1827,12 @@ function cpMostraMfa(){
   document.getElementById('cpMfaCode').focus();
 }
 async function cpCompletaLogin(d){
-  if(d.user?.id!==CP_ADMIN_UID)throw new Error('Questo account non è autorizzato al pannello.');
+  if(![CP_ADMIN_UID,CP_READER_UID].includes(d.user?.id))throw new Error('Questo account non è autorizzato al pannello.');
   const user=await cpAuthRequest('/user',d.access_token);
-  if(user.id!==CP_ADMIN_UID)throw new Error('Account non autorizzato.');
+  if(![CP_ADMIN_UID,CP_READER_UID].includes(user.id))throw new Error('Account non autorizzato.');
+  cpUserId=user.id;
   const verified=(user.factors||[]).filter(f=>f.factor_type==='totp'&&f.status==='verified');
-  if(verified.length&&cpTokenLevel(d.access_token)!=='aal2'){
+  if(cpIsOwner()&&verified.length&&cpTokenLevel(d.access_token)!=='aal2'){
     token=null;cpMfaToken=d.access_token;cpMfaFactor=verified[0].id;cpMfaEnrollment=false;
     document.getElementById('cpMfaMessage').textContent='Inserisci il codice a sei cifre della tua app Authenticator.';
     cpMostraMfa();return;
@@ -1828,6 +1861,7 @@ async function cpMostraSicurezza(){
   panel.scrollIntoView({behavior:'smooth',block:'start'});
 }
 async function cpRegistraMfa(){
+  cpRichiedeProprietario();
   if(cpMfaBusy||!token)return;
   cpMfaBusy=true;document.getElementById('cpMfaEnroll').disabled=true;
   try{
@@ -1859,7 +1893,7 @@ async function cpVerificaMfa(event){
     if(user.id!==CP_ADMIN_UID)throw new Error('Account non autorizzato.');
     token=d.access_token;cpResetMfa();document.getElementById('cpSicurezzaMessage').textContent='Codice verificato. Secondo fattore registrato.';
     await cpApriDashboard();
-  }catch(_){message.textContent='Codice non verificato. Usa il codice attuale dell’app e riprova.';}
+  }catch(_){message.textContent='Accesso non completato. Riprova.';if(!token)document.getElementById('messaggio').textContent='Accesso non completato. Riprova.';}
   finally{input.value='';cpMfaBusy=false;document.getElementById('cpMfaVerify').disabled=false;}
 }
 document.getElementById('cpMfaForm').addEventListener('submit',cpVerificaMfa);
@@ -2096,6 +2130,7 @@ function aggiornaInterfaccia(){
 ===================================================== */
 
 function mostraSezione(nome){
+  if(!cpIsOwner()&&!['segnalazioni','proposte','archivio'].includes(nome))return;
 
   const sezioni = [
     "Dashboard",
@@ -3362,7 +3397,7 @@ function renderFotoIniziativaAdmin(){
               Foto ${index+1}
             </div>
 
-            <button
+            <button data-cp-owner
               class="rimuovi-foto"
               onclick="rimuoviFotoIniziativa(${index})">
 
@@ -3393,6 +3428,7 @@ async function caricaFotoIniziativa(
   files,
   iniziativaId
 ){
+  cpRichiedeProprietario();
 
   const nuoveFoto = [];
 
@@ -3497,6 +3533,7 @@ async function caricaFotoIniziativa(
 ===================================================== */
 
 async function salvaIniziativa(){
+  cpRichiedeProprietario();
 
   const messaggio =
     document.getElementById(
@@ -3767,6 +3804,7 @@ async function salvaIniziativa(){
 ===================================================== */
 
 async function rimuoviFotoIniziativa(index){
+  cpRichiedeProprietario();
 
   if(!iniziativaCorrente)
     return;
@@ -3937,6 +3975,7 @@ async function rimuoviFotoIniziativa(index){
 ===================================================== */
 
 async function eliminaIniziativa(){
+  cpRichiedeProprietario();
 
   if(!iniziativaCorrente)
     return;
@@ -4677,6 +4716,7 @@ function chiudiDettaglio(){
 ===================================================== */
 
 async function salvaPratica(){
+  cpRichiedeProprietario();
 
   if(!praticaCorrente)
     return;
@@ -5003,6 +5043,7 @@ async function salvaPratica(){
 ===================================================== */
 
 async function rifiutaPratica(){
+  cpRichiedeProprietario();
 
   if(!praticaCorrente)
     return;
@@ -5030,6 +5071,7 @@ async function rifiutaPratica(){
 ===================================================== */
 
 async function eliminaPratica(){
+  cpRichiedeProprietario();
 
   if(!praticaCorrente)
     return;
@@ -5530,6 +5572,7 @@ function chiudiProposta(){
 ===================================================== */
 
 async function salvaProposta(){
+  cpRichiedeProprietario();
 
   if(!propostaCorrente)
     return;
@@ -5637,6 +5680,7 @@ async function salvaProposta(){
 ===================================================== */
 
 async function eliminaProposta(){
+  cpRichiedeProprietario();
 
   if(!propostaCorrente)
     return;
@@ -5815,6 +5859,9 @@ async function eliminaProposta(){
 ===================================================== */
 
 function logout(){
+  cpUserId=null;
+  document.body.classList.remove('cp-readonly');
+  cpOpeningId=crypto.randomUUID();
   cpResetMfa();
 
   cpReset();
@@ -6268,6 +6315,7 @@ function cpChiudi(){
   cpCorrente = null; cpEl('cpForm').reset(); cpAnteprimaFoto(); cpEl('cpForm').classList.add('hidden');
 }
 async function cpSalva(event){
+  cpRichiedeProprietario();
   event.preventDefault();
   if(cpOccupato || !cpEl('cpForm').reportValidity()) return;
   const fileFoto = cpEl('cpFotoFile').files[0];
@@ -6301,6 +6349,7 @@ async function cpSalva(event){
   },'Comunicazione salvata.','cpFormMessaggio',true);
 }
 async function cpMutazione(azione,messaggio,destinazione,chiudi = false){
+  cpRichiedeProprietario();
   if(cpOccupato) return;
   const epoca = cpEpoca;
   cpOccupato = true; cpEl('cpCampi').disabled = true; cpRender();
@@ -6315,12 +6364,14 @@ async function cpMutazione(azione,messaggio,destinazione,chiudi = false){
   if(epoca === cpEpoca && aggiornata) cpMessaggio('cpListaMessaggio',messaggio);
 }
 async function cpCambia(c){
+  cpRichiedeProprietario();
   await cpMutazione(async () => {
     const righe = await cpRichiesta('comunicazioni','?id=eq.' + encodeURIComponent(c.id),'PATCH',{attiva:!c.attiva,updated_at:new Date().toISOString()});
     if(cpCorrente?.id === c.id){cpCorrente = righe[0];cpEl('cpAttiva').checked = !!righe[0].attiva;}
   },'Stato della comunicazione aggiornato.','cpListaMessaggio');
 }
 async function cpElimina(c){
+  cpRichiedeProprietario();
   if(cpOccupato || !confirm('Eliminare definitivamente la comunicazione «' + (c.titolo || 'Senza titolo') + '»?')) return;
   await cpMutazione(() => cpRichiesta('comunicazioni','?id=eq.' + encodeURIComponent(c.id),'DELETE'),
     'Comunicazione eliminata.','cpListaMessaggio',cpCorrente?.id === c.id);
@@ -6343,6 +6394,7 @@ async function cpCaricaStato(){
   finally{if(epoca === cpEpoca){cpStatoOccupato = false;cpEl('cpStatoCampi').disabled = !cpStatoCaricato;}}
 }
 async function cpSalvaStato(event){
+  cpRichiedeProprietario();
   event.preventDefault();
   if(cpStatoOccupato || !cpStatoCaricato) return;
   const epoca = cpEpoca;
@@ -6377,6 +6429,7 @@ function cpRimuoviFoto(){
   cpEl('cpFotoFile').value='';cpEl('cpFoto').value='';cpAnteprimaFoto();
 }
 async function cpUploadFoto(file,id){
+  cpRichiedeProprietario();
   const epoca=cpEpoca;
   if(!token)throw new Error('Accedi nuovamente prima di caricare la foto.');
   const percorso='comunicazioni/'+id+'/'+crypto.randomUUID()+'_'+pulisciNomeFile(file.name);
