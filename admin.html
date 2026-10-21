@@ -6273,7 +6273,9 @@ async function cpEliminaAdesione(id){
  cpRichiedeProprietario();
  if(cpAdesioneEliminazione)return;
  const a=cpAdesioni.find(row=>String(row.id)===String(id));if(!a)return;
- if(!confirm('Eliminare definitivamente la richiesta di '+(a.nome||'adesione')+' per «'+(a.zona||'zona non indicata')+'»? La cancellazione non può essere annullata.'))return;
+ const riferimento='richiesta di '+(a.nome||'adesione')+' per «'+(a.zona||'zona non indicata')+'»';
+ if(!confirm('ATTENZIONE\n\nStai per eliminare definitivamente la '+riferimento+'.\n\nL’operazione non potrà essere annullata.\n\nVuoi continuare?'))return;
+ if(!confirm('ULTIMA CONFERMA\n\nEliminare definitivamente la '+riferimento+'?'))return;
  cpAdesioneEliminazione=true;const epoch=cpEpoca;
  const msg=document.getElementById('cpAdesioniMessaggio');
  document.querySelectorAll('.cp-elimina-adesione').forEach(button=>button.disabled=true);
