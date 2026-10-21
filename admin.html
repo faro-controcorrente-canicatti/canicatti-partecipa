@@ -784,6 +784,7 @@ button{
 
 .cp-readonly .danger-zone, .cp-readonly [data-cp-owner], .cp-readonly #mDashboard, .cp-readonly #mIniziative, .cp-readonly #mCategorie, .cp-readonly #mStati, .cp-readonly #mStatistiche, .cp-readonly #mComunicazioni, .cp-readonly #mStatoSito {display:none!important}
 #cpRole{padding:12px;background:#eaf1fa;border-radius:8px}
+.cp-readonly #cpRole{display:none!important}
 .cp-visite-table{width:100%;border-collapse:collapse}.cp-visite-table td,.cp-visite-table th{text-align:left;padding:9px;border-bottom:1px solid #dde3ea}
 </style>
 </head>
@@ -826,7 +827,7 @@ button{
 
 <div id="loginBox" class="card">
 
-  <h2>Accesso amministratore</h2><p>Controcorrente: controcorrentefarocanicatti@gmail.com (sola lettura). Accesso personale separato per il proprietario.</p>
+  <h2>Accesso amministratore</h2>
 
   <input
     id="email"
@@ -1782,7 +1783,7 @@ const CP_READER_UID = 'e6712a60-873b-446b-90ea-5c6811d2b346';
 let cpUserId = null;
 let cpOpeningId = crypto.randomUUID();
 const cpIsOwner = () => cpUserId === CP_ADMIN_UID;
-function cpRichiedeProprietario(){if(!cpIsOwner())throw new Error('Account in sola lettura: operazione non autorizzata.');}
+function cpRichiedeProprietario(){if(!cpIsOwner())throw new Error('Operazione non disponibile.');}
 let cpMfaToken = null;
 let cpMfaFactor = null;
 let cpMfaBusy = false;
@@ -1810,7 +1811,7 @@ async function cpApriDashboard(){
   if(!notify.ok){document.getElementById('loginBox').classList.remove('hidden');document.getElementById('cpMfaBox').classList.add('hidden');token=null;throw new Error('Accesso non completato: notifica non disponibile. Riprova.');}
   cpOpeningId=crypto.randomUUID();
   document.body.classList.toggle('cp-readonly',!cpIsOwner());
-  document.getElementById('cpRole').textContent=cpIsOwner()?'Account personale — amministratore con tutti i permessi':'Controcorrente — sola lettura di segnalazioni e richieste';
+  document.getElementById('cpRole').textContent=cpIsOwner()?'Account personale — amministratore con tutti i permessi':'';
   document.getElementById('loginBox').classList.add('hidden');
   document.getElementById('cpMfaBox').classList.add('hidden');
   document.getElementById('adminBox').classList.remove('hidden');
