@@ -32,7 +32,7 @@
  html.cp-a11y-contrast ::placeholder{color:#444!important;opacity:1!important}
  html.cp-a11y-motion *,html.cp-a11y-motion *::before,html.cp-a11y-motion *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
- @media print{#cpAccessibilita{display:none!important}}
+ @media print{body{padding-bottom:0!important}#cpAccessibilita{display:none!important}}
  `;
  document.head.append(style);
  const root=document.createElement('div');root.id='cpAccessibilita';
@@ -43,6 +43,7 @@
  const size=get('cpDimensioneTesto');
  function measure(){
   html.classList.remove('cp-a11y-size');
+  if(prefs.size===1)return;
   const targets=[...document.body.querySelectorAll('h1,h2,h3,h4,h5,h6,p,a,li,label,input,textarea,select,button,span,strong,small,summary,td,th,legend,figcaption,blockquote,dt,dd')].filter(el=>!root.contains(el));
   const sizes=targets.map(el=>getComputedStyle(el).fontSize);
   targets.forEach((el,index)=>{el.style.setProperty('--cp-a11y-base',sizes[index]);el.setAttribute('data-cp-a11y-text','');});
