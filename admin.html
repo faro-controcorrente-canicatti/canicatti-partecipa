@@ -796,6 +796,33 @@ button{
 #cpRole{padding:12px;background:#eaf1fa;border-radius:8px}
 .cp-readonly #cpRole{display:none!important}
 .cp-visite-table{width:100%;border-collapse:collapse}.cp-visite-table td,.cp-visite-table th{text-align:left;padding:9px;border-bottom:1px solid #dde3ea}
+
+#cpSchedaStampa{display:none;background:#fff;color:#162b36;font:15px/1.55 Arial,sans-serif}
+body.cp-stampa-segnalazione{overflow:auto}
+body.cp-stampa-segnalazione> :not(#cpSchedaStampa){display:none!important}
+body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin:24px auto;padding:32px}
+.cp-scheda-toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:28px}
+.cp-scheda-header{background:none;color:#162b36;overflow:visible;display:flex;align-items:center;gap:24px;border-bottom:4px solid #176c70;padding-bottom:20px;margin-bottom:24px}
+.cp-scheda-header img{width:115px;height:95px;object-fit:contain}
+.cp-scheda-header h1{font-size:26px;margin:0;color:#123d45}.cp-scheda-header p{margin:4px 0}
+.cp-scheda-ref{background:#edf5f4;padding:14px 18px;border-left:4px solid #176c70;margin:18px 0}
+.cp-scheda-ref strong{font-size:20px}
+.cp-scheda-section{margin:24px 0}.cp-scheda-section h2{font-size:17px;border-bottom:1px solid #b6cbcd;padding-bottom:7px;color:#123d45;break-after:avoid}
+.cp-scheda-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px}
+.cp-scheda-field{overflow-wrap:anywhere;break-inside:avoid}.cp-scheda-field b{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#46616b;margin-bottom:3px}
+.cp-scheda-text{white-space:pre-wrap;overflow-wrap:anywhere;margin:8px 0;line-height:1.65}
+.cp-scheda-photo{margin:20px 0;break-inside:avoid}.cp-scheda-photo img{display:block;width:100%;max-height:650px;object-fit:contain;background:#f5f7f7}.cp-scheda-photo figcaption{font-size:12px;color:#46616b;margin-top:7px}
+.cp-scheda-footer{border-top:1px solid #b6cbcd;padding-top:12px;margin-top:28px;font-size:11px;color:#46616b}
+@media print{
+ @page{size:A4;margin:16mm 15mm}
+ body.cp-stampa-segnalazione{margin:0!important;background:white!important}
+ body.cp-stampa-segnalazione #cpSchedaStampa,body.cp-stampa-segnalazione #cpSchedaStampa *{visibility:visible!important}
+ body.cp-stampa-segnalazione #cpSchedaStampa{max-width:none;margin:0;padding:0;font-size:10pt;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+ .cp-scheda-toolbar{display:none!important}
+ .cp-scheda-header h1{font-size:21pt}.cp-scheda-section h2{font-size:13pt}
+ .cp-scheda-photo img{max-height:220mm}.cp-scheda-ref{break-inside:avoid}
+ .cp-scheda-section{margin:18px 0}.cp-scheda-text{orphans:3;widows:3}
+}
 </style>
 </head>
 
@@ -1372,7 +1399,7 @@ button{
       💾 Salva pratica
     </button>
 
-    <button class="stampa" onclick="window.print()">
+    <button class="stampa" onclick="cpPreparaStampaSegnalazione()">
       🖨️ Stampa
     </button>
 
@@ -1738,6 +1765,7 @@ button{
 </div>
 
 
+<article id="cpSchedaStampa" aria-label="Scheda della segnalazione"></article>
 <script>
 
 /* =====================================================
@@ -4630,6 +4658,46 @@ function chiudiFoto(event){
    APRI SEGNALAZIONE
 ===================================================== */
 
+
+let cpStampaOccupata=false;
+function cpChiudiSchedaStampa(){document.body.classList.remove('cp-stampa-segnalazione');document.getElementById('cpSchedaStampa').replaceChildren();}
+async function cpPreparaStampaSegnalazione(){
+ if(cpStampaOccupata||!token||!praticaCorrente)return;
+ cpStampaOccupata=true;const pratica=praticaCorrente,epoca=cpEpoca;
+ const box=document.getElementById('cpSchedaStampa');
+ const data=value=>value&&!isNaN(new Date(value))?new Date(value).toLocaleString('it-IT'):'Non indicata';
+ const campo=(titolo,valore)=>'<div class="cp-scheda-field"><b>'+esc(titolo)+'</b><span>'+esc(valore||'Non indicato')+'</span></div>';
+ const testo=(titolo,valore)=>'<section class="cp-scheda-section"><h2>'+esc(titolo)+'</h2><p class="cp-scheda-text">'+esc(valore||'Non presente')+'</p></section>';
+ const etichetta=(id,valore)=>Array.from(document.getElementById(id).options||[]).find(option=>option.value===valore)?.textContent||valore;
+ try{
+  box.innerHTML='<div class="cp-scheda-toolbar"><button type="button" id="cpSchedaPrint" disabled onclick="window.print()">Stampa / Salva PDF</button><button type="button" onclick="cpChiudiSchedaStampa()">Torna alla pratica</button><span id="cpSchedaStatus" role="status">Preparazione fotografie…</span></div>'+
+   '<header class="cp-scheda-header"><img src="IMG_8924.png" alt="Controcorrente"><div><h1>CANICATTÌ PARTECIPA</h1><p>Scheda della segnalazione</p><p>Faro di Canicattì · Controcorrente</p></div></header>'+
+   '<div class="cp-scheda-ref"><strong>Pratica '+esc(pratica.numero_pratica||'#'+pratica.id)+'</strong><div>Ricevuta il '+esc(data(pratica.data_invio))+'</div></div>'+
+   '<section class="cp-scheda-section"><h2>1. Dati della segnalazione</h2><div class="cp-scheda-grid">'+campo('Indirizzo',pratica.indirizzo)+campo('Categoria',etichetta('dCategoria',pratica.categoria||'altro'))+campo('Stato della pratica',etichetta('dStato',pratica.stato||'in_attesa'))+'</div></section>'+
+   testo('2. Descrizione completa',pratica.descrizione)+
+   '<section class="cp-scheda-section"><h2>3. Dati del segnalante</h2><div class="cp-scheda-grid">'+campo('Nome e cognome',pratica.nome)+campo('Telefono',pratica.telefono)+campo('Email',pratica.email)+'</div></section>'+
+   '<section class="cp-scheda-section"><h2>4. Gestione e inoltro</h2><div class="cp-scheda-grid">'+campo('Ente / ufficio destinatario',pratica.ente_destinatario)+campo('Data di inoltro',pratica.data_inoltro?data(pratica.data_inoltro):'Non ancora inoltrata')+campo('Protocollo / riferimento',pratica.protocollo)+'</div></section>'+
+   testo('5. Note interne',pratica.note_interne)+
+   '<section class="cp-scheda-section"><h2>6. Risposta dell’ente</h2>'+campo('Data della risposta',pratica.data_risposta_ente?data(pratica.data_risposta_ente):'Nessuna risposta registrata')+'<p class="cp-scheda-text">'+esc(pratica.risposta_ente||'Nessuna risposta registrata')+'</p></section>'+
+   '<section class="cp-scheda-section"><h2>7. Documentazione fotografica</h2><div id="cpSchedaFoto"></div></section>'+
+   '<footer class="cp-scheda-footer">Canicattì Partecipa · canicattipartecipa.it<br>Scheda generata il '+esc(new Date().toLocaleString('it-IT'))+' dai dati salvati della pratica. Comprende contatti del segnalante e note interne.</footer>';
+  document.body.classList.add('cp-stampa-segnalazione');window.scrollTo(0,0);
+  const foto=ottieniFoto(pratica),fotoBox=document.getElementById('cpSchedaFoto');let errori=0;
+  if(!foto.length)fotoBox.textContent='Nessuna fotografia allegata.';
+  await Promise.all(foto.map(async(percorso,index)=>{
+   const figura=document.createElement('figure');figura.className='cp-scheda-photo';
+   const img=document.createElement('img'),caption=document.createElement('figcaption');img.alt='Fotografia allegata '+(index+1);caption.textContent='Fotografia '+(index+1)+' di '+foto.length;figura.append(img,caption);fotoBox.append(figura);
+   try{img.src=await firmaFotoSegnalazione(percorso);await Promise.race([img.decode(),new Promise((_,reject)=>setTimeout(()=>reject(new Error('Tempo scaduto')),20000))]);}
+   catch(_){errori++;img.remove();caption.textContent='Fotografia '+(index+1)+' non disponibile. Torna alla pratica e riprova prima di stampare.';}
+  }));
+  if(epoca!==cpEpoca||praticaCorrente!==pratica){cpChiudiSchedaStampa();return;}
+  const logo=box.querySelector('.cp-scheda-header img');await logo.decode().catch(()=>{});
+  document.getElementById('cpSchedaStatus').textContent=errori?'Alcune fotografie non sono disponibili: riprova per ottenere la scheda completa.':'Scheda pronta. Puoi stamparla o salvarla in PDF.';
+  document.getElementById('cpSchedaPrint').disabled=errori>0;
+ }catch(_){cpChiudiSchedaStampa();document.getElementById('messaggioDettaglio').textContent='Impossibile preparare la scheda. Riprova.';}
+ finally{cpStampaOccupata=false;}
+}
+
 function apriPratica(s){
 
   praticaCorrente = s;
@@ -5890,6 +5958,7 @@ async function eliminaProposta(){
 ===================================================== */
 
 function logout(){
+  cpChiudiSchedaStampa();
   cpChiudiAdesione();
   cpNascondiPassword();
   cpSessionClear();
