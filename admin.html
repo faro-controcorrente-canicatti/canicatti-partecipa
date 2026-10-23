@@ -823,6 +823,13 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
  .cp-scheda-photo img{max-height:220mm}.cp-scheda-ref{break-inside:avoid}
  .cp-scheda-section{margin:18px 0}.cp-scheda-text{orphans:3;widows:3}
 }
+.cp-scheda-id{overflow-wrap:anywhere}
+.cp-scheda-adesione + .cp-scheda-adesione{margin-top:40px;border-top:1px dashed #b6cbcd;padding-top:32px}
+@media print{
+ .cp-scheda-adesione + .cp-scheda-adesione{break-before:page;margin-top:0;border-top:0;padding-top:0}
+ .cp-scheda-adesione .cp-scheda-header{break-inside:avoid}
+ .cp-scheda-adesione .cp-scheda-field span{white-space:pre-wrap}
+}
 </style>
 </head>
 
@@ -1741,7 +1748,7 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
 </div>
 
 
-<div id="dettaglioAdesione" class="dettaglio hidden" role="dialog" aria-modal="true" aria-labelledby="cpAdesioneTitolo"><div class="dettaglio-box"><div class="top-detail"><h2 id="cpAdesioneTitolo">Segui la tua via o il tuo quartiere</h2><button id="cpAdesioneChiudi" class="chiudi" type="button" aria-label="Chiudi pratica" onclick="cpChiudiAdesione()">✕</button></div><div id="cpAdesioneDettaglio"></div><div class="actions"><button type="button" class="stampa" onclick="window.print()">🖨️ Stampa pratica</button><button type="button" class="chiudi" onclick="cpChiudiAdesione()">Chiudi</button></div></div></div>
+<div id="dettaglioAdesione" class="dettaglio hidden" role="dialog" aria-modal="true" aria-labelledby="cpAdesioneTitolo"><div class="dettaglio-box"><div class="top-detail"><h2 id="cpAdesioneTitolo">Segui la tua via o il tuo quartiere</h2><button id="cpAdesioneChiudi" class="chiudi" type="button" aria-label="Chiudi pratica" onclick="cpChiudiAdesione()">✕</button></div><div id="cpAdesioneDettaglio"></div><div class="actions"><button type="button" class="stampa" onclick="cpStampaAdesioni(document.getElementById('dettaglioAdesione').dataset.adesioneId)">🖨️ Stampa pratica</button><button type="button" class="chiudi" onclick="cpChiudiAdesione()">Chiudi</button></div></div></div>
 
 <!-- LIGHTBOX -->
 
@@ -6312,7 +6319,28 @@ function pulisciNomeFile(nome){
 }
 
 
-function cpStampaAdesioni(){document.body.classList.add('cp-print-adesioni');const cleanup=()=>document.body.classList.remove('cp-print-adesioni');window.addEventListener('afterprint',cleanup,{once:true});try{window.print();}catch(error){cleanup();throw error;}}
+function cpStampaAdesioni(id){
+ if(!token||![CP_ADMIN_UID,CP_READER_UID].includes(cpUserId))return;
+ const rows=id===undefined?cpAdesioni:cpAdesioni.filter(a=>String(a.id)===String(id));
+ if(!rows.length){document.getElementById('cpAdesioniMessaggio').textContent='Nessuna adesione disponibile per la stampa.';return;}
+ const data=v=>v&&!isNaN(new Date(v))?new Date(v).toLocaleString('it-IT'):'Non indicata';
+ const campo=(label,value)=>'<div class="cp-scheda-field"><b>'+esc(label)+'</b><span>'+esc(value||'Non indicato')+'</span></div>';
+ const box=document.getElementById('cpSchedaStampa');
+ box.innerHTML='<div class="cp-scheda-toolbar"><button type="button" onclick="window.print()">Stampa / Salva PDF</button><button type="button" onclick="cpChiudiSchedaStampa()">Torna alle adesioni</button><span>'+rows.length+(rows.length===1?' scheda pronta':' schede pronte')+'</span></div>'+
+ rows.map(a=>{
+  const tipo=a.tipo==='Adotta una via'?'Segui la tua via':a.tipo==='Adotta un quartiere'?'Segui il tuo quartiere':a.tipo;
+  return '<article class="cp-scheda-adesione"><header class="cp-scheda-header"><img src="IMG_8924.png" alt="Controcorrente"><div><h1>CANICATTÌ PARTECIPA</h1><p>Scheda di adesione · Segui la tua via o il tuo quartiere</p><p>Faro di Canicattì · Controcorrente</p></div></header>'+
+  '<div class="cp-scheda-ref"><strong>Adesione</strong><div class="cp-scheda-id">Riferimento: '+esc(String(a.id))+'</div><div>Ricevuta il '+esc(data(a.created_at))+'</div></div>'+
+  '<section class="cp-scheda-section"><h2>1. Via o quartiere</h2><div class="cp-scheda-grid">'+campo('Zona di interesse',a.zona)+campo('Tipo di adesione',tipo)+'</div></section>'+
+  '<section class="cp-scheda-section"><h2>2. Dati del partecipante</h2><div class="cp-scheda-grid">'+campo('Nome e cognome',a.nome)+campo('Telefono',a.telefono)+campo('Email',a.email)+'</div></section>'+
+  '<section class="cp-scheda-section"><h2>3. Messaggio</h2><p class="cp-scheda-text">'+esc(a.messaggio||'Nessun messaggio indicato.')+'</p></section>'+
+  '<section class="cp-scheda-section"><h2>4. Stato dell’adesione</h2><div class="cp-scheda-grid">'+campo('Stato',a.stato||'Da valutare')+(a.closed_at?campo('Chiusa il',data(a.closed_at)):'')+'</div></section>'+
+  '<footer class="cp-scheda-footer">Canicattì Partecipa · canicattipartecipa.it<br>Scheda generata il '+esc(new Date().toLocaleString('it-IT'))+' dai dati salvati dell’adesione. Documento per uso amministrativo interno: contiene dati personali.</footer></article>';
+ }).join('');
+ document.body.classList.add('cp-stampa-segnalazione');window.scrollTo(0,0);
+ box.querySelector('button').focus();
+}
+
 let cpAdesioni=[],cpAdesioneFocus=null,cpAdesioneEliminazione=false;
 function cpApriAdesione(id){
  if(!token||![CP_ADMIN_UID,CP_READER_UID].includes(cpUserId))return;
@@ -6320,6 +6348,7 @@ function cpApriAdesione(id){
  const field=(label,value)=>'<div class="pratica-section"><h3>'+label+'</h3><p style="white-space:pre-wrap;overflow-wrap:anywhere">'+esc(value||'—')+'</p></div>';
  const tipo=a.tipo==='Adotta una via'?'Segui la tua via':a.tipo==='Adotta un quartiere'?'Segui il tuo quartiere':a.tipo;
  document.getElementById('cpAdesioneDettaglio').innerHTML=field('Riferimento pratica',a.id)+field('Via o quartiere',a.zona)+field('Tipo di adesione',tipo)+field('Nome e cognome',a.nome)+field('Email',a.email)+field('Telefono',a.telefono)+field('Messaggio',a.messaggio)+field('Stato',a.stato)+field('Ricevuta il',a.created_at?new Date(a.created_at).toLocaleString('it-IT'):'')+(a.closed_at?field('Chiusa il',new Date(a.closed_at).toLocaleString('it-IT')):'');
+ document.getElementById('dettaglioAdesione').dataset.adesioneId=String(a.id);
  cpAdesioneFocus=document.activeElement;document.getElementById('dettaglioAdesione').classList.remove('hidden');document.getElementById('cpAdesioneChiudi').focus();
 }
 function cpChiudiAdesione(){document.getElementById('dettaglioAdesione').classList.add('hidden');document.getElementById('cpAdesioneDettaglio').replaceChildren();cpAdesioneFocus?.focus();cpAdesioneFocus=null;}
@@ -6670,5 +6699,6 @@ cpSessionRestore();
 
 </body>
 </html>
+
 
 
