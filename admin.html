@@ -830,6 +830,7 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
  .cp-scheda-adesione .cp-scheda-header{break-inside:avoid}
  .cp-scheda-adesione .cp-scheda-field span{white-space:pre-wrap}
 }
+@media print{.cp-adesione-gestione{display:none!important}}
 </style>
 </head>
 
@@ -6342,12 +6343,41 @@ function cpStampaAdesioni(id){
 }
 
 let cpAdesioni=[],cpAdesioneFocus=null,cpAdesioneEliminazione=false;
+let cpAdesioneSalvataggio=false;
+async function cpSalvaStatoAdesione(event){
+ event.preventDefault();
+ cpRichiedeProprietario();
+ if(cpAdesioneSalvataggio||cpAdesioneEliminazione)return;
+ const dialog=document.getElementById('dettaglioAdesione'),id=dialog.dataset.adesioneId;
+ const a=cpAdesioni.find(row=>String(row.id)===id);if(!a)return;
+ const select=document.getElementById('cpAdesioneStato'),button=document.getElementById('cpAdesioneSalvaStato'),msg=document.getElementById('cpAdesioneStatoMessaggio');
+ const stato=select.value,epoch=cpEpoca;
+ if(!['Da valutare','Valutata','In gestione','Chiusa'].includes(stato))return;
+ if(stato===a.stato){msg.textContent='Lo stato è già aggiornato.';return;}
+ cpAdesioneSalvataggio=true;select.disabled=true;button.disabled=true;msg.textContent='Salvataggio…';
+ try{
+  const rows=await cpRichiesta('cp_adesioni','?id=eq.'+encodeURIComponent(id),'PATCH',{stato});
+  if(epoch!==cpEpoca)return;
+  const saved=rows[0];if(!saved||String(saved.id)!==id||saved.stato!==stato)throw new Error('Stato non confermato. Ricarica le adesioni.');
+  Object.assign(a,saved);
+  if(dialog.dataset.adesioneId===id&&!dialog.classList.contains('hidden')){
+   document.getElementById('cpAdesioneStatoAttuale').textContent=saved.stato;
+   const chiusura=document.getElementById('cpAdesioneDataChiusura');
+   chiusura.textContent=saved.closed_at?new Date(saved.closed_at).toLocaleString('it-IT'):'Non chiusa';
+   msg.textContent='Stato salvato: '+saved.stato+'.';
+  }
+  await cpCaricaAdesioni();
+ }catch(error){if(epoch===cpEpoca)msg.textContent='Salvataggio non riuscito: '+error.message;}
+ finally{cpAdesioneSalvataggio=false;select.disabled=false;button.disabled=false;}
+}
+
 function cpApriAdesione(id){
  if(!token||![CP_ADMIN_UID,CP_READER_UID].includes(cpUserId))return;
  const a=cpAdesioni.find(row=>String(row.id)===String(id));if(!a)return;
  const field=(label,value)=>'<div class="pratica-section"><h3>'+label+'</h3><p style="white-space:pre-wrap;overflow-wrap:anywhere">'+esc(value||'—')+'</p></div>';
  const tipo=a.tipo==='Adotta una via'?'Segui la tua via':a.tipo==='Adotta un quartiere'?'Segui il tuo quartiere':a.tipo;
- document.getElementById('cpAdesioneDettaglio').innerHTML=field('Riferimento pratica',a.id)+field('Via o quartiere',a.zona)+field('Tipo di adesione',tipo)+field('Nome e cognome',a.nome)+field('Email',a.email)+field('Telefono',a.telefono)+field('Messaggio',a.messaggio)+field('Stato',a.stato)+field('Ricevuta il',a.created_at?new Date(a.created_at).toLocaleString('it-IT'):'')+(a.closed_at?field('Chiusa il',new Date(a.closed_at).toLocaleString('it-IT')):'');
+ document.getElementById('cpAdesioneDettaglio').innerHTML=field('Riferimento pratica',a.id)+field('Via o quartiere',a.zona)+field('Tipo di adesione',tipo)+field('Nome e cognome',a.nome)+field('Email',a.email)+field('Telefono',a.telefono)+field('Messaggio',a.messaggio)+'<div class="pratica-section"><h3>Stato</h3><p id="cpAdesioneStatoAttuale">'+esc(a.stato||'Da valutare')+'</p></div>'+field('Ricevuta il',a.created_at?new Date(a.created_at).toLocaleString('it-IT'):'')+'<div class="pratica-section"><h3>Data di chiusura</h3><p id="cpAdesioneDataChiusura">'+esc(a.closed_at?new Date(a.closed_at).toLocaleString('it-IT'):'Non chiusa')+'</p></div>'+
+ (cpIsOwner()?'<form id="cpAdesioneStatoForm" class="pratica-section cp-adesione-gestione" onsubmit="cpSalvaStatoAdesione(event)"><label for="cpAdesioneStato">Modifica stato dell’adesione</label><select id="cpAdesioneStato">'+['Da valutare','Valutata','In gestione','Chiusa'].map(stato=>'<option value="'+stato+'"'+(stato===(a.stato||'Da valutare')?' selected':'')+'>'+stato+'</option>').join('')+'</select><button id="cpAdesioneSalvaStato" class="salva" type="submit">Salva stato</button><p id="cpAdesioneStatoMessaggio" role="status" aria-live="polite"></p></form>':'');
  document.getElementById('dettaglioAdesione').dataset.adesioneId=String(a.id);
  cpAdesioneFocus=document.activeElement;document.getElementById('dettaglioAdesione').classList.remove('hidden');document.getElementById('cpAdesioneChiudi').focus();
 }
@@ -6369,7 +6399,7 @@ async function cpCaricaAdesioni(){
 }
 async function cpEliminaAdesione(id){
  cpRichiedeProprietario();
- if(cpAdesioneEliminazione)return;
+ if(cpAdesioneEliminazione||cpAdesioneSalvataggio)return;
  const a=cpAdesioni.find(row=>String(row.id)===String(id));if(!a)return;
  const riferimento='richiesta di '+(a.nome||'adesione')+' per «'+(a.zona||'zona non indicata')+'»';
  if(!confirm('ATTENZIONE\n\nStai per eliminare definitivamente la '+riferimento+'.\n\nL’operazione non potrà essere annullata.\n\nVuoi continuare?'))return;
@@ -6699,6 +6729,7 @@ cpSessionRestore();
 
 </body>
 </html>
+
 
 
 
