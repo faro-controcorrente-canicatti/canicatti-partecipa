@@ -831,6 +831,7 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
  .cp-scheda-adesione .cp-scheda-field span{white-space:pre-wrap}
 }
 @media print{.cp-adesione-gestione{display:none!important}}
+.cp-scheda-allegati{overflow-wrap:anywhere}.cp-scheda-allegati li{margin:8px 0;break-inside:avoid}
 </style>
 </head>
 
@@ -1563,7 +1564,7 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
       💾 Salva valutazione
     </button>
 
-    <button class="stampa" onclick="window.print()">
+    <button class="stampa" onclick="cpPreparaStampaProposta()">
       🖨️ Stampa
     </button>
 
@@ -1773,7 +1774,7 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
 </div>
 
 
-<article id="cpSchedaStampa" aria-label="Scheda della segnalazione"></article>
+<article id="cpSchedaStampa" aria-label="Scheda di stampa"></article>
 <script>
 
 /* =====================================================
@@ -4668,17 +4669,43 @@ function chiudiFoto(event){
 
 
 let cpStampaOccupata=false;
-function cpChiudiSchedaStampa(){document.body.classList.remove('cp-stampa-segnalazione');document.getElementById('cpSchedaStampa').replaceChildren();}
+let cpTitoloPrimaStampa=null;
+function cpNomePdf(tipologia,persona){
+ const nome=[persona.nome,persona.cognome].filter(Boolean).join(' ').trim();
+ const pulisci=value=>String(value).normalize('NFC').replace(/[<>:"/\\|?*\u0000-\u001f\u007f]/g,' ').replace(/\s+/g,' ').replace(/[. ]+$/g,'').trim();
+ return pulisci(tipologia)+' - '+(pulisci(nome).slice(0,140)||'Nominativo non indicato');
+}
+function cpImpostaNomeStampa(nome){
+ document.getElementById('cpSchedaStampa').dataset.nomePdf=nome;
+}
+function cpTitoloStampa(){
+ const box=document.getElementById('cpSchedaStampa');
+ if(!document.body.classList.contains('cp-stampa-segnalazione')||!box.dataset.nomePdf)return;
+ if(cpTitoloPrimaStampa===null)cpTitoloPrimaStampa=document.title;
+ document.title=box.dataset.nomePdf;
+}
+function cpRipristinaTitoloStampa(){
+ if(cpTitoloPrimaStampa!==null){document.title=cpTitoloPrimaStampa;cpTitoloPrimaStampa=null;}
+}
+function cpStampaPdf(){
+ cpTitoloStampa();
+ try{window.print();}catch(error){cpRipristinaTitoloStampa();throw error;}
+}
+window.addEventListener('beforeprint',cpTitoloStampa);
+window.addEventListener('afterprint',cpRipristinaTitoloStampa);
+
+function cpChiudiSchedaStampa(){cpRipristinaTitoloStampa();delete document.getElementById('cpSchedaStampa').dataset.nomePdf;document.body.classList.remove('cp-stampa-segnalazione');document.getElementById('cpSchedaStampa').replaceChildren();}
 async function cpPreparaStampaSegnalazione(){
  if(cpStampaOccupata||!token||!praticaCorrente)return;
  cpStampaOccupata=true;const pratica=praticaCorrente,epoca=cpEpoca;
+ cpImpostaNomeStampa(cpNomePdf('Segnalazione',pratica));
  const box=document.getElementById('cpSchedaStampa');
  const data=value=>value&&!isNaN(new Date(value))?new Date(value).toLocaleString('it-IT'):'Non indicata';
  const campo=(titolo,valore)=>'<div class="cp-scheda-field"><b>'+esc(titolo)+'</b><span>'+esc(valore||'Non indicato')+'</span></div>';
  const testo=(titolo,valore)=>'<section class="cp-scheda-section"><h2>'+esc(titolo)+'</h2><p class="cp-scheda-text">'+esc(valore||'Non presente')+'</p></section>';
  const etichetta=(id,valore)=>Array.from(document.getElementById(id).options||[]).find(option=>option.value===valore)?.textContent||valore;
  try{
-  box.innerHTML='<div class="cp-scheda-toolbar"><button type="button" id="cpSchedaPrint" disabled onclick="window.print()">Stampa / Salva PDF</button><button type="button" onclick="cpChiudiSchedaStampa()">Torna alla pratica</button><span id="cpSchedaStatus" role="status">Preparazione fotografie…</span></div>'+
+  box.innerHTML='<div class="cp-scheda-toolbar"><button type="button" id="cpSchedaPrint" disabled onclick="cpStampaPdf()">Stampa / Salva PDF</button><button type="button" onclick="cpChiudiSchedaStampa()">Torna alla pratica</button><span id="cpSchedaStatus" role="status">Preparazione fotografie…</span></div>'+
    '<header class="cp-scheda-header"><img src="IMG_8924.png" alt="Controcorrente"><div><h1>CANICATTÌ PARTECIPA</h1><p>Scheda della segnalazione</p><p>Faro di Canicattì · Controcorrente</p></div></header>'+
    '<div class="cp-scheda-ref"><strong>Pratica '+esc(pratica.numero_pratica||'#'+pratica.id)+'</strong><div>Ricevuta il '+esc(data(pratica.data_invio))+'</div></div>'+
    '<section class="cp-scheda-section"><h2>1. Dati della segnalazione</h2><div class="cp-scheda-grid">'+campo('Indirizzo',pratica.indirizzo)+campo('Categoria',etichetta('dCategoria',pratica.categoria||'altro'))+campo('Stato della pratica',etichetta('dStato',pratica.stato||'in_attesa'))+'</div></section>'+
@@ -6320,14 +6347,36 @@ function pulisciNomeFile(nome){
 }
 
 
+function cpPreparaStampaProposta(){
+ if(!token||!propostaCorrente)return;
+ const p=propostaCorrente,box=document.getElementById('cpSchedaStampa');
+ const data=v=>v&&!isNaN(new Date(v))?new Date(v).toLocaleString('it-IT'):'Non indicata';
+ const campo=(label,value)=>'<div class="cp-scheda-field"><b>'+esc(label)+'</b><span>'+esc(value||'Non indicato')+'</span></div>';
+ const testo=(label,value)=>'<section class="cp-scheda-section"><h2>'+esc(label)+'</h2><p class="cp-scheda-text">'+esc(value||'Non presente')+'</p></section>';
+ const allegati=ottieniAllegatiProposta(p);
+ cpImpostaNomeStampa(cpNomePdf('Proposta',p));
+ box.innerHTML='<div class="cp-scheda-toolbar"><button type="button" onclick="cpStampaPdf()">Stampa / Salva PDF</button><button type="button" onclick="cpChiudiSchedaStampa()">Torna alla proposta</button><span>Scheda pronta dai dati salvati.</span></div>'+
+ '<header class="cp-scheda-header"><img src="IMG_8924.png" alt="Controcorrente"><div><h1>CANICATTÌ PARTECIPA</h1><p>Scheda della proposta · La Canicattì che vorrei</p><p>Faro di Canicattì · Controcorrente</p></div></header>'+
+ '<div class="cp-scheda-ref"><strong>Proposta</strong><div class="cp-scheda-id">Riferimento: '+esc(String(p.id))+'</div><div>Ricevuta il '+esc(data(p.created_at))+'</div></div>'+
+ '<section class="cp-scheda-section"><h2>1. Proposta per la città</h2><div class="cp-scheda-grid">'+campo('Titolo',p.titolo)+campo('Categoria',p.categoria)+campo('Zona / quartiere',p.zona)+'</div></section>'+
+ testo('2. Descrizione completa',p.descrizione)+
+ '<section class="cp-scheda-section"><h2>3. Dati del cittadino</h2><div class="cp-scheda-grid">'+campo('Nome',p.nome)+campo('Cognome',p.cognome)+campo('Email',p.email)+campo('Telefono',p.telefono)+'</div></section>'+
+ '<section class="cp-scheda-section"><h2>4. Valutazione interna</h2><div class="cp-scheda-grid">'+campo('Stato',p.stato_interno||'Da valutare')+(p.closed_at?campo('Data di chiusura',data(p.closed_at)):'')+'</div></section>'+
+ testo('5. Note interne',p.note_interne)+
+ '<section class="cp-scheda-section"><h2>6. Elenco degli allegati</h2>'+(allegati.length?'<ol class="cp-scheda-allegati">'+allegati.map(a=>'<li>'+esc(a.nome||'Allegato')+'</li>').join('')+'</ol><p>Il contenuto degli allegati è consultabile dalla pratica nel pannello amministrativo e non è incluso in questa scheda.</p>':'<p>Nessun allegato presente.</p>')+'</section>'+
+ '<footer class="cp-scheda-footer">Canicattì Partecipa · canicattipartecipa.it<br>Scheda generata il '+esc(new Date().toLocaleString('it-IT'))+' dai dati salvati della proposta. Documento per uso amministrativo interno: contiene dati personali e note interne.</footer>';
+ document.body.classList.add('cp-stampa-segnalazione');window.scrollTo(0,0);box.querySelector('button').focus();
+}
+
 function cpStampaAdesioni(id){
  if(!token||![CP_ADMIN_UID,CP_READER_UID].includes(cpUserId))return;
  const rows=id===undefined?cpAdesioni:cpAdesioni.filter(a=>String(a.id)===String(id));
+ cpImpostaNomeStampa(rows.length===1?cpNomePdf('Adesione',rows[0]):'Adesioni - elenco completo');
  if(!rows.length){document.getElementById('cpAdesioniMessaggio').textContent='Nessuna adesione disponibile per la stampa.';return;}
  const data=v=>v&&!isNaN(new Date(v))?new Date(v).toLocaleString('it-IT'):'Non indicata';
  const campo=(label,value)=>'<div class="cp-scheda-field"><b>'+esc(label)+'</b><span>'+esc(value||'Non indicato')+'</span></div>';
  const box=document.getElementById('cpSchedaStampa');
- box.innerHTML='<div class="cp-scheda-toolbar"><button type="button" onclick="window.print()">Stampa / Salva PDF</button><button type="button" onclick="cpChiudiSchedaStampa()">Torna alle adesioni</button><span>'+rows.length+(rows.length===1?' scheda pronta':' schede pronte')+'</span></div>'+
+ box.innerHTML='<div class="cp-scheda-toolbar"><button type="button" onclick="cpStampaPdf()">Stampa / Salva PDF</button><button type="button" onclick="cpChiudiSchedaStampa()">Torna alle adesioni</button><span>'+rows.length+(rows.length===1?' scheda pronta':' schede pronte')+'</span></div>'+
  rows.map(a=>{
   const tipo=a.tipo==='Adotta una via'?'Segui la tua via':a.tipo==='Adotta un quartiere'?'Segui il tuo quartiere':a.tipo;
   return '<article class="cp-scheda-adesione"><header class="cp-scheda-header"><img src="IMG_8924.png" alt="Controcorrente"><div><h1>CANICATTÌ PARTECIPA</h1><p>Scheda di adesione · Segui la tua via o il tuo quartiere</p><p>Faro di Canicattì · Controcorrente</p></div></header>'+
@@ -6729,6 +6778,7 @@ cpSessionRestore();
 
 </body>
 </html>
+
 
 
 
