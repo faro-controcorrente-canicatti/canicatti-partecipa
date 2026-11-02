@@ -1344,7 +1344,7 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
 
     <label><strong>Stato della pratica</strong></label>
 
-    <select id="dStato">
+    <select id="dStato" onchange="cpAggiornaInoltro()">
 
       <option value="in_attesa">🔴 In attesa di verifica</option>
       <option value="verificata">🔵 Documentazione verificata</option>
@@ -1374,6 +1374,12 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
       id="dProtocollo"
       placeholder="Numero protocollo, PEC o altro riferimento">
 
+    <div id="cpIstanzaBox" hidden>
+      <label for="dIstanzaFile"><strong>Istanza presentata all’ente (facoltativa)</strong></label>
+      <input data-cp-owner type="file" id="dIstanzaFile" accept=".pdf,.jpg,.jpeg,.png">
+      <p class="meta">PDF, JPG o PNG, massimo 5 MB. Il documento sarà allegato all’email al cittadino quando salvi la pratica. Scegli un nuovo file per sostituirlo.</p>
+      <div id="cpDocumento-istanza" class="meta"></div>
+    </div>
     <label><strong>Note interne</strong></label>
 
     <textarea
@@ -1398,6 +1404,15 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
     <textarea
       id="dRispostaEnte"
       placeholder="Inserisci la risposta ricevuta dall'ente o l'esito della pratica..."></textarea>
+    <p class="meta">La risposta viene inclusa nell’email al cittadino.</p>
+    <label for="dRispostaFile"><strong>Allegato della risposta (facoltativo)</strong></label>
+    <input data-cp-owner type="file" id="dRispostaFile" accept=".pdf,.jpg,.jpeg,.png">
+    <p class="meta">PDF, JPG o PNG, massimo 5 MB. Scegli un nuovo file per sostituire il documento.</p>
+    <div id="cpDocumento-risposta" class="meta"></div>
+    <label for="dMessaggioCittadino"><strong>Messaggio al cittadino</strong></label>
+    <textarea id="dMessaggioCittadino" maxlength="10000" placeholder="Scrivi un messaggio da includere nell’email al cittadino…"></textarea>
+    <p class="meta">Salvando una nuova risposta, un messaggio o un documento viene inviata un’email anche se lo stato non cambia. Le note interne non vengono inviate.</p>
+    <label data-cp-owner><input type="checkbox" id="dReinviaEmail" style="width:auto"> Riprova l’invio dell’ultimo aggiornamento se l’email non è partita</label>
 
   </div>
 
@@ -5181,7 +5196,14 @@ async function cpPreparaStampaSegnalazione(){
 
 function apriPratica(s){
 
+  if(cpSalvataggioPratica)return;
   praticaCorrente = s;
+  cpDocumentiBozza={...(s.documenti_cittadino||{})};
+  document.getElementById("dIstanzaFile").value="";
+  document.getElementById("dRispostaFile").value="";
+  document.getElementById("dMessaggioCittadino").value=s.messaggio_cittadino||"";
+  document.getElementById("dReinviaEmail").checked=false;
+  cpMostraDocumenti();
 
   const riferimento =
     s.numero_pratica
@@ -5230,6 +5252,7 @@ function apriPratica(s){
 
   document.getElementById("dStato").value =
     s.stato || "in_attesa";
+  cpAggiornaInoltro();
 
   document.getElementById("dEnte").value =
     s.ente_destinatario || "";
@@ -5280,6 +5303,7 @@ function apriPratica(s){
 
 
 function chiudiDettaglio(){
+  if(cpSalvataggioPratica)return;
 
   versioneFotoSegnalazione++;
 
@@ -5295,326 +5319,95 @@ function chiudiDettaglio(){
    SALVA SEGNALAZIONE + EMAIL
 ===================================================== */
 
+const CP_DOCUMENTI_BUCKET = 'documenti-pratiche';
+let cpSalvataggioPratica = false;
+let cpDocumentiBozza = {};
+function cpAggiornaInoltro(){
+  const visibile=['inoltrata','attesa_ente','risolta','chiusa'].includes(document.getElementById('dStato').value) || !!cpDocumentiBozza.istanza;
+  document.getElementById('cpIstanzaBox').hidden=!visibile;
+}
+function cpMostraDocumenti(){
+  for(const tipo of ['istanza','risposta']){
+    const box=document.getElementById('cpDocumento-'+tipo);box.replaceChildren();
+    const doc=cpDocumentiBozza[tipo];
+    if(!doc){box.textContent='Nessun documento allegato.';continue;}
+    const label=document.createElement('span');label.textContent=doc.nome+' ';box.append(label);
+    const apri=document.createElement('button');apri.type='button';apri.textContent='Scarica documento';apri.onclick=()=>cpScaricaDocumento(doc);box.append(apri);
+  }
+}
+async function cpScaricaDocumento(doc){
+  const msg=document.getElementById('messaggioDettaglio');
+  try{
+    const r=await fetch(SUPABASE_URL+'/storage/v1/object/sign/'+CP_DOCUMENTI_BUCKET+'/'+doc.percorso.split('/').map(encodeURIComponent).join('/'),{method:'POST',headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({expiresIn:120})});
+    if(!r.ok)throw new Error('Download non disponibile.');
+    const data=await r.json();const url=new URL(data.signedURL.startsWith('/object/')?'/storage/v1'+data.signedURL:data.signedURL,SUPABASE_URL);
+    if(url.origin!==new URL(SUPABASE_URL).origin || !url.pathname.startsWith('/storage/v1/object/sign/'+CP_DOCUMENTI_BUCKET+'/'))throw new Error('Link documento non valido.');
+    const a=document.createElement('a');a.href=url.href;a.target='_blank';a.rel='noopener noreferrer';a.click();
+  }catch(e){msg.textContent='❌ '+e.message;}
+}
+function cpValidaDocumento(file){
+  if(!file || !file.size || file.size>5*1024*1024)throw new Error('Ogni documento deve essere non vuoto e non superare 5 MB.');
+  if(!/\.(pdf|jpe?g|png)$/i.test(file.name))throw new Error('Sono ammessi documenti PDF e immagini JPG o PNG.');
+}
+async function cpCaricaDocumento(file,tipo,id,auth){
+  cpValidaDocumento(file);
+  const bytes=new Uint8Array(await file.slice(0,8).arrayBuffer());
+  const pdf=bytes[0]===37&&bytes[1]===80&&bytes[2]===68&&bytes[3]===70&&bytes[4]===45;
+  const png=bytes[0]===137&&bytes[1]===80&&bytes[2]===78&&bytes[3]===71;
+  const jpg=bytes[0]===255&&bytes[1]===216&&bytes[2]===255;
+  if(!(/\.pdf$/i.test(file.name)?pdf:/\.png$/i.test(file.name)?png:jpg))throw new Error('Il contenuto del documento non corrisponde al formato.');
+  const est=file.name.split('.').pop().toLowerCase();
+  const percorso=String(id)+'/'+tipo+'/'+crypto.randomUUID()+'.'+est;
+  const mime=est==='pdf'?'application/pdf':est==='png'?'image/png':'image/jpeg';
+  const r=await fetch(SUPABASE_URL+'/storage/v1/object/'+CP_DOCUMENTI_BUCKET+'/'+percorso,{method:'POST',headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+auth,'Content-Type':mime,'x-upsert':'false'},body:file});
+  if(!r.ok)throw new Error('Caricamento del documento '+tipo+' non riuscito. La pratica non è stata aggiornata.');
+  return {percorso,nome:file.name.slice(0,180),dimensione:file.size,tipo:mime};
+}
 async function salvaPratica(){
   cpRichiedeProprietario();
-
-  if(!praticaCorrente)
-    return;
-
-
-  const messaggio =
-    document.getElementById(
-      "messaggioDettaglio"
-    );
-
-
-  const vecchioStato =
-    praticaCorrente.stato ||
-    "in_attesa";
-
-
-  const nuovoStato =
-    document.getElementById("dStato").value;
-
-
-  const statoCambiato =
-    vecchioStato !== nuovoStato;
-
-
-  messaggio.textContent =
-    "Salvataggio in corso...";
-
-
-  const dataInoltro =
-    document.getElementById(
-      "dDataInoltro"
-    ).value;
-
-
-  const dataRisposta =
-    document.getElementById(
-      "dDataRisposta"
-    ).value;
-
-
-  const dati = {
-
-    indirizzo:
-      document
-        .getElementById("dIndirizzo")
-        .value
-        .trim(),
-
-    categoria:
-      document
-        .getElementById("dCategoria")
-        .value,
-
-    descrizione:
-      document
-        .getElementById("dDescrizione")
-        .value
-        .trim(),
-
-    nome:
-      document
-        .getElementById("dNome")
-        .value
-        .trim(),
-
-    telefono:
-      document
-        .getElementById("dTelefono")
-        .value
-        .trim() || null,
-
-    email:
-      document
-        .getElementById("dEmail")
-        .value
-        .trim() || null,
-
-    stato:
-      nuovoStato,
-
-    ente_destinatario:
-      document
-        .getElementById("dEnte")
-        .value
-        .trim() || null,
-
-    data_inoltro:
-      dataInoltro
-      ?
-      new Date(
-        dataInoltro
-      ).toISOString()
-      :
-      null,
-
-    protocollo:
-      document
-        .getElementById("dProtocollo")
-        .value
-        .trim() || null,
-
-    note_interne:
-      document
-        .getElementById("dNoteInterne")
-        .value
-        .trim() || null,
-
-    risposta_ente:
-      document
-        .getElementById("dRispostaEnte")
-        .value
-        .trim() || null,
-
-    data_risposta_ente:
-      dataRisposta
-      ?
-      new Date(
-        dataRisposta
-      ).toISOString()
-      :
-      null
-  };
-
-
+  if(!praticaCorrente || cpSalvataggioPratica)return;
+  const pratica=praticaCorrente,auth=token,epoca=cpEpoca;
+  const msg=document.getElementById('messaggioDettaglio');
+  const leggi=id=>document.getElementById(id).value.trim();
+  const data=id=>leggi(id)?new Date(leggi(id)).toISOString():null;
+  const dati={indirizzo:leggi('dIndirizzo'),categoria:leggi('dCategoria'),descrizione:leggi('dDescrizione'),nome:leggi('dNome'),telefono:leggi('dTelefono')||null,email:leggi('dEmail')||null,stato:leggi('dStato'),ente_destinatario:leggi('dEnte')||null,data_inoltro:data('dDataInoltro'),protocollo:leggi('dProtocollo')||null,note_interne:leggi('dNoteInterne')||null,risposta_ente:leggi('dRispostaEnte')||null,data_risposta_ente:data('dDataRisposta'),messaggio_cittadino:leggi('dMessaggioCittadino')||null};
+  const files={istanza:document.getElementById('dIstanzaFile').files[0],risposta:document.getElementById('dRispostaFile').files[0]};
+  const reinvia=document.getElementById('dReinviaEmail').checked;
+  try{Object.values(files).filter(Boolean).forEach(cpValidaDocumento);}catch(e){msg.textContent='❌ '+e.message;return;}
+  cpSalvataggioPratica=true;
+  const controls=Array.from(document.querySelectorAll('#dettaglio input,#dettaglio textarea,#dettaglio select,#dettaglio button')).map(el=>[el,el.disabled]);
+  controls.forEach(([el])=>el.disabled=true);
+  const ancoraAttiva=()=>praticaCorrente===pratica && token===auth && cpEpoca===epoca;
   try{
-
-    const r =
-      await fetch(
-
-        SUPABASE_URL +
-        "/rest/v1/segnalazioni_cittadini" +
-        "?id=eq." +
-        Number(
-          praticaCorrente.id
-        ),
-
-        {
-          method:"PATCH",
-
-          headers:{
-            "apikey":
-              SUPABASE_KEY,
-
-            "Authorization":
-              "Bearer " + token,
-
-            "Content-Type":
-              "application/json",
-
-            "Prefer":
-              "return=representation"
-          },
-
-          body:
-            JSON.stringify(dati)
-        }
-      );
-
-
-    if(!r.ok){
-
-      messaggio.textContent =
-        "❌ Errore durante il salvataggio: " +
-        await r.text();
-
-      return;
+    msg.textContent='Salvataggio documenti e pratica in corso…';
+    for(const tipo of ['istanza','risposta']){
+      if(files[tipo]){
+        const doc=await cpCaricaDocumento(files[tipo],tipo,pratica.id,auth);
+        if(!ancoraAttiva())throw new Error('Sessione cambiata. Riapri la pratica.');
+        cpDocumentiBozza[tipo]=doc;
+        document.getElementById(tipo==='istanza'?'dIstanzaFile':'dRispostaFile').value='';
+      }
     }
-
-
-    const salvate = await r.json();
-    if(!Array.isArray(salvate) || salvate.length !== 1){
-      messaggio.textContent = "❌ Nessuna pratica salvata. Ricarica il pannello e verifica l’accesso.";
-      return;
-    }
-
-    let emailInviata = false;
-    let erroreEmail = false;
-
-
-    if(
-      statoCambiato &&
-      dati.email
-    ){
-
-      messaggio.textContent =
-        "Pratica salvata. Invio aggiornamento al cittadino...";
-
-
+    dati.documenti_cittadino={...cpDocumentiBozza};
+    const notifica=reinvia || dati.stato!==pratica.stato || ['risposta_ente','messaggio_cittadino','data_risposta_ente'].some(k=>(dati[k]||'')!==(pratica[k]||'')) || JSON.stringify(dati.documenti_cittadino)!==JSON.stringify(pratica.documenti_cittadino||{});
+    const r=await fetch(SUPABASE_URL+'/rest/v1/segnalazioni_cittadini?id=eq.'+Number(pratica.id),{method:'PATCH',headers:{apikey:SUPABASE_KEY,Authorization:'Bearer '+auth,'Content-Type':'application/json',Prefer:'return=representation'},body:JSON.stringify(dati)});
+    if(!r.ok)throw new Error('Salvataggio non riuscito. I documenti caricati restano pronti per riprovare.');
+    const rows=await r.json();if(!Array.isArray(rows)||rows.length!==1)throw new Error('Nessuna pratica salvata. Verifica l’accesso.');
+    Object.assign(pratica,rows[0]);
+    if(!ancoraAttiva())return;
+    cpMostraDocumenti();
+    if(notifica && dati.email){
+      msg.textContent='Pratica salvata. Invio email con messaggio e documenti…';
       try{
-
-        const rispostaEmail =
-          await fetch(
-
-            EMAIL_FUNCTION_URL,
-
-            {
-              method:"POST",
-
-              headers:{
-                "Authorization": "Bearer " + token,
-                "Content-Type":
-                  "application/json"
-              },
-
-              body:
-                JSON.stringify({
-
-                  pratica_id: praticaCorrente.id,
-                  tipo_notifica: "aggiornamento",
-
-                  email:
-                    dati.email,
-
-                  nome:
-                    dati.nome,
-
-                  numero_pratica:
-                    praticaCorrente.numero_pratica ||
-                    (
-                      "#" +
-                      praticaCorrente.id
-                    ),
-
-                  stato:
-                    nuovoStato,
-
-                  oggetto:
-                    nomeCategoria(
-                      dati.categoria
-                    ) +
-                    " – " +
-                    dati.indirizzo,
-
-                  messaggio:
-                    dati.descrizione,
-
-                  ente:
-                    dati.ente_destinatario
-
-                })
-            }
-          );
-
-
-        if(rispostaEmail.ok){
-
-          const risultato =
-            await rispostaEmail.json();
-
-          emailInviata =
-            risultato.success === true;
-
-          if(!emailInviata)
-            erroreEmail = true;
-
-        }else{
-
-          erroreEmail = true;
-
-          console.error(
-            "Errore email:",
-            await rispostaEmail.text()
-          );
-        }
-
-      }catch(error){
-
-        erroreEmail = true;
-
-        console.error(
-          "Errore invio aggiornamento email:",
-          error
-        );
-      }
-    }
-
-
-    Object.assign(
-      praticaCorrente,
-      dati
-    );
-
-
-    if(statoCambiato){
-
-      if(!dati.email){
-
-        messaggio.textContent =
-          "✅ Pratica salvata. Lo stato è stato aggiornato, " +
-          "ma non è presente l'indirizzo email del cittadino.";
-
-      }else if(emailInviata){
-
-        messaggio.textContent =
-          "✅ Pratica salvata e cittadino informato via email.";
-
-      }else if(erroreEmail){
-
-        messaggio.textContent =
-          "⚠️ Pratica salvata correttamente, ma non è stato possibile " +
-          "inviare l'email al cittadino.";
-      }
-
-    }else{
-
-      messaggio.textContent =
-        "✅ Pratica salvata correttamente.";
-    }
-
-
+        const email=await fetch(EMAIL_FUNCTION_URL,{method:'POST',headers:{Authorization:'Bearer '+auth,'Content-Type':'application/json'},body:JSON.stringify({pratica_id:pratica.id,tipo_notifica:'aggiornamento',numero_pratica:pratica.numero_pratica,email:dati.email,stato:dati.stato})});
+        const esito=await email.json();
+        if(!email.ok || esito.success!==true)throw new Error('Invio non riuscito');
+        if(ancoraAttiva()){msg.textContent='✅ Pratica salvata. Email con messaggio e documenti accettata dal servizio di invio.';document.getElementById('dReinviaEmail').checked=false;}
+      }catch(e){if(ancoraAttiva()){msg.textContent='⚠️ Pratica salvata, ma email non inviata. Premi di nuovo Salva pratica per riprovare.';document.getElementById('dReinviaEmail').checked=true;}}
+    }else msg.textContent=notifica?'✅ Pratica salvata. Email non inviata: manca l’indirizzo del cittadino.':'✅ Pratica salvata correttamente.';
     await caricaSegnalazioni();
-
-  }catch(error){
-
-    messaggio.textContent =
-      "❌ Errore di connessione: " +
-      error.message;
-  }
+  }catch(e){if(ancoraAttiva()){cpMostraDocumenti();msg.textContent='❌ '+e.message;}}
+  finally{cpSalvataggioPratica=false;controls.forEach(([el,disabled])=>el.disabled=disabled);}
 }
 
 
@@ -7224,6 +7017,7 @@ cpSessionRestore();
 
 </body>
 </html>
+
 
 
 
