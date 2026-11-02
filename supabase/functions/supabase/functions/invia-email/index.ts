@@ -176,7 +176,7 @@ serve(async (req) => {
     const praticaId = body.pratica_id == null ? '' : String(body.pratica_id);
     if(praticaId && !/^-?\d{1,19}$/.test(praticaId)) return errorePubblico('Dati della pratica non validi',400);
     const filtro = praticaId ? 'id=eq.'+encodeURIComponent(praticaId) : 'numero_pratica=eq.'+encodeURIComponent(codice);
-    const fields = 'id,numero_pratica,email,nome,telefono,categoria,indirizzo,descrizione,stato,data_invio,ente_destinatario';
+    const fields = 'id,numero_pratica,email,nome,telefono,categoria,indirizzo,descrizione,stato,data_invio,ente_destinatario,risposta_ente,messaggio_cittadino,documenti_cittadino';
     const recordResponse = await fetchLimitato(supabaseUrl+'/rest/v1/segnalazioni_cittadini?select='+fields+'&'+filtro+'&limit=2',{headers:serviceHeaders});
     if(!recordResponse.ok) return errorePubblico('Servizio notifiche non disponibile',503);
     const records = await recordResponse.json();
@@ -189,6 +189,37 @@ serve(async (req) => {
       return errorePubblico('Conferma iniziale non disponibile');
     if(!ricevuta && statoRichiesto!==record.stato) return errorePubblico('Lo stato della pratica è cambiato',409);
     // Destinatario e testi derivano esclusivamente dalla pratica salvata.
+    // Documents are resolved from the saved record, never from caller-provided URLs.
+    const documenti = ricevuta ? {} : (record.documenti_cittadino || {});
+    const allegati: Array<{filename:string,content:string,content_type:string}> = [];
+    const identitaDocumenti: Array<string> = [];
+    for(const tipo of ['istanza','risposta']){
+      const doc = documenti[tipo];
+      if(!doc)continue;
+      const percorso=String(doc.percorso || '');
+      const prefisso=String(record.id)+'/'+tipo+'/';
+      if(!percorso.startsWith(prefisso) || !/^[a-zA-Z0-9/_.-]+$/.test(percorso) || percorso.includes('..') || !/\.(pdf|png|jpe?g)$/i.test(percorso))
+        return errorePubblico('Documento della pratica non valido',400);
+      const download=await fetchLimitato(supabaseUrl+'/storage/v1/object/authenticated/documenti-pratiche/'+percorso,{headers:serviceHeaders});
+      if(!download.ok)return errorePubblico('Impossibile allegare il documento. Riprova l’invio.',503);
+      const bytes=new Uint8Array(await download.arrayBuffer());
+      if(!bytes.length || bytes.length>5242880)return errorePubblico('Dimensione documento non valida',400);
+      const mime=percorso.endsWith('.pdf')?'application/pdf':percorso.endsWith('.png')?'image/png':'image/jpeg';
+      const pdf=bytes[0]===37 && bytes[1]===80 && bytes[2]===68 && bytes[3]===70 && bytes[4]===45;
+      const png=bytes[0]===137 && bytes[1]===80 && bytes[2]===78 && bytes[3]===71;
+      const jpg=bytes[0]===255 && bytes[1]===216 && bytes[2]===255;
+      if(!(mime==='application/pdf'?pdf:mime==='image/png'?png:jpg))return errorePubblico('Il contenuto del documento non corrisponde al formato',400);
+      let binary='';for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode(...bytes.subarray(i,i+8192));
+      const nome=String(doc.nome || tipo+'.'+percorso.split('.').pop()).replace(/[\r\n\\/\u0000-\u001f]/g,'_').slice(0,180);
+      allegati.push({filename:tipo==='istanza'?'Istanza - '+nome:'Risposta - '+nome,content:btoa(binary),content_type:mime});
+      identitaDocumenti.push(percorso);
+    }
+    const messaggioCittadino=ricevuta?'':String(record.messaggio_cittadino || '');
+    const rispostaEnte=ricevuta?'':String(record.risposta_ente || '');
+    const aggiornamentoHtml=(messaggioCittadino?'<h3>Messaggio da Canicattì Partecipa</h3><p style="white-space:pre-wrap">'+safe(messaggioCittadino)+'</p>':'')+
+      (rispostaEnte?'<h3>Risposta / esito dell’ente</h3><p style="white-space:pre-wrap">'+safe(rispostaEnte)+'</p>':'')+
+      (allegati.length?'<p><strong>Documenti allegati:</strong></p><ul>'+allegati.map(d=>'<li>'+safe(d.filename)+'</li>').join('')+'</ul>':'');
+
     const emailCittadino = String(record.email).trim();
     const nome = record.nome;
     const telefono = record.telefono;
@@ -463,6 +494,7 @@ line-height:1.55;
 ">
 ${testoStato}
 </p>
+${aggiornamentoHtml}
 
 ${
   nuovaSegnalazione
@@ -633,7 +665,9 @@ Canicattì Partecipa.
        ============================================ */
 
 
-    const eventKey = await chiaveEmail(serviceKey,JSON.stringify(['segnalazione',record.id,ricevuta,numero_pratica,emailCittadino,nome,telefono,stato,oggetto,messaggio,ente]));
+    const eventParts: unknown[] = ['segnalazione',record.id,ricevuta,numero_pratica,emailCittadino,nome,telefono,stato,oggetto,messaggio,ente];
+    if(!ricevuta && (messaggioCittadino || rispostaEnte || identitaDocumenti.length))eventParts.push(messaggioCittadino,rispostaEnte,identitaDocumenti);
+    const eventKey = await chiaveEmail(serviceKey,JSON.stringify(eventParts));
     const recipientKey = await chiaveEmail(serviceKey,emailCittadino.toLowerCase());
     const claimResponse = await fetchLimitato(supabaseUrl+'/rest/v1/rpc/cp_claim_email',{
       method:'POST',headers:serviceHeaders,
@@ -675,6 +709,7 @@ Canicattì Partecipa.
               subject,
 
               html,
+              ...(html === htmlCittadino && allegati.length ? {attachments:allegati} : {}),
             }),
           },
         );
@@ -841,4 +876,5 @@ Canicattì Partecipa.
     );
   }
 });
+
 
