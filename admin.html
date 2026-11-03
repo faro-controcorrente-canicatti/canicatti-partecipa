@@ -913,6 +913,8 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
     🏠 Dashboard
   </button>
 
+  <button type="button" onclick="cpApriSocial()">📣 Crea post social</button>
+  <button type="button" onclick="cpApriSocial()">📣 Crea post social</button>
   <button id="mSegnalazioni" onclick="mostraSezione('segnalazioni')">
     📥 Segnalazioni
   </button>
@@ -5280,6 +5282,8 @@ async function cpChatRegistra(){
  finally{if(versione===cpChatVersione&&epoca===cpEpoca){cpChatBusy=false;document.getElementById('cpChatRegistra').disabled=!cpIsOwner();}}
 }
 
+function cpApriSocial(){cpRichiedeProprietario();if(!token)throw new Error('Accedi per usare lo strumento.');const w=window.open('social-generator.html#cpToken='+encodeURIComponent(token),'_blank','noopener');if(!w){const a=document.createElement('a');a.href='social-generator.html#cpToken='+encodeURIComponent(token);a.target='_blank';a.rel='noopener';a.click();}}
+function cpApriSocial(){cpRichiedeProprietario();if(!token)throw new Error('Accedi per usare lo strumento.');const a=document.createElement('a');a.href='social-segnalazioni/social-generator.html#cpToken='+encodeURIComponent(token);a.target='_blank';a.rel='noopener';a.click();}
 function apriPratica(s){
 
   if(cpSalvataggioPratica)return;
