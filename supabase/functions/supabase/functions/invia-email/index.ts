@@ -704,7 +704,7 @@ Canicattì Partecipa.
 
               to: [destinatario],
 
-              reply_to: EMAIL_INTERNA,
+              reply_to: html === htmlCittadino ? indirizzoRisposta : EMAIL_INTERNA,
 
               subject,
 
@@ -767,12 +767,34 @@ Canicattì Partecipa.
             "Canicattì Partecipa"
           } – ${statoVisualizzato}`;
 
+    const dominioRisposte = Deno.env.get('CP_REPLY_DOMAIN') || '';
+    let indirizzoRisposta = EMAIL_INTERNA;
+    if(/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(dominioRisposte)){
+      const firmaRisposta = (await chiaveEmail(serviceKey,'cp-risposta:'+record.id)).slice(0,32);
+      indirizzoRisposta='cp-'+record.id+'-'+firmaRisposta+'@'+dominioRisposte;
+    }
+    const testoStorico=[
+      'Stato: '+statoVisualizzato,
+      ricevuta?'Segnalazione: '+String(record.descrizione||''):'',
+      messaggioCittadino?'Messaggio al cittadino:\n'+messaggioCittadino:'',
+      rispostaEnte?'Risposta / esito dell’ente:\n'+rispostaEnte:''
+    ].filter(Boolean).join('\n\n');
+    const storico = {pratica_id:record.id,event_key:eventKey,direzione:'uscita',origine:'email',stato:'in_invio',mittente:MITTENTE,destinatario:emailCittadino,oggetto:subjectCittadino,testo:testoStorico,documenti:ricevuta?[]:Object.values(documenti)};
+    const salvaStorico=await fetchLimitato(supabaseUrl+'/rest/v1/cp_messaggi_pratica?on_conflict=event_key',{
+      method:'POST',headers:{...serviceHeaders,Prefer:'resolution=ignore-duplicates'},body:JSON.stringify(storico)
+    });
+    if(!salvaStorico.ok)return errorePubblico('Impossibile registrare il messaggio. Nessuna email inviata.',503);
+
     const cittadino = await invia(
       emailCittadino,
       subjectCittadino,
       htmlCittadino,
     );
 
+    const statoStorico=await fetchLimitato(supabaseUrl+'/rest/v1/cp_messaggi_pratica?event_key=eq.'+eventKey,{
+      method:'PATCH',headers:serviceHeaders,body:JSON.stringify({stato:cittadino.ok?'accettato':'errore',provider_id:cittadino.ok?(cittadino.data as {id?:string})?.id||null:null})
+    });
+    if(!statoStorico.ok)return errorePubblico('Esito email non registrato. Riprova per riconciliare lo stato senza duplicare l’invio.',503);
     if (!cittadino.ok) {
       console.error(
         "Errore invio email cittadino:",
