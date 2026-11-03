@@ -6,7 +6,7 @@
 <label>Zona / via<input id="zona" maxlength="52" value="[Via o quartiere]"></label>
 <label>Data dell’azione, se utile<input id="data" maxlength="22" placeholder="Facoltativa"></label>
 <label>Tipo di azione<select id="azione"><option value="">Seleziona l’azione svolta…</option><option>PEC inviata</option><option>Istanza presentata</option><option>Segnalazione inoltrata agli uffici</option><option>Denuncia presentata</option><option>Intervento diretto</option><option>Altro intervento</option></select></label>
-<label>Che cosa abbiamo fatto?<textarea id="dettaglio" maxlength="180" placeholder="Descrivi in modo concreto l’azione svolta…"></textarea></label>
+<label>Dettaglio dell’azione o della richiesta<textarea id="dettaglio" maxlength="180" placeholder="Es. richiesta di intervento degli uffici competenti…"></textarea></label>
 <label>Ente o destinatario, se pertinente<input id="ente" maxlength="58" placeholder="Facoltativo"></label>
 <label>Protocollo o riferimento, se disponibile<input id="istanza" maxlength="48" placeholder="Facoltativo"></label>
 <label><input type="checkbox" id="allegato"> Allegherò il documento come seconda immagine del carosello</label>
@@ -29,13 +29,14 @@ svg+='<rect x="62" y="58" width="9" height="68" rx="4" fill="#ffd000"/>'+text('C
 svg+=text('IL PERCORSO DI UNA SEGNALAZIONE',62,194,21,800,'#b8d0dc',46)+'<rect x="62" y="222" width="548" height="53" rx="26" fill="#ffd000"/>'+text('CI È ARRIVATA SU CANICATTÌ PARTECIPA',86,257,19,900,'#071f33',40);
 svg+=text(v.zona||'CANICATTÌ',62,374,66,900,'#ffd000',23,1.04)+'<rect x="62" y="477" width="10" height="58" rx="5" fill="#ffffff"/>'+text(v.titolo||'Problema segnalato dai cittadini',96,514,30,700,'#ffffff',48,1.1);
 svg+='<path d="M62 575h956" stroke="#ffffff" stroke-opacity=".28" stroke-width="2"/>'+text('E NOI CI SIAMO ATTIVATI',62,635,22,800,'#b8d0dc',40)+'<path d="M62 665h956v286H62Z" fill="#ffd000"/>';
-svg+=text(actionPoster,94,738,49,900,'#071f33',35,1.04)+text(destinatario.toLowerCase().startsWith('comune')?'AL '+destinatario.toUpperCase():'A '+destinatario.toUpperCase(),94,793,27,900,'#071f33',38)+text(v.dettaglio||'Descrivi qui l’azione concreta svolta.',94,849,20,500,'#17364a',78,1.18)+text(destinatario,94,922,19,700,'#17364a',55);
+svg+=text(actionPoster,94,738,49,900,'#071f33',35,1.04)+text(destinatario.toLowerCase().startsWith('comune')?'AL '+destinatario.toUpperCase():'A '+destinatario.toUpperCase(),94,793,27,900,'#071f33',38)+text(v.dettaglio||'Descrivi la richiesta o l’azione in concreto.',94,849,20,500,'#17364a',78,1.18);
 if(numero)svg+='<rect x="62" y="1000" width="'+Math.min(400,170+numero.length*14)+'" height="54" rx="27" fill="#ffffff" fill-opacity=".12" stroke="#ffffff" stroke-opacity=".24"/>'+text('PRATICA '+numero,86,1035,20,800,'#ffffff',34);
 if(v.istanza)svg+=text('RIFERIMENTO · '+v.istanza,62,1137,18,700,'#ffd000',68);
 svg+='<rect x="0" y="1193" width="1080" height="157" fill="#ffd000"/>'+text('UN PROBLEMA NELLA TUA ZONA?',62,1245,25,900,'#071f33',40)+text('Segnalalo su canicattipartecipa.it',62,1291,24,700,'#071f33',46)+'<g transform="translate(935 1244)"><circle cx="34" cy="34" r="33" fill="#071f33"/><path d="M18 34h30m-11-11 11 11-11 11" fill="none" stroke="#ffd000" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg>';
 const preview=document.getElementById('preview');preview.innerHTML=svg;
 const lead='📣 Ci è arrivata su Canicattì Partecipa una segnalazione: '+(v.titolo||'[problema segnalato]')+(v.zona?' · '+v.zona:'')+'.';
-const outcome=actionCaption+'. Destinatario: '+destinatario+(v.dettaglio?' · '+v.dettaglio:'')+'.';
+const fraseDest=destinatario.toLowerCase().startsWith('comune')?'al '+destinatario:'a '+destinatario;
+const outcome=actionCaption+' '+fraseDest+(v.dettaglio?': '+v.dettaglio:'')+'.';
 document.getElementById('caption').value=lead+'\n\nDopo aver ricevuto la segnalazione, '+outcome+(v.data?' ('+v.data+')':'')+'\n'+(numero?'Riferimento pratica: '+numero+'.\n':'')+(v.istanza?'Protocollo: '+v.istanza+'.\n':'')+'\nCon Canicattì Partecipa le segnalazioni dei cittadini arrivano a chi può intervenire. Seguiamo ogni caso e condividiamo gli aggiornamenti.\n\nHai notato un problema? Segnalalo su canicattipartecipa.it\n\n#CanicattìPartecipa #Canicattì #Segnalazioni';return svg}
 function validaAzione(){const e=document.getElementById('ricercaEsito');if(!document.getElementById('azione').value||!document.getElementById('dettaglio').value.trim()){e.textContent='Seleziona l’azione svolta e descrivi che cosa abbiamo fatto prima di esportare il post.';return false}e.textContent='';return true}
 function save(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),3000)}
