@@ -832,7 +832,7 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
 }
 @media print{.cp-adesione-gestione{display:none!important}}
 .cp-scheda-allegati{overflow-wrap:anywhere}.cp-scheda-allegati li{margin:8px 0;break-inside:avoid}
-</style>
+.cp-chat{margin:24px 0;padding:20px;border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc}.cp-chat-messaggio{background:white;border:1px solid #dbe3ec;border-radius:8px;padding:16px;margin:12px 0;overflow-wrap:anywhere}.cp-chat-messaggio p{margin:6px 0;font-size:13px;color:#475569}.cp-chat-testo{white-space:pre-wrap;margin:12px 0;max-height:400px;overflow:auto}.cp-chat details{margin-top:18px}.cp-chat summary{cursor:pointer;font-weight:600}.cp-chat label{display:block;margin-top:16px}.cp-chat textarea{width:100%;box-sizing:border-box}.cp-chat button{margin:6px 0}</style>
 </head>
 
 <body>
@@ -1409,13 +1409,26 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
     <input data-cp-owner type="file" id="dRispostaFile" accept=".pdf,.jpg,.jpeg,.png">
     <p class="meta">PDF, JPG o PNG, massimo 5 MB. Scegli un nuovo file per sostituire il documento.</p>
     <div id="cpDocumento-risposta" class="meta"></div>
-    <label for="dMessaggioCittadino"><strong>Messaggio al cittadino</strong></label>
-    <textarea id="dMessaggioCittadino" maxlength="10000" placeholder="Scrivi un messaggio da includere nell’email al cittadino…"></textarea>
-    <p class="meta">Salvando una nuova risposta, un messaggio o un documento viene inviata un’email anche se lo stato non cambia. Le note interne non vengono inviate.</p>
-    <label data-cp-owner><input type="checkbox" id="dReinviaEmail" style="width:auto"> Riprova l’invio dell’ultimo aggiornamento se l’email non è partita</label>
-
   </div>
-
+  <section class="cp-chat" aria-labelledby="cpChatTitolo">
+    <h3 id="cpChatTitolo">Messaggi con il cittadino</h3>
+    <p id="cpChatRicezione" class="meta"></p>
+    <button type="button" onclick="cpChatApri(false)">Aggiorna messaggi</button>
+    <p id="cpChatEsito" role="status" class="meta"></p>
+    <div id="cpChatLista" aria-live="polite"></div>
+    <button type="button" id="cpChatAltro" hidden onclick="cpChatCarica(true)">Carica messaggi precedenti</button>
+    <label for="dMessaggioCittadino"><strong>Messaggio al cittadino</strong></label>
+    <textarea id="dMessaggioCittadino" maxlength="10000" placeholder="Scrivi il messaggio da inviare al cittadino…"></textarea>
+    <p class="meta">Premi Salva pratica per inviare il messaggio e i documenti allegati. Il testo rimane disponibile per gli aggiornamenti successivi; le note interne restano riservate.</p>
+    <input type="checkbox" id="dReinviaEmail" hidden>
+    <details data-cp-owner>
+      <summary>Registra una risposta già ricevuta</summary>
+      <p class="meta">Copia qui una risposta arrivata nella casella email alle comunicazioni precedenti. Questa operazione aggiunge la risposta allo storico e non invia email.</p>
+      <label for="cpChatData">Data e ora di ricezione</label><input id="cpChatData" type="datetime-local">
+      <label for="cpChatManuale">Testo della risposta ricevuta</label><textarea id="cpChatManuale" maxlength="20000"></textarea>
+      <button id="cpChatRegistra" type="button" onclick="cpChatRegistra()">Registra nella pratica</button>
+    </details>
+  </section>
 
   <div class="actions">
 
@@ -5194,6 +5207,79 @@ async function cpPreparaStampaSegnalazione(){
  finally{cpStampaOccupata=false;}
 }
 
+let cpChatVersione=0,cpChatCursor=null,cpChatRichiesta=null,cpChatBusy=false;
+function cpChatReset(){
+ cpChatVersione++;cpChatCursor=null;cpChatRichiesta=null;cpChatBusy=false;
+ document.getElementById('cpChatLista').replaceChildren();
+ document.getElementById('cpChatEsito').textContent='';
+ document.getElementById('cpChatManuale').value='';
+ const now=new Date();document.getElementById('cpChatData').value=new Date(now-now.getTimezoneOffset()*60000).toISOString().slice(0,16);
+ document.getElementById('cpChatAltro').hidden=true;
+ document.getElementById('cpChatRegistra').disabled=!cpIsOwner();
+}
+async function cpChatFunzione(body){
+ const r=await fetch(SUPABASE_URL+'/functions/v1/cp-messaggi',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify(body)});
+ const data=await r.json();if(!r.ok)throw new Error(data.error||'Servizio non disponibile');return data;
+}
+async function cpChatApri(reset=true){
+ if(reset)cpChatReset();else if(cpChatBusy)return;const versione=cpChatVersione,epoca=cpEpoca;
+ document.getElementById('cpChatRicezione').textContent='Verifica ricezione delle risposte…';
+ cpChatCarica();
+ try{const r=await cpChatFunzione({azione:'stato'});if(versione!==cpChatVersione||epoca!==cpEpoca)return;
+ document.getElementById('cpChatRicezione').textContent=r.ricezione_attiva?'Le risposte alle nuove email vengono collegate automaticamente a questa pratica. Per le email precedenti usa «Registra una risposta già ricevuta».':'Ricezione automatica non ancora attiva. Puoi registrare le risposte ricevute nella casella email.';
+ }catch(_){if(versione===cpChatVersione&&epoca===cpEpoca)document.getElementById('cpChatRicezione').textContent='Stato della ricezione non disponibile. Premi Aggiorna messaggi per riprovare.';}
+}
+function cpChatNodo(tag,text){const el=document.createElement(tag);el.textContent=text;return el;}
+async function cpChatCarica(altro=false){
+ if(!praticaCorrente||cpChatBusy)return;
+ const versione=cpChatVersione,epoca=cpEpoca,pratica=praticaCorrente;
+ const attiva=()=>versione===cpChatVersione&&epoca===cpEpoca&&pratica===praticaCorrente;
+ const lista=document.getElementById('cpChatLista'),esito=document.getElementById('cpChatEsito');
+ cpChatBusy=true;esito.textContent='Caricamento messaggi…';
+ try{
+ let query='?select=*&pratica_id=eq.'+encodeURIComponent(pratica.id)+'&order=data_messaggio.desc,id.desc&limit=31';
+ if(altro&&cpChatCursor)query+='&or='+encodeURIComponent('(data_messaggio.lt.'+cpChatCursor.data_messaggio+',and(data_messaggio.eq.'+cpChatCursor.data_messaggio+',id.lt.'+cpChatCursor.id+'))');
+ const rows=await cpRichiesta('cp_messaggi_pratica',query);if(!attiva())return;
+ if(!altro)lista.replaceChildren();
+ const page=rows.slice(0,30);
+ for(const m of page){
+ const card=document.createElement('article');card.className='cp-chat-messaggio';
+ const stati={in_invio:'Invio in corso / da verificare',accettato:'Accettato dal servizio di invio',errore:'Invio non riuscito',ricevuto:'Ricevuto',registrato:'Registrato manualmente'};
+ card.append(cpChatNodo('strong',m.direzione==='entrata'?'Dal cittadino':'Al cittadino'));
+ card.append(cpChatNodo('p',new Date(m.data_messaggio).toLocaleString('it-IT')+' · '+(stati[m.stato]||m.stato)));
+ card.append(cpChatNodo('p',(m.direzione==='entrata'?'Da: '+m.mittente:'A: '+m.destinatario)));
+ if(m.oggetto)card.append(cpChatNodo('strong',m.oggetto));
+ const corpo=cpChatNodo('div',m.testo);corpo.className='cp-chat-testo';card.append(corpo);
+ if(m.verifica){const warning=cpChatNodo('p',m.verifica);warning.style.color='#9a5700';card.append(warning);}
+ for(const doc of Array.isArray(m.documenti)?m.documenti:[]){
+ const p=cpChatNodo('p','Allegato: '+doc.nome+' ');
+ if(m.direzione==='uscita'&&doc.percorso){const b=cpChatNodo('button','Scarica');b.type='button';b.onclick=()=>cpScaricaDocumento(doc);p.append(b);}card.append(p);
+ }
+ if(m.direzione==='entrata'&&m.origine==='email'){
+ const b=cpChatNodo('button','Scarica email originale e allegati');b.type='button';b.onclick=async()=>{b.disabled=true;try{const r=await cpChatFunzione({azione:'originale',messaggio_id:m.id});if(!attiva())return;const url=new URL(r.url);if(url.protocol!=='https:'||!url.hostname.endsWith('.cloudfront.net'))throw Error('Link non valido');const a=document.createElement('a');a.href=url.href;a.target='_blank';a.rel='noopener noreferrer';a.click();}catch(e){if(attiva())esito.textContent=e.message;}finally{b.disabled=false;}};card.append(b);
+ }
+ lista.append(card);
+ }
+ cpChatCursor=page.at(-1)||cpChatCursor;
+ document.getElementById('cpChatAltro').hidden=rows.length<=30;
+ esito.textContent=lista.children.length?'Messaggi più recenti in alto. «Accettato» conferma la presa in carico dell’email da parte del servizio, non la consegna.':'Nessun messaggio registrato. Le comunicazioni precedenti all’attivazione non compaiono automaticamente.';
+ }catch(_){if(attiva())esito.textContent='Impossibile caricare i messaggi. Premi Aggiorna messaggi per riprovare.';}
+ finally{if(attiva())cpChatBusy=false;}
+}
+async function cpChatRegistra(){
+ cpRichiedeProprietario();if(cpChatBusy||!praticaCorrente)return;
+ const testo=document.getElementById('cpChatManuale').value.trim(),data=document.getElementById('cpChatData').value;
+ const esito=document.getElementById('cpChatEsito');if(!testo||!data){esito.textContent='Inserisci il testo della risposta e la data di ricezione.';return;}
+ const payload={p_pratica_id:praticaCorrente.id,p_testo:testo,p_data:new Date(data).toISOString()};
+ const fingerprint=JSON.stringify(payload);if(!cpChatRichiesta||cpChatRichiesta.fingerprint!==fingerprint)cpChatRichiesta={fingerprint,id:crypto.randomUUID()};
+ const versione=cpChatVersione,epoca=cpEpoca;cpChatBusy=true;document.getElementById('cpChatRegistra').disabled=true;
+ try{await cpRichiesta('rpc/cp_registra_risposta','','POST',{...payload,p_richiesta:cpChatRichiesta.id});
+ if(versione!==cpChatVersione||epoca!==cpEpoca)return;
+ document.getElementById('cpChatManuale').value='';cpChatRichiesta=null;cpChatBusy=false;await cpChatCarica();esito.textContent='Risposta registrata nella pratica. Nessuna email inviata.';
+ }catch(_){if(versione===cpChatVersione&&epoca===cpEpoca)esito.textContent='Registrazione non riuscita. Riprova: la stessa risposta non verrà duplicata.';}
+ finally{if(versione===cpChatVersione&&epoca===cpEpoca){cpChatBusy=false;document.getElementById('cpChatRegistra').disabled=!cpIsOwner();}}
+}
+
 function apriPratica(s){
 
   if(cpSalvataggioPratica)return;
@@ -5204,6 +5290,7 @@ function apriPratica(s){
   document.getElementById("dMessaggioCittadino").value=s.messaggio_cittadino||"";
   document.getElementById("dReinviaEmail").checked=false;
   cpMostraDocumenti();
+  cpChatApri();
 
   const riferimento =
     s.numero_pratica
@@ -5312,6 +5399,7 @@ function chiudiDettaglio(){
     .classList.add("hidden");
 
   praticaCorrente = null;
+  cpChatReset();
 }
 
 
@@ -5405,6 +5493,7 @@ async function salvaPratica(){
         if(ancoraAttiva()){msg.textContent='✅ Pratica salvata. Email con messaggio e documenti accettata dal servizio di invio.';document.getElementById('dReinviaEmail').checked=false;}
       }catch(e){if(ancoraAttiva()){msg.textContent='⚠️ Pratica salvata, ma email non inviata. Premi di nuovo Salva pratica per riprovare.';document.getElementById('dReinviaEmail').checked=true;}}
     }else msg.textContent=notifica?'✅ Pratica salvata. Email non inviata: manca l’indirizzo del cittadino.':'✅ Pratica salvata correttamente.';
+    if(ancoraAttiva())await cpChatCarica();
     await caricaSegnalazioni();
   }catch(e){if(ancoraAttiva()){cpMostraDocumenti();msg.textContent='❌ '+e.message;}}
   finally{cpSalvataggioPratica=false;controls.forEach(([el,disabled])=>el.disabled=disabled);}
@@ -6916,7 +7005,7 @@ async function cpSalvaStato(event){
   finally{if(epoca === cpEpoca){cpStatoOccupato = false;cpEl('cpStatoCampi').disabled = false;}}
 }
 function cpReset(){
-  cpEpoca++;cpOccupato = false;cpStatoOccupato = false;cpStatoCaricato = false;
+  cpChatReset();cpEpoca++;cpOccupato = false;cpStatoOccupato = false;cpStatoCaricato = false;
   cpComunicazioni = [];cpChiudi();cpRender();cpEl('cpCampi').disabled = false;
   cpEl('cpStatoForm').reset();cpEl('cpStatoCampi').disabled = true;
   cpEl('cpStatoAttuale').textContent = 'Stato non ancora caricato.';
@@ -7017,6 +7106,7 @@ cpSessionRestore();
 
 </body>
 </html>
+
 
 
 
