@@ -44,7 +44,7 @@ const cpPerditeAdmin = (() => {
     stato.textContent = 'Cerco l’indirizzo a Canicattì…';
     const query = new URLSearchParams({
       city: 'Canicattì', countrycode: 'IT', street: via, limit: '6',
-      bbox: '13.76,37.29,13.95,37.44', lang: 'it'
+      bbox: '13.76,37.29,13.95,37.44', lang: 'default'
     });
     if (civico) query.set('housenumber', civico);
     const timeout = setTimeout(() => operazione.abort(), 9000);
