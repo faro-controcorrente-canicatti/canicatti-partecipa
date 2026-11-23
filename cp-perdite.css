@@ -41,8 +41,6 @@
 .cp-perdite-popup img { display: block; max-width: 100%; max-height: 155px; margin: .5rem 0; object-fit: contain; }
 .cp-perdite-popup p { margin-block: .35rem; }
 .cp-perdite-popup button { font: inherit; cursor: pointer; }
-#cp-perdite-elenco { display: grid; gap: .65rem; padding-left: 1.4rem; }
-#cp-perdite-elenco button { text-align: left; }
 #sezionePerdite fieldset { border: 0; padding: 0; min-inline-size: 0; }
 #sezionePerdite .cp-perdite-check { display: flex; align-items: center; gap: .5rem; }
 #sezionePerdite .cp-perdite-check input { width: auto; margin: 0; }

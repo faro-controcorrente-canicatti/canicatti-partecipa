@@ -833,7 +833,7 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
 @media print{.cp-adesione-gestione{display:none!important}}
 .cp-scheda-allegati{overflow-wrap:anywhere}.cp-scheda-allegati li{margin:8px 0;break-inside:avoid}
 .cp-chat{margin:24px 0;padding:20px;border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc}.cp-chat-messaggio{background:white;border:1px solid #dbe3ec;border-radius:8px;padding:16px;margin:12px 0;overflow-wrap:anywhere}.cp-chat-messaggio p{margin:6px 0;font-size:13px;color:#475569}.cp-chat-testo{white-space:pre-wrap;margin:12px 0;max-height:400px;overflow:auto}.cp-chat details{margin-top:18px}.cp-chat summary{cursor:pointer;font-weight:600}.cp-chat label{display:block;margin-top:16px}.cp-chat textarea{width:100%;box-sizing:border-box}.cp-chat button{margin:6px 0}</style>
-<link rel="stylesheet" href="cp-perdite.css">
+<link rel="stylesheet" href="cp-perdite.css?v=20261123-ortofoto">
 </head>
 
 <body>
@@ -1210,7 +1210,8 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
           <input id="cp-perdite-civico" maxlength="20" placeholder="Es. 12/A" aria-describedby="cp-perdite-guida-indirizzo"></div>
         </div>
         <button id="cp-perdite-cerca" type="button">Cerca indirizzo</button>
-        <p id="cp-perdite-guida-indirizzo" class="file-help">Cerca la via e scegli un risultato. Se il civico non è disponibile, indica il punto esatto cliccando sulla mappa. La ricerca usa <a href="https://github.com/komoot/photon" target="_blank" rel="noopener noreferrer">Photon</a> con i dati di <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>.</p>
+        <button id="cp-perdite-confronta-maps" type="button">Verifica indirizzo in Google Maps</button>
+        <p id="cp-perdite-guida-indirizzo" class="file-help">Cerca la via e scegli un risultato. Se il civico non è disponibile, passa a Foto aerea e clicca sulla mappa, oppure trascina il puntino per correggere la posizione. La ricerca usa <a href="https://github.com/komoot/photon" target="_blank" rel="noopener noreferrer">Photon</a> con i dati di <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>.</p>
         <p id="cp-perdite-ricerca-stato" role="status"></p>
         <ul id="cp-perdite-risultati" aria-label="Risultati della ricerca indirizzo" hidden></ul>
         <div id="cp-perdite-scelta" class="cp-perdite-mappa" role="region" aria-label="Mappa per selezionare il punto"></div>
@@ -7170,8 +7171,8 @@ cpSessionRestore();
 
 </script>
 
-<script defer src="cp-perdite.js"></script>
-<script defer src="cp-perdite-admin.js?v=20261123-ricerca-indirizzi"></script>
+<script defer src="cp-perdite.js?v=20261123-ortofoto"></script>
+<script defer src="cp-perdite-admin.js?v=20261123-ortofoto"></script>
 </body>
 </html>
 

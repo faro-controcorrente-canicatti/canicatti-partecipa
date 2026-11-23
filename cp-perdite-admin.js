@@ -10,6 +10,17 @@ const cpPerditeAdmin = (() => {
   const normalizzaCivico = valore => String(valore || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
   let ricerca, ultimaRicerca = 0;
 
+  function confrontaIndirizzo() {
+    const via = el('luogo').value.trim();
+    if (!via) {
+      el('ricerca-stato').textContent = 'Inserisci il nome della via da cercare.';
+      el('luogo').focus();
+      return;
+    }
+    const query = [via, el('civico').value.trim(), 'Canicattì AG'].filter(Boolean).join(' ');
+    window.open(cpPerdite.linkMaps(query), '_blank', 'noopener,noreferrer');
+  }
+
   function azzeraRicerca() {
     ricerca?.abort();
     ricerca = undefined;
@@ -153,7 +164,27 @@ const cpPerditeAdmin = (() => {
       const modifica = nodo('button', 'Modifica perdita');
       modifica.type = 'button';
       modifica.addEventListener('click', () => apriEditor(riga));
-      card.append(nodo('h3', riga.luogo), nodo('p', riga.riparata_il ? 'Riparata' : 'Da riparare'), dettagli, modifica);
+      const elimina = nodo('button', 'Elimina perdita');
+      elimina.type = 'button';
+      elimina.addEventListener('click', () => {
+        if (!letturaAutorizzata() || occupato) return;
+        if (!window.confirm('Eliminare definitivamente la perdita in ' + riga.luogo + ' e i suoi allegati?')) return;
+        azione(async corrente => {
+          await cpRichiesta(tabella, '?select=id&id=eq.' + riga.id + '&revisione=eq.' + riga.revisione, 'DELETE');
+          if (corrente !== generazione) return;
+          if (selezionata?.id === riga.id) {
+            azzeraRicerca();
+            selezionata = undefined;
+            editor.hidden = true;
+            modulo.reset();
+          }
+          await aggiorna(corrente, 'Perdita eliminata.');
+        });
+      });
+      const azioni = nodo('div');
+      azioni.className = 'actions';
+      azioni.append(modifica, elimina);
+      card.append(nodo('h3', riga.luogo), nodo('p', riga.riparata_il ? 'Riparata' : 'Da riparare'), dettagli, azioni);
       elenco.append(card);
     }
     messaggio(testo);
@@ -165,7 +196,13 @@ const cpPerditeAdmin = (() => {
     const lat = el('lat').valueAsNumber, lng = el('lng').valueAsNumber;
     if (!Number.isFinite(lat) || !Number.isFinite(lng) || Math.abs(lat) > 90 || Math.abs(lng) > 180) return;
     marker = punto(mappa, [lat, lng], 'Punto selezionato', 'scelta');
-    if (centra) mappa.setView([lat, lng], 16);
+    marker.dragging.enable();
+    marker.on('dragend', () => {
+      const posizione = marker.getLatLng();
+      impostaPunto(posizione.lat, posizione.lng, false);
+      el('ricerca-stato').textContent = 'Posizione aggiornata.';
+    });
+    if (centra) mappa.setView([lat, lng], Math.max(mappa.getZoom(), 19));
   }
 
   async function apriEditor(riga) {
@@ -273,6 +310,7 @@ const cpPerditeAdmin = (() => {
   el('nuova').addEventListener('click', () => apriEditor());
   el('annulla').addEventListener('click', () => { azzeraRicerca(); editor.hidden = true; });
   el('cerca').addEventListener('click', cercaIndirizzo);
+  el('confronta-maps').addEventListener('click', confrontaIndirizzo);
   for (const nome of ['luogo', 'civico']) {
     el(nome).addEventListener('input', azzeraRicerca);
     el(nome).addEventListener('keydown', evento => {

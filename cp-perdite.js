@@ -48,10 +48,24 @@ const cpPerdite = (() => {
       zoomControl: false, dragging: false, keyboard: false, touchZoom: false,
       doubleClickZoom: false, boxZoom: false, scrollWheelZoom: false
     } : { scrollWheelZoom: false }).setView(centro, 14);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
+    const strade = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxNativeZoom: 19, maxZoom: 21,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(mappa);
+    if (!anteprima) {
+      const fonte = 'https://map.sitr.regione.sicilia.it/gis/rest/services/ortofoto/ortofoto_2022_20cm_sicilia/ImageServer';
+      const aerea = L.tileLayer(fonte + '/tile/{z}/{y}/{x}', {
+        maxNativeZoom: 20, maxZoom: 21,
+        attribution: '<a href="' + fonte + '">Ortofoto AGEA 2022 · Regione Siciliana (SITR)</a>'
+      });
+      L.control.layers({ 'Strade': strade, 'Foto aerea': aerea }, {}, { collapsed: false }).addTo(mappa);
+      aerea.on('tileerror', () => {
+        if (mappa.hasLayer(aerea)) {
+          mappa.removeLayer(aerea);
+          strade.addTo(mappa);
+        }
+      });
+    }
     return mappa;
   }
 
@@ -105,6 +119,10 @@ const cpPerdite = (() => {
     return riga[colonna];
   }
 
+  function linkMaps(query) {
+    return 'https://www.google.com/maps/search/?' + new URLSearchParams({ api: '1', query });
+  }
+
   function scheda(riga, auth) {
     const box = nodo('div');
     box.className = 'cp-perdite-popup';
@@ -142,6 +160,13 @@ const cpPerdite = (() => {
       });
       box.append(pdf);
     }
+    const navigazione = nodo('p');
+    const maps = nodo('a', 'Apri il punto in Google Maps');
+    maps.href = linkMaps(riga.lat + ',' + riga.lng);
+    maps.target = '_blank';
+    maps.rel = 'noopener noreferrer';
+    navigazione.append(maps);
+    box.append(navigazione);
     return box;
   }
 
@@ -164,22 +189,10 @@ const cpPerdite = (() => {
       });
       if (!anteprima && !righe.length) el('cp-perdite-stato').textContent = 'Nessuna perdita registrata.';
       const posizioni = new Map();
-      const elenco = el('cp-perdite-elenco');
       for (const riga of righe) {
         const chiave = riga.lat + ',' + riga.lng;
         if (!posizioni.has(chiave)) posizioni.set(chiave, []);
         posizioni.get(chiave).push(riga);
-        if (anteprima) continue;
-        const voce = nodo('li');
-        const dettagli = nodo('details');
-        const titolo = riga.luogo + ' · ' + (riga.riparata_il ? 'Riparata' : 'Da riparare');
-        const sommario = nodo('summary', titolo);
-        dettagli.addEventListener('toggle', () => {
-          if (dettagli.open && dettagli.childElementCount === 1) dettagli.append(scheda(riga));
-        });
-        dettagli.append(sommario);
-        voce.append(dettagli);
-        elenco.append(voce);
       }
       const mappa = await creaMappa('cp-perdite-mappa', anteprima);
       const coordinate = [];
@@ -202,7 +215,7 @@ const cpPerdite = (() => {
     }
   }
 
-  return { home, creaMappa, punto, richiedi, tutte, scheda, nodo, dataIt, tabella, impostazioni, limiteFile };
+  return { home, creaMappa, punto, richiedi, tutte, scheda, nodo, dataIt, linkMaps, tabella, impostazioni, limiteFile };
 })();
 
 if (document.getElementById('cp-perdite-home')) cpPerdite.home();
