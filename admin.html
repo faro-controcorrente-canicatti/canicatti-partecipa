@@ -1203,14 +1203,25 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
     <h3 id="cp-perdite-titolo-editor">Nuova perdita</h3>
     <form id="cp-perdite-modulo">
       <fieldset id="cp-perdite-campi">
-        <label for="cp-perdite-luogo">Via o luogo</label>
-        <input id="cp-perdite-luogo" maxlength="180" required>
-        <p>Seleziona il punto sulla mappa oppure inserisci le coordinate.</p>
+        <label for="cp-perdite-luogo">Via o luogo a Canicattì</label>
+        <div class="cp-grid">
+          <input id="cp-perdite-luogo" maxlength="180" required>
+          <div><label for="cp-perdite-civico">Numero civico (facoltativo)</label>
+          <input id="cp-perdite-civico" maxlength="20" placeholder="Es. 12/A" aria-describedby="cp-perdite-guida-indirizzo"></div>
+        </div>
+        <button id="cp-perdite-cerca" type="button">Cerca indirizzo</button>
+        <p id="cp-perdite-guida-indirizzo" class="file-help">Cerca la via e scegli un risultato. Se il civico non è disponibile, indica il punto esatto cliccando sulla mappa. La ricerca usa <a href="https://github.com/komoot/photon" target="_blank" rel="noopener noreferrer">Photon</a> con i dati di <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>.</p>
+        <p id="cp-perdite-ricerca-stato" role="status"></p>
+        <ul id="cp-perdite-risultati" aria-label="Risultati della ricerca indirizzo" hidden></ul>
         <div id="cp-perdite-scelta" class="cp-perdite-mappa" role="region" aria-label="Mappa per selezionare il punto"></div>
         <p id="cp-perdite-mappa-errore" role="status"></p>
+        <details><summary>Coordinate (facoltative)</summary>
+          <div class="cp-grid">
+            <div><label for="cp-perdite-lat">Latitudine</label><input id="cp-perdite-lat" type="number" min="-90" max="90" step="any"></div>
+            <div><label for="cp-perdite-lng">Longitudine</label><input id="cp-perdite-lng" type="number" min="-180" max="180" step="any"></div>
+          </div>
+        </details>
         <div class="cp-grid">
-          <div><label for="cp-perdite-lat">Latitudine</label><input id="cp-perdite-lat" type="number" min="-90" max="90" step="any" required></div>
-          <div><label for="cp-perdite-lng">Longitudine</label><input id="cp-perdite-lng" type="number" min="-180" max="180" step="any" required></div>
           <div><label for="cp-perdite-segnalata">Data di segnalazione</label><input id="cp-perdite-segnalata" type="date" required></div>
           <div><label for="cp-perdite-riparata">Data di riparazione</label><input id="cp-perdite-riparata" type="date">
             <button id="cp-perdite-rimuovi-data" type="button">Rimuovi data di riparazione</button></div>
@@ -7160,7 +7171,7 @@ cpSessionRestore();
 </script>
 
 <script defer src="cp-perdite.js"></script>
-<script defer src="cp-perdite-admin.js"></script>
+<script defer src="cp-perdite-admin.js?v=20261123-civici"></script>
 </body>
 </html>
 

@@ -5,15 +5,538 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mappa delle perdite idriche | Canicattì Partecipa</title>
   <link rel="stylesheet" href="cp-perdite.css?v=20261123">
+  <style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  background: #f4f3ef;
+  color: #202226;
+
+  line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+/* =====================================================
+   TESTATA
+===================================================== */
+
+.page-header {
+  position: relative;
+
+  min-height: 330px;
+
+  overflow: hidden;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0,0,0,.28),
+      rgba(0,0,0,.72)
+    ),
+    url("IMG_8923.webp");
+
+  background-size: cover;
+  background-position: center;
+}
+
+.header-inner {
+  width: calc(100% - 40px);
+  max-width: 900px;
+
+  min-height: 330px;
+
+  margin: 0 auto;
+
+  padding: 25px 0 32px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+/* =====================================================
+   FARO + LOGO
+===================================================== */
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.faro-title {
+  color: white;
+
+  font-size: 34px;
+  line-height: .93;
+
+  font-weight: 900;
+
+  letter-spacing: -1.5px;
+
+  text-transform: uppercase;
+
+  text-shadow:
+    0 3px 12px rgba(0,0,0,.55);
+}
+
+.faro-small {
+  display: block;
+
+  margin-bottom: 3px;
+
+  font-size: .56em;
+
+  font-weight: 700;
+
+  letter-spacing: .7px;
+
+  text-transform: none;
+
+  color: white;
+}
+
+.faro-canicatti {
+  color: white;
+}
+
+.logo-box {
+  flex: 0 0 105px;
+
+  width: 105px;
+  height: 105px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-box img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+
+/* =====================================================
+   TITOLO PAGINA
+===================================================== */
+
+.page-title {
+  margin-top: 35px;
+}
+
+.page-title .project {
+  margin-bottom: 8px;
+
+  color: #ffc800;
+
+  font-size: 13px;
+
+  font-weight: 850;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+.page-title h1 {
+  margin: 0 0 10px;
+
+  color: white;
+
+  font-size: clamp(37px, 8vw, 55px);
+
+  line-height: 1;
+
+  letter-spacing: -2px;
+
+  text-shadow:
+    0 3px 14px rgba(0,0,0,.45);
+}
+
+.page-title p {
+  margin: 0;
+
+  max-width: 650px;
+
+  color: white;
+
+  font-size: 19px;
+  line-height: 1.35;
+
+  text-shadow:
+    0 2px 8px rgba(0,0,0,.5);
+}
+
+
+/* =====================================================
+   CONTENUTO
+===================================================== */
+
+.wrap {
+  width: calc(100% - 32px);
+  max-width: 760px;
+
+  margin: 0 auto;
+
+  padding: 30px 0 55px;
+}
+
+
+/* =====================================================
+   AVVISO INIZIALE
+===================================================== */
+
+.intro {
+  margin-bottom: 20px;
+
+  padding: 24px;
+
+  background: white;
+
+  border-left: 6px solid #ffc800;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 22px rgba(0,0,0,.06);
+}
+
+.intro h2 {
+  margin: 0 0 12px;
+
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.intro p {
+  margin: 9px 0;
+
+  color: #44464a;
+
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+
+/* =====================================================
+   CARD
+===================================================== */
+
+.info-card {
+  margin-bottom: 18px;
+
+  padding: 24px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 6px 22px rgba(0,0,0,.06);
+}
+
+.info-card h2 {
+  margin: 0 0 12px;
+
+  font-size: 23px;
+  line-height: 1.2;
+}
+
+.info-card p {
+  margin: 0;
+
+  color: #55585c;
+
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+  padding:
+    40px
+    20px
+    calc(40px + env(safe-area-inset-bottom));
+
+  background: #202328;
+
+  color: white;
+
+  text-align: center;
+}
+
+footer strong {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 21px;
+}
+
+footer p {
+  max-width: 650px;
+
+  margin: 8px auto;
+
+  color: #d0d0d0;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.footer-links {
+  margin-top: 22px;
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.footer-links a {
+  color: white;
+
+  font-size: 14px;
+
+  text-decoration: underline;
+}
+
+
+/* =====================================================
+   SMARTPHONE
+===================================================== */
+
+@media (max-width: 600px) {
+
+  .page-header {
+    min-height: 315px;
+  }
+
+  .header-inner {
+    width: calc(100% - 36px);
+
+    min-height: 315px;
+
+    padding-top:
+      max(20px, env(safe-area-inset-top));
+
+    padding-bottom: 27px;
+  }
+
+  .faro-title {
+    max-width: calc(100% - 112px);
+
+    font-size: 30px;
+  }
+
+  .logo-box {
+    flex: 0 0 102px;
+
+    width: 102px;
+    height: 102px;
+  }
+
+  .page-title {
+    margin-top: 25px;
+  }
+
+  .page-title h1 {
+    font-size: clamp(36px, 10vw, 46px);
+  }
+
+  .page-title p {
+    font-size: 18px;
+  }
+
+  .wrap {
+    width: calc(100% - 26px);
+
+    padding-top: 20px;
+  }
+
+  .intro,
+  .info-card,
+  .steps {
+    padding: 21px 18px;
+
+    border-radius: 17px;
+  }
+
+  .intro h2,
+  .info-card h2,
+  .steps h2 {
+    font-size: 22px;
+  }
+
+  .button {
+    min-height: 58px;
+
+    font-size: 16px;
+  }
+
+}
+
+
+/* =====================================================
+   SMARTPHONE MOLTO PICCOLI
+===================================================== */
+
+@media (max-width: 370px) {
+
+  .faro-title {
+    font-size: 27px;
+  }
+
+  .logo-box {
+    flex-basis: 90px;
+
+    width: 90px;
+    height: 90px;
+  }
+
+  .page-title h1 {
+    font-size: 35px;
+  }
+
+  .wrap {
+    width: calc(100% - 22px);
+  }
+
+  .intro,
+  .info-card,
+  .steps {
+    padding: 19px 16px;
+  }
+
+}
+
+
+/* Navigazione e social uniformi alle altre pagine */
+a.cp-torna-home{display:block;color:inherit;text-decoration:none;cursor:pointer}
+a.cp-torna-home:focus-visible{outline:4px solid #ffc800;outline-offset:-4px}
+.cp-social{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:22px auto;max-width:650px}
+.cp-social a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:12px 18px;border-radius:10px;color:#fff!important;text-decoration:none;font-weight:750}
+.cp-social a:hover{filter:brightness(.92)}
+.cp-social a:focus-visible{outline:3px solid #ffc800;outline-offset:3px}
+.cp-social .hp-facebook{background:#0866ff}.cp-social .hp-instagram{background:#a82a82}.cp-social .hp-tiktok{background:#161616;border:1px solid #666}
+@media(max-width:650px){.cp-social{padding:0 15px}.cp-social a{flex:1 1 120px}}
+
+[hidden]{display:none!important}
+.cp-schermo-stato{min-height:100vh;display:grid;place-content:center;padding:30px 20px;text-align:center;background:#f4f3ef;color:#202226}
+.cp-schermo-stato>div{max-width:650px;margin:auto}
+.cp-schermo-stato p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6}
+.cp-schermo-stato button{border:0;border-radius:10px;padding:13px 18px;background:#1769aa;color:white;font:inherit;font-weight:700;cursor:pointer}
+.cp-schermo-stato button:disabled{opacity:.6;cursor:wait}
+
+
+    .wrap { max-width: 900px; }
+    #cp-perdite-home { padding: 0; }
+    .cp-perdite-riepilogo li { background: #f4f3ef; color: #202226; }
+    @media (max-width: 600px) { .cp-perdite-dettagli { padding: 14px; } }
+  </style>
 </head>
-<body class="cp-perdite-pagina">
-  <header class="container"><a href="index.html">← Torna a Canicattì Partecipa</a></header>
-  <main>
-    <p class="container" id="cp-perdite-pagina-stato" role="status">Caricamento della mappa…</p>
+<body>
+<header class="page-header">
+<a class="cp-torna-home" href="index.html" aria-label="Torna alla home">
+
+  <div class="header-inner">
+
+
+    <div class="brand-row">
+
+      <div class="faro-title">
+
+        <span class="faro-small">
+          Faro di
+        </span>
+
+        <span class="faro-canicatti">
+          Canicattì
+        </span>
+
+      </div>
+
+
+      <div class="logo-box">
+
+        <img
+          src="IMG_8924.png"
+          alt="Controcorrente"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="page-title">
+
+      <div class="project">
+        Canicattì Partecipa
+      </div>
+
+      <h1 id="cp-perdite-titolo">Mappa delle perdite idriche di Canicattì</h1>
+
+    </div>
+
+
+  </div>
+
+</a>
+</header>
+  <main class="wrap">
+    <p class="intro" id="cp-perdite-pagina-stato" role="status">Caricamento della mappa…</p>
     <section id="cp-perdite-home" data-pagina aria-labelledby="cp-perdite-titolo" hidden>
-  <div class="container">
-    <h1 id="cp-perdite-titolo">Mappa delle perdite idriche di Canicattì</h1>
-    <p>Inseriamo nella mappa le segnalazioni di perdite idriche che riceviamo, per censire le perdite a Canicattì e seguirne le riparazioni. Quando possibile, inviamo le istanze agli enti competenti.</p>
+  <div class="intro">
+      <h2>Come usiamo le segnalazioni</h2>
+    <p>Questa mappa raccoglie le segnalazioni di perdite idriche che riceviamo a Canicattì. Il censimento aiuta cittadini ed enti competenti a individuare i punti segnalati e a seguire gli aggiornamenti. Quando possibile, trasmettiamo agli enti competenti le istanze e la documentazione disponibile.</p>
+    <p>Le riparazioni spettano ai soggetti responsabili della rete idrica. Aggiorniamo la mappa quando abbiamo riscontro dell’avvenuta riparazione.</p>
+    </div>
+    <div class="info-card cp-perdite-dettagli">
     <div class="cp-perdite-legenda">
       <span><i class="cp-perdite-punto" aria-hidden="true"></i> Da riparare</span>
       <span><i class="cp-perdite-punto riparata" aria-hidden="true"></i> Riparata</span>
@@ -29,6 +552,51 @@
   </div>
 </section>
   </main>
+<footer>
+
+  <strong>
+    Faro di Canicattì
+  </strong>
+
+  <p>
+    Canicattì Partecipa è un progetto
+    di cittadinanza attiva.
+  </p>
+
+  <p>
+    Segnala problemi, partecipa alla cura
+    del territorio e proponi le tue idee
+    per migliorare Canicattì.
+  </p>
+
+
+  <div class="footer-links">
+
+    <a href="privacy.html">
+      Privacy
+    </a>
+
+    <span>•</span>
+
+    <a href="cookie.html">
+      Cookie
+    </a>
+
+    <span>•</span>
+
+    <a href="note-legali.html">
+      Note legali
+    </a>
+
+  </div>
+
+<p><strong>Seguici sui social</strong></p>
+  <nav class="cp-social" aria-label="Profili social">
+    <a class="hp-facebook" href="https://www.facebook.com/share/1N3THY7nBG/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook — apre una nuova scheda">Facebook ↗</a>
+    <a class="hp-instagram" href="https://www.instagram.com/controcorrente__canicatti?stkn=MXh5aHp6dDVyYmdiMA%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram — apre una nuova scheda">Instagram ↗</a>
+    <a class="hp-tiktok" href="https://www.tiktok.com/@controcorrente.fa?_r=1&amp;_t=ZN-9AMPpx5WfPq" target="_blank" rel="noopener noreferrer" aria-label="TikTok — apre una nuova scheda">TikTok ↗</a>
+  </nav>
+</footer>
   <script>
 const SUPABASE_URL =
 "https://zkwwxxmbikxpzedcmjxx.supabase.co";

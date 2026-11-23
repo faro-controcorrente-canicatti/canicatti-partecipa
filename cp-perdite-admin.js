@@ -7,6 +7,96 @@ const cpPerditeAdmin = (() => {
   const modulo = el('modulo');
   let mappa, mappaInAttesa, marker, selezionata, occupato = false, generazione = 0;
 
+  const normalizzaCivico = valore => String(valore || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  let ricerca, ultimaRicerca = 0;
+
+  function azzeraRicerca() {
+    ricerca?.abort();
+    ricerca = undefined;
+    el('cerca').disabled = false;
+    el('risultati').replaceChildren();
+    el('risultati').hidden = true;
+    el('ricerca-stato').textContent = '';
+  }
+
+  function impostaPunto(lat, lng, centra) {
+    el('lat').value = Number(lat.toFixed(6));
+    el('lng').value = Number(lng.toFixed(6));
+    disegnaPunto(centra);
+  }
+
+  async function cercaIndirizzo() {
+    if (!letturaAutorizzata() || occupato || ricerca) return;
+    const via = el('luogo').value.trim();
+    const civico = el('civico').value.trim();
+    const stato = el('ricerca-stato');
+    if (!via) {
+      stato.textContent = 'Inserisci il nome della via.';
+      el('luogo').focus();
+      return;
+    }
+    if (Date.now() - ultimaRicerca < 1200) return;
+    ultimaRicerca = Date.now();
+    azzeraRicerca();
+    const operazione = new AbortController();
+    ricerca = operazione;
+    el('cerca').disabled = true;
+    stato.textContent = 'Cerco l’indirizzo a Canicattì…';
+    const query = new URLSearchParams({
+      city: 'Canicattì', countrycode: 'IT', street: via, limit: '6',
+      bbox: '13.76,37.29,13.95,37.44', lang: 'it'
+    });
+    if (civico) query.set('housenumber', civico);
+    const timeout = setTimeout(() => operazione.abort(), 9000);
+    try {
+      const risposta = await fetch('https://photon.komoot.io/structured?' + query, {
+        signal: operazione.signal,
+        referrerPolicy: 'strict-origin-when-cross-origin'
+      });
+      if (!risposta.ok) throw new Error('Ricerca non disponibile.');
+      const { features } = await risposta.json();
+      if (ricerca !== operazione || editor.hidden) return;
+      const elenco = el('risultati');
+      let esattoTrovato = false;
+      for (const feature of features) {
+        const p = feature.properties;
+        const [lng, lat] = feature.geometry?.coordinates || [];
+        const strada = p.street || p.name;
+        if (!strada || !Number.isFinite(lat) || !Number.isFinite(lng)) continue;
+        const esatto = civico && normalizzaCivico(p.housenumber) === normalizzaCivico(civico);
+        if (esatto) esattoTrovato = true;
+        const indirizzo = [strada, p.housenumber].filter(Boolean).join(' ');
+        const posizione = [p.district, p.city || p.locality, p.postcode].filter(Boolean).join(', ');
+        const etichetta = [indirizzo, posizione, civico && !esatto ? 'Posizione indicativa' : ''].filter(Boolean).join(' · ');
+        const voce = nodo('li');
+        const scegli = nodo('button', etichetta);
+        scegli.type = 'button';
+        scegli.addEventListener('click', () => {
+          impostaPunto(lat, lng, true);
+          stato.textContent = civico && !esatto
+            ? 'Posizione indicativa impostata. Clicca sulla mappa per indicare il punto esatto della perdita.'
+            : 'Punto impostato. Controlla sulla mappa che corrisponda alla perdita.';
+        });
+        voce.append(scegli);
+        elenco.append(voce);
+      }
+      elenco.hidden = !elenco.childElementCount;
+      stato.textContent = elenco.hidden
+        ? 'Indirizzo non trovato. Prova con il solo nome della via oppure scegli il punto sulla mappa.'
+        : civico && !esattoTrovato
+          ? 'Civico non trovato. Puoi partire da un risultato indicativo e spostare il punto sulla mappa.'
+          : 'Seleziona un risultato per posizionare il punto sulla mappa.';
+    } catch {
+      if (ricerca === operazione) stato.textContent = 'Ricerca al momento non disponibile. Puoi scegliere il punto sulla mappa.';
+    } finally {
+      clearTimeout(timeout);
+      if (ricerca === operazione) {
+        ricerca = undefined;
+        el('cerca').disabled = false;
+      }
+    }
+  }
+
   function messaggio(testo, errore = false) {
     el('admin-stato').textContent = testo;
     el('admin-stato').style.color = errore ? '#b42318' : '';
@@ -80,10 +170,14 @@ const cpPerditeAdmin = (() => {
 
   async function apriEditor(riga) {
     if (!letturaAutorizzata() || occupato) return;
+    azzeraRicerca();
     modulo.reset();
     selezionata = riga;
     el('titolo-editor').textContent = riga ? 'Modifica perdita' : 'Nuova perdita';
-    el('luogo').value = riga?.luogo ?? '';
+    const luogo = riga?.luogo ?? '';
+    const indirizzo = luogo.match(/^(.*\S)\s+(\d+(?:\/?[a-z])?)$/i);
+    el('luogo').value = indirizzo?.[1] ?? luogo;
+    el('civico').value = indirizzo?.[2] ?? '';
     el('lat').value = riga?.lat ?? '';
     el('lng').value = riga?.lng ?? '';
     el('segnalata').value = riga?.segnalata_il ?? '';
@@ -99,9 +193,8 @@ const cpPerditeAdmin = (() => {
       mappaInAttesa ??= creaMappa('cp-perdite-scelta').then(creata => {
         mappa = creata;
         mappa.on('click', evento => {
-          el('lat').value = evento.latlng.lat.toFixed(6);
-          el('lng').value = evento.latlng.lng.toFixed(6);
-          disegnaPunto();
+          impostaPunto(evento.latlng.lat, evento.latlng.lng, false);
+          el('ricerca-stato').textContent = 'Punto impostato sulla mappa.';
         });
       }).catch(errore => { mappaInAttesa = undefined; throw errore; });
       await mappaInAttesa;
@@ -138,11 +231,15 @@ const cpPerditeAdmin = (() => {
       const riga = selezionata;
       const foto = el('foto').files[0], pdf = el('pdf').files[0];
       const dati = {
-        luogo: el('luogo').value.trim(),
+        luogo: [el('luogo').value.trim(), el('civico').value.trim()].filter(Boolean).join(' '),
         lat: el('lat').valueAsNumber, lng: el('lng').valueAsNumber,
         segnalata_il: el('segnalata').value, riparata_il: el('riparata').value || null
       };
-      if (!dati.luogo) throw new Error('Inserisci la via o il luogo.');
+      if (!el('luogo').value.trim()) throw new Error('Inserisci la via o il luogo.');
+      if (dati.luogo.length > 180) throw new Error('L’indirizzo supera 180 caratteri.');
+      if (!Number.isFinite(dati.lat) || !Number.isFinite(dati.lng)) {
+        throw new Error('Cerca un indirizzo e scegli un risultato, oppure indica il punto sulla mappa.');
+      }
       if (el('togli-foto').checked) Object.assign(dati, { foto: null, foto_tipo: null });
       if (el('togli-pdf').checked) dati.pdf = null;
       if (foto) Object.assign(dati, { foto: await leggiFile(foto, ['image/jpeg', 'image/png', 'image/webp']), foto_tipo: foto.type });
@@ -156,6 +253,7 @@ const cpPerditeAdmin = (() => {
       await cpRichiesta(tabella, query, riga ? 'PATCH' : 'POST', dati);
       if (corrente !== generazione) return;
       editor.hidden = true;
+      azzeraRicerca();
       modulo.reset();
       await aggiorna(corrente, 'Perdita salvata.');
     });
@@ -173,7 +271,14 @@ const cpPerditeAdmin = (() => {
   });
   el('aggiorna').addEventListener('click', apri);
   el('nuova').addEventListener('click', () => apriEditor());
-  el('annulla').addEventListener('click', () => { editor.hidden = true; });
+  el('annulla').addEventListener('click', () => { azzeraRicerca(); editor.hidden = true; });
+  el('cerca').addEventListener('click', cercaIndirizzo);
+  for (const nome of ['luogo', 'civico']) {
+    el(nome).addEventListener('input', azzeraRicerca);
+    el(nome).addEventListener('keydown', evento => {
+      if (evento.key === 'Enter') { evento.preventDefault(); cercaIndirizzo(); }
+    });
+  }
   el('rimuovi-data').addEventListener('click', () => { el('riparata').value = ''; });
   el('segnalata').addEventListener('change', () => { el('riparata').min = el('segnalata').value; });
   for (const nome of ['lat', 'lng']) el(nome).addEventListener('change', () => disegnaPunto(true));
@@ -187,6 +292,7 @@ const cpPerditeAdmin = (() => {
   }
 
   function reset() {
+    azzeraRicerca();
     generazione++;
     occupato = false;
     selezionata = undefined;
