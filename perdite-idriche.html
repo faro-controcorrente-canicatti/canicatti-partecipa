@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mappa delle perdite idriche | Canicattì Partecipa</title>
+  <link rel="stylesheet" href="cp-perdite.css">
+</head>
+<body class="cp-perdite-pagina">
+  <header class="container"><a href="index.html">← Torna a Canicattì Partecipa</a></header>
+  <main>
+    <p class="container" id="cp-perdite-pagina-stato" role="status">Caricamento della mappa…</p>
+    <section id="cp-perdite-home" data-pagina aria-labelledby="cp-perdite-titolo" hidden>
+  <div class="container">
+    <h1 id="cp-perdite-titolo">Mappa delle perdite idriche di Canicattì</h1>
+    <p>Inseriamo nella mappa le segnalazioni di perdite idriche che riceviamo, per censire le perdite a Canicattì e seguirne le riparazioni. Quando possibile, inviamo le istanze agli enti competenti.</p>
+    <div class="cp-perdite-legenda">
+      <span><i class="cp-perdite-punto" aria-hidden="true"></i> Da riparare</span>
+      <span><i class="cp-perdite-punto riparata" aria-hidden="true"></i> Riparata</span>
+    </div>
+    <div id="cp-perdite-mappa" class="cp-perdite-mappa" role="region" aria-label="Mappa interattiva delle perdite idriche"></div>
+    <ul class="cp-perdite-riepilogo" aria-label="Riepilogo delle perdite">
+      <li><strong id="cp-perdite-totale">—</strong> Segnalate</li>
+      <li><strong id="cp-perdite-riparate">—</strong> Riparate</li>
+      <li><strong id="cp-perdite-aperte">—</strong> Da riparare</li>
+    </ul>
+    <p id="cp-perdite-stato" role="status"></p>
+    <ul id="cp-perdite-elenco" aria-label="Elenco delle perdite idriche"></ul>
+  </div>
+</section>
+  </main>
+  <script>
+const SUPABASE_URL =
+"https://zkwwxxmbikxpzedcmjxx.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_5usTyC1lIfP6ykIY456Glw_iJdy6NvP";
+  </script>
+  <script defer src="cp-perdite.js"></script>
+  <script defer src="cp-accessibilita.js"></script>
+</body>
+</html>

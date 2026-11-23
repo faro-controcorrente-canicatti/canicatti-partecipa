@@ -42,9 +42,12 @@ const cpPerdite = (() => {
     return libreria;
   }
 
-  async function creaMappa(id) {
+  async function creaMappa(id, anteprima = false) {
     const L = await leaflet();
-    const mappa = L.map(id, { scrollWheelZoom: false }).setView(centro, 14);
+    const mappa = L.map(id, anteprima ? {
+      zoomControl: false, dragging: false, keyboard: false, touchZoom: false,
+      doubleClickZoom: false, boxZoom: false, scrollWheelZoom: false
+    } : { scrollWheelZoom: false }).setView(centro, 14);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -52,9 +55,9 @@ const cpPerdite = (() => {
     return mappa;
   }
 
-  function punto(mappa, posizione, titolo, classe) {
+  function punto(mappa, posizione, titolo, classe, anteprima = false) {
     return window.L.marker(posizione, {
-      title: titolo, alt: titolo,
+      title: titolo, alt: titolo, keyboard: !anteprima, interactive: !anteprima,
       icon: window.L.divIcon({
         className: 'cp-perdite-punto ' + classe,
         iconSize: [20, 20], iconAnchor: [10, 10], popupAnchor: [0, -10]
@@ -144,19 +147,29 @@ const cpPerdite = (() => {
 
   async function home() {
     const sezione = el('cp-perdite-home');
+    const anteprima = sezione.hasAttribute('data-anteprima');
+    const statoPagina = el('cp-perdite-pagina-stato');
     try {
       const [config] = await richiedi(impostazioni + '?id=eq.1&select=attiva');
-      if (!config?.attiva) return;
+      if (!config?.attiva) {
+        if (statoPagina) statoPagina.textContent = 'La mappa delle perdite idriche al momento è nascosta.';
+        return;
+      }
+      if (statoPagina) statoPagina.hidden = true;
       sezione.hidden = false;
       const righe = await tutte();
       const riparate = righe.filter(riga => riga.riparata_il).length;
-      ['totale', 'riparate', 'aperte'].forEach((nome, i) => {
+      if (!anteprima) ['totale', 'riparate', 'aperte'].forEach((nome, i) => {
         el('cp-perdite-' + nome).textContent = [righe.length, riparate, righe.length - riparate][i];
       });
-      if (!righe.length) el('cp-perdite-stato').textContent = 'Nessuna perdita registrata.';
+      if (!anteprima && !righe.length) el('cp-perdite-stato').textContent = 'Nessuna perdita registrata.';
       const posizioni = new Map();
       const elenco = el('cp-perdite-elenco');
       for (const riga of righe) {
+        const chiave = riga.lat + ',' + riga.lng;
+        if (!posizioni.has(chiave)) posizioni.set(chiave, []);
+        posizioni.get(chiave).push(riga);
+        if (anteprima) continue;
         const voce = nodo('li');
         const dettagli = nodo('details');
         const titolo = riga.luogo + ' · ' + (riga.riparata_il ? 'Riparata' : 'Da riparare');
@@ -167,26 +180,25 @@ const cpPerdite = (() => {
         dettagli.append(sommario);
         voce.append(dettagli);
         elenco.append(voce);
-        const chiave = riga.lat + ',' + riga.lng;
-        if (!posizioni.has(chiave)) posizioni.set(chiave, []);
-        posizioni.get(chiave).push(riga);
       }
-      const mappa = await creaMappa('cp-perdite-mappa');
+      const mappa = await creaMappa('cp-perdite-mappa', anteprima);
       const coordinate = [];
       for (const gruppo of posizioni.values()) {
         const { lat, lng, luogo } = gruppo[0];
         coordinate.push([lat, lng]);
         const marker = punto(mappa, [lat, lng], gruppo.length > 1 ? luogo + ' (' + gruppo.length + ')' : luogo,
-          gruppo.every(riga => riga.riparata_il) ? 'riparata' : '');
+          gruppo.every(riga => riga.riparata_il) ? 'riparata' : '', anteprima);
+        if (anteprima) continue;
         marker.bindPopup(() => {
           const contenuto = nodo('div');
           for (const riga of gruppo) contenuto.append(scheda(riga));
           return contenuto;
         }, { maxWidth: 300, maxHeight: 320 });
       }
-      if (coordinate.length) mappa.fitBounds(coordinate, { padding: [30, 30], maxZoom: 16 });
+      if (coordinate.length) mappa.fitBounds(coordinate, { padding: [30, 30], maxZoom: anteprima ? 14 : 16 });
     } catch {
-      if (!sezione.hidden) el('cp-perdite-stato').textContent = 'Mappa momentaneamente non disponibile.';
+      const stato = sezione.hidden ? statoPagina : el('cp-perdite-stato');
+      if (stato) stato.textContent = 'Mappa momentaneamente non disponibile.';
     }
   }
 

@@ -48,3 +48,30 @@
 #sezionePerdite .cp-perdite-check input { width: auto; margin: 0; }
 #cp-perdite-admin-elenco .card { margin-block: .75rem; }
 #cp-perdite-editor[hidden], #sezionePerdite [hidden] { display: none; }
+
+#cp-perdite-home.cp-perdite-anteprima { padding-block: 1.75rem; }
+.cp-perdite-anteprima-griglia {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem 2rem;
+}
+.cp-perdite-anteprima h2 { font-size: clamp(1.35rem, 3vw, 1.9rem); }
+.cp-perdite-anteprima p { max-width: 65ch; }
+.cp-perdite-anteprima .cp-perdite-mappa { height: 155px; }
+.cp-perdite-link { display: inline-block; margin-top: .45rem; font-weight: 700; color: inherit; text-decoration: underline; }
+.cp-perdite-pagina {
+  margin: 0;
+  color: #182b3c;
+  background: #f7f9fb;
+  font: 1rem/1.55 system-ui, sans-serif;
+}
+.cp-perdite-pagina .container { width: min(1100px, calc(100% - 2rem)); margin-inline: auto; }
+.cp-perdite-pagina header { padding-block: 1.25rem; }
+.cp-perdite-pagina a { color: #14518a; }
+.cp-perdite-pagina h1 { margin-block: 0 .55rem; font-size: clamp(1.65rem, 4vw, 2.75rem); line-height: 1.16; }
+.cp-perdite-pagina #cp-perdite-home { padding-block: 1rem 3rem; }
+@media (max-width: 620px) {
+  .cp-perdite-anteprima-griglia { grid-template-columns: minmax(0, 1fr); }
+  .cp-perdite-anteprima .cp-perdite-mappa { height: 112px; }
+}

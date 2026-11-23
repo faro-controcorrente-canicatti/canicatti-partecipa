@@ -1185,22 +1185,15 @@ function cpRipristinaStato(home){
      COME PARTECIPARE
 ===================================================== -->
 
-<section id="cp-perdite-home" aria-labelledby="cp-perdite-titolo" hidden>
-  <div class="container">
-    <h2 id="cp-perdite-titolo">Mappa delle perdite idriche di Canicattì</h2>
-    <p>Inseriamo nella mappa le segnalazioni di perdite idriche che riceviamo, per censire le perdite a Canicattì e seguirne le riparazioni. Quando possibile, inviamo le istanze agli enti competenti.</p>
-    <div class="cp-perdite-legenda">
-      <span><i class="cp-perdite-punto" aria-hidden="true"></i> Da riparare</span>
-      <span><i class="cp-perdite-punto riparata" aria-hidden="true"></i> Riparata</span>
+<section id="cp-perdite-home" class="cp-perdite-anteprima" data-anteprima aria-labelledby="cp-perdite-titolo" hidden>
+  <div class="container cp-perdite-anteprima-griglia">
+    <div>
+      <h2 id="cp-perdite-titolo">Mappa delle perdite idriche di Canicattì</h2>
+      <p>Inseriamo nella mappa le segnalazioni di perdite idriche che riceviamo, per censire le perdite a Canicattì e seguirne le riparazioni. Quando possibile, inviamo le istanze agli enti competenti.</p>
+      <a class="cp-perdite-link" href="perdite-idriche.html">Apri la mappa e l’elenco</a>
+      <p id="cp-perdite-stato" role="status"></p>
     </div>
-    <div id="cp-perdite-mappa" class="cp-perdite-mappa" role="region" aria-label="Mappa interattiva delle perdite idriche"></div>
-    <ul class="cp-perdite-riepilogo" aria-label="Riepilogo delle perdite">
-      <li><strong id="cp-perdite-totale">—</strong> Segnalate</li>
-      <li><strong id="cp-perdite-riparate">—</strong> Riparate</li>
-      <li><strong id="cp-perdite-aperte">—</strong> Da riparare</li>
-    </ul>
-    <p id="cp-perdite-stato" role="status"></p>
-    <ul id="cp-perdite-elenco" aria-label="Elenco delle perdite idriche"></ul>
+    <div id="cp-perdite-mappa" class="cp-perdite-mappa" role="region" aria-label="Anteprima cartografica di Canicattì"></div>
   </div>
 </section>
 
