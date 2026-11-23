@@ -1033,6 +1033,7 @@ function cpRipristinaStato(home){
 }
 </script>
 <script defer src="cp-visite.js"></script>
+<link rel="stylesheet" href="cp-perdite.css">
 </head>
 
 <body>
@@ -1183,6 +1184,24 @@ function cpRipristinaStato(home){
 <!-- =====================================================
      COME PARTECIPARE
 ===================================================== -->
+
+<section id="cp-perdite-home" aria-labelledby="cp-perdite-titolo" hidden>
+  <div class="container">
+    <h2 id="cp-perdite-titolo">Mappa delle perdite idriche di Canicattì</h2>
+    <div class="cp-perdite-legenda">
+      <span><i class="cp-perdite-punto" aria-hidden="true"></i> Da riparare</span>
+      <span><i class="cp-perdite-punto riparata" aria-hidden="true"></i> Riparata</span>
+    </div>
+    <div id="cp-perdite-mappa" class="cp-perdite-mappa" role="region" aria-label="Mappa interattiva delle perdite idriche"></div>
+    <ul class="cp-perdite-riepilogo" aria-label="Riepilogo delle perdite">
+      <li><strong id="cp-perdite-totale">—</strong> Segnalate</li>
+      <li><strong id="cp-perdite-riparate">—</strong> Riparate</li>
+      <li><strong id="cp-perdite-aperte">—</strong> Da riparare</li>
+    </ul>
+    <p id="cp-perdite-stato" role="status"></p>
+    <ul id="cp-perdite-elenco" aria-label="Elenco delle perdite idriche"></ul>
+  </div>
+</section>
 
 <section class="options">
 
@@ -2389,5 +2408,6 @@ document.addEventListener('keydown',event=>{
 </script>
 
 <script defer src="cp-accessibilita.js"></script>
+<script defer src="cp-perdite.js"></script>
 </body>
 </html>

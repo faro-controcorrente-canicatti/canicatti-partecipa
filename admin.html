@@ -833,6 +833,7 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
 @media print{.cp-adesione-gestione{display:none!important}}
 .cp-scheda-allegati{overflow-wrap:anywhere}.cp-scheda-allegati li{margin:8px 0;break-inside:avoid}
 .cp-chat{margin:24px 0;padding:20px;border:1px solid #cbd5e1;border-radius:12px;background:#f8fafc}.cp-chat-messaggio{background:white;border:1px solid #dbe3ec;border-radius:8px;padding:16px;margin:12px 0;overflow-wrap:anywhere}.cp-chat-messaggio p{margin:6px 0;font-size:13px;color:#475569}.cp-chat-testo{white-space:pre-wrap;margin:12px 0;max-height:400px;overflow:auto}.cp-chat details{margin-top:18px}.cp-chat summary{cursor:pointer;font-weight:600}.cp-chat label{display:block;margin-top:16px}.cp-chat textarea{width:100%;box-sizing:border-box}.cp-chat button{margin:6px 0}</style>
+<link rel="stylesheet" href="cp-perdite.css">
 </head>
 
 <body>
@@ -945,6 +946,7 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
   </button>
 
   <button id="mComunicazioni" onclick="mostraSezione('comunicazioni')">📢 Comunicazioni importanti</button>
+  <button id="mPerdite" data-cp-owner type="button" onclick="mostraSezione('perdite'); cpPerditeAdmin.apri()">Perdite idriche</button>
   <button id="mStatoSito" onclick="mostraSezione('statoSito')">⚙️ Stato del sito</button>
 
   <button type="button" onclick="cpMostraSicurezza()">🔐 Sicurezza accesso</button>
@@ -1179,6 +1181,55 @@ body.cp-stampa-segnalazione #cpSchedaStampa{display:block;max-width:850px;margin
     <p id="cpFormMessaggio" class="cp-status" role="status" aria-live="polite"></p>
   </form>
   <div id="cpElenco"></div>
+</section>
+
+<section id="sezionePerdite" class="hidden cp-area">
+  <div class="section-title"><h2>Perdite idriche</h2></div>
+  <div class="card">
+    <form id="cp-perdite-visibilita-form">
+      <fieldset id="cp-perdite-comandi">
+        <label class="cp-perdite-check"><input type="checkbox" id="cp-perdite-attiva"> Mostra la mappa nella home</label>
+        <p id="cp-perdite-visibilita"></p>
+        <div class="actions">
+          <button type="submit" id="cp-perdite-salva-visibilita" class="salva" disabled>Salva visibilità</button>
+          <button type="button" id="cp-perdite-nuova" disabled>Aggiungi perdita</button>
+          <button type="button" id="cp-perdite-aggiorna">Aggiorna elenco</button>
+        </div>
+      </fieldset>
+    </form>
+    <p id="cp-perdite-admin-stato" role="status" aria-live="polite"></p>
+  </div>
+  <div class="card" id="cp-perdite-editor" hidden>
+    <h3 id="cp-perdite-titolo-editor">Nuova perdita</h3>
+    <form id="cp-perdite-modulo">
+      <fieldset id="cp-perdite-campi">
+        <label for="cp-perdite-luogo">Via o luogo</label>
+        <input id="cp-perdite-luogo" maxlength="180" required>
+        <p>Seleziona il punto sulla mappa oppure inserisci le coordinate.</p>
+        <div id="cp-perdite-scelta" class="cp-perdite-mappa" role="region" aria-label="Mappa per selezionare il punto"></div>
+        <p id="cp-perdite-mappa-errore" role="status"></p>
+        <div class="cp-grid">
+          <div><label for="cp-perdite-lat">Latitudine</label><input id="cp-perdite-lat" type="number" min="-90" max="90" step="any" required></div>
+          <div><label for="cp-perdite-lng">Longitudine</label><input id="cp-perdite-lng" type="number" min="-180" max="180" step="any" required></div>
+          <div><label for="cp-perdite-segnalata">Data di segnalazione</label><input id="cp-perdite-segnalata" type="date" required></div>
+          <div><label for="cp-perdite-riparata">Data di riparazione</label><input id="cp-perdite-riparata" type="date">
+            <button id="cp-perdite-rimuovi-data" type="button">Rimuovi data di riparazione</button></div>
+        </div>
+        <p class="file-help">Una perdita senza data di riparazione appare in rosso. Con la data appare in verde. Gli allegati saranno pubblici quando la mappa è visibile.</p>
+        <label for="cp-perdite-foto">Foto della perdita (JPG, PNG o WebP, fino a 5 MB)</label>
+        <input id="cp-perdite-foto" type="file" accept="image/jpeg,image/png,image/webp">
+        <div id="cp-perdite-rimuovi-foto" hidden><label class="cp-perdite-check"><input id="cp-perdite-togli-foto" type="checkbox"> Rimuovi la foto allegata</label></div>
+        <label for="cp-perdite-pdf">Segnalazione o istanza (PDF, fino a 5 MB)</label>
+        <input id="cp-perdite-pdf" type="file" accept="application/pdf">
+        <div id="cp-perdite-rimuovi-pdf" hidden><label class="cp-perdite-check"><input id="cp-perdite-togli-pdf" type="checkbox"> Rimuovi il PDF allegato</label></div>
+        <div class="actions">
+          <button type="submit" class="salva">Salva perdita</button>
+          <button type="button" id="cp-perdite-annulla">Annulla</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div id="cp-perdite-admin-elenco"></div>
 </section>
 
 <section id="sezioneStatoSito" class="hidden cp-area">
@@ -2610,7 +2661,8 @@ function mostraSezione(nome){
     "Archivio",
     "Statistiche",
     "Comunicazioni",
-    "StatoSito"
+    "StatoSito",
+    "Perdite"
   ];
 
   sezioni.forEach(s=>{
@@ -6323,6 +6375,7 @@ async function eliminaProposta(){
 ===================================================== */
 
 function logout(){
+  if (typeof cpPerditeAdmin !== "undefined") cpPerditeAdmin.reset();
   cpChiudiSchedaStampa();
   cpChiudiAdesione();
   cpNascondiPassword();
@@ -7106,6 +7159,8 @@ cpSessionRestore();
 
 </script>
 
+<script defer src="cp-perdite.js"></script>
+<script defer src="cp-perdite-admin.js"></script>
 </body>
 </html>
 
