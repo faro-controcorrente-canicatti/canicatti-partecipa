@@ -126,23 +126,54 @@ const cpPerdite = (() => {
   function scheda(riga, auth) {
     const box = nodo('div');
     box.className = 'cp-perdite-popup';
-    box.append(nodo('strong', riga.luogo), nodo('p', 'Segnalata il ' + dataIt(riga.segnalata_il)),
-      nodo('p', riga.riparata_il ? 'Riparata il ' + dataIt(riga.riparata_il) : 'Da riparare'));
+    const riparata = Boolean(riga.riparata_il);
+    if (riparata) box.classList.add('cp-perdite-popup-riparata');
+    const testata = nodo('div');
+    testata.className = 'cp-perdite-popup-testata';
+    const stato = nodo('span', riparata ? 'Riparata' : 'Da riparare');
+    stato.className = 'cp-perdite-popup-stato';
+    const titolo = nodo('h3', riga.luogo);
+    testata.append(stato, titolo);
+    const date = nodo('dl');
+    date.className = 'cp-perdite-popup-date';
+    const voci = [['Segnalata il', riga.segnalata_il]];
+    if (riparata) voci.push(['Riparata il', riga.riparata_il]);
+    for (const [etichetta, valore] of voci) {
+      const voce = nodo('div');
+      const tempo = nodo('time', dataIt(valore));
+      tempo.dateTime = valore;
+      const dato = nodo('dd');
+      dato.append(tempo);
+      voce.append(nodo('dt', etichetta), dato);
+      date.append(voce);
+    }
+    box.append(testata, date);
     if (riga.foto_tipo) {
       const foto = nodo('img');
       foto.alt = 'Foto della perdita in ' + riga.luogo;
-      box.append(foto);
+      const media = nodo('figure');
+      media.className = 'cp-perdite-popup-foto';
+      media.append(foto);
+      box.append(media);
       allegato(riga.id, 'foto', auth).then(hex => {
         const url = fileBlob(hex, riga.foto_tipo);
-        foto.onload = foto.onerror = () => URL.revokeObjectURL(url);
+        foto.onload = () => URL.revokeObjectURL(url);
+        foto.onerror = () => {
+          URL.revokeObjectURL(url);
+          media.replaceWith(nodo('p', 'Foto non disponibile.'));
+        };
         foto.src = url;
-      }).catch(() => foto.replaceWith(nodo('p', 'Foto non disponibile.')));
+      }).catch(() => media.replaceWith(nodo('p', 'Foto non disponibile.')));
     }
+    const azioni = nodo('div');
+    azioni.className = 'cp-perdite-popup-azioni';
     if (riga.ha_pdf) {
-      const pdf = nodo('button', 'Scarica segnalazione o istanza (PDF)');
+      const pdf = nodo('button', 'Scarica il documento PDF');
+      pdf.className = 'cp-perdite-popup-pdf';
       pdf.type = 'button';
       pdf.addEventListener('click', async () => {
         pdf.disabled = true;
+        pdf.textContent = 'Scaricamento…';
         try {
           const url = fileBlob(await allegato(riga.id, 'pdf', auth), 'application/pdf');
           const link = nodo('a');
@@ -152,21 +183,21 @@ const cpPerdite = (() => {
           link.click();
           link.remove();
           setTimeout(() => URL.revokeObjectURL(url), 60000);
+          pdf.textContent = 'Scarica il documento PDF';
         } catch {
           pdf.textContent = 'PDF non disponibile. Riprova';
         } finally {
           pdf.disabled = false;
         }
       });
-      box.append(pdf);
+      azioni.append(pdf);
     }
-    const navigazione = nodo('p');
     const maps = nodo('a', 'Apri il punto in Google Maps');
     maps.href = linkMaps(riga.lat + ',' + riga.lng);
     maps.target = '_blank';
     maps.rel = 'noopener noreferrer';
-    navigazione.append(maps);
-    box.append(navigazione);
+    azioni.append(maps);
+    box.append(azioni);
     return box;
   }
 
@@ -206,7 +237,7 @@ const cpPerdite = (() => {
           const contenuto = nodo('div');
           for (const riga of gruppo) contenuto.append(scheda(riga));
           return contenuto;
-        }, { maxWidth: 300, maxHeight: 320 });
+        }, { className: 'cp-perdite-popup-mappa', minWidth: 0, maxWidth: 326, maxHeight: Math.min(350, mappa.getContainer().clientHeight - 54), autoPanPadding: [16, 20] });
       }
       if (coordinate.length) mappa.fitBounds(coordinate, { padding: [30, 30], maxZoom: anteprima ? 14 : 16 });
     } catch {
